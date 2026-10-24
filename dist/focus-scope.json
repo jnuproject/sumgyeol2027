@@ -1,0 +1,18 @@
+{
+  "version": "focus-r19",
+  "areas": [
+    "정문",
+    "경상대 앞에서 중앙도서관으로 올라가는 구간",
+    "학생회관(신관)"
+  ],
+  "mapGeometryUnchanged": true,
+  "backgroundBuildingsPreserved": true,
+  "policyContentAdded": false,
+  "studentHallOSMId": "471697621",
+  "libraryOSMId": "286237890",
+  "economicsOSMIds": [
+    "471297909",
+    "471297922"
+  ],
+  "note": "Walking starts and camera framing are independently chosen presentation positions; not surveyed entrances."
+}

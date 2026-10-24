@@ -1,7 +1,8 @@
 import * as THREE from './three.module.js';
 import { createCampus, makeAvatar } from './world.js?v=campus-r18';
 import {isWalkingRoad} from './road-profile.js?v=campus-r18';
-import { places } from './places.js?v=campus-r18';
+import { places } from './places.js?v=focus-r19';
+import {FOCUS_SCOPE,resolveFocusStops} from './focus-route.js?v=focus-r19';
 import { walkable, safePosition } from './navigation.js';
 import { advanceVertical, terrainCameraDistance } from './movement.js?v=campus-r18';
 
@@ -60,10 +61,11 @@ gl_FragColor=vec4(c,1.);
   sky.frustumCulled=false;sky.renderOrder=-1;scene.add(sky);
   const skyDayTop=new THREE.Color('#6b9ec8'),skyDayBottom=new THREE.Color('#d7e3e8'),skyNightTop=new THREE.Color('#23394b'),skyNightBottom=new THREE.Color('#8f9294');
 
-  const locations=[data.landmarks[0].position,data.landmarks[1].buildingCenter,data.landmarks[2].buildingCenter];
-  const focusLocations=[data.landmarks[0].position,data.landmarks[1].position,data.landmarks[2].position];
+  const focusStops=resolveFocusStops(data,campus.entrySpawn??data.spawn);
+  const locations=focusStops.map(p=>p.position);
+  const focusLocations=focusStops.map(p=>p.visitPosition);
   const visitMarkers=focusLocations.map((p,i)=>{const group=new THREE.Group();group.position.set(p[0],groundAt(p[0],p[1])+.04,p[1]);const ring=new THREE.Mesh(new THREE.RingGeometry(2.5,2.7,48),new THREE.MeshBasicMaterial({color:'#00bfff',transparent:true,opacity:.8,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;group.add(ring);scene.add(group);group.visible=false;return group;});
-  const cameras=[{yaw:.62,radius:79,pitch:.64},{yaw:-.8,radius:100,pitch:.57},{yaw:2.7,radius:165,pitch:.62}];
+  const cameras=focusStops.map(p=>p.camera);
   $('navPlaces').disabled=true;$('navWalk').disabled=true;
   let mode='welcome',selected=0,night=false,elapsed=0,quality='balanced';
   let yaw=.62,pitch=.64,distance=79,walkYaw=Math.PI,walkPitch=.16,walkDistance=14,verticalVelocity=0;
@@ -80,7 +82,7 @@ gl_FragColor=vec4(c,1.);
     const pin=document.createElement('button');pin.className='hotspot';pin.innerHTML=`<span>${place.number}</span>${place.short}`;pin.setAttribute('aria-label',`${place.short} 둘러보기`);pin.onclick=()=>showPlace(i);$('hotspots').append(pin);return pin;
   });
   places.forEach((place,i)=>{
-    const card=document.createElement('button');card.className='intro-card';card.disabled=true;card.innerHTML=`<span class="intro-number">${place.number}</span><span><b>${place.short}</b><small>${['산책의 첫 장면','자줏빛 벽 너머의 풍경','익숙한 길을 따라'][i]}</small></span><span class="card-arrow">↗</span>`;card.onclick=()=>showPlace(i);$('introCards').append(card);buttons.push(card);
+    const card=document.createElement('button');card.className='intro-card';card.disabled=true;card.innerHTML=`<span class="intro-number">${place.number}</span><span><b>${place.short}</b><small>${place.teaser}</small></span><span class="card-arrow">↗</span>`;card.onclick=()=>showPlace(i);$('introCards').append(card);buttons.push(card);
     const tab=document.createElement('button');tab.className='place-tab';tab.setAttribute('role','tab');tab.setAttribute('aria-selected','false');tab.setAttribute('aria-controls','placeCard');tab.innerHTML=`<span>${place.number}</span>${place.short}`;tab.onclick=()=>showPlace(i);$('placeTabs').append(tab);
   });
   $('placeTabs').setAttribute('role','tablist');$('placeTabs').setAttribute('aria-label','산책 장소');
@@ -107,26 +109,27 @@ gl_FragColor=vec4(c,1.);
     yaw=cameras[selected].yaw;pitch=cameras[selected].pitch;distance=cameras[selected].radius;
     $('placeCategory').textContent=place.category;$('placeNumber').textContent=place.number;$('placeTitle').textContent=place.title;
     $('placePlace').textContent=place.place;$('placeQuestion').textContent=place.question;$('placeIdea').textContent=place.description;
-    $('visualNote').textContent=place.note;$('placeChecks').textContent=place.detail;$('placeCounter').innerHTML=`${place.number} <span>/ 03</span>`;
+    $('visualNote').textContent=place.note;$('placeChecks').textContent=place.detail;$('placeCounter').innerHTML=`${place.number} <span>/ ${String(places.length).padStart(2,'0')}</span>`;
+    $('walkHere').firstChild.textContent=place.walkLabel+' ';$('walkArrival').hidden=!focusStops[selected].arrival;$('walkArrival').textContent=place.arrivalLabel??'';
     $('placeCard').scrollTop=0;$('placeCard').querySelector('details').open=false;
     [...$('placeTabs').children].forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===selected));tab.tabIndex=i===selected?0:-1;});
     pins.forEach((pin,i)=>pin.setAttribute('aria-current',String(i===selected)));
     snapCamera();
   }
-  function startWalk(){
+  function startWalk(arrival=false){
     if(mode==='welcome')selected=0;
-    const linked=linkedWalkStart();
-    const start=linked?.position??((mode==='welcome'||selected===0)?(campus.entrySpawn??data.spawn):focusLocations[selected]);
+    const linked=arrival?focusStops[selected].arrival:linkedWalkStart();
+    const start=linked?.position??((mode==='welcome'||selected===0)?(campus.entrySpawn??data.spawn):focusStops[selected].walkPosition);
     const position=safePosition(start,data.buildings);
     if(!position){toast('이 위치에서는 시작할 수 없어요. 정문에서 시작합니다.');player.position.set(data.spawn[0],groundAt(...data.spawn),data.spawn[1]);}else player.position.set(position[0],groundAt(...position),position[1]);
-    walkYaw=linked?.yaw??(selected===1?Math.PI/2:selected===2?-Math.PI/2:Math.PI);body.rotation.y=Math.atan2(-Math.sin(walkYaw),-Math.cos(walkYaw));walkPitch=.16;walkDistance=14;verticalVelocity=0;grounded=true;setMode('walk');snapCamera();$('world').focus({preventScroll:true});
+    walkYaw=linked?.yaw??focusStops[selected].walkYaw;body.rotation.y=Math.atan2(-Math.sin(walkYaw),-Math.cos(walkYaw));walkPitch=.16;walkDistance=14;verticalVelocity=0;grounded=true;setMode('walk');snapCamera();$('world').focus({preventScroll:true});
     toast(matchMedia('(pointer: coarse)').matches?'왼쪽 조이스틱으로 이동하고 화면을 드래그해 보세요.':'WASD 이동 · 화면 드래그 · V로 1인칭 전환');
   }
   function resetPlayer(){const entry=campus.entrySpawn??data.spawn;const p=safePosition(entry,data.buildings)??entry;player.position.set(p[0],groundAt(...p),p[1]);verticalVelocity=0;grounded=true;clearInput();walkYaw=Math.PI;body.rotation.y=0;toast('정문으로 돌아왔어요.');}
   function goHome(){setMode('welcome');setNight(false);snapCamera();}
-  $('explore').onclick=startWalk;$('walkIntro').onclick=()=>showPlace(0);$('walkHere').onclick=startWalk;$('walkToggle').onclick=()=>mode==='walk'?showPlace(selected):startWalk();
+  $('explore').onclick=()=>startWalk();$('walkIntro').onclick=()=>showPlace(0);$('walkHere').onclick=()=>startWalk();$('walkArrival').onclick=()=>startWalk(true);$('walkToggle').onclick=()=>mode==='walk'?showPlace(selected):startWalk();
   $('backToIdeas').onclick=()=>showPlace(selected);$('previous').onclick=()=>showPlace(selected-1);$('next').onclick=()=>showPlace(selected+1);
-  $('navHome').onclick=()=>{$('welcome').scrollTo({top:0,behavior:reducedMotion.matches?'instant':'smooth'});};$('navPlaces').onclick=()=>showPlace(0);$('navWalk').onclick=startWalk;$('homeHelp').onclick=()=>$('help').click();
+  $('navHome').onclick=()=>{$('welcome').scrollTo({top:0,behavior:reducedMotion.matches?'instant':'smooth'});};$('navPlaces').onclick=()=>showPlace(0);$('navWalk').onclick=()=>startWalk();$('homeHelp').onclick=()=>$('help').click();
   $('home').onclick=goHome;$('back').onclick=goHome;$('time').onclick=()=>setNight(!night);
   function togglePerspective(){firstPerson=!firstPerson;body.visible=!firstPerson;avatar.shadow.visible=!firstPerson;$('perspective').textContent=firstPerson?'3인칭':'1인칭';$('perspective').setAttribute('aria-label',firstPerson?'3인칭 시점으로':'1인칭 시점으로');if(mode!=='walk')startWalk();snapCamera();}
   $('perspective').onclick=togglePerspective;
@@ -134,14 +137,14 @@ gl_FragColor=vec4(c,1.);
 
   function showDialog(title,html){lastDialogTrigger=document.activeElement;clearInput();$('dialogTitle').textContent=title;$('dialogBody').innerHTML=html;$('dialog').showModal();}
   $('closeDialog').onclick=()=>$('dialog').close();$('dialog').addEventListener('close',()=>{clearInput();if(lastDialogTrigger?.isConnected)lastDialogTrigger.focus({preventScroll:true});});
-  $('help').onclick=()=>showDialog('가볍게, 자유롭게 걸어요.',`<p>정문에서 시작해 캠퍼스를 자유롭게 걸어보세요. 세 장소의 도장 지점 가까이 가면 산책 기록이 자동 저장됩니다. 아래 장소 버튼을 누르면 그곳을 둘러보거나 근처에서 걷기를 시작할 수 있습니다.</p><div class="key-row"><span>시점 회전</span><kbd>화면 드래그</kbd></div><div class="key-row"><span>확대 · 축소</span><kbd>휠 / 두 손가락</kbd></div><div class="key-row"><span>걷기</span><kbd>W A S D / 방향키</kbd></div><div class="key-row"><span>달리기 · 점프</span><kbd>Shift · Space</kbd></div><div class="key-row"><span>정문으로 돌아가기</span><kbd>R</kbd></div><div class="key-row"><span>사진 모드 / 돌아가기</span><kbd>P / Esc</kbd></div><p>휴대폰에서는 왼쪽 조이스틱으로 이동하고, 화면 오른쪽을 드래그해 시점을 회전하세요. 도장은 이 브라우저에만 저장됩니다.</p>`);
+  $('help').onclick=()=>showDialog('가볍게, 자유롭게 걸어요.',`<p>정문에서 시작해 캠퍼스를 자유롭게 걸어보세요. 정문·도서관 오르막·학생회관 신관의 도장 지점 가까이 가면 산책 기록이 자동 저장됩니다. 아래 장소 버튼을 누르면 그곳을 둘러보거나 근처에서 걷기를 시작할 수 있습니다.</p><div class="key-row"><span>시점 회전</span><kbd>화면 드래그</kbd></div><div class="key-row"><span>확대 · 축소</span><kbd>휠 / 두 손가락</kbd></div><div class="key-row"><span>걷기</span><kbd>W A S D / 방향키</kbd></div><div class="key-row"><span>달리기 · 점프</span><kbd>Shift · Space</kbd></div><div class="key-row"><span>정문으로 돌아가기</span><kbd>R</kbd></div><div class="key-row"><span>사진 모드 / 돌아가기</span><kbd>P / Esc</kbd></div><p>휴대폰에서는 왼쪽 조이스틱으로 이동하고, 화면 오른쪽을 드래그해 시점을 회전하세요. 도장은 이 브라우저에만 저장됩니다.</p>`);
   $('settings').onclick=()=>{
     showDialog('나에게 맞는 화면',`<label for="quality">그래픽 품질</label><select id="quality"><option value="balanced">균형 · 기본 설정</option><option value="high">높음 · 선명한 그림자</option><option value="low">가볍게 · 그림자 끄기</option></select><p>화면이 느리면 ‘가볍게’를 선택해 주세요. 데이터나 지도 배치는 바뀌지 않습니다.</p><label><input id="gentle" type="checkbox" style="width:auto;margin-right:8px"> 카메라 전환을 즉시 적용</label><p class="privacy-note">운영체제의 동작 줄이기 설정도 따릅니다.</p>`);
     $('quality').value=quality;$('gentle').checked=instantCamera;$('gentle').onchange=()=>{instantCamera=$('gentle').checked;};
     $('quality').onchange=()=>{quality=$('quality').value;renderer.setPixelRatio(quality==='low'?1:Math.min(devicePixelRatio,quality==='high'?2:1.6));renderer.shadowMap.enabled=quality!=='low';sun.shadow.mapSize.set(quality==='high'?2048:1024,quality==='high'?2048:1024);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null;}scene.traverse(o=>{if(o.isMesh){const materials=Array.isArray(o.material)?o.material:[o.material];materials.forEach(m=>m.needsUpdate=true);}});resize();};
   };
-  $('about').onclick=()=>showDialog('숨결에서 만나는 우리 캠퍼스',`<p>OpenStreetMap의 아라캠퍼스 경계와 <b>건물 59개, 도로·보행로 91개, 구역 35개</b>를 원래 좌표로 표시합니다. 정문·박물관과 대학본부·중앙도서관·학생회관·법학전문대학원·음악관·체육관은 사진·캠퍼스 안내도를 대조한 단순화 모델입니다. 사진 시점과 다른 현재 상태 및 미관찰 면은 추정입니다.</p><p>나무·일반 건물의 창·도로 폭은 시각적 재구성입니다. 정문은2026년3월 촬영 카카오 로드뷰를 직접 이동·회전하며 관찰해 도로 옆 경비실, 중앙 차량관리 부스, 곡선 지붕과 볼라드·낮은 식재를 재구성했습니다. 개별 위치와 치수는 측량값이 아닙니다. 사진 기반 표면 재질은 제주 현장 자체를 촬영한 것은 아닙니다. 지형은 공개 AWS Terrain Tiles의 SRTM 기반 약 30m 고도 자료를 사용합니다. 운동장과 도서관·공학관 마당에는 로드뷰에서 확인한 형태를 표현하기 위한 국소 정지면을 보정했으며, 그 높이와 전이 경사는 실측값이 아닙니다. 약 4m 타일 픽셀과 삼각형 보간이 현장 정밀도를 높이지는 않습니다. 보도·계단의 실측 고도는 아니며, 도로 폭과 미기록 건물 높이는 추정입니다.</p><p>바로 걸어보기: <a href="?place=286237890">중앙도서관</a> · <a href="?place=953564621">디지털도서관</a> · <a href="?place=953546804">공과대학1호관</a> · <a href="?place=741724817">생활관3호관</a> · <a href="?place=964181122">생활관6호관F동</a></p><p><a href="./campus-survey.json" target="_blank" rel="noopener">교내 로드뷰 관찰 구간과 적용·추정 내역 ↗</a><br><a href="./odbl-provenance.json" target="_blank" rel="noopener">추가한 ODbL 공개 지도 데이터와 변환 기록 ↗</a><br><a href="./provenance.json" target="_blank" rel="noopener">지도 원자료와 변환 출처 ↗</a><br><a href="./reference-expansion.json" target="_blank" rel="noopener">확장한 참고자료와 건물 식별 정정 ↗</a><br><a href="./roadview-observation.json" target="_blank" rel="noopener">로드뷰 관찰 구간과 추정 치수 ↗</a><br><a href="./visual-references.json" target="_blank" rel="noopener">정문·박물관·구본관 사진 참고 기록 ↗</a><br><a href="./campus-data.json" download>사용한 지도 데이터 내려받기 ↗</a><br><a href="./presentation-notes.json" target="_blank" rel="noopener">시각적 표현과 한계 ↗</a></p><p class="privacy-note">© OpenStreetMap contributors · ODbL 1.0<br>Terrain Tiles / Mapzen, hosted on AWS. SRTM data courtesy of the U.S. Geological Survey.<br><a href="./terrain-data/terrain.json" target="_blank" rel="noopener">고도 자료 범위·해상도·출처 ↗</a><br>Three.js · MIT · Pretendard · SIL OFL 1.1 · <a href="./assets/materials/sources.json" target="_blank" rel="noopener">Poly Haven 재질 · CC0</a>. 숨결의 캠퍼스 산책 프로토타입이며, 대학 공식 서비스는 아닙니다. 도장은 이 브라우저에만 저장됩니다.</p>`);
-  const visitKey='JejuCampusWalk.visited.v1';
+  $('about').onclick=()=>showDialog('숨결에서 만나는 우리 캠퍼스',`<p>이번 산책의 중점 구역은 <b>정문 · 경상대에서 중앙도서관으로 올라가는 길 · 학생회관(신관)</b>입니다. 정책 내용은 아직 추가하지 않았습니다. 다른 건물은 길의 위치를 알아보기 위한 주변 배경으로 유지합니다.</p><p>OpenStreetMap의 아라캠퍼스 경계와 <b>건물 59개, 도로·보행로 91개, 구역 35개</b>를 원래 좌표로 표시합니다. 정문·박물관과 대학본부·중앙도서관·학생회관·법학전문대학원·음악관·체육관은 사진·캠퍼스 안내도를 대조한 단순화 모델입니다. 사진 시점과 다른 현재 상태 및 미관찰 면은 추정입니다.</p><p>나무·일반 건물의 창·도로 폭은 시각적 재구성입니다. 정문은2026년3월 촬영 카카오 로드뷰를 직접 이동·회전하며 관찰해 도로 옆 경비실, 중앙 차량관리 부스, 곡선 지붕과 볼라드·낮은 식재를 재구성했습니다. 개별 위치와 치수는 측량값이 아닙니다. 사진 기반 표면 재질은 제주 현장 자체를 촬영한 것은 아닙니다. 지형은 공개 AWS Terrain Tiles의 SRTM 기반 약 30m 고도 자료를 사용합니다. 운동장과 도서관·공학관 마당에는 로드뷰에서 확인한 형태를 표현하기 위한 국소 정지면을 보정했으며, 그 높이와 전이 경사는 실측값이 아닙니다. 약 4m 타일 픽셀과 삼각형 보간이 현장 정밀도를 높이지는 않습니다. 보도·계단의 실측 고도는 아니며, 도로 폭과 미기록 건물 높이는 추정입니다.</p><p>바로 걸어보기: <a href="?place=286237890">중앙도서관</a> · <a href="?place=953564621">디지털도서관</a> · <a href="?place=953546804">공과대학1호관</a> · <a href="?place=741724817">생활관3호관</a> · <a href="?place=964181122">생활관6호관F동</a></p><p><a href="./campus-survey.json" target="_blank" rel="noopener">교내 로드뷰 관찰 구간과 적용·추정 내역 ↗</a><br><a href="./odbl-provenance.json" target="_blank" rel="noopener">추가한 ODbL 공개 지도 데이터와 변환 기록 ↗</a><br><a href="./provenance.json" target="_blank" rel="noopener">지도 원자료와 변환 출처 ↗</a><br><a href="./reference-expansion.json" target="_blank" rel="noopener">확장한 참고자료와 건물 식별 정정 ↗</a><br><a href="./roadview-observation.json" target="_blank" rel="noopener">로드뷰 관찰 구간과 추정 치수 ↗</a><br><a href="./visual-references.json" target="_blank" rel="noopener">정문·박물관·구본관 사진 참고 기록 ↗</a><br><a href="./campus-data.json" download>사용한 지도 데이터 내려받기 ↗</a><br><a href="./presentation-notes.json" target="_blank" rel="noopener">시각적 표현과 한계 ↗</a></p><p class="privacy-note">© OpenStreetMap contributors · ODbL 1.0<br>Terrain Tiles / Mapzen, hosted on AWS. SRTM data courtesy of the U.S. Geological Survey.<br><a href="./terrain-data/terrain.json" target="_blank" rel="noopener">고도 자료 범위·해상도·출처 ↗</a><br>Three.js · MIT · Pretendard · SIL OFL 1.1 · <a href="./assets/materials/sources.json" target="_blank" rel="noopener">Poly Haven 재질 · CC0</a>. 숨결의 캠퍼스 산책 프로토타입이며, 대학 공식 서비스는 아닙니다. 도장은 이 브라우저에만 저장됩니다.</p>`);
+  const visitKey='JejuCampusWalk.focus.visited.v1';
   let saved=[];try{saved=JSON.parse(localStorage.getItem(visitKey)||'[]');}catch{}
   const visited=new Set(Array.isArray(saved)?saved.filter(id=>places.some(p=>p.id===id)):[]);
   places.forEach((place,i)=>{const stamp=document.createElement('div');stamp.id='stamp'+i;stamp.className='stamp';stamp.innerHTML=`<span>${place.number}</span>${place.short}`;$('stamps').append(stamp);});
@@ -187,16 +190,18 @@ gl_FragColor=vec4(c,1.);
   for(const event of ['pointerup','pointercancel','lostpointercapture'])$('run').addEventListener(event,()=>runTouch=false);
 
   const map=$('minimap').getContext('2d'),mapBase=document.createElement('canvas');mapBase.width=440;mapBase.height=440;
-  const base=mapBase.getContext('2d'),bounds=campus.bounds,scale=402/Math.max(bounds.maxX-bounds.minX,bounds.maxZ-bounds.minZ);
-  const mapWidth=(bounds.maxX-bounds.minX)*scale,mapHeight=(bounds.maxZ-bounds.minZ)*scale;
-  function mapPoint(x,z){return[(440-mapWidth)/2+(x-bounds.minX)*scale,(440-mapHeight)/2+(z-bounds.minZ)*scale];}
+  const base=mapBase.getContext('2d'),bounds=campus.bounds,mapBounds=FOCUS_SCOPE.mapBounds,scale=402/Math.max(mapBounds.maxX-mapBounds.minX,mapBounds.maxZ-mapBounds.minZ);
+  const mapWidth=(mapBounds.maxX-mapBounds.minX)*scale,mapHeight=(mapBounds.maxZ-mapBounds.minZ)*scale;
+  function mapPoint(x,z){return[(440-mapWidth)/2+(x-mapBounds.minX)*scale,(440-mapHeight)/2+(z-mapBounds.minZ)*scale];}
   base.fillStyle='#edf0e1';base.fillRect(0,0,440,440);
   function mapPolygon(ctx,points,color){ctx.fillStyle=color;ctx.beginPath();points.forEach((p,i)=>{const q=mapPoint(...p);if(i)ctx.lineTo(...q);else ctx.moveTo(...q);});ctx.closePath();ctx.fill();}
   mapPolygon(base,data.boundary,'#d5dfc6');
   for(const area of data.areas)mapPolygon(base,area.points,area.tags.amenity==='parking'?'#b8c0bc':area.tags.natural==='water'?'#a5c4bf':'#bfceb0');
   base.strokeStyle='#f7f6ec';base.lineWidth=2.5;base.lineJoin='round';
   for(const road of data.roads){base.lineWidth=isWalkingRoad(road)?1:2.8;base.strokeStyle=isWalkingRoad(road)?'#e1d7bf':'#f7f6ec';base.beginPath();road.points.forEach((p,i)=>{const q=mapPoint(...p);if(i)base.lineTo(...q);else base.moveTo(...q);});base.stroke();}
-  for(const b of data.buildings)mapPolygon(base,b.points,'#95aa91');
+  for(const b of data.buildings)mapPolygon(base,b.points,FOCUS_SCOPE.buildingIds.includes(b.id)?'#008dcc':'#b4bfb1');
+  base.strokeStyle='#008dcc';base.lineWidth=3;base.globalAlpha=.7;
+  for(const road of data.roads.filter(r=>FOCUS_SCOPE.roadIds.includes(r.id))){base.beginPath();road.points.forEach((p,i)=>{const q=mapPoint(...p);i?base.lineTo(...q):base.moveTo(...q);});base.stroke();}base.globalAlpha=1;
   function drawMap(){
     if($('mapPanel').hidden||$('mapPanel').classList.contains('collapsed'))return;
     map.drawImage(mapBase,0,0);
@@ -286,10 +291,10 @@ gl_FragColor=vec4(c,1.);
     scene.background.lerp(night?colors.night:colors.day,1-Math.exp(-dt*2));scene.fog.color.copy(scene.background);scene.fog.near=mode==='explore'?650:220;scene.fog.far=mode==='explore'?2800:1300;
     const lightBlend=1-Math.exp(-dt*2);sun.intensity+=((night?.35:2.6)-sun.intensity)*lightBlend;ambient.intensity+=((night?.7:1.4)-ambient.intensity)*lightBlend;
     sun.position.set(currentFocus.x-100,currentFocus.y+160,currentFocus.z-70);sun.target.position.copy(currentFocus);
-    mapElapsed+=dt;if(mapElapsed>.1){drawMap();mapElapsed=0;if(mode==='walk'){let nearest=0;for(let i=1;i<focusLocations.length;i++)if(Math.hypot(player.position.x-focusLocations[i][0],player.position.z-focusLocations[i][1])<Math.hypot(player.position.x-focusLocations[nearest][0],player.position.z-focusLocations[nearest][1]))nearest=i;const named=data.buildings.filter(b=>b.name).reduce((best,b)=>{const d=Math.hypot(player.position.x-b.center[0],player.position.z-b.center[1]);return d<best.distance?{building:b,distance:d}:best;},{building:null,distance:55});$('nearPlace').textContent=named.building?named.building.name+' 주변':['정문 주변','박물관 주변','구본관 권역'][nearest];}}
+    mapElapsed+=dt;if(mapElapsed>.1){drawMap();mapElapsed=0;if(mode==='walk'){let nearest=0;for(let i=1;i<focusLocations.length;i++)if(Math.hypot(player.position.x-focusLocations[i][0],player.position.z-focusLocations[i][1])<Math.hypot(player.position.x-focusLocations[nearest][0],player.position.z-focusLocations[nearest][1]))nearest=i;const named=data.buildings.filter(b=>b.name).reduce((best,b)=>{const d=Math.hypot(player.position.x-b.center[0],player.position.z-b.center[1]);return d<best.distance?{building:b,distance:d}:best;},{building:null,distance:55});$('nearPlace').textContent=named.building?named.building.name+' 주변':places[nearest].place;}}
     visitMarkers.forEach((marker,i)=>{marker.visible=false;marker.children[0].material.color.set(visited.has(places[i].id)?'#66e1ff':'#00bfff');});
     updatePins();renderer.render(scene,camera);frame++;
-    if(frame%30===0){$('world').dataset.verification=JSON.stringify({version:'campus-r18',areaCount:data.areas.length,parkingCount:data.areas.filter(a=>a.tags.amenity==='parking').length,mode,perspective:firstPerson?'first':'third',position:player.position.toArray(),ground:groundAt(player.position.x,player.position.z),grounded,verticalVelocity,walked:totalWalked,jumps:jumpCount,maxJumpClearance,blockedMoves,camera:camera.position.toArray(),buildingCount:data.buildings.length,roadCount:data.roads.length,vehicleRoadCount:data.roads.filter(r=>!isWalkingRoad(r)).length,entrance:campus.observedEntrance,surveyDetails:campus.observedDetails,grading:campus.terrain?.metadata?.localObservedGrading,openData:data.openDataIntegration?.source??null,terrain:campus.terrain?.metadata?.source??'AWS Terrain Tiles',webgl:renderer.capabilities.isWebGL2?'WebGL2':'WebGL'});$('world').dataset.renderedFrames=String(frame);$('world').dataset.fps=(1000/frameDuration).toFixed(1);$('world').dataset.treeCount=String(campus.treeCount);$('world').dataset.drawCalls=String(renderer.info.render.calls);$('world').dataset.playerPosition=[player.position.x.toFixed(2),player.position.y.toFixed(2),player.position.z.toFixed(2)].join(',');}
+    if(frame%30===0){$('world').dataset.verification=JSON.stringify({version:'focus-r19',focusAreas:places.map(p=>p.id),selectedPlace:places[selected].id,areaCount:data.areas.length,parkingCount:data.areas.filter(a=>a.tags.amenity==='parking').length,mode,perspective:firstPerson?'first':'third',position:player.position.toArray(),ground:groundAt(player.position.x,player.position.z),grounded,verticalVelocity,walked:totalWalked,jumps:jumpCount,maxJumpClearance,blockedMoves,camera:camera.position.toArray(),buildingCount:data.buildings.length,roadCount:data.roads.length,vehicleRoadCount:data.roads.filter(r=>!isWalkingRoad(r)).length,entrance:campus.observedEntrance,surveyDetails:campus.observedDetails,grading:campus.terrain?.metadata?.localObservedGrading,openData:data.openDataIntegration?.source??null,terrain:campus.terrain?.metadata?.source??'AWS Terrain Tiles',webgl:renderer.capabilities.isWebGL2?'WebGL2':'WebGL'});$('world').dataset.renderedFrames=String(frame);$('world').dataset.fps=(1000/frameDuration).toFixed(1);$('world').dataset.treeCount=String(campus.treeCount);$('world').dataset.drawCalls=String(renderer.info.render.calls);$('world').dataset.playerPosition=[player.position.x.toFixed(2),player.position.y.toFixed(2),player.position.z.toFixed(2)].join(',');}
   }
   resize();snapCamera();tick();
   $('navPlaces').disabled=false;$('navWalk').disabled=false;

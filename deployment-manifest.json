@@ -1,5 +1,5 @@
 {
-  "version": "campus-r18",
+  "version": "focus-r19",
   "files": [
     {
       "path": ".nojekyll",
@@ -147,14 +147,24 @@
       "bytes": 9013
     },
     {
+      "path": "focus-route.js",
+      "sha256": "5e81ca746618ddcb926dc26ce5a4445c498d8b49b324e181c0356211cbdd3cb0",
+      "bytes": 1454
+    },
+    {
+      "path": "focus-scope.json",
+      "sha256": "cfbab6eaf2d3c7d01739df703eae665367ac9c487ca970be99feb891808f5e85",
+      "bytes": 506
+    },
+    {
       "path": "game.js",
-      "sha256": "32c700e053efed1dc0b783926c2bb1afe9661284e117f767deee6a8ae5d042f4",
-      "bytes": 37797
+      "sha256": "b24220b9d6012ae8fdc1f656cc20f329397a2268e14c7b60f8a70d4c628fa19f",
+      "bytes": 38749
     },
     {
       "path": "index.html",
-      "sha256": "5568a58c4d15ffefc4963751ed3bc4756be8b24967ce1d0508a6adbd3e3386b1",
-      "bytes": 10155
+      "sha256": "d8ab8cac4c5038f270042d40cc17fee1d2eba1a77408c4a6574d2f7fb0b5998d",
+      "bytes": 10278
     },
     {
       "path": "materials.js",
@@ -193,8 +203,8 @@
     },
     {
       "path": "places.js",
-      "sha256": "e58d8436861f44ab97dc5abf864258275c437277da8a70e6d3185dfcbc1e8d35",
-      "bytes": 2255
+      "sha256": "b3eaa1581875ef1eb5e1aea44e8e0a2dea34a0eeeb3b15150485d09cd5af887c",
+      "bytes": 2446
     },
     {
       "path": "presentation-notes.json",
@@ -238,8 +248,8 @@
     },
     {
       "path": "sumgyeol.css",
-      "sha256": "55463e9db3171e1037ffac84740b4c7ee22050f5ac662e9b0a0931ef28e22fe9",
-      "bytes": 19158
+      "sha256": "921014034b1d352f0f98ae83a8117213eb6d1093f18a2c72a6e997b25522e9d9",
+      "bytes": 19743
     },
     {
       "path": "terrain-data/NOTICE.txt",
@@ -278,8 +288,8 @@
     },
     {
       "path": "walk.html",
-      "sha256": "5568a58c4d15ffefc4963751ed3bc4756be8b24967ce1d0508a6adbd3e3386b1",
-      "bytes": 10155
+      "sha256": "d8ab8cac4c5038f270042d40cc17fee1d2eba1a77408c4a6574d2f7fb0b5998d",
+      "bytes": 10278
     },
     {
       "path": "world.js",

@@ -1,5 +1,5 @@
 {
-  "version": "focus-r19",
+  "version": "detail-r20",
   "areas": [
     "정문",
     "경상대 앞에서 중앙도서관으로 올라가는 구간",
@@ -14,5 +14,6 @@
     "471297909",
     "471297922"
   ],
-  "note": "Walking starts and camera framing are independently chosen presentation positions; not surveyed entrances."
+  "note": "Walking starts and camera framing are independently chosen presentation positions; not surveyed entrances.",
+  "detailSources": "focus-detail-sources.json"
 }

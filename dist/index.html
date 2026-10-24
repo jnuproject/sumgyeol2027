@@ -6,7 +6,7 @@
   <title>숨결 · 캠퍼스 산책</title>
   <link rel="icon" type="image/png" href="assets/sumgyeol_symbol_blue.png">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="sumgyeol.css?v=focus-r19">
+  <link rel="stylesheet" href="sumgyeol.css?v=detail-r20">
 </head>
 <body data-mode="loading" data-ready="false">
   <canvas id="world" aria-label="제주대학교 아라캠퍼스 3D 지도" tabindex="0"></canvas>
@@ -57,6 +57,7 @@
       <p id="placeQuestion" class="place-question"></p>
       <div class="idea-section"><span class="micro-label">이곳에서 잠시</span><p id="placeIdea"></p></div>
       <button id="walkHere" class="primary compact">이곳에서 걷기 <span>↗</span></button>
+      <button id="walkAscent" class="text-button arrival-button" hidden>오르막 입구에서 걷기</button>
       <button id="walkArrival" class="text-button arrival-button" hidden></button>
       <p id="visualNote" class="visual-note"></p>
       <details class="checks"><summary>건물 이야기와 표현 <span>＋</span></summary><p id="placeChecks"></p></details>
@@ -80,6 +81,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <dialog id="dialog" aria-labelledby="dialogTitle"><button id="closeDialog" class="dialog-close" aria-label="닫기">×</button><div class="eyebrow">숨결 · 캠퍼스 산책</div><h2 id="dialogTitle"></h2><div id="dialogBody"></div></dialog>
   <section id="error" class="error-panel" hidden role="alert"><span class="eyebrow">잠시만요</span><h2>캠퍼스를 불러오지 못했어요.</h2><p id="errorMessage">WebGL을 지원하는 최신 브라우저에서 다시 열어주세요.</p><button id="retry" class="primary">다시 시도하기 ↗</button></section>
-  <script type="module" src="game.js?v=focus-r19"></script>
+  <script type="module" src="game.js?v=detail-r20"></script>
 </body>
 </html>

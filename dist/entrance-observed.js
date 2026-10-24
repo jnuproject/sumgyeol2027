@@ -65,7 +65,7 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
  box(east-.08,.13,o.z,.95,.26,o.d*.9,'#a0a395');
  environment.polygon([[o.x-5.2,o.z-4.3],[o.x+6.1,o.z-4.3],[o.x+6.1,o.z+4.3],[o.x-5.2,o.z+4.3]],material('#7c7770'),.065);
  // Low planted borders alongside the red sidewalks. Gaps follow mapped paths/junctions.
- const hedgeGeo=new THREE.SphereGeometry(1,7,5),hedgeMat=material('#475d3e'),hedges=[];
+ const hedgeGeo=new THREE.BoxGeometry(1,1,1),hedgeMat=material('#475d3e'),hedges=[];
  for(const side of[-1,1])for(let pz=z+7;pz<z+108;pz+=2.5){
   const px=x+side*14.7;
   if(insideEntranceOffice(px,pz,data,2))continue;
@@ -73,6 +73,6 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
   hedges.push([px,pz]);
  }
  const hedge=new THREE.InstancedMesh(hedgeGeo,hedgeMat,hedges.length),obj=new THREE.Object3D();
- hedges.forEach(([px,pz],i)=>{obj.position.set(px,terrain.heightAt(px,pz)+.35,pz);obj.scale.set(.8,.42,1.4);obj.rotation.y=(i%3)*.12;obj.updateMatrix();hedge.setMatrixAt(i,obj.matrix);});hedge.name='Observed low entrance planting border';hedge.castShadow=true;hedge.receiveShadow=true;scene.add(hedge);
+ hedges.forEach(([px,pz],i)=>{obj.position.set(px,terrain.heightAt(px,pz)+.35,pz);obj.scale.set(1.35,.6,2.4);obj.rotation.y=0;obj.updateMatrix();hedge.setMatrixAt(i,obj.matrix);});hedge.name='Observed low entrance planting border';hedge.castShadow=true;hedge.receiveShadow=true;scene.add(hedge);
  return {entrySpawn:layout.entrySpawn,source:'Kakao Roadview2026-03, manually observed',geometryEstimated:true,hedgeSegments:hedges.length};
 }

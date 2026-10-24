@@ -1,6 +1,6 @@
 # 숨결 · 캠퍼스 산책
 
-제주대학교 아라캠퍼스를 캐릭터로 걸어 다니는 Three.js 싱글플레이 웹 게임입니다. 공개 버전은 `focus-r19`입니다.
+제주대학교 아라캠퍼스를 캐릭터로 걸어 다니는 Three.js 싱글플레이 웹 게임입니다. 공개 버전은 `detail-r20`입니다.
 
 **게임 주소: https://jnuproject.github.io/sumgyeol2027/**
 
@@ -56,3 +56,7 @@ node --experimental-default-type=module --test tests/*.mjs source-data/terrain/t
 ## 중점 구역
 
 학교 전체 확장 대신 정문, 경상대 앞에서 중앙도서관으로 올라가는 구간, 학생회관(신관)에 집중합니다. 기존 학교 배치와 산책 기능은 보존하고, 세 구역의 메뉴·출발점·미니맵 강조를 변경했습니다. 아직 정책 내용은 추가하지 않았습니다. `dist/focus-scope.json` 참조.
+
+## 중점 구역 모델 구체화
+
+`detail-r20`에서 경상대1·2호관의 서로 다른 외관, 중앙도서관 정면·차양·계단·층형 수목, 신관 타일·유리 계단실·낮은 마당과 진입 계단, 정문 문주와 경비실 주변을 구체화했습니다. 경상대–도서관의 OSM 계단 선형에 실제로 걸을 수 있는 계단과 난간을 연결했습니다. 계단 단수와 치수는 측량값이 아닙니다. `dist/focus-detail-sources.json`과 `source-data/appearance/focus-detail-r20/`에 관찰과 추정을 구분했습니다.

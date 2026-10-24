@@ -1,17 +1,20 @@
-import {addCampusObservedDetails} from './campus-observed-details.js?v=campus-r18';
-import {addObservedEntrance} from './entrance-observed.js?v=campus-r18';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=campus-r18';
-import {addSportsGrounds} from './sports-ground.js?v=campus-r18';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=detail-r20';
+import {addFocusDetails} from './focus-details.js?v=detail-r20';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=detail-r20';
+import {addObservedEntrance} from './entrance-observed.js?v=detail-r20';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=detail-r20';
+import {addSportsGrounds} from './sports-ground.js?v=detail-r20';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=campus-r18';
-import { addVegetation } from './vegetation.js?v=campus-r18';
-import { loadCampusTerrain } from './terrain.js?v=campus-r18';
-import { addCampusEnvironment } from './environment.js?v=campus-r18';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=detail-r20';
+import { addVegetation } from './vegetation.js?v=detail-r20';
+import { loadCampusTerrain } from './terrain.js?v=detail-r20';
+import { addCampusEnvironment } from './environment.js?v=detail-r20';
 
 export async function createCampus(scene,data) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();
 const environment=addCampusEnvironment(scene,data,terrain,surfaces);
+const focusWallMaterials=createFocusWallMaterials();
 let foundationBase=null;const buildingBases=new Map();
 const baseAt=(x,z)=>foundationBase??terrain.heightAt(x,z);
 const unitBox=new THREE.BoxGeometry(1,1,1);
@@ -37,9 +40,9 @@ for(const b of data.buildings){
  // A simple foundation closes the downhill gap without warping the preserved building.
  const low=Math.min(...b.points.map(p=>terrain.heightAt(p[0],p[1])));
  if(foundationBase-low>.12){const saved=foundationBase;foundationBase=low;footprint(b.points,saved-low+.2,'#a1a397');foundationBase=saved;}
- const main=b.id==='471490497',museum=b.id==='471697017';const profile=BUILDING_PROFILES[b.id];const h=profile?.height??(museum?18:b.height);
+ const main=b.id==='471490497',museum=b.id==='471697017';const profile=FOCUS_BUILDING_PROFILES[b.id]??BUILDING_PROFILES[b.id];const h=profile?.height??(museum?18:b.height);
  const palette=['#e6e9e4','#e9e7df','#dce3e0','#e5e9e7'];const color=profile?.wall??(museum?'#79545d':b.tags.building==='dormitory'?'#d1c9bd':palette[Number(b.id)%4]);
- for(const part of observedMassParts(b,h)){const wall=footprint(part.points,part.height,color,part.y);if(!museum)wall.material=new THREE.MeshStandardMaterial({color,roughness:.88});footprint(part.points,.3,profile?.roof??(museum?'#655b59':'#7db6a0'),part.y+part.height);}collisions.push(b.points);
+ for(const part of observedMassParts(b,h)){const wall=footprint(part.points,part.height,color,part.y);if(!museum)wall.material=focusWallMaterials[b.id]??new THREE.MeshStandardMaterial({color,roughness:.88});footprint(part.points,.3,profile?.roof??(museum?'#655b59':'#7db6a0'),part.y+part.height);}collisions.push(b.points);
  for(let i=1;i<b.points.length;i++){
   const a=b.points[i-1],e=b.points[i],l=Math.hypot(e[0]-a[0],e[1]-a[1]);if(l<1)continue;
   const edgeHeight=b.id==='471697621'&&(a[1]+e[1])*.5<1?8.4:h;
@@ -65,7 +68,7 @@ for(const b of data.buildings){
  panelAlong(a,e,.45,2.5,6.8,4.8,.4,'#243b3a',-.45);panelAlong(a,e,.45,5.2,8,.6,3.5,'#b1b7ae',-1.4);
  for(let i=1;i<b.points.length;i++){const p=b.points[i-1],q=b.points[i];for(let t of[.12,.88])panelAlong(p,q,t,8,1.3,3,.3,'#aab9b5')}
  label('제주대학교 박물관 · 사진 참고',b.center[0],h+5,b.center[1],1.15);
- }else { if(!addObservedFacade({scene,b,height:h,panel:panelAlong,box,base:foundationBase}))genericFacade(b,h); }
+ }else { if(!addFocusFacade({scene,b,height:h,panel:panelAlong,box,base:foundationBase})&&!addObservedFacade({scene,b,height:h,panel:panelAlong,box,base:foundationBase}))genericFacade(b,h); }
  foundationBase=null;
 }
 // The main roadway stays open: paired basalt piers frame SIDEWALKS, never an invented road-spanning arch.
@@ -76,8 +79,8 @@ function dol(x,z){const g=new THREE.Group();g.position.set(x,terrain.heightAt(x,
 for(const side of[-1,1]){
  const inner=gateX+side*10,outer=gateX+side*18;
  stonePillar(inner,gateZ,7.4,1.7);stonePillar(outer,gateZ,4.8,1.6);
- box(gateX+side*14,4.25,gateZ,7.3,.5,1.1,'#62685c');
- box(gateX+side*14,4.54,gateZ,7.6,.15,1.4,'#363c3b');
+ //2026 Roadview shows freestanding basalt piers; remove the older imagined lintel.
+ box(inner,.16,gateZ,2.1,.32,2.0,'#8d9487');box(outer,.16,gateZ,2.0,.32,1.95,'#8d9487');
  for(let y of[5.05,5.95,6.85]){disc(inner,y,gateZ-.88,.31,'#b5b9b5');disc(inner,y,gateZ-.97,.24,'#e5e8e5');disc(inner,y,gateZ-1.06,.17,'#92a1a7');}
  box(inner,2.6,gateZ-.9,.36,2,.08,'#546857');
  dol(gateX+side*14,gateZ-1.5);
@@ -91,7 +94,8 @@ const bounds={minX:Math.max(terrain.worldBounds.minX+.5,Math.min(...extentPoints
 const observedEntrance=addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles});
 const vegetation=addVegetation(scene,data,terrain.heightAt);obstacles.push(...vegetation.obstacles);
 addEntranceDetails();addSportsGrounds(scene,data,terrain,environment);
-const observedDetails=addCampusObservedDetails({scene,data,terrain,environment,surfaces,box,collisionMeshes,obstacles});environment.flush();
+const observedDetails=addCampusObservedDetails({scene,data,terrain,environment,surfaces,box,collisionMeshes,obstacles});
+const focusDetails=addFocusDetails({scene,data,terrain,environment,surfaces,box,collisionMeshes,obstacles,fallbackHeightAt:observedDetails.heightAt});environment.flush();
 
 // Instance static details by material to keep the scene responsive.
 scene.updateMatrixWorld(true);
@@ -154,7 +158,7 @@ function addEntranceDetails(){
  }
 
 }
-return {bounds,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:observedDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
+return {bounds,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
 }
 
 export function makeAvatar(scene){

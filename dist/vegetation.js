@@ -1,3 +1,4 @@
+import {insideFocusClearance} from './focus-details.js?v=detail-r20';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
 import {insideEntranceOffice} from './entrance-observed.js?v=campus-r18';
@@ -23,6 +24,7 @@ export function generateVegetationLayout(data){
  const pitch=data.areas.find(a=>a.id==='286070859');
  const sportsCenter=pitch?[(Math.min(...pitch.points.map(p=>p[0]))+Math.max(...pitch.points.map(p=>p[0])))/2,(Math.min(...pitch.points.map(p=>p[1]))+Math.max(...pitch.points.map(p=>p[1])))/2]:null;
  const blocked=(x,z,h,type)=>{
+  if(insideFocusClearance(x,z,data))return true;
   if(insideEntranceOffice(x,z,data,Math.max(4,h*.4)))return true;
   if(sportsCenter&&Math.hypot(x-sportsCenter[0],Math.max(0,Math.abs(z-sportsCenter[1])-42.2))<50.5)return true;
   if(Math.hypot(x-data.spawn[0],z-data.spawn[1])<9)return true;

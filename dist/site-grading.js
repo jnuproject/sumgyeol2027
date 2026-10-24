@@ -18,13 +18,15 @@ export function gradeObservedSportsField(xs,zs,sourceHeights,data){
  }
  const notes=[{feature:'대운동장',source:'Kakao Roadview2026-03: field and track appear level',operation:'constant-height sports pad with15m blend to surrounding source terrain',referenceHeightMeters:level,referenceMethod:'median of existing source raster inside field; not surveyed field height',changedSamples:changed,dimensionsEstimated:true}];
  const pads=[
+  {feature:'경상대학1호관 건물 바닥',bounds:[-70,13,90,138],reference:[-30,86],offset:.6,blend:6,source:'Roadview2026-03; low planted bank at north facade, not a tall exposed foundation'},
+  {feature:'학생회관 신관 앞 낮은 마당',bounds:[-125,-96,-31,-13],reference:[-135,-12],blend:4,source:'Roadview2026-03; lower court and guarded descending access observed'},
   {feature:'중앙도서관 건물·전면 마당',bounds:[-141,-69,235,282],reference:[-104,257],blend:8,source:'Roadview2026-03'},
   {feature:'디지털도서관 건물·전면 마당',bounds:[-138,-68,291,346],reference:[-104,342],blend:8,source:'Roadview2022-03'},
   {feature:'공과대학1호관 건물·전면 마당',bounds:[263,378,-244,-188],reference:[320,-204],blend:10,source:'Roadview2026-03'}
  ];
  for(const pad of pads){
   const samples=[];for(let row=0;row<zs.length;row++)for(let col=0;col<xs.length;col++)if(Math.abs(xs[col]-pad.reference[0])<8&&Math.abs(zs[row]-pad.reference[1])<8)samples.push(sourceHeights[row*xs.length+col]);
-  samples.sort((a,b)=>a-b);const elevation=samples[Math.floor(samples.length/2)];if(!Number.isFinite(elevation))throw Error('Court reference height missing');let count=0;
+  samples.sort((a,b)=>a-b);const elevation=samples[Math.floor(samples.length/2)]+(pad.offset??0);if(!Number.isFinite(elevation))throw Error('Court reference height missing');let count=0;
   for(let row=0;row<zs.length;row++)for(let col=0;col<xs.length;col++){
    const [minX,maxX,minZ,maxZ]=pad.bounds,distance=Math.hypot(Math.max(minX-xs[col],0,xs[col]-maxX),Math.max(minZ-zs[row],0,zs[row]-maxZ));if(distance>=pad.blend)continue;
    const t=1-distance/pad.blend,blend=t*t*(3-2*t),i=row*xs.length+col;heights[i]=heights[i]*(1-blend)+elevation*blend;count++;

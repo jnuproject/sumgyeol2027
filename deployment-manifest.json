@@ -1,5 +1,5 @@
 {
-  "version": "focus-r19",
+  "version": "detail-r20",
   "files": [
     {
       "path": ".nojekyll",
@@ -118,8 +118,8 @@
     },
     {
       "path": "campus-observed-details.js",
-      "sha256": "5083aa67617bcbde379f0861bc9c865ab29116ad8c8594d7e126b2159a086595",
-      "bytes": 6915
+      "sha256": "5b563855de5cea653277d0fc1e78939c0ec9b1ddfdad638530ce414c515cd622",
+      "bytes": 6793
     },
     {
       "path": "campus-survey.json",
@@ -138,8 +138,8 @@
     },
     {
       "path": "entrance-observed.js",
-      "sha256": "62a399767a05b489137ccd328894ab121daea888ebfd479e82e6b2f85d89a53e",
-      "bytes": 6025
+      "sha256": "9fbb120253f6e3c84a4f66c67d2b97a08684a71535ea34be47d560615825f164",
+      "bytes": 6015
     },
     {
       "path": "environment.js",
@@ -147,24 +147,39 @@
       "bytes": 9013
     },
     {
+      "path": "focus-architecture.js",
+      "sha256": "86893a48b55e50b83140b1f2ba9f3877e18a14d1a6ccbedca8e415cdf5d3fb5a",
+      "bytes": 5406
+    },
+    {
+      "path": "focus-detail-sources.json",
+      "sha256": "eb50807a546dfe165445174362c13540616e9fa96a1c476837130aeeb10131da",
+      "bytes": 6228
+    },
+    {
+      "path": "focus-details.js",
+      "sha256": "98411081625699ec10e47a4ed2597fd495f94ec6d2040c912c932c8ff39193b8",
+      "bytes": 9991
+    },
+    {
       "path": "focus-route.js",
-      "sha256": "5e81ca746618ddcb926dc26ce5a4445c498d8b49b324e181c0356211cbdd3cb0",
-      "bytes": 1454
+      "sha256": "78cd3de9a4e0efe9beb752d380e321b015996c2a3364ae3097c396171734f9c6",
+      "bytes": 1790
     },
     {
       "path": "focus-scope.json",
-      "sha256": "cfbab6eaf2d3c7d01739df703eae665367ac9c487ca970be99feb891808f5e85",
-      "bytes": 506
+      "sha256": "8a3dad3c009f519b583e8447db446ce23b8cac2ce20fdc85f045acd21ac26ef3",
+      "bytes": 555
     },
     {
       "path": "game.js",
-      "sha256": "b24220b9d6012ae8fdc1f656cc20f329397a2268e14c7b60f8a70d4c628fa19f",
-      "bytes": 38749
+      "sha256": "cf1f1d68e16832f2bf3e84efde60a5ea1c669be0808db02326fdbacf06b0ed1e",
+      "bytes": 39478
     },
     {
       "path": "index.html",
-      "sha256": "d8ab8cac4c5038f270042d40cc17fee1d2eba1a77408c4a6574d2f7fb0b5998d",
-      "bytes": 10278
+      "sha256": "d6c2df661bac55c6a6ca163c85473661937f46bbd83c2c85f8713a8a9e4d4ac1",
+      "bytes": 10391
     },
     {
       "path": "materials.js",
@@ -233,8 +248,8 @@
     },
     {
       "path": "site-grading.js",
-      "sha256": "4ab517110aa5d61fbe3d05f45363f1cf5b5396739ed4d0e62f194a5c8fcf2f52",
-      "bytes": 3149
+      "sha256": "41fc2b97d5816749007c46a5f1afdab157489a1eb38c148587119fa65d72c6a0",
+      "bytes": 3549
     },
     {
       "path": "sports-ground.js",
@@ -268,7 +283,7 @@
     },
     {
       "path": "terrain.js",
-      "sha256": "fb0867738b57269b6472f8fa28a4866d2ebadb068ea2b583610657fbfc5b4972",
+      "sha256": "2f53706db8c82b24f692b77fc6ca4d52f381bb2b2ed7f557a1d4c5f84e8d933e",
       "bytes": 10248
     },
     {
@@ -278,8 +293,8 @@
     },
     {
       "path": "vegetation.js",
-      "sha256": "3bd432fd6786d5c59b35e69ebe40e118f232fba624761ce41d1024ec3635d22d",
-      "bytes": 8557
+      "sha256": "92fa5ad446809dc2a165d7a14de70e4ac87721f48e0d8a4fcc6ea606ddd42af2",
+      "bytes": 8676
     },
     {
       "path": "visual-references.json",
@@ -288,13 +303,13 @@
     },
     {
       "path": "walk.html",
-      "sha256": "d8ab8cac4c5038f270042d40cc17fee1d2eba1a77408c4a6574d2f7fb0b5998d",
-      "bytes": 10278
+      "sha256": "d6c2df661bac55c6a6ca163c85473661937f46bbd83c2c85f8713a8a9e4d4ac1",
+      "bytes": 10391
     },
     {
       "path": "world.js",
-      "sha256": "1eb4777d2e59e9e4510887a951227d901638e8fa44fab1cd1fa5a2029ac0a1b7",
-      "bytes": 16367
+      "sha256": "3a4bc1a7dff47ac9208cf2e99c3bcf48e45ac1aa2d28c7aa48d9c264a42e20ff",
+      "bytes": 17016
     }
   ]
 }

@@ -7,7 +7,7 @@ const data=JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.
 test('focused walking starts and library arrival stay outside preserved building walls',()=>{
  const snapshot=JSON.stringify(data);const stops=resolveFocusStops(data,[-67.135,-460.403]);
  for(const stop of stops){
-  for(const p of [stop.walkPosition,stop.visitPosition,...(stop.arrival?[stop.arrival.position]:[])]){
+  for(const p of [stop.walkPosition,stop.visitPosition,...(stop.arrival?[stop.arrival.position]:[]),...(stop.ascent?[stop.ascent.position]:[])]){
    assert.equal(walkable(...p,data.buildings),true,stop.id+' walking start inside building');
    assert.deepEqual(safePosition(p,data.buildings),p);
    assert.ok(p[0]>=FOCUS_SCOPE.mapBounds.minX&&p[0]<=FOCUS_SCOPE.mapBounds.maxX);

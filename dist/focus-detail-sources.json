@@ -1,0 +1,134 @@
+{
+  "version": "detail-r20",
+  "observedOn": "2026-10-25 Asia/Seoul",
+  "method": "Public Kakao Roadview displayed in browser; searched, rotated and visually compared. No panorama pixels used as game textures.",
+  "zones": [
+    {
+      "area": "정문",
+      "capture": "2026-03",
+      "observed": [
+        "freestanding dark horizontally coursed basalt piers",
+        "small roadside security office with pale flat canopy, glazing and porch steps",
+        "red sidewalk, planted tree borders, central flexible posts and outbound curved control canopy"
+      ],
+      "changes": [
+        "removed former imagined stone lintel across sidewalk",
+        "added pier footing, office porch steps and canopy supports",
+        "trimmed continuous entrance hedge instead of repeated round clumps"
+      ],
+      "estimated": [
+        "pier/office sizes, porch step dimensions, tree and hedge positions"
+      ]
+    },
+    {
+      "area": "경상대학1호관",
+      "id": "471297909",
+      "kakaoPlace": "https://place.map.kakao.com/17567337",
+      "capture": "2026-03",
+      "observed": [
+        "light gray panel cladding, three visible storeys",
+        "recessed grouped windows, tall gray vertical accents",
+        "dark basalt stair towers and narrow white-framed tower windows",
+        "low stone planting border and gray pavers with yellow tactile line"
+      ],
+      "changes": [
+        "distinct gray-clad facade and dark end towers",
+        "recess and mullion geometry, horizontal louvers, panel joint material",
+        "front paver walk, tactile strip and low planted stone edge",
+        "local building-base correction toward north road reference to remove coarse-DSM-induced tall blank foundation"
+      ],
+      "estimated": [
+        "12.3m main height and14m stair towers",
+        "window spacing, depth, panel dimensions, planting and walkway offsets",
+        "unseen sides repeat observed facade rhythm",
+        "local ground datum uses coarse raster median near front walk plus0.6m visual bank, not a surveyed floor elevation"
+      ]
+    },
+    {
+      "area": "경상대학2호관",
+      "id": "471297922",
+      "kakaoPlace": "https://place.map.kakao.com/17567333",
+      "capture": "2024-06",
+      "observed": [
+        "three-storey cream body",
+        "dark blue/gray horizontal window frames and white intermediate piers",
+        "overhanging pale yellow roof edge, surface drains"
+      ],
+      "changes": [
+        "independent cream/navy facade instead of same generic white building",
+        "repeated recessed windows, floor bands, piers and wide eave"
+      ],
+      "estimated": [
+        "11.7m height, spacing and unseen sides"
+      ],
+      "timeLimit": "2024 view may predate renovation"
+    },
+    {
+      "area": "경상대–중앙도서관 오르막",
+      "osmRoad": "471489721",
+      "observed": [
+        "OSM records this line as steps with handrail",
+        "Roadview at library approach shows forest/tree-lined road and surrounding paved access; interior flights not directly covered"
+      ],
+      "changes": [
+        "walkable stepped route on exact OSM endpoint alignment",
+        "seven reconstructed flights,84 treads and six landings",
+        "continuous handrails, tree clearance, matching tread geometry and player sampler"
+      ],
+      "estimated": [
+        "all flight counts, tread depths, width5.4m and local rises",
+        "rises use original coarse AWS terrain as reference, not measured stair heights"
+      ],
+      "important": "This is an independently reconstructed staircase, not a measured or visually counted copy of every real tread."
+    },
+    {
+      "area": "중앙도서관",
+      "id": "286237890",
+      "kakaoPlace": "https://place.map.kakao.com/8065442",
+      "capture": "2026-03",
+      "observed": [
+        "buff/khaki masonry and deep upper horizontal brick band",
+        "white vertical front ribs, clerestory window row",
+        "wide entrance stairs and outward-tapered canopy",
+        "tiered clipped shrubs on both sides of entry"
+      ],
+      "changes": [
+        "replaced generic front glazing with observed bands, ribs and entry doors",
+        "tapered canopy and landing, stair handrails",
+        "paired tiered topiary groups and broader asphalt approach"
+      ],
+      "estimated": [
+        "brick sizes, heights, canopy dimensions, planting positions",
+        "original median-raster terrace correction remains approximate"
+      ]
+    },
+    {
+      "area": "학생회관 신관",
+      "id": "471697621",
+      "kakaoPlace": "https://place.map.kakao.com/13499343",
+      "capture": "2026-03",
+      "observed": [
+        "tall southern wing and lower curved front wing",
+        "small pale tile grid and thin orange floor bands",
+        "glazed stair core and entrance glazing",
+        "court below road/sidewalk, descending steps, brown guardrail and guarded paved access"
+      ],
+      "changes": [
+        "tile material and separate high/low facade rows",
+        "tall glazed stair core, entrance doors and aligned canopy",
+        "local low court, two reconstructed descending stair flights, guarded side approach and physical walking surfaces"
+      ],
+      "estimated": [
+        "exact court level from median coarse raster near building",
+        "stair14 treads/width/placement, side approach shape and grade",
+        "no surveyed curb levels or accessibility compliance claim"
+      ]
+    }
+  ],
+  "geometry": "Original59 building outlines and91 road centrelines retained; no remote model mesh or restricted textures extracted.",
+  "sourceTerrain": "Original AWS elevations.f32 unchanged on disk. Local student court grading is an estimated reconstruction, not new measured elevation data.",
+  "scope": "Only selected gate, economics/library corridor and student hall were detailed; other campus areas retain prior background models.",
+  "preserved": "avatar, walk/run,1st/3rd person, jump, collisions, stamps, local storage, photo mode, full original map geometry",
+  "referenceScreenshots": "Kept only in local focus-detail-r20/references review folder; not included in public game assets.",
+  "policyContent": "No policy claims or promises have been added."
+}

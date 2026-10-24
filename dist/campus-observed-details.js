@@ -29,8 +29,7 @@ export function addCampusObservedDetails({scene,data,terrain,environment,surface
  if(library){const f=front(library,'north'),base=terrain.heightAt(...library.center);
   rect(f.cx,f.cz+f.nz*10,Math.min(58,f.length),20,surfaces.asphalt);stats.forecourts++;
   stairs({...f,width:18,depth:8.5,top:base+2.5,steps:15});
-  box(f.cx,base+4.55-terrain.heightAt(f.cx,f.cz-1),f.cz-1,18,.42,4.6,'#c5c7bd');
-  for(const dx of[-8.3,8.3])box(f.cx+dx,base+2.4-terrain.heightAt(f.cx+dx,f.cz-2.7),f.cz-2.7,.38,4.5,.38,'#d9dace');
+  // The observed tapered canopy and columns are added by focus-details.js.
  }
  const digital=data.buildings.find(b=>b.id==='953564621');
  if(digital){const f=front(digital,'south'),base=terrain.heightAt(...digital.center);rect(f.cx,f.cz+8,Math.min(60,f.length),16,surfaces.paving);stats.forecourts++;

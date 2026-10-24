@@ -1,0 +1,63 @@
+{
+  "url": "https://api.openstreetmap.org/api/0.6/map?bbox=126.55503,33.44929,126.56885,33.46070",
+  "license": "ODbL 1.0",
+  "credit": "© OpenStreetMap contributors",
+  "projection": [
+    33.455,
+    126.562
+  ],
+  "queriedParkingWays": 7,
+  "includedParkingWays": [
+    {
+      "id": "471698194",
+      "center": [
+        25.3179900698478,
+        -503.6300499686704
+      ]
+    },
+    {
+      "id": "471698303",
+      "center": [
+        -217.7802238249153,
+        -264.5229399980319
+      ]
+    },
+    {
+      "id": "471698370",
+      "center": [
+        -199.96816025584488,
+        -155.6320694286683
+      ]
+    },
+    {
+      "id": "953786991",
+      "center": [
+        -210.96080555333046,
+        352.38092044344336
+      ]
+    },
+    {
+      "id": "953943598",
+      "center": [
+        -164.3951149037676,
+        54.49923970487194
+      ]
+    },
+    {
+      "id": "964178046",
+      "center": [
+        -435.03802030554624,
+        296.9837035126278
+      ]
+    },
+    {
+      "id": "969696805",
+      "center": [
+        171.8036623550226,
+        114.01544646096316
+      ]
+    }
+  ],
+  "geometry": "original OSM outlines; projected with existing game local equirectangular metres",
+  "notSurveyed": "Paving material appearance is a visual estimate"
+}

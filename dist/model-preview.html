@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6fafc">
+  <meta name="description" content="숨결과 함께 둘러보는 제주대학교 아라캠퍼스. META jeju의 실제 캠퍼스 3D 모델을 만나보세요.">
+  <title>숨결 · 아라캠퍼스 3D</title>
+  <link rel="icon" href="assets/sumgyeol_symbol_blue.png">
+  <link rel="stylesheet" href="campus-viewer.css">
+</head>
+<body data-viewer-state="loading" data-navigation="orbit">
+  <header class="app-header">
+    <a class="brand" href="./" aria-label="숨결 캠퍼스 처음으로"><img src="assets/sumgyeol_wordmark_blue.png" width="1200" height="648" alt="숨결"><span class="brand-rule"></span><span><b>아라캠퍼스</b><small>제주대학교 · 3D 둘러보기</small></span></a>
+    <div class="header-tools"><span class="model-tag"><i></i> 실제 캠퍼스 3D</span><button class="icon-button" id="help" aria-label="조작 방법">?</button><button class="icon-button" id="about" aria-label="모델 출처와 안내"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></svg></button></div>
+  </header>
+
+  <main class="scene" id="scene" aria-label="아라캠퍼스 3D 공간">
+    <iframe id="campusFrame" title="제주대학교 전체 3D 모델 · META jeju · Sketchfab" allow="autoplay; fullscreen; xr-spatial-tracking" allowfullscreen></iframe>
+    <div class="loading-panel" id="loading" role="status" aria-live="polite">
+      <span class="loading-ring" aria-hidden="true"></span>
+      <p class="eyebrow">JEJU NATIONAL UNIVERSITY</p><h1>캠퍼스를 만나는 중</h1>
+      <p id="loadingText">실제 캠퍼스의 3D 모델을 불러오고 있어요.</p>
+      <progress id="loadProgress" max="1" aria-label="3D 모델 불러오기"></progress>
+      <span class="loading-note">처음에는 인터넷 속도에 따라 시간이 걸릴 수 있어요.</span>
+    </div>
+    <section class="failure-panel" id="failure" hidden role="alert"><span class="eyebrow">잠시만요</span><h1>3D 연결을 확인해 주세요</h1><p id="failureText">모델을 불러오지 못했어요.</p><div class="failure-actions"><button class="primary-button" id="retry">다시 불러오기</button><a class="secondary-button" href="https://sketchfab.com/3d-models/3d-map-66994283798747f0b8eca9ad0960c319" target="_blank" rel="noopener">원본에서 열기 ↗</a></div><a class="fallback-link" href="walk.html">기존 캠퍼스 산책 열기 →</a></section>
+  </main>
+
+  <nav class="explore-bar" aria-label="캠퍼스 탐색 도구">
+    <div class="place-tools"><button id="overview" class="overview-button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3Zm6-3v15m6-12v15"/></svg><span>전체 캠퍼스</span></button><span class="divider"></span><label class="place-picker"><span class="sr-only">이동할 구역</span><select id="places" disabled><option value="">구역으로 이동</option></select></label></div>
+    <div class="mode-tools"><div class="mode-switch" aria-label="카메라 방식"><button id="orbit" aria-pressed="true" disabled>둘러보기</button><button id="firstPerson" aria-pressed="false" disabled>1인칭 탐색</button></div><button id="fullscreen" class="icon-button" aria-label="3D 화면 전체 화면으로 보기" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg></button></div>
+    <p id="controlHint" class="control-hint">드래그로 회전 · 휠로 확대 · 숫자를 누르면 구역 안내</p>
+  </nav>
+  <footer class="credit-bar"><span><a href="https://sketchfab.com/3d-models/3d-map-66994283798747f0b8eca9ad0960c319" target="_blank" rel="noopener">제주대학교 전체 3d map</a> <span class="credit-by">by <a href="https://sketchfab.com/Hyun-seok.Jun" target="_blank" rel="noopener">META jeju</a> · <a href="https://sketchfab.com" target="_blank" rel="noopener">Sketchfab</a></span></span><span class="source-date">2023 공개 모델</span></footer>
+
+  <dialog id="infoDialog" aria-labelledby="dialogTitle"><button class="dialog-close icon-button" id="closeDialog" aria-label="닫기">×</button><p class="eyebrow">숨결 · 아라캠퍼스</p><h2 id="dialogTitle"></h2><div id="dialogBody"></div></dialog>
+  <div id="notice" role="status" aria-live="polite" hidden></div>
+  <script src="campus-viewer.js" defer></script>
+</body>
+</html>

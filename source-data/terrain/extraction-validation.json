@@ -1,0 +1,29 @@
+{
+  "verifiedUTC": "2026-10-24T11:32:36.338561+00:00",
+  "sourcePNGCount": 6,
+  "decoderSelfTest": {
+    "allFiveFiltersRoundTrip": true,
+    "corruptCRCRejected": true
+  },
+  "rows": 320,
+  "cols": 324,
+  "globalPixelOrigin": {
+    "x": 7143249,
+    "y": 3366094
+  },
+  "sampleCoordinates": "global pixel centres integer + 0.5, EPSG:3857 tile grid",
+  "rowOrder": "north to south",
+  "columnOrder": "west to east",
+  "resamplingByThisScript": false,
+  "smoothingByThisScript": false,
+  "providerGridIsAlreadyResampled": true,
+  "underlyingAccuracyNotice": "Approximately 30 m source, not a campus road or step survey. Provider tile pixel spacing is not survey resolution.",
+  "minimumMetres": 258.0859375,
+  "maximumMetres": 374.2265625,
+  "binaryBytes": 414720,
+  "expectedSHA256": "012f4486b4a20e60dee053516bf3b4de3186228044d21600b1d56d151251ffc4",
+  "reconstructedSHA256": "012f4486b4a20e60dee053516bf3b4de3186228044d21600b1d56d151251ffc4",
+  "existingSHA256": "012f4486b4a20e60dee053516bf3b4de3186228044d21600b1d56d151251ffc4",
+  "existingBinaryUnchanged": true,
+  "exactByteMatch": true
+}

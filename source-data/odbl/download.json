@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/Hong-Iron/SMASH-JEJU",
+  "commit": "7014edf0c5a055ce2382fb58bff7e370ac244e13",
+  "files": [
+    {
+      "path": "data/campus.json",
+      "url": "https://raw.githubusercontent.com/Hong-Iron/SMASH-JEJU/7014edf0c5a055ce2382fb58bff7e370ac244e13/data/campus.json",
+      "bytes": 497297,
+      "sha256": "ba9450b436b201bd8efecb83df94f8743988d3916b9b4253d7c71b0f3499328e"
+    },
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/Hong-Iron/SMASH-JEJU/7014edf0c5a055ce2382fb58bff7e370ac244e13/LICENSE",
+      "bytes": 1003,
+      "sha256": "5b35071b26b270afc5515e2b61e6295540c399dc6406a62019de48d3ed2a2c5b"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+Terrain Tiles / Mapzen, hosted on AWS. SRTM data courtesy of the U.S. Geological Survey.
+
+Terrain Tiles accessed on 2026-10-24 from https://registry.opendata.aws/terrain-tiles/.
+SRTM described as public domain by https://github.com/tilezen/joerd/blob/master/docs/attribution.md#srtm .
+Underlying approximately 30 m source; not a campus ground survey. No new source accuracy is claimed by the approximately 4 m provider grid or render interpolation.
+No SMASH-JEJU code, processed terrain, images, or textures are included.

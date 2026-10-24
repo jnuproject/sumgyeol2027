@@ -1,0 +1,7 @@
+{
+  "version": "roads-r10",
+  "vehicleRoads": 71,
+  "walkingRoads": 4,
+  "change": "OSM service roads remain vehicle roads; estimated untagged service width revised5m to6.5m; parking aisles4.8m; continuous asphalt and unpainted shoulders; same widths used for tree clearance; minimap differentiates vehicle/pedestrian routes",
+  "limits": "Width and shoulder are visual reconstruction, not survey. No invented lane lines added to service roads. Footway2 and steps2 kept."
+}

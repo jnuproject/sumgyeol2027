@@ -1,0 +1,114 @@
+{
+  "version": "campus-r18",
+  "observationDate": "2026-10-24",
+  "source": "Kakao Maps public Roadview UI, manually searched, navigated and rotated",
+  "sourceSearchPage": "https://map.kakao.com/?q=%EC%A0%9C%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%A0%95%EB%AC%B8",
+  "zones": [
+    {
+      "name": "중앙 진입로",
+      "capture": "2026-03",
+      "observed": [
+        "mature canopy near curb",
+        "sidewalk behind tree/planting strip",
+        "crosswalk and yellow/white speed table"
+      ],
+      "applied": "larger curbside trees and sidewalk/material relationship; one approximate crossing/speed-table location"
+    },
+    {
+      "name": "중앙도서관",
+      "id": "286237890",
+      "capture": "2026-03",
+      "observed": [
+        "wide external stair",
+        "buff walls and white vertical ribs",
+        "entry canopy and paved forecourt"
+      ],
+      "applied": "walkable15-tread stair and canopy, paved forecourt"
+    },
+    {
+      "name": "디지털도서관",
+      "id": "953564621",
+      "capture": "2022-03",
+      "observed": [
+        "two-storey white wings",
+        "large yellow-framed glazed front",
+        "low entrance steps and paved parking approach"
+      ],
+      "applied": "distinct facade, walkable steps and paving"
+    },
+    {
+      "name": "공과대학1호관",
+      "id": "953546804",
+      "capture": "2026-03",
+      "observed": [
+        "three storeys",
+        "pale gray cladding and central stair core",
+        "low glazed entrance and asphalt court"
+      ],
+      "applied": "estimated14.7m mass with gray core and differentiated facade; approximate court"
+    },
+    {
+      "name": "학생회관",
+      "id": "471697621",
+      "capture": "2026-03",
+      "observed": [
+        "higher southern wing",
+        "lower rounded/front wing",
+        "orange horizontal trim, glazing and entrance planting"
+      ],
+      "applied": "preserved footprint with8.4m low portion and13.8m taller portion"
+    },
+    {
+      "name": "대운동장",
+      "id": "286070859",
+      "capture": "2026-03",
+      "observed": [
+        "level field and oval red track",
+        "west grandstand",
+        "east-side flag poles"
+      ],
+      "applied": "local model grading, low grandstand with walking height surface and poles"
+    },
+    {
+      "name": "학생생활관6호관F동",
+      "id": "964181122",
+      "capture": "2026-03",
+      "observed": [
+        "five visible levels including ground",
+        "white body and yellow stair/balcony core",
+        "paved entrance court"
+      ],
+      "applied": "estimated18.2m five-floor facade with yellow core; original footprint retained"
+    },
+    {
+      "name": "학생생활관3호관A동",
+      "id": "741724817",
+      "capture": "2024-06",
+      "observed": [
+        "four levels",
+        "brick walls",
+        "pitched roofs",
+        "glazed stair core and yellow entry cap"
+      ],
+      "applied": "estimated14.2m brick facade, independently generated roofs and entrance accent"
+    }
+  ],
+  "qualityLimits": [
+    "Eight named zones observed, not every campus street or all59 buildings inspected",
+    "absolute dimensions and heights remain estimates",
+    "unseen facades reconstructed using observed facade rhythm",
+    "crossing coordinates, parking positions and planting density are approximate",
+    "sports grade uses median of coarse original raster, not a measured field elevation",
+    "historical2022/2024 images may not reflect current renovation",
+    "Library and engineering building/court terraces are independently estimated local grade corrections using original-raster median reference heights. Not a high-resolution elevation survey."
+  ],
+  "parkedVehicles": "42 generic original car props placed only within OSM parking areas; reconstructed count/colours/positions, no live traffic",
+  "preserved": [
+    "59 building outlines and91 source road centrelines",
+    "original AWS source raster file",
+    "avatar, walking/running, jumping, camera switching, collisions and stamps",
+    "NEXT and unrelated applications untouched"
+  ],
+  "newNavigation": "Map/production guide contains links that start the same walking game near observed buildings. R returns to entrance.",
+  "rawImageReuse": "No Roadview pixels are used as in-game textures; screenshots are local observation/verification records only."
+}

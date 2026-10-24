@@ -1,0 +1,29 @@
+{
+  "source": "OpenStreetMap API 0.6 map",
+  "url": "https://api.openstreetmap.org/api/0.6/map?bbox=126.553,33.447,126.572,33.463",
+  "retrieved": "2026-10-23",
+  "license": "ODbL 1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "copyright": "https://www.openstreetmap.org/copyright",
+  "sha256": "e7412694cb32fca24262aafed780f13186cf9fa8fef54aded86db44b318df662",
+  "boundaryWay": 369649909,
+  "projection": "Local equirectangular, R=6378137; x=east, z=south, metres; no scale compression",
+  "origin": [
+    33.455,
+    126.562
+  ],
+  "counts": {
+    "buildings": 58,
+    "roads": 75,
+    "areas": 27
+  },
+  "limitations": [
+    "OSM completeness and update times vary. Names are not guaranteed current.",
+    "Road widths rendered by category, not surveyed.",
+    "Building footprints and road vertices use source geometry unchanged.",
+    "Unrecorded building height shown as 10.5m; recorded levels use 3.5m per floor.",
+    "Ground is flat because source contains no terrain elevation.",
+    "No invented buildings, road connections, trees or gardens added.",
+    "Derived geometry covers mapped features intersecting campus boundary; not a certified survey."
+  ]
+}

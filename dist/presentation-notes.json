@@ -1,0 +1,17 @@
+{
+  "version": "local-campus-walk-3-realism",
+  "date": "2026-10-23",
+  "sourceCommit": "ce4c2a3461ee09077194c4e36d35b1d823bdcb06",
+  "sourceGeometry": "Original campus-data.json is unchanged: 58 building footprints, 75 road ways, 27 areas.",
+  "visualAdditions": [
+    "Original 58 building footprints, 75 road centre lines and 27 land areas remain unchanged.",
+    "Entrance photograph reviewed again: wider main road, sidewalks, double yellow centre line, gate stonework, mature avenue trees and central booth reconstructed from visible features. Widths and placement remain estimates.",
+    "713+ illustrative trees in mapped woodland and parks and photo-informed avenue rows. Individual trees, streetlights, crossings, kerbs and planted details are not field surveyed.",
+    "Local photo-based CC0 materials from Poly Haven provide albedo, OpenGL normal and roughness maps at metre-based UV scale. These are general materials, not photographs taken at Jeju University.",
+    "Museum upper glazing and round columns, facade panel joints and signage are based on the recorded reference photo; unseen elevations remain approximate.",
+    "Generic building glazing, frames, sills, plinths and roof parapets are illustrative. Only gate, museum and former main building have photo-reviewed facade details.",
+    "Sky, clouds, lighting and flat terrain are reconstructed. No claim of photogrammetry, surveyed heights or a verified digital twin.",
+    "Optional first-person eye height 1.65 m. Tree trunks, gate piers, light poles and central booth have collision radii."
+  ],
+  "privacy": "Walking stamps are stored only in local browser storage. No analytics, account, multiplayer, campaign, or remote collection endpoint is configured."
+}

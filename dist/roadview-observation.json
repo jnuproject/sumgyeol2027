@@ -1,0 +1,38 @@
+{
+  "version": "roadview-r14",
+  "source": "Kakao Maps public Roadview UI",
+  "search": "제주대학교 정문 -> 제주대학교 아라캠퍼스 -> 로드뷰",
+  "url": "https://map.kakao.com/?q=%EC%A0%9C%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90%20%EC%A0%95%EB%AC%B8",
+  "displayedCaptureDate": "2026년03월",
+  "observedOn": "2026-10-24",
+  "observationMethod": "Public panorama rendered, rotated multiple directions and advanced along entrance road; compass and inset map compared against existing OSM projection. No source panorama assets extracted.",
+  "observed": [
+    "gate piers with circular medallions",
+    "low pale-windowed, dark-stone roadside security office on east side of entrance",
+    "separate small central vehicle-control booth",
+    "two curved roof sheets with tall slim masts above outbound/east-side vehicle lanes",
+    "yellow-edged hatched center strip with orange/dark reflective posts",
+    "red sidewalks and low planted borders under mature trees"
+  ],
+  "correctionDuringObservation": "First view suggested the central booth might be invented; a closer panorama confirmed a separate small central vehicle-control booth. It was retained and integrated; roadside office added separately.",
+  "appliedSpan": "approximate first100m of main entrance avenue, not all campus roadview coverage",
+  "estimated": [
+    "all added geometry dimensions and offsets",
+    "roof curvature and precise mast/cable layout",
+    "individual bollard and shrub positions",
+    "office unseen walls",
+    "median length and width"
+  ],
+  "preserved": [
+    "original58 OSM building footprints",
+    "75 original road centerlines",
+    "existing game avatar, cameras, movement, jumping, UI and terrain source"
+  ],
+  "spawn": "begins on east sidewalk beyond gate piers to avoid placing avatar on median",
+  "notImplemented": [
+    "live traffic and parked cars",
+    "off-campus roundabout reconstruction",
+    "unobserved central campus streets"
+  ],
+  "rights": "Kakao Roadview used only for visual observation; no panorama image is used as game texture or redistributed as an in-game asset."
+}

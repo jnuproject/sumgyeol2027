@@ -1,0 +1,26 @@
+{
+  "sources": [
+    {
+      "url": "https://www.jejunu.ac.kr/promotion/designcenter/photo.htm?act=view&seq=240396",
+      "type": "official campus aerial",
+      "use": "visual observation only"
+    },
+    {
+      "url": "https://www.jejunews.com/news/articleView.html?idxno=2203286",
+      "type": "campus aerial published2023",
+      "use": "visual observation only"
+    },
+    {
+      "url": "https://gj.newdaily.co.kr/site/data/html/2025/05/19/2025051900315.html",
+      "type": "entrance sidephoto2025",
+      "use": "visual observation only"
+    },
+    {
+      "url": "https://www.jejunews.com/news/articleView.html?idxno=2207904",
+      "type": "entrance frontphoto2024",
+      "use": "visual observation only"
+    }
+  ],
+  "notReused": "No article/photo pixels are distributed in game textures. Geometry, foliage, basalt surface are independently generated.",
+  "limits": "No new parking footprints obtained; no invented parking layout was added."
+}

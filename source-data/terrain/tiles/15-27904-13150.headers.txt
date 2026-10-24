@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+x-amz-id-2: bnEwiNvhdvkOz1x47iZxLYvOeejfgtLeXmbX1Mk5U2jOW4uBV8A05klx3EqVaczmsVGnK7BjNA8=
+x-amz-request-id: GTWMGRHM0VGPG0W1
+Server: AmazonS3
+Date: Sat, 24 Oct 2026 10:09:12 GMT
+Last-Modified: Mon, 20 Nov 2017 13:20:58 GMT
+ETag: "924381e9e76e0875b7ea6f977062663f"
+x-amz-meta-x-imagery-sources: srtm/N33E126.tif
+x-amz-version-id: _t23wn.Cq6gnzqnLv0BvZ3VDTEsrKxYV
+Accept-Ranges: bytes
+Content-Type: image/png
+Content-Length: 92015
+

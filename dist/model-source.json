@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-24T00:08:51.620251+09:00",
+  "title": "제주대학교 전체 3d map",
+  "author": "META jeju",
+  "modelId": "66994283798747f0b8eca9ad0960c319",
+  "publishedAt": "2023-01-04",
+  "source": "https://sketchfab.com/3d-models/3d-map-66994283798747f0b8eca9ad0960c319",
+  "method": "Official Sketchfab embed + Viewer API 1.12.1; public Embed dialog verified",
+  "sdk": "https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js",
+  "meshDownloaded": false,
+  "rawAssetLicense": "Not verified; no download control shown on public model page",
+  "label": "NoAI; model assets not used as generative AI inputs",
+  "watermark": "Official viewer controls, information and watermark retained",
+  "requiresInternet": true,
+  "credentialsCreated": false,
+  "tracking": "dnt:1",
+  "limitations": [
+    "Public 2023 model may differ from current campus",
+    "FPS navigation has no collision or gravity",
+    "High-resolution texture loading continues after viewerready",
+    "Original asset availability and hosting are controlled by the creator and Sketchfab"
+  ],
+  "docs": [
+    "https://sketchfab.com/developers/viewer",
+    "https://sketchfab.com/developers/viewer/initialization",
+    "https://sketchfab.com/developers/viewer/functions",
+    "https://sketchfab.com/blogs/community/5-feature-easter-eggs-on-sketchfab/"
+  ],
+  "backup": "/Users/goyehun/Documents/JejuCampusGame/backups/before-scan-viewer-20261024-000847",
+  "preservedFileHashes": {
+    "dist/campus-data.json": "dcb1d0adac92d6838a79b3756f0d9559f44a42b61492146929389530fdaf7279",
+    "source-data/ara-campus.osm": "e7412694cb32fca24262aafed780f13186cf9fa8fef54aded86db44b318df662",
+    "source-data/convert.py": "aebea0f7fe09a6c4fbe1778fb88cd2804f1bb704a78390339296fd85418f2f33",
+    "source-data/validate.py": "6d121f2f968a1fbc6ed8c57bf1771e005bef7066e9032033f57866f5e83f8373",
+    "dist/game.js": "e847a07f3b083f32c5195518ed0df7a53a5f6f2dfd508bad7af6f131c54812c4",
+    "dist/world.js": "115f2b9e2feb4e5f5436022bd8cc49e877997606dfa28c3bc47bed49209fbd30"
+  },
+  "integrationStatus": "reference-viewer-only; not integrated into actual game",
+  "previewEntry": "model-preview.html",
+  "defaultEntry": "index.html: original Three.js game restored after user clarification",
+  "publicModelMetadata": "https://api.sketchfab.com/v3/models/66994283798747f0b8eca9ad0960c319",
+  "downloadAvailability": {
+    "isDownloadable": false,
+    "downloadCount": 0,
+    "licenseLabel": "Standard",
+    "activePurchasePathVerified": false
+  },
+  "blocker": "Official raw asset download disabled; current purchase path not found. Creator-provided model and game-use rights required."
+}

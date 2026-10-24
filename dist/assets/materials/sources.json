@@ -1,0 +1,114 @@
+{
+  "provider": "Poly Haven",
+  "license": "https://polyhaven.com/license",
+  "files": [
+    {
+      "asset": "dark_brick_wall",
+      "kind": "Diffuse",
+      "file": "dark_brick_wall_diff_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dark_brick_wall/dark_brick_wall_diff_1k.jpg",
+      "sha256": "5ec2718d497fadae9492d0b6977a1de3f0867c9ccbf65a835f9bbe48d632a228",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/dark_brick_wall"
+    },
+    {
+      "asset": "dark_brick_wall",
+      "kind": "nor_gl",
+      "file": "dark_brick_wall_nor_gl_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dark_brick_wall/dark_brick_wall_nor_gl_1k.jpg",
+      "sha256": "89b4b43655f87ca41734021986ff6261b41e624108eeb17ac24ea67593cb5858",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/dark_brick_wall"
+    },
+    {
+      "asset": "dark_brick_wall",
+      "kind": "Rough",
+      "file": "dark_brick_wall_rough_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/dark_brick_wall/dark_brick_wall_rough_1k.jpg",
+      "sha256": "b9184270464510cef4ca62d7c7eadab54a470f57892a504165a4c2a230d4ff57",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/dark_brick_wall"
+    },
+    {
+      "asset": "concrete_pavement",
+      "kind": "Diffuse",
+      "file": "concrete_pavement_diff_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavement/concrete_pavement_diff_1k.jpg",
+      "sha256": "70d3ff969a7421c7ae057b5d16386d11f5e59c6740db643352e1039413f419c4",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/concrete_pavement"
+    },
+    {
+      "asset": "concrete_pavement",
+      "kind": "nor_gl",
+      "file": "concrete_pavement_nor_gl_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavement/concrete_pavement_nor_gl_1k.jpg",
+      "sha256": "a5009e409ff0f7b2d19e1316fe5e2b2b4f28e4a6b79990a664be69d4e8a0e690",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/concrete_pavement"
+    },
+    {
+      "asset": "concrete_pavement",
+      "kind": "Rough",
+      "file": "concrete_pavement_rough_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_pavement/concrete_pavement_rough_1k.jpg",
+      "sha256": "99f81099af07b009134b6a81bf0f95ab16da09c57156cc2ed534975664a68533",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/concrete_pavement"
+    },
+    {
+      "asset": "grass_ground",
+      "kind": "Diffuse",
+      "file": "grass_ground_diff_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_diff_1k.jpg",
+      "sha256": "a79cc5ed65af0f80261b39a383b64a8c5272c5144d724deb43dbc29f0e4cd19b",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/grass_ground"
+    },
+    {
+      "asset": "grass_ground",
+      "kind": "nor_gl",
+      "file": "grass_ground_nor_gl_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_nor_gl_1k.jpg",
+      "sha256": "7000e2ccd479bb7b66dcdf4faef7b47554324566886314ca620cbf03e274e826",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/grass_ground"
+    },
+    {
+      "asset": "grass_ground",
+      "kind": "Rough",
+      "file": "grass_ground_rough_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/grass_ground/grass_ground_rough_1k.jpg",
+      "sha256": "111341f948b7e073edf7ac6add8777e1bf10df8959400df3863243e89bbc8c08",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/grass_ground"
+    },
+    {
+      "asset": "clean_asphalt",
+      "kind": "Diffuse",
+      "file": "clean_asphalt_diff_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clean_asphalt/clean_asphalt_diff_1k.jpg",
+      "sha256": "ddf9224e9cfa3eb2998d9097e4cd34bd3630c85e0e6798e5a0a000415a684083",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/clean_asphalt"
+    },
+    {
+      "asset": "clean_asphalt",
+      "kind": "nor_gl",
+      "file": "clean_asphalt_nor_gl_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clean_asphalt/clean_asphalt_nor_gl_1k.jpg",
+      "sha256": "99cdf6b6f0b8a319d206e1d561bf2a5d9933d8d33e1d685f8e25388101d21310",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/clean_asphalt"
+    },
+    {
+      "asset": "clean_asphalt",
+      "kind": "Rough",
+      "file": "clean_asphalt_rough_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/clean_asphalt/clean_asphalt_rough_1k.jpg",
+      "sha256": "2280be133c104eb04370b625ebcc7f6709d2173b43ae2cd15a0074c26f492bf9",
+      "license": "CC0 1.0",
+      "source": "https://polyhaven.com/a/clean_asphalt"
+    }
+  ]
+}

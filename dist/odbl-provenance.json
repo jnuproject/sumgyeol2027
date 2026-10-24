@@ -1,0 +1,170 @@
+{
+  "title": "ODbL campus geometry supplementation",
+  "license": "Open Database License1.0",
+  "licenseURL": "https://opendatacommons.org/licenses/odbl/1-0/",
+  "attribution": "© OpenStreetMap contributors",
+  "sourceRepository": "https://github.com/Hong-Iron/SMASH-JEJU",
+  "sourceLicenseURL": "https://github.com/Hong-Iron/SMASH-JEJU/blob/7014edf0c5a055ce2382fb58bff7e370ac244e13/LICENSE",
+  "download": {
+    "repository": "https://github.com/Hong-Iron/SMASH-JEJU",
+    "commit": "7014edf0c5a055ce2382fb58bff7e370ac244e13",
+    "files": [
+      {
+        "path": "data/campus.json",
+        "url": "https://raw.githubusercontent.com/Hong-Iron/SMASH-JEJU/7014edf0c5a055ce2382fb58bff7e370ac244e13/data/campus.json",
+        "bytes": 497297,
+        "sha256": "ba9450b436b201bd8efecb83df94f8743988d3916b9b4253d7c71b0f3499328e"
+      },
+      {
+        "path": "LICENSE",
+        "url": "https://raw.githubusercontent.com/Hong-Iron/SMASH-JEJU/7014edf0c5a055ce2382fb58bff7e370ac244e13/LICENSE",
+        "bytes": 1003,
+        "sha256": "5b35071b26b270afc5515e2b61e6295540c399dc6406a62019de48d3ed2a2c5b"
+      }
+    ]
+  },
+  "alignment": {
+    "xScale": 0.9989781599783062,
+    "xOffset": -5.168970229725815,
+    "zScale": 1.0036699866021694,
+    "zOffset": 0.8295161022128354,
+    "matchedVertices": 489,
+    "rmsMeters": 0.04052669550816794,
+    "maxResidualMeters": 0.06958805387709342,
+    "method": "Independent least squares alignment using shared OSM building footprints, not source application code. Horizontal only; source elevations excluded.",
+    "accuracyNote": "Residual describes agreement between rounded copies of shared OSM footprints; it is not surveyed positional accuracy."
+  },
+  "summary": {
+    "newBuildings": [
+      {
+        "id": "5493075",
+        "name": "사범대학2호관",
+        "heightEstimated": true
+      }
+    ],
+    "newRoads": [
+      {
+        "id": "odbl-road-005",
+        "highway": "tertiary",
+        "lengthMeters": 215.59,
+        "novelMeters": 215.59
+      },
+      {
+        "id": "odbl-road-018",
+        "highway": "tertiary",
+        "lengthMeters": 149.06,
+        "novelMeters": 142.58
+      },
+      {
+        "id": "odbl-road-023",
+        "highway": "tertiary",
+        "lengthMeters": 543.86,
+        "novelMeters": 543.86
+      },
+      {
+        "id": "odbl-road-026",
+        "highway": "tertiary",
+        "lengthMeters": 30.23,
+        "novelMeters": 30.23
+      },
+      {
+        "id": "odbl-road-027",
+        "highway": "residential",
+        "lengthMeters": 81.62,
+        "novelMeters": 81.62
+      },
+      {
+        "id": "odbl-road-033",
+        "highway": "tertiary",
+        "lengthMeters": 37.55,
+        "novelMeters": 37.55
+      },
+      {
+        "id": "odbl-road-039",
+        "highway": "tertiary",
+        "lengthMeters": 37.96,
+        "novelMeters": 37.96
+      },
+      {
+        "id": "odbl-road-059",
+        "highway": "residential",
+        "lengthMeters": 91.29,
+        "novelMeters": 91.29
+      },
+      {
+        "id": "odbl-road-060",
+        "highway": "residential",
+        "lengthMeters": 50.52,
+        "novelMeters": 50.52
+      },
+      {
+        "id": "odbl-road-061",
+        "highway": "residential",
+        "lengthMeters": 64.37,
+        "novelMeters": 64.37
+      },
+      {
+        "id": "odbl-road-062",
+        "highway": "residential",
+        "lengthMeters": 162.38,
+        "novelMeters": 162.38
+      },
+      {
+        "id": "odbl-road-065",
+        "highway": "service",
+        "lengthMeters": 127.35,
+        "novelMeters": 127.35
+      },
+      {
+        "id": "odbl-road-066",
+        "highway": "service",
+        "lengthMeters": 77.36,
+        "novelMeters": 77.36
+      },
+      {
+        "id": "odbl-road-082",
+        "highway": "path",
+        "lengthMeters": 251.31,
+        "novelMeters": 251.31
+      },
+      {
+        "id": "odbl-road-089",
+        "highway": "path",
+        "lengthMeters": 76.92,
+        "novelMeters": 76.92
+      },
+      {
+        "id": "odbl-road-090",
+        "highway": "path",
+        "lengthMeters": 106.79,
+        "novelMeters": 106.79
+      }
+    ],
+    "newAreas": [
+      {
+        "id": "odbl-land-027",
+        "kind": "park",
+        "clippedToTerrain": true
+      }
+    ],
+    "unchangedBuildings": 58,
+    "unchangedRoads": 75,
+    "excludedSourceData": [
+      "terrain grid and building ground heights",
+      "7000 generated tree placements",
+      "estimated heights on existing buildings"
+    ]
+  },
+  "countsAfter": {
+    "buildings": 59,
+    "roads": 91,
+    "areas": 35
+  },
+  "preserved": "Original58 building geometries/heights and75 roads,7 parking areas, observed entrance, avatar/gameplay, existing independently processed AWS terrain. Source game code, UI, textures and effects not imported.",
+  "sourceQuality": "The source is a derived OSM dataset with estimated heights and generated features. Source terrain/ground heights and7000 generated trees were not imported. Existing full woodland retained over clipped duplicate. One added park clipped to existing terrain extent.",
+  "modifications": "Shared footprints independently aligned by least squares; added16 road objects and1 relation building and1 mapped park. Neighboring road endpoint gaps below0.2m snapped to original OSM vertices. No coordinate compression or vertical exaggeration.",
+  "boundaries": "Road surfaces naturally clipped to available terrain; player bounds constrained to supported terrain extent. Peripheral routes are not claimed to have surveyed ground heights.",
+  "localSource": "../source-data/odbl/",
+  "derivedDataset": "./campus-data.json",
+  "copyrightScope": "ODbL applies to map database; source repository game code and designs retain their separate restrictions."
+}

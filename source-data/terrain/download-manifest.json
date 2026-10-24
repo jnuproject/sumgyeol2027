@@ -1,0 +1,145 @@
+{
+  "verifiedUTC": "2026-10-24T11:32:36.338561+00:00",
+  "source": "Terrain Tiles / Mapzen on AWS",
+  "tiles": [
+    {
+      "z": 15,
+      "x": 27903,
+      "y": 13148,
+      "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/15/27903/13148.png",
+      "file": "tiles/15-27903-13148.png",
+      "bytes": 89674,
+      "sha256": "c73719a698221d619cd9dc5d009aaed650806abc11c3819a6b4f2e2bda54a171",
+      "width": 256,
+      "height": 256,
+      "filters": [
+        1,
+        4
+      ],
+      "downloadedThisRun": false,
+      "headers": {
+        "Content-Type": "image/png",
+        "Content-Length": "89674",
+        "Last-Modified": "Mon, 20 Nov 2017 10:56:05 GMT",
+        "ETag": "\"315bb3b2abcef2a69094c68d406259f3\""
+      },
+      "firstRetrievedUTC": "2026-10-24T11:32:13.905746+00:00"
+    },
+    {
+      "z": 15,
+      "x": 27904,
+      "y": 13148,
+      "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/15/27904/13148.png",
+      "file": "tiles/15-27904-13148.png",
+      "bytes": 91531,
+      "sha256": "8bccb66cb1d454b34c0d48477075e1087e1fe611398634154cde18c13f703c47",
+      "width": 256,
+      "height": 256,
+      "filters": [
+        1,
+        4
+      ],
+      "downloadedThisRun": false,
+      "headers": {
+        "Content-Type": "image/png",
+        "Content-Length": "91531",
+        "Last-Modified": "Mon, 20 Nov 2017 13:20:57 GMT",
+        "ETag": "\"57451605012829acc060dfb8c8cd5320\""
+      },
+      "firstRetrievedUTC": "2026-10-24T11:32:13.905746+00:00"
+    },
+    {
+      "z": 15,
+      "x": 27903,
+      "y": 13149,
+      "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/15/27903/13149.png",
+      "file": "tiles/15-27903-13149.png",
+      "bytes": 90630,
+      "sha256": "c3e328f3fda6cefa215b242fed7f3811eb100d44797e91fc79c603a2f37d5556",
+      "width": 256,
+      "height": 256,
+      "filters": [
+        1,
+        4
+      ],
+      "downloadedThisRun": false,
+      "headers": {
+        "Content-Type": "image/png",
+        "Content-Length": "90630",
+        "Last-Modified": "Mon, 20 Nov 2017 10:56:05 GMT",
+        "ETag": "\"da99fc86b6500fb0c2b97f3ecbed3c82\""
+      },
+      "firstRetrievedUTC": "2026-10-24T11:32:13.905746+00:00"
+    },
+    {
+      "z": 15,
+      "x": 27904,
+      "y": 13149,
+      "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/15/27904/13149.png",
+      "file": "tiles/15-27904-13149.png",
+      "bytes": 92050,
+      "sha256": "5d62231d69ce05436129c843ae2ecd6a4f8e7cecd0cd1d168dfbc3ab011760e4",
+      "width": 256,
+      "height": 256,
+      "filters": [
+        1,
+        4
+      ],
+      "downloadedThisRun": false,
+      "headers": {
+        "Content-Type": "image/png",
+        "Content-Length": "92050",
+        "Last-Modified": "Mon, 20 Nov 2017 13:20:58 GMT",
+        "ETag": "\"569096d70791b47d3417ee81a5f5348a\""
+      },
+      "firstRetrievedUTC": "2026-10-24T11:32:13.905746+00:00"
+    },
+    {
+      "z": 15,
+      "x": 27903,
+      "y": 13150,
+      "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/15/27903/13150.png",
+      "file": "tiles/15-27903-13150.png",
+      "bytes": 95439,
+      "sha256": "38bb91e42edac79313ba2e8e74ac4fa506dbde56f39e3a1bc3bcd76794dfee70",
+      "width": 256,
+      "height": 256,
+      "filters": [
+        1,
+        4
+      ],
+      "downloadedThisRun": false,
+      "headers": {
+        "Content-Type": "image/png",
+        "Content-Length": "95439",
+        "Last-Modified": "Mon, 20 Nov 2017 10:56:05 GMT",
+        "ETag": "\"92d5dcbf494134d94c2636297b3dfa2a\""
+      },
+      "firstRetrievedUTC": "2026-10-24T11:32:13.905746+00:00"
+    },
+    {
+      "z": 15,
+      "x": 27904,
+      "y": 13150,
+      "url": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/15/27904/13150.png",
+      "file": "tiles/15-27904-13150.png",
+      "bytes": 92015,
+      "sha256": "99a7d007fec600edf7d112ad68f050a375c422637a470366dd6d4d017dc61344",
+      "width": 256,
+      "height": 256,
+      "filters": [
+        1,
+        4
+      ],
+      "downloadedThisRun": false,
+      "headers": {
+        "Content-Type": "image/png",
+        "Content-Length": "92015",
+        "Last-Modified": "Mon, 20 Nov 2017 13:20:58 GMT",
+        "ETag": "\"924381e9e76e0875b7ea6f977062663f\""
+      },
+      "firstRetrievedUTC": "2026-10-24T11:32:13.905746+00:00"
+    }
+  ],
+  "originalPNGBytes": 551339
+}

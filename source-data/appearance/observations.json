@@ -1,0 +1,26 @@
+{
+  "observedSources": [
+    "official-aerial.jpg",
+    "aerial-news-2023.jpg",
+    "entrance-2025.jpg",
+    "entry-front-2024.jpg"
+  ],
+  "confirmedAppearance": [
+    "Broad branching avenue crowns and lower trunks than previous straight models",
+    "Reddish pedestrian paving at entrance",
+    "Light facade and green roof families visible across aerial campus"
+  ],
+  "estimated": [
+    "sidewalk width4.2m",
+    "individual canopy branch positions and heights",
+    "green roof default for unverified individual academic buildings",
+    "Parking bay alignment and spacing are visual estimates"
+  ],
+  "unchanged": [
+    "actual OSM building/road horizontalcoordinates",
+    "terrain elevation",
+    "game controls/camera/jump/collision UI"
+  ],
+  "notAdded": "No unverified parking footprint was invented; seven official OSM ways added",
+  "status": "applied first photo revision; parking source supplement added"
+}

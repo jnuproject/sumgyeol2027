@@ -1,0 +1,10 @@
+{
+  "xScale": 0.9989781599783062,
+  "xOffset": -5.168970229725815,
+  "zScale": 1.0036699866021694,
+  "zOffset": 0.8295161022128354,
+  "matchedVertices": 489,
+  "rmsMeters": 0.04052669550816794,
+  "maxResidualMeters": 0.06958805387709342,
+  "method": "Independent least squares alignment using shared OSM building footprints, not source application code. Horizontal only; source elevations excluded."
+}

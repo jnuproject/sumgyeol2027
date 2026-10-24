@@ -1,0 +1,60 @@
+{
+  "reviewed": "2026-10-23",
+  "method": "Images downloaded for private visual inspection only. Images are NOT redistributed or used as textures. Models are original simplified geometry based on visible features.",
+  "roadview": {
+    "provider": "Kakao Map",
+    "url": "https://map.kakao.com/?q=%EC%A0%9C%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90",
+    "outcome": "Campus search worked; Roadview displayed temporary-unavailable alert. Reload/retry did not establish a usable panorama. No Roadview imagery observed."
+  },
+  "models": [
+    {
+      "name": "정문",
+      "osm_node": "4655302248",
+      "source": "https://www.jejunews.com/news/articleView.html?idxno=2207904",
+      "image": "https://www.jejunews.com/news/photo/202401/2207904_234150_191.jpg",
+      "observed": "Two tall basalt-colored main piers and smaller outer piers. Horizontal lintels over side walkways, open central roadway, round emblems on inner piers, dol hareubang at the sides.",
+      "implemented": "Paired stone piers, block joints, sidewalk lintels, circular emblems, simplified stone figures. No arch over main roadway.",
+      "uncertainty": "Dimensions and exact pier offsets estimated from single photograph; geographic entrance node preserved."
+    },
+    {
+      "name": "제주대학교 박물관",
+      "osm_way": "471697017",
+      "source": "https://my.trip.com/moments/detail/jeju-1446512-137409617?locale=en-MY",
+      "image": "https://ak-d.tripcdn.com/images/1mi0i224x96ttkr2745ED.jpg",
+      "observed": "Burgundy/purple stone wall panels, large horizontal blue-green glass curtain wall with dark mullions, projecting canopy, rounded vertical columns at ground and top, recessed glass entrance.",
+      "implemented": "Burgundy footprint extrusion, broad curtain glazing and mullions on road-facing west facade, projecting roof strip and entrance canopy, vertical piers and dark glass entrance.",
+      "uncertainty": "Height, proportions, exact entrance placement and unseen elevations are estimated. Existing OSM footprint unchanged."
+    },
+    {
+      "name": "구본관",
+      "osm_way": "471490497",
+      "source": "https://www.xueerxing.com/college/hanguo/show-807.html",
+      "image": "https://www.xueerxing.com/uploadfile/202511/92a20e61c3f2b94.jpg",
+      "observed": "Long beige facade with three visible window tiers, white vertical ribs, dark glazing, deep beige top fascia, central flat canopy on paired columns, broad staircase.",
+      "implemented": "Beige cladding, repeated dark windows and white ribs, deep upper fascia, central columned canopy and broad steps. OSM footprint unchanged.",
+      "uncertainty": "Historical appearance, not verified current. 2026 official admissions map labels this area former main building / planned AI convergence building. Window counts, rear elevations and dimensions are approximations."
+    }
+  ],
+  "notUsed": [
+    "A library search result photo appeared to show the same former main-building facade; not used to model library.",
+    "A contemporary white pilotis building image lacked sufficiently certain individual identity; not modeled."
+  ],
+  "otherBuildings": "OSM envelope only, marked exterior unverified in game; no claim of photo-matched exteriors.",
+  "currentMapReference": "https://ibsi.jejunu.ac.kr/files/ibsi/content/202509/5780fd57931bcaf031e14a84a48d7d42.pdf",
+  "localRealismReview": {
+    "date": "2026-10-23",
+    "referencesReinspected": [
+      "정문",
+      "제주대학교 박물관",
+      "구본관"
+    ],
+    "photoFilesDistributed": false,
+    "materialSources": "assets/materials/sources.json",
+    "note": "Photos were only inspected privately; added geometry is an approximate original reconstruction, not a measured model."
+  },
+  "identityCorrection20261024": {
+    "wrong": "Tan facade, white vertical ribs and large staircase had been assigned to main building",
+    "correct": "Photo visibly says 中央圖書館; apply buff facade and white ribs to central library286237890. Main471490497 uses the white arched administration photo."
+  },
+  "latestObservedProfiles": "reference-expansion.json"
+}

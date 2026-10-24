@@ -1,0 +1,12 @@
+{
+  "allSourceVerticesPreserved": true,
+  "maxRoundingErrorMetres": 0.0006920586560818496,
+  "buildingCount": 58,
+  "roadWayCount": 75,
+  "campusBoundarySource": "OSM way 369649909",
+  "gateOSMNode": "4655302248",
+  "gateToMuseumCenterMetres": 85.6510149833614,
+  "gateToMainBuildingCenterMetres": 380.8584262581229,
+  "directions": "Museum southeast of entrance; main building farther south/southeast. North is -z.",
+  "visualVerification": "Not completed: cloud preview connection unavailable; hosted site private login gate."
+}

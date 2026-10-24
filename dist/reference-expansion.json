@@ -1,0 +1,90 @@
+{
+  "sourcePost": "https://mostadmired.tistory.com/238",
+  "sourcePhotoDate": "2023-12-04 publication; image acquisition time not verified",
+  "sketchfab": "https://sketchfab.com/3d-models/3d-map-66994283798747f0b8eca9ad0960c319",
+  "scanDate": "2023 publication; historical scene",
+  "observation": "Public viewer actually rotated on2026-10-24; no source mesh or textures extracted",
+  "identityCorrection": {
+    "wrong": "Tan facade, white vertical ribs and large staircase had been assigned to main building",
+    "correct": "Photo visibly says 中央圖書館; apply buff facade and white ribs to central library286237890. Main471490497 uses the white arched administration photo."
+  },
+  "profiles": {
+    "471490497": {
+      "name": "구본관/2023 photographed 대학본부",
+      "photo": "administration.jpg",
+      "observed": [
+        "white long mass",
+        "upper row of arches",
+        "horizontal glazing",
+        "flat roof"
+      ]
+    },
+    "286237890": {
+      "name": "중앙도서관",
+      "photo": "library.jpg",
+      "observed": [
+        "buff cladding",
+        "white vertical ribs",
+        "dark stone corner",
+        "top fascia"
+      ]
+    },
+    "471697621": {
+      "name": "학생회관",
+      "photo": "student-front.jpg",
+      "observed": [
+        "off-white tiled facade",
+        "orange horizontal bands",
+        "blue ribbon glazing",
+        "several stepped wings"
+      ]
+    },
+    "953564967": {
+      "name": "음악관",
+      "photo": "music.jpg",
+      "observed": [
+        "ochre panels",
+        "charcoal frame",
+        "narrow vertical windows",
+        "flat projecting cap"
+      ]
+    },
+    "471377428": {
+      "name": "법학전문대학원",
+      "photo": "law.jpg",
+      "observed": [
+        "light stone body",
+        "terracotta pitched roof",
+        "vertical classical facade rhythm"
+      ]
+    },
+    "286070813": {
+      "name": "체육관",
+      "source": "official aerial + photographed campus guide",
+      "observed": [
+        "large low hall",
+        "three repeated roof ridges"
+      ]
+    }
+  },
+  "estimated": [
+    "absolute heights",
+    "unseen sides",
+    "window spacing",
+    "gable rise and roof equipment",
+    "track width, lane count and coordinates beyond original soccer outline"
+  ],
+  "notConfidentlyMatched": [
+    "engineering photo to exact OSM building ID",
+    "professional medicine photo to current data ID",
+    "humanities1 vs2 photo",
+    "individual dormitory block from foliage-obscured photo"
+  ],
+  "sports": {
+    "id": "286070859",
+    "observed": "red oval track surrounding the mapped soccer pitch",
+    "footprint": "original OSM soccer footprint unchanged",
+    "surfaceGrade": "coarse source terrain retained; not surveyed field levelling"
+  },
+  "greenery": "tree clusters restricted to mapped woodland and mapped park/grass perimeters; reconstructed positions, no claim of individual surveyed trees"
+}

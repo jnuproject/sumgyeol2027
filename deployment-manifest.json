@@ -1,0 +1,290 @@
+{
+  "version": "campus-r18",
+  "files": [
+    {
+      "path": ".nojekyll",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "THREE-LICENSE.txt",
+      "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454",
+      "bytes": 1081
+    },
+    {
+      "path": "assets/PRETENDARD-LICENSE.txt",
+      "sha256": "82e9c8a4b203261f10ddba1296422d64914ff3d4b7bd8a12896d03f0f088d70a",
+      "bytes": 4816
+    },
+    {
+      "path": "assets/PretendardVariable.ttf",
+      "sha256": "3090ccde0442bb347aa7685d9ba8b17436a60682df6e8f92a9a670de14056e22",
+      "bytes": 6739336
+    },
+    {
+      "path": "assets/README.md",
+      "sha256": "3794b3d8b8248c83290b0daaeba6ff44aa73bb9cf6f608d18b405c8051f843e7",
+      "bytes": 589
+    },
+    {
+      "path": "assets/campus-outline.svg",
+      "sha256": "304cad33d027179fd7b818c422622ec34f2861c9d78400bec7cf36074e718cc6",
+      "bytes": 26476
+    },
+    {
+      "path": "assets/materials/README.md",
+      "sha256": "2886a9e7b18511799f796119d91405c878b4f86c050f7e8852587711a61f00fe",
+      "bytes": 565
+    },
+    {
+      "path": "assets/materials/clean_asphalt_diff_1k.jpg",
+      "sha256": "ddf9224e9cfa3eb2998d9097e4cd34bd3630c85e0e6798e5a0a000415a684083",
+      "bytes": 697630
+    },
+    {
+      "path": "assets/materials/clean_asphalt_nor_gl_1k.jpg",
+      "sha256": "99cdf6b6f0b8a319d206e1d561bf2a5d9933d8d33e1d685f8e25388101d21310",
+      "bytes": 776360
+    },
+    {
+      "path": "assets/materials/clean_asphalt_rough_1k.jpg",
+      "sha256": "2280be133c104eb04370b625ebcc7f6709d2173b43ae2cd15a0074c26f492bf9",
+      "bytes": 641634
+    },
+    {
+      "path": "assets/materials/concrete_pavement_diff_1k.jpg",
+      "sha256": "70d3ff969a7421c7ae057b5d16386d11f5e59c6740db643352e1039413f419c4",
+      "bytes": 926197
+    },
+    {
+      "path": "assets/materials/concrete_pavement_nor_gl_1k.jpg",
+      "sha256": "a5009e409ff0f7b2d19e1316fe5e2b2b4f28e4a6b79990a664be69d4e8a0e690",
+      "bytes": 1184345
+    },
+    {
+      "path": "assets/materials/concrete_pavement_rough_1k.jpg",
+      "sha256": "99f81099af07b009134b6a81bf0f95ab16da09c57156cc2ed534975664a68533",
+      "bytes": 475799
+    },
+    {
+      "path": "assets/materials/dark_brick_wall_diff_1k.jpg",
+      "sha256": "5ec2718d497fadae9492d0b6977a1de3f0867c9ccbf65a835f9bbe48d632a228",
+      "bytes": 917619
+    },
+    {
+      "path": "assets/materials/dark_brick_wall_nor_gl_1k.jpg",
+      "sha256": "89b4b43655f87ca41734021986ff6261b41e624108eeb17ac24ea67593cb5858",
+      "bytes": 1327208
+    },
+    {
+      "path": "assets/materials/dark_brick_wall_rough_1k.jpg",
+      "sha256": "b9184270464510cef4ca62d7c7eadab54a470f57892a504165a4c2a230d4ff57",
+      "bytes": 342901
+    },
+    {
+      "path": "assets/materials/grass_ground_diff_1k.jpg",
+      "sha256": "a79cc5ed65af0f80261b39a383b64a8c5272c5144d724deb43dbc29f0e4cd19b",
+      "bytes": 876584
+    },
+    {
+      "path": "assets/materials/grass_ground_nor_gl_1k.jpg",
+      "sha256": "7000e2ccd479bb7b66dcdf4faef7b47554324566886314ca620cbf03e274e826",
+      "bytes": 1310516
+    },
+    {
+      "path": "assets/materials/grass_ground_rough_1k.jpg",
+      "sha256": "111341f948b7e073edf7ac6add8777e1bf10df8959400df3863243e89bbc8c08",
+      "bytes": 328190
+    },
+    {
+      "path": "assets/materials/sources.json",
+      "sha256": "39f4883e8c40c48ee90abf5df59faf82a61efe55cdf558706eb085ffe407d3d6",
+      "bytes": 4896
+    },
+    {
+      "path": "assets/sumgyeol_symbol_blue.png",
+      "sha256": "7a475198f2a64bfcf308c9c2708330ccedcb5026401ae9a4e94c1d0d15256686",
+      "bytes": 75861
+    },
+    {
+      "path": "assets/sumgyeol_wordmark_blue.png",
+      "sha256": "554c7d78c9ecb3f1f161235c9d69220f20f561d776e6ef945f5832d4097d9708",
+      "bytes": 72013
+    },
+    {
+      "path": "campus-data.json",
+      "sha256": "61ec960ae0764542c6766e14ef5e6ad78edee0517c6c86b9070d4487d4abf77d",
+      "bytes": 59569
+    },
+    {
+      "path": "campus-observed-details.js",
+      "sha256": "5083aa67617bcbde379f0861bc9c865ab29116ad8c8594d7e126b2159a086595",
+      "bytes": 6915
+    },
+    {
+      "path": "campus-survey.json",
+      "sha256": "7fe24109e0f2365edd525d996ce87312fb9d96e1a69b20867886bb1b7a990244",
+      "bytes": 4366
+    },
+    {
+      "path": "campus-viewer.css",
+      "sha256": "4f9d70a652a28a72594c1e13fc671c6bdbb1830990e0b6b6e9f6ab99a78ff11f",
+      "bytes": 7772
+    },
+    {
+      "path": "campus-viewer.js",
+      "sha256": "2ddbda58314ef85eb9b396ed8e76625fbfdb8a7cfb14ef53cb3cf8c51d623faa",
+      "bytes": 9764
+    },
+    {
+      "path": "entrance-observed.js",
+      "sha256": "62a399767a05b489137ccd328894ab121daea888ebfd479e82e6b2f85d89a53e",
+      "bytes": 6025
+    },
+    {
+      "path": "environment.js",
+      "sha256": "fa4d0c20ee5d69d3db90637eebbf7caa02f32e140deb7a1e01bc6eb1d21d80cc",
+      "bytes": 9013
+    },
+    {
+      "path": "game.js",
+      "sha256": "32c700e053efed1dc0b783926c2bb1afe9661284e117f767deee6a8ae5d042f4",
+      "bytes": 37797
+    },
+    {
+      "path": "index.html",
+      "sha256": "5568a58c4d15ffefc4963751ed3bc4756be8b24967ce1d0508a6adbd3e3386b1",
+      "bytes": 10155
+    },
+    {
+      "path": "materials.js",
+      "sha256": "43fd989ea31bee0e81c19f1c21cec98b67e9ef0c16f8eb990a1033782354f50c",
+      "bytes": 3707
+    },
+    {
+      "path": "model-preview.html",
+      "sha256": "b64074a7d264900cbf342d3ff55302ba6ff38c3d0f6c456e9ece435869665ad1",
+      "bytes": 4549
+    },
+    {
+      "path": "model-source.json",
+      "sha256": "94d84379aa0ad88b71c97073678ef9dd3a325d351bb0ef87bb1cc871f59f5cf9",
+      "bytes": 2649
+    },
+    {
+      "path": "movement.js",
+      "sha256": "2fea2e70928e3b0bade66eb76902d62cc6a0136fcc32d05e5ccc6505b748c883",
+      "bytes": 1193
+    },
+    {
+      "path": "navigation.js",
+      "sha256": "55839dd85fd6dcf75d35b8b557faccc899d170ebe555c36755580ff5b7e8d4fc",
+      "bytes": 1107
+    },
+    {
+      "path": "observed-campus.js",
+      "sha256": "efbb7ff42f4c7565f6625468973521ef7978b114661dc4125c834c117bf486d0",
+      "bytes": 8230
+    },
+    {
+      "path": "odbl-provenance.json",
+      "sha256": "8951cdb9015ac62e8626ef54b67d80e24cbd42adc08ed83ef22b21b8aaf887d5",
+      "bytes": 5744
+    },
+    {
+      "path": "places.js",
+      "sha256": "e58d8436861f44ab97dc5abf864258275c437277da8a70e6d3185dfcbc1e8d35",
+      "bytes": 2255
+    },
+    {
+      "path": "presentation-notes.json",
+      "sha256": "a105beba2a677f473342184f128d4dea0fae25568f07147c32ff2410ede056c7",
+      "bytes": 1738
+    },
+    {
+      "path": "provenance.json",
+      "sha256": "ddcd64410b9761a10b2c9740f67b125cc32f9f859ae995889fc1e2fa6e634803",
+      "bytes": 1179
+    },
+    {
+      "path": "reference-expansion.json",
+      "sha256": "a1b8928658986aebb32c5f9c044c0954162ad5626c869954fd9e1e27b33ede50",
+      "bytes": 2943
+    },
+    {
+      "path": "road-profile.js",
+      "sha256": "3b0dcb64105cf6eae52a3566f50c4ee6e1173f734c48af816d8097ac5732a03b",
+      "bytes": 619
+    },
+    {
+      "path": "roadview-observation.json",
+      "sha256": "cdb0b7d088ee02ff22d8c879f89a505819280fc2ce09d6bc00b06256c8ca3763",
+      "bytes": 2105
+    },
+    {
+      "path": "site-grading.js",
+      "sha256": "4ab517110aa5d61fbe3d05f45363f1cf5b5396739ed4d0e62f194a5c8fcf2f52",
+      "bytes": 3149
+    },
+    {
+      "path": "sports-ground.js",
+      "sha256": "40589b6907aa2babd52bb3bedf68243b6d08b4524d558c8d2762bb08d9580bf9",
+      "bytes": 2894
+    },
+    {
+      "path": "style.css",
+      "sha256": "1ed8de0454caffbcde210c563c18ae9b630bc228f6d15b2e75fb50c706b996f0",
+      "bytes": 23990
+    },
+    {
+      "path": "sumgyeol.css",
+      "sha256": "55463e9db3171e1037ffac84740b4c7ee22050f5ac662e9b0a0931ef28e22fe9",
+      "bytes": 19158
+    },
+    {
+      "path": "terrain-data/NOTICE.txt",
+      "sha256": "df2805a05d000ed0da0b9f855f9d870b23c29271230871eedfac4f69dd288abf",
+      "bytes": 522
+    },
+    {
+      "path": "terrain-data/elevations.f32",
+      "sha256": "012f4486b4a20e60dee053516bf3b4de3186228044d21600b1d56d151251ffc4",
+      "bytes": 414720
+    },
+    {
+      "path": "terrain-data/terrain.json",
+      "sha256": "e5a7fa0f4f0c1a6a2916cbb49969e3a392b175b393ff610f62d67c0a96c368b6",
+      "bytes": 18778
+    },
+    {
+      "path": "terrain.js",
+      "sha256": "fb0867738b57269b6472f8fa28a4866d2ebadb068ea2b583610657fbfc5b4972",
+      "bytes": 10248
+    },
+    {
+      "path": "three.module.js",
+      "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb",
+      "bytes": 1314681
+    },
+    {
+      "path": "vegetation.js",
+      "sha256": "3bd432fd6786d5c59b35e69ebe40e118f232fba624761ce41d1024ec3635d22d",
+      "bytes": 8557
+    },
+    {
+      "path": "visual-references.json",
+      "sha256": "4ea9f68c7a07f29f16427ecc77bf633ba322fe9b3ad338f542055040a9a56872",
+      "bytes": 4099
+    },
+    {
+      "path": "walk.html",
+      "sha256": "5568a58c4d15ffefc4963751ed3bc4756be8b24967ce1d0508a6adbd3e3386b1",
+      "bytes": 10155
+    },
+    {
+      "path": "world.js",
+      "sha256": "1eb4777d2e59e9e4510887a951227d901638e8fa44fab1cd1fa5a2029ac0a1b7",
+      "bytes": 16367
+    }
+  ]
+}

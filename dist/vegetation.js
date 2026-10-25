@@ -1,8 +1,8 @@
-import {insideFocusClearance} from './focus-details.js?v=lanes-r26b';
+import {insideFocusClearance} from './focus-details.js?v=satellite-r27a';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {insideEntranceOffice} from './entrance-observed.js?v=lanes-r26b';
-import {roadWidth,roadWidthAt} from './road-profile.js?v=lanes-r26b';
+import {insideEntranceOffice} from './entrance-observed.js?v=satellite-r27a';
+import {roadWidth,roadWidthAt} from './road-profile.js?v=satellite-r27a';
 
 // OSM supplies the woodland/park extents. Individual trees, canopy sizes and
 // the photo-informed entrance avenue remain a deterministic visual reconstruction.
@@ -44,8 +44,8 @@ export function generateVegetationLayout(data){
  // Two foreground branching trees frame the new student hall in the dated
  // March2026 Roadview. Positions/heights are estimates, outside access routes.
  // Re-anchor the estimated positions outside the corrected four-lane edge.
- add(-93.0,-35.2,11.2,'deciduous');
- add(-93.0,-10.4,10.4,'deciduous');
+ add(-96.0,-35.2,11.2,'deciduous');
+ add(-96.0,-10.4,10.4,'deciduous');
  // Preserve the existing photograph-informed double avenue. Its exact tree
  // positions were not surveyed; the road centreline remains the original OSM line.
  const avenue=data.roads.find(r=>r.id==='286085067');
@@ -54,7 +54,7 @@ export function generateVegetationLayout(data){
   if(len<.01||Math.min(a[1],b[1])>30)continue;
   for(let d=8;d<len;d+=10.5)for(const side of[-1,1]){
    const px=a[0]+dx*d/len,pz=a[1]+dz*d/len;
-   const offset=roadWidthAt(avenue,px,pz)/2+1.1+random()*.35;
+   const offset=roadWidthAt(avenue,px,pz)/2+4.8+random()*.35;
    add(a[0]+dx*d/len+side*dz/len*offset,a[1]+dz*d/len-side*dx/len*offset,11.2+random()*2.2,'avenue');
   }
  }

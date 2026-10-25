@@ -1,17 +1,17 @@
-import {addObservedPeriphery} from './periphery.js?v=lanes-r26b';
-import {createSceneScope} from './scene-scope.js?v=lanes-r26b';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=lanes-r26b';
-import {addFocusDetails} from './focus-details.js?v=lanes-r26b';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=lanes-r26b';
-import {addObservedEntrance,entranceLayout} from './entrance-observed.js?v=lanes-r26b';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=lanes-r26b';
-import {addSportsGrounds} from './sports-ground.js?v=lanes-r26b';
+import {addObservedPeriphery} from './periphery.js?v=satellite-r27a';
+import {createSceneScope} from './scene-scope.js?v=satellite-r27a';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=satellite-r27a';
+import {addFocusDetails} from './focus-details.js?v=satellite-r27a';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=satellite-r27a';
+import {addObservedEntrance,entranceLayout} from './entrance-observed.js?v=satellite-r27a';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=satellite-r27a';
+import {addSportsGrounds} from './sports-ground.js?v=satellite-r27a';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=lanes-r26b';
-import { addVegetation } from './vegetation.js?v=lanes-r26b';
-import { loadCampusTerrain } from './terrain.js?v=lanes-r26b';
-import { addCampusEnvironment } from './environment.js?v=lanes-r26b';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=satellite-r27a';
+import { addVegetation } from './vegetation.js?v=satellite-r27a';
+import { loadCampusTerrain } from './terrain.js?v=satellite-r27a';
+import { addCampusEnvironment } from './environment.js?v=satellite-r27a';
 
 export async function createCampus(scene,data) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();

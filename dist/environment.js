@@ -1,10 +1,10 @@
-import {cropSceneGeometry} from './scene-scope.js?v=lanes-r26b';
+import {cropSceneGeometry} from './scene-scope.js?v=satellite-r27a';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,roadWidthAt,roadRenderPoints,isWalkingRoad as isWalking} from './road-profile.js?v=lanes-r26b';
+import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=satellite-r27a';
 export {roadWidth};
 
 function geometryFrom(raw){
@@ -90,8 +90,9 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
   polygon(points,material,offset,'road');
  }
  for(const r of roads){
-  const main=r.id==='286085067',pavement=main?4.2:0,material=r.walking?surfaces.paving:surfaces.asphalt,height=r.walking?.09:.08;
+  const main=isMainAvenueRoad(r),pavement=roadSidewalkWidthAt(r,0,-999),material=r.walking?surfaces.paving:surfaces.asphalt,height=r.walking?.09:.08;
   if(pavement)for(const p of r.points){
+   const pavement=roadSidewalkWidthAt(r,...p);if(!pavement)continue;
    const inner=roadWidthAt(r,...p)/2,outer=inner+pavement,mat=p[1]<-409?surfaces.redPaving:surfaces.paving;
    circle(p,outer,mat,.055);
    // entrance-observed extends the final OSM point into the approach road.
@@ -104,7 +105,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
    for(let i=0;i<32;i++){const a=i*Math.PI/16,b=(i+1)*Math.PI/16,at=(angle,d)=>[p[0]+Math.cos(angle)*d,p[1]+Math.sin(angle)*d];raisedPavement([at(a,radius),at(b,radius),at(b,outer),at(a,outer)],mat,.14);}
   }
   for(let i=1;i<r.points.length;i++){
-   const a=r.points[i-1],b=r.points[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);if(len<.01)continue;stats.roadSegments++;
+   const a=r.points[i-1],b=r.points[i],pavement=roadSidewalkWidthAt(r,(a[0]+b[0])/2,(a[1]+b[1])/2),dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);if(len<.01)continue;stats.roadSegments++;
    const nx=dz/len,nz=-dx/len,wa=roadWidthAt(r,...a),wb=roadWidthAt(r,...b),midZ=(a[1]+b[1])/2;
    const parallel=(oa,ob=oa,start=0,end=1)=>[[a[0]+dx*start+nx*(oa+(ob-oa)*start),a[1]+dz*start+nz*(oa+(ob-oa)*start)],[a[0]+dx*end+nx*(oa+(ob-oa)*end),a[1]+dz*end+nz*(oa+(ob-oa)*end)]];
    const band=(offsetA,offsetB,widthA,widthB,mat,lift)=>{const [p,q]=parallel(offsetA-widthA/2,offsetB-widthB/2),[v,u]=parallel(offsetA+widthA/2,offsetB+widthB/2);convex([p,q,u,v],mat,lift);};
@@ -116,7 +117,10 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
      const start=d/len,end=Math.min(len,d+1.5)/len;
      const cell=(near,far)=>{const [p,q]=parallel(side*(wa/2+near),side*(wb/2+near),start,end),[v,u]=parallel(side*(wa/2+far),side*(wb/2+far),start,end);return[p,q,u,v];};
      raisedPavement(cell(.035,pavement),pavingMaterial,.14);
-     raisedPavement(cell(.375,1.925),areaMaterials.wood,.15);
+     // Timber deck belongs only to the observed student-hall west frontage.
+     // Other avenue sidewalks are paved, not a continuous wooden boardwalk.
+     const deckMidZ=a[1]+dz*(start+end)/2;
+     if(r.id==='286085067'&&nx*side<0&&deckMidZ>=-47&&deckMidZ<=30)raisedPavement(cell(.375,1.925),areaMaterials.wood,.15);
     }
    }
    band(0,0,wa,wb,material,height);
@@ -128,7 +132,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
      for(let start=0;start<len;start+=1.5){const end=Math.min(len,start+1.5),t=(start+end)/2/len,w=wa+(wb-wa)*t,x=a[0]+dx*t+nx*side*(w/2+.16),z=a[1]+dz*t+nz*side*(w/2+.16);if(!atJunction(x,z,r.id)){const [p,q]=parallel(side*(wa/2+.16),side*(wb/2+.16),start/len,end/len),l=Math.hypot(q[0]-p[0],q[1]-p[1]),ox=(q[1]-p[1])/l*.125,oz=-(q[0]-p[0])/l*.125,ring=[[p[0]-ox,p[1]-oz],[q[0]-ox,q[1]-oz],[q[0]+ox,q[1]+oz],[p[0]+ox,p[1]+oz]];if(ring.some(p=>onVehicleRoad(...p)))continue;polygon(ring,kerb,.18,'road');kerbBlocks.push([p,q]);}}
     }
     // One dashed divider per direction: two uphill + two downhill lanes.
-    for(let d=4;d<len-4;d+=9)for(const side of[-1,1])segment(...parallel(side*wa/4,side*wb/4,(d-1.5)/len,(d+1.5)/len),.15,paintWhite,.095);
+    if(r.id==='286085067'||Math.min(wa,wb)>=14)for(let d=4;d<len-4;d+=9)for(const side of[-1,1])segment(...parallel(side*wa/4,side*wb/4,(d-1.5)/len,(d+1.5)/len),.15,paintWhite,.095);
    }
   }
   if(!r.walking&&!main)for(const p of r.points)circle(p,r.width/2+.25,roadShoulder,.06);
@@ -152,7 +156,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
    for(let i=1;i<road.points.length;i++){
     const d=segmentDistance(x,z,road.points[i-1],road.points[i]),width=roadWidthAt(road,x,z);
     if(d<=width*.5)offset=Math.max(offset,road.walking?.09:.08);
-    else if(road.id==='286085067'&&d<=width*.5+4.2)offset=Math.max(offset,.055);
+    else if(roadSidewalkWidthAt(road,x,z)>0&&d<=width*.5+roadSidewalkWidthAt(road,x,z))offset=Math.max(offset,.055);
    }
   }
   return offset;

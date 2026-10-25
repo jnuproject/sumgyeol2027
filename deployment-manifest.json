@@ -1,5 +1,5 @@
 {
-  "version": "lanes-r26",
+  "version": "satellite-r27",
   "files": [
     {
       "path": ".nojekyll",
@@ -123,8 +123,8 @@
     },
     {
       "path": "campus-observed-details.js",
-      "bytes": 7059,
-      "sha256": "9c310bdb3e152859ea530e81cbbe2c47163b4453ef50957616118a7d35514f79"
+      "bytes": 7063,
+      "sha256": "819d186add618ad74f455b2f03854505590757766028a1c29b3d70687cd1b04b"
     },
     {
       "path": "campus-survey.json",
@@ -143,13 +143,13 @@
     },
     {
       "path": "entrance-observed.js",
-      "bytes": 8327,
-      "sha256": "dfc4549503ac79b128b36e4542f48f34750c8498d3ebfce45e7e70792a4caf1d"
+      "bytes": 8331,
+      "sha256": "b8d127305fccf5f66e03d95d3f379c6012b3c38fc0d8cb1e19ce36b2b622e57c"
     },
     {
       "path": "environment.js",
-      "bytes": 13596,
-      "sha256": "2d5a9e7f0eba807401bc71c2d941243513fc595aee3b503effd7f406d15723d8"
+      "bytes": 14128,
+      "sha256": "744f8688cf37839f60568084ff30f476dbbfdf4bb84c16e51696a363d4e91073"
     },
     {
       "path": "focus-architecture.js",
@@ -173,13 +173,13 @@
     },
     {
       "path": "focus-scope.json",
-      "bytes": 1568,
-      "sha256": "135c0c89834430a6cde2a7585d101b1df740e1abc3069547ca1c8769e177c037"
+      "bytes": 1572,
+      "sha256": "dfcde4d35de468f9a52c081be55ad6947f7d81ff6a64e4144c3ac6027df970f7"
     },
     {
       "path": "game.js",
-      "bytes": 44149,
-      "sha256": "60de2038c8273d39f2bbd77d36aa4c33744ac8a0d0e99593c68813ef17ff2883"
+      "bytes": 44486,
+      "sha256": "6b63868c9153c79571e60f653b59f768d84fa848f66dd77c8fc04387244426bf"
     },
     {
       "path": "identity-sources.json",
@@ -188,8 +188,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 10406,
-      "sha256": "682beb1bae2fae0432a5c76cc9de6a502c00a1c6048cbd5487464fb46f013e7b"
+      "bytes": 10414,
+      "sha256": "f8b7086c91cb0caff2b6679b1ea0ebf921344fe5b357535c289f39a7a2a5f67e"
     },
     {
       "path": "materials.js",
@@ -238,8 +238,8 @@
     },
     {
       "path": "periphery.js",
-      "bytes": 4513,
-      "sha256": "63e46bc5a1a92e167f45eda2054a4e85e4479b58255ce3531c8533191bd9b3d2"
+      "bytes": 4521,
+      "sha256": "765eccd6b58fc964faa9ae2c8d2e9af7bae45c13cfae3e049c86426640b6fce1"
     },
     {
       "path": "places.js",
@@ -268,13 +268,13 @@
     },
     {
       "path": "road-correction.json",
-      "bytes": 1505,
-      "sha256": "5324b085ba0183f5dbb94f606bdada5151f4e8a2fe921cfb1a9eab0b3c0b934e"
+      "bytes": 2570,
+      "sha256": "9e0b4ed9e2177820ee4592afa77a2f99da50f7e0dab2ff4d2cc21eb2e7be812b"
     },
     {
       "path": "road-profile.js",
-      "bytes": 1059,
-      "sha256": "d955d66bba85aa285f24aed0115904a617b1fb1929ade6435a5286da303fabd4"
+      "bytes": 1713,
+      "sha256": "d30d291a35e25509535b51fc920f15a380d8ed105cb9262d547e36b9176ace3d"
     },
     {
       "path": "roadview-observation.json",
@@ -328,8 +328,8 @@
     },
     {
       "path": "terrain.js",
-      "bytes": 10248,
-      "sha256": "1dda45c785c9327a3ac6c4c399c46ec3e1c8aba213d710ef1bc1db700635d5e5"
+      "bytes": 10252,
+      "sha256": "0e4bea99324366e96830bd9d0b17be6bedd91f3e7f3b0e919715628de45e967d"
     },
     {
       "path": "three.module.js",
@@ -338,8 +338,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 14762,
-      "sha256": "fb0e3761fac7fa96828e87ea5bcf4a788d458a9feddd66b75e4c91fc93df4f9b"
+      "bytes": 14774,
+      "sha256": "2466523239fdb66e3d72310ba26712415415b7c611d2d9bf39457cabebee75f0"
     },
     {
       "path": "visual-references.json",
@@ -353,13 +353,13 @@
     },
     {
       "path": "walk.html",
-      "bytes": 10406,
-      "sha256": "682beb1bae2fae0432a5c76cc9de6a502c00a1c6048cbd5487464fb46f013e7b"
+      "bytes": 10414,
+      "sha256": "f8b7086c91cb0caff2b6679b1ea0ebf921344fe5b357535c289f39a7a2a5f67e"
     },
     {
       "path": "world.js",
-      "bytes": 17768,
-      "sha256": "7d65fe54bf0be871b10de83be67998072f5aaef8d74f34a488bb19898ba704ba"
+      "bytes": 17816,
+      "sha256": "b3391db727dd14c82960fc6f52afcaeb227751cb0bfa265039ecec0a1fdf538d"
     }
   ]
 }

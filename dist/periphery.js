@@ -1,6 +1,6 @@
-import {addCurrentPlantingBeds} from './observed-planting.js?v=lanes-r26b';
+import {addCurrentPlantingBeds} from './observed-planting.js?v=satellite-r27a';
 import * as THREE from './three.module.js';
-import {roadWidthAt} from './road-profile.js?v=lanes-r26b';
+import {roadWidthAt} from './road-profile.js?v=satellite-r27a';
 
 // Roadview-visible street furniture, independently modelled. Source road/park
 // outlines anchor placement; dimensions and exact prop positions are estimates.

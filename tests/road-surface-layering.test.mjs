@@ -35,9 +35,9 @@ test('raised sidewalks and node caps do not cover main asphalt or a connecting v
   const hit=renderedHeight(x,z);assert.ok(hit.material===surfaces.asphalt,`vehicle road remains asphalt at ${x},${z}`);assert.ok(Math.abs(hit.height-.08)<1e-6);assert.ok(Math.abs(environment.heightAt(x,z)-hit.height)<1e-6,'walking sampler matches rendered road');
  }
 });
-test('sidewalk, visible planting strip, solid kerb and annular cap heights match their walking surface',()=>{
+test('paved sidewalk, solid kerb and annular cap heights match their walking surface',()=>{
  const {environment,renderedHeight,halfWidth:h}=fixture();
- for(const [x,z,expected]of[[h+3.25,-460,.14],[h+1.15,-460,.15],[h+.16,-460,.18],[0,-480-h-2.95,.14]]){
+ for(const [x,z,expected]of[[h+3.25,-460,.14],[h+1.15,-460,.14],[h+.16,-460,.18],[0,-480-h-2.95,.14]]){
   const hit=renderedHeight(x,z);assert.ok(Math.abs(hit.height-expected)<1e-6,`rendered height at ${x},${z}`);assert.ok(Math.abs(environment.heightAt(x,z)-hit.height)<1e-6,`walking surface at ${x},${z}`);
  }
 });

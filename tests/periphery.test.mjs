@@ -11,10 +11,10 @@ const data=JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.
 const heights=Array.from({length:raw.length/4},(_,i)=>raw.readFloatLE(i*4));
 test('entire main avenue retains four-lane width and every original OSM bend',()=>{
  const road=data.roads.find(r=>r.id==='286085067'),before=JSON.stringify(road);
- // The user's latest correction is four total lanes. 14.4m is a visual
+ // The user's latest correction is four total lanes. 18m is a visual
  // estimate, not a surveyed width; do not restore the old width taper.
- assert.equal(roadWidth(road),14.4);
- for(let z=-500;z<=30;z+=.5)assert.ok(Math.abs(roadWidthAt(road,-79,z)-14.4)<1e-9,`four-lane width at z=${z}`);
+ assert.equal(roadWidth(road),18);
+ for(let z=-500;z<=30;z+=.5)assert.ok(Math.abs(roadWidthAt(road,-79,z)-18)<1e-9,`four-lane width at z=${z}`);
  const points=roadRenderPoints(road);let lastIndex=-1;
  for(const original of road.points){const index=points.findIndex((p,i)=>i>lastIndex&&p[0]===original[0]&&p[1]===original[1]);assert.ok(index>lastIndex,'original turn retained in order');lastIndex=index;}
  for(const p of points)assert.ok(road.points.some((q,i)=>i&&segmentDistance(...p,road.points[i-1],q)<1e-8),'rendered centreline remains on original OSM way');
@@ -39,4 +39,10 @@ test('observed street furniture is finite, within the surrounding scene and clea
  }
  scene.traverse(o=>{if(!o.isMesh)return;for(const n of o.geometry.attributes.position.array)assert.ok(Number.isFinite(n));assert.ok(o.position.toArray().every(Number.isFinite));});
  for(const [x,z,r]of obstacles){assert.ok(scope.alphaAt(x,z)>.98);for(const p of[[-67,-460],[-44,87.6],[-104,224],[-87.8,-21]])assert.ok(Math.hypot(x-p[0],z-p[1])>r+.55);}
+});
+
+test('avenue width continues across the split OSM way before the narrow economics access loop',()=>{
+ const road={id:'93690444',tags:{highway:'service'},points:[]};
+ assert.equal(roadWidthAt(road,-80,29.733),18);assert.equal(roadWidthAt(road,-80,82.744),18);assert.equal(roadWidthAt(road,-81,111.319),6.5);
+ for(let z=83;z<111;z+=.25){assert.ok(roadWidthAt(road,-80,z)>6.5);assert.ok(roadWidthAt(road,-80,z)<=18);}
 });

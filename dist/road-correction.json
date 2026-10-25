@@ -1,29 +1,52 @@
 {
-  "version": "lanes-r26",
-  "date": "2026-10-25",
-  "authoritativeCorrection": "사용자의 최종 확인: 정문부터 위쪽까지 왕복 4차선, 방향별 2차선.",
-  "source": "Current user statement: 아니 왕복 4차선",
-  "supersedes": [
-    "Previous visual inference of two lanes in the internal main avenue",
-    "Intermediate two-lane correction request, superseded by the user before publication"
+  "version": "satellite-r27",
+  "reviewedOn": "2026-10-25",
+  "source": "https://map.kakao.com/?q=제주대학교",
+  "mode": "스카이뷰 / 최근사진",
+  "captureDate": "Not displayed for latest mosaic; not asserted as October 2026 imagery. No historical year was selected.",
+  "observed": [
+    "Main north-south avenue continues past new student hall toward economics junction; current code incorrectly applies a 6.5m service-road default to the connecting OSM way 93690444.",
+    "Asphalt width at the student-hall northern approach: approximately 17m using the visible Kakao distance tool between manually selected edges. Tree cover and boundary selection create uncertainty.",
+    "Paved sidewalks and planted margins follow the avenue. A continuous wooden strip along the entire avenue is unsupported; the localized student-hall deck remains.",
+    "Mapped building footprints and principal road bends are generally aligned with the aerial arrangement; this pass does not verify facade geometry or heights."
   ],
-  "roadId": "286085067",
-  "laneCount": 4,
-  "lanesPerDirection": 2,
-  "estimatedCarriagewayWidthMetres": 14.4,
-  "widthIsMeasured": false,
-  "changes": [
-    "Remove the 17.5m-to-7.4m taper; use one four-lane profile throughout the main avenue",
-    "Keep original OSM centreline and bends",
-    "White dashed separator at one-quarter road width on both sides of the yellow centreline",
-    "Place arrows and diamond markings at each of the four lane centres",
-    "Match entrance continuation, sidewalks, piers, canopy and control hardware to the same estimated width",
-    "Keep the entrance walking spawn on the sidewalk and re-anchor the two estimated student-front deciduous trees beyond the widened road edge"
+  "measurements": [
+    {
+      "area": "student-hall northern approach",
+      "manualPixels": [
+        [
+          776,
+          276
+        ],
+        [
+          844,
+          276
+        ]
+      ],
+      "displayMeters": 17,
+      "reference": "student-width-17m.jpg",
+      "precision": "manual aerial estimate, not surveyed"
+    },
+    {
+      "area": "north/outside entrance approach",
+      "displayMeters": 11,
+      "reasonNotUsed": "Chosen points only span a narrow visible strip; this does not establish the internal avenue width."
+    }
   ],
-  "unchanged": [
-    "OSM building outlines and source road coordinates",
-    "Source elevation raster",
-    "Walking avatar, jumping, camera controls, selected three areas and buildings"
+  "implemented": {
+    "mainAvenueWidthEstimateMeters": 18,
+    "previousEstimateMeters": 14.4,
+    "laneCount": 4,
+    "continuationWay": "93690444",
+    "continuation": "18m until z82.744, taper to6.5m at z111.319 into existing access loop",
+    "avenueTrees": "trunks outside 4.2m paved sidewalk, at half-width +4.8..5.15m; individual positions remain estimates",
+    "timber": "student-hall west frontage only, z-47..30; removed from other sidewalks"
+  },
+  "limits": [
+    "Aerial mosaic capture date not established; no old year chosen.",
+    "18m is a modelling estimate near the manually observed17m width, not a precise curb survey.",
+    "Tree rows are independent reconstruction, not a surveyed planting inventory.",
+    "No claim that campus appearance is fully reproduced."
   ],
-  "limits": "Lane count follows user confirmation. Width, markings dimensions, roadside offsets and hardware positions remain reconstruction estimates, not a survey."
+  "rights": "Reference screenshots kept only in local review folder; no Kakao tile, imagery or texture included in game assets. Existing OSM coordinates and terrain raster remain unchanged."
 }

@@ -1,9 +1,9 @@
-import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=campus-r28a';
-import {insideFocusClearance} from './focus-details.js?v=campus-r28a';
+import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=avatar-r29d';
+import {insideFocusClearance} from './focus-details.js?v=avatar-r29d';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {insideEntranceOffice} from './entrance-observed.js?v=campus-r28a';
-import {roadWidth,roadWidthAt} from './road-profile.js?v=campus-r28a';
+import {insideEntranceOffice} from './entrance-observed.js?v=avatar-r29d';
+import {roadWidth,roadWidthAt} from './road-profile.js?v=avatar-r29d';
 
 // OSM supplies the woodland/park extents. Individual trees, canopy sizes and
 // the photo-informed entrance avenue remain a deterministic visual reconstruction.

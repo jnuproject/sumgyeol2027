@@ -1,5 +1,5 @@
 {
-  "version": "campus-r28",
+  "version": "road-avatar-r29",
   "files": [
     {
       "path": ".nojekyll",
@@ -35,6 +35,36 @@
       "path": "assets/campus-outline.svg",
       "bytes": 26476,
       "sha256": "304cad33d027179fd7b818c422622ec34f2861c9d78400bec7cf36074e718cc6"
+    },
+    {
+      "path": "assets/characters/sumgyeol/KENNEY-LICENSE.txt",
+      "bytes": 699,
+      "sha256": "68280323c6dca1f532c71fb248a6f344abed39a574278a2edfa27801aea3d0cd"
+    },
+    {
+      "path": "assets/characters/sumgyeol/character.fbx",
+      "bytes": 167212,
+      "sha256": "18835fef534eede635b081ee7fe647d01a885550a591d2e6bf071010906167d8"
+    },
+    {
+      "path": "assets/characters/sumgyeol/idle.fbx",
+      "bytes": 608188,
+      "sha256": "c8a24e0294376ee5a195c56752a13310e1c0b5f8588a4db50e094120e3e4cc74"
+    },
+    {
+      "path": "assets/characters/sumgyeol/jump.fbx",
+      "bytes": 562796,
+      "sha256": "b88429077a7a1af5d3f55f43cfd8ce0f7441b4f6f7bb15a8070d7ed15d275f74"
+    },
+    {
+      "path": "assets/characters/sumgyeol/run.fbx",
+      "bytes": 572732,
+      "sha256": "e635461fc8dace85ec67a7f7941e949a7c3f108b51ae4d2da1557e6e01749df8"
+    },
+    {
+      "path": "assets/characters/sumgyeol/sumgyeol-skin.svg",
+      "bytes": 29664,
+      "sha256": "f7ffa5ee40d094a863c5d1bedf4aff60c8ae67281510975194a620941c9a9748"
     },
     {
       "path": "assets/focus-outline-r22.svg",
@@ -122,6 +152,16 @@
       "sha256": "554c7d78c9ecb3f1f161235c9d69220f20f561d776e6ef945f5832d4097d9708"
     },
     {
+      "path": "avatar-sources.json",
+      "bytes": 3133,
+      "sha256": "d45c6f7e61a6a967a279673e6c05d45a7603f71fbd8c9181635553ecdb1b727e"
+    },
+    {
+      "path": "avatar.js",
+      "bytes": 3014,
+      "sha256": "480d93c8722a8010136aa1896cc68fdc2c019a281eb58631b1f6afc69e0015e0"
+    },
+    {
       "path": "building-sources.json",
       "bytes": 3927,
       "sha256": "ef7b1b4c59d14cbf1046ce45e2d0d02015db73a1495af447e6297f19e377cce8"
@@ -134,7 +174,7 @@
     {
       "path": "campus-observed-details.js",
       "bytes": 7060,
-      "sha256": "41c0ca502cd50d5f53df7b545f82d3feba9a766e0199f829ab1d3f023e4040bc"
+      "sha256": "84480552e0cf64bbb09ecad4d1e08365f221fe9e1a1ec08ccaeb78f8a52c0064"
     },
     {
       "path": "campus-survey.json",
@@ -153,13 +193,13 @@
     },
     {
       "path": "entrance-observed.js",
-      "bytes": 8328,
-      "sha256": "b80f98f314b9f78ba55e9b5aaa641688d323471e4fe65615dcf0f4f3d1060f7f"
+      "bytes": 8940,
+      "sha256": "8d0725e0d6976a0318a4a57b29725a16cc7a3d8fe908a35b4d1d0c4836238b0a"
     },
     {
       "path": "environment.js",
-      "bytes": 14028,
-      "sha256": "2ce023b0f782a158e38769dc3d05f97fc08e1c2553b3048860060c650e789301"
+      "bytes": 15380,
+      "sha256": "ff8e39a28a7a657ca0a250d65cefd639eb321e9f5330076c145a063f26eb4e3f"
     },
     {
       "path": "focus-architecture.js",
@@ -183,13 +223,13 @@
     },
     {
       "path": "focus-scope.json",
-      "bytes": 2388,
-      "sha256": "9cfdc1b8470cac1c03383141b78321211a10430ae679161264f6ca26e42db798"
+      "bytes": 2420,
+      "sha256": "da12b60b4930165b7809ab6e3d8df6b800a6505fb53301f8c7127febb34532bd"
     },
     {
       "path": "game.js",
-      "bytes": 45098,
-      "sha256": "6709dd70585502e7f9d760e0fc03a74e2a8666fe1e90de52d7a938bc921ed03e"
+      "bytes": 49124,
+      "sha256": "ceb83f7e19e6881316cf743f33d2519378725ee37a834fbf8c4c897e9db19457"
     },
     {
       "path": "identity-sources.json",
@@ -198,8 +238,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 10526,
-      "sha256": "1bf2b009644a6aff59abfe8990daa4ecb9e88f712da59f4458b4305a24658303"
+      "bytes": 10768,
+      "sha256": "41bd07f803be8920026b7507804ba2f8c8ac527a2b1d3f249aac97fa54f2e819"
     },
     {
       "path": "materials.js",
@@ -249,7 +289,7 @@
     {
       "path": "periphery.js",
       "bytes": 4515,
-      "sha256": "cfd617ce083e914431655d307de3fc2a8d281aed88abb2e4dc9b7d94f9f4bedb"
+      "sha256": "41eabd9055057d607a3e4e0703f29b68bfccc630761d9d6c1894cf0e7d5ad66d"
     },
     {
       "path": "places.js",
@@ -275,6 +315,11 @@
       "path": "reflection-probes.js",
       "bytes": 3626,
       "sha256": "6fdecf982c3adc674b978e621c9a387ac6a1851bffc457a3fecbe1c889c4bd5d"
+    },
+    {
+      "path": "road-clearance.js",
+      "bytes": 6219,
+      "sha256": "81a367cd8d474f76ec2a8de90f413c2c374c0b522f60ca7b846d5fd64c754040"
     },
     {
       "path": "road-correction.json",
@@ -318,8 +363,8 @@
     },
     {
       "path": "sumgyeol.css",
-      "bytes": 19743,
-      "sha256": "921014034b1d352f0f98ae83a8117213eb6d1093f18a2c72a6e997b25522e9d9"
+      "bytes": 25264,
+      "sha256": "952982e30b9a48489d5a595decbadf65bd9dea7cd059182a30a5d04def3c0107"
     },
     {
       "path": "surroundings-sources.json",
@@ -344,7 +389,7 @@
     {
       "path": "terrain.js",
       "bytes": 10249,
-      "sha256": "48e9a0872fc98c1f66d88af0f9e8f64624d7553437ab2f0eb599ffc89d0a3328"
+      "sha256": "b8a038f6d14583e55e8b14c90c0d83004aea3a57aa899e0376b16a7c45374968"
     },
     {
       "path": "three.module.js",
@@ -352,9 +397,34 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     },
     {
+      "path": "touch-input.js",
+      "bytes": 1027,
+      "sha256": "b85955c42949c50d97ea79b29c303ab98c1fe685cc79789ce06ea86c56b12646"
+    },
+    {
       "path": "vegetation.js",
       "bytes": 14967,
-      "sha256": "faaad2a9b77e5df7f84a53ea41da210fb3693f6e65e38519339bc4a9f0244a3a"
+      "sha256": "0449688eba2fde6c30bd6304ca5261160690ff2f3986724ea5159291dd010a1a"
+    },
+    {
+      "path": "vendor/FBXLoader.js",
+      "bytes": 103006,
+      "sha256": "1e28ab99150e3a90a25f5689f804f12c58b19fe05c67137cd10dd8c5da2349c3"
+    },
+    {
+      "path": "vendor/curves/NURBSCurve.js",
+      "bytes": 2550,
+      "sha256": "63a68c18358c37c402b9d9c70c7eb1e90babfc1df233a9215b898ee4e6f8bd57"
+    },
+    {
+      "path": "vendor/curves/NURBSUtils.js",
+      "bytes": 9166,
+      "sha256": "a0b2739ccde793b4924eb00a2f3cc96edfc9474b645750c3a52f3516174de2dc"
+    },
+    {
+      "path": "vendor/libs/fflate.module.js",
+      "bytes": 89384,
+      "sha256": "209a4412eb48ce609edb4391992a792ffcc3983d30ee7e2b0b89a8c470f3cd8a"
     },
     {
       "path": "visual-references.json",
@@ -368,13 +438,14 @@
     },
     {
       "path": "walk.html",
-      "bytes": 10526,
-      "sha256": "1bf2b009644a6aff59abfe8990daa4ecb9e88f712da59f4458b4305a24658303"
+      "bytes": 10768,
+      "sha256": "41bd07f803be8920026b7507804ba2f8c8ac527a2b1d3f249aac97fa54f2e819"
     },
     {
       "path": "world.js",
-      "bytes": 18382,
-      "sha256": "f7243f7dabdf30c7d7ab64f0c77c1acec76c9fd0418916d2a4b84c75fc1ec8a3"
+      "bytes": 18607,
+      "sha256": "1d9f1f0e72564503b84a8e9aa9366871f011983aac7acf2f74dce7ce3c6ce28b"
     }
-  ]
+  ],
+  "cacheRevision": "avatar-r29d"
 }

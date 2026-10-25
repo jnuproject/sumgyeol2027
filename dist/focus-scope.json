@@ -92,5 +92,6 @@
   ],
   "latestAppearanceSources": "surroundings-sources.json",
   "roadCorrection": "road-correction.json",
-  "buildingSources": "building-sources.json"
+  "buildingSources": "building-sources.json",
+  "release": "road-avatar-r29"
 }

@@ -1,13 +1,14 @@
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
-import {roadWidth,MAIN_AVENUE_WIDTH,MAIN_AVENUE_LANES} from './road-profile.js?v=campus-r28a';
+import {roadWidth,MAIN_AVENUE_WIDTH,MAIN_AVENUE_LANES} from './road-profile.js?v=avatar-r29d';
 
 // Independently constructed from the public Kakao Roadview, labelled2026-03.
 // Presence/arrangement are observed; all dimensions and local offsets are estimates.
+export function entranceRoadX(data,z){const road=data.roads.find(r=>r.id==='286085067');if(!road)return data.spawn[0];for(let i=1;i<road.points.length;i++){const a=road.points[i-1],b=road.points[i];if(z>=Math.min(a[1],b[1])&&z<=Math.max(a[1],b[1])){const t=(z-a[1])/(b[1]-a[1]);return a[0]+(b[0]-a[0])*t;}}return data.spawn[0];}
 export function entranceLayout(data){
  const [x,z]=data.spawn;
  const main=data.roads.find(r=>r.id==='286085067'),width=main?roadWidth(main):MAIN_AVENUE_WIDTH,half=width/2;
- return {x,z,roadWidth:width,lanes:MAIN_AVENUE_LANES,office:{x:x+half+15.25,z:z+2,w:8.8,d:6},canopy:{x:x+width/4,z:z+38},entrySpawn:[x+half+3.45,z-7],medianEnd:z+69};
+ return {x,z,roadWidth:width,lanes:MAIN_AVENUE_LANES,office:{x:x+half+15.25,z:z+2,w:8.8,d:6},canopy:{x:entranceRoadX(data,z+38)+width/4,z:z+38},entrySpawn:[x+half+3.45,z-7],medianEnd:z+69};
 }
 export function insideEntranceOffice(x,z,data,margin=0){const o=entranceLayout(data).office;return Math.abs(x-o.x)<o.w/2+margin&&Math.abs(z-o.z)<o.d/2+margin;}
 export function addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles,surfaces=null}){
@@ -38,7 +39,7 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
  // Paired curved sheets over the outbound vehicle lanes; roof top and underside
  // are original geometry, never panorama image textures.
  for(let sheet=0;sheet<2;sheet++){
-  const left=x+.2+sheet*layout.roadWidth/4,width=layout.roadWidth/4-.35,front=c.z-5,back=c.z+5;
+  const left=entranceRoadX(data,c.z)+.2+sheet*layout.roadWidth/4,width=layout.roadWidth/4-.35,front=c.z-5,back=c.z+5;
   const roofAt=(u,t)=>[left+width*u,6.05+.72*Math.sin(u*Math.PI)+.22*t+(sheet?.25:0),front+(back-front)*t];
   const positions=[],indices=[];
   for(let row=0;row<=8;row++)for(let col=0;col<=20;col++){const p=roofAt(col/20,row/8);positions.push(p[0],flatBase+p[1],p[2]);}
@@ -50,25 +51,25 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
  }
  for(const side of[-1,1])for(const dz of[-3.9,3.9]){
   const px=c.x+side*(layout.roadWidth/4+.15),pz=c.z+dz;
-  tube(cv(px,0,pz),cv(px,9.1,pz),.075);obstacles.push([px,pz,.22]);
+  tube(v(px,0,pz),cv(px,9.1,pz),.075);obstacles.push([px,pz,.22]);
   tube(cv(px,8.65,pz),cv(c.x+side*.2,6.7,pz),.025);
   tube(cv(px,8.65,pz),cv(px,6.3,c.z-dz),.025);
  }
  // Narrow hatched median and reflective posts observed before/after the control point.
  const paint=material('#ccaf55');paint.polygonOffset=true;paint.polygonOffsetFactor=-3;paint.polygonOffsetUnits=-3;
- for(const side of[-1,1])environment.segment([x+side*.72,z+2],[x+side*.72,layout.medianEnd],.11,paint,.101);
+ for(let pz=z+2;pz<layout.medianEnd;pz+=2)for(const side of[-1,1])environment.segment([entranceRoadX(data,pz)+side*.72,pz],[entranceRoadX(data,Math.min(pz+2,layout.medianEnd))+side*.72,Math.min(pz+2,layout.medianEnd)],.11,paint,.101);
  for(let pz=z+5;pz<layout.medianEnd;pz+=3.2){
   if(Math.abs(pz-(z+35))<4.5)continue;
-  environment.segment([x-.66,pz-.8],[x+.66,pz+.8],.10,paint,.103);
+  environment.segment([entranceRoadX(data,pz-.8)-.66,pz-.8],[entranceRoadX(data,pz+.8)+.66,pz+.8],.10,paint,.103);
   for(const side of[-1,1]){
-   const px=x+side*.55;
+   const px=entranceRoadX(data,pz)+side*.55;
    box(px,.41,pz,.13,.82,.13,'#b2673d');
    box(px,.67,pz,.15,.085,.15,'#e3d6b0');box(px,.48,pz,.15,.07,.15,'#dfd7b8');box(px,.85,pz,.18,.08,.18,'#343d3a');
    obstacles.push([px,pz,.13]);
   }
  }
  // Vehicle-control hardware on the outer lane edge, without an invented closed gate.
- for(const px of[x+layout.roadWidth/2,x+layout.roadWidth/4]){
+ for(const px of[entranceRoadX(data,c.z)+layout.roadWidth/2,entranceRoadX(data,c.z)+layout.roadWidth/4]){
   box(px,.1,c.z, .75,.2,6.5,'#a2a28e');box(px,.8,c.z-1,.55,1.5,.55,'#858e8a');box(px,1.38,c.z-1,.59,.18,.6,'#d2ad45');box(px,1.65,c.z+1.4,.65,3.1,.5,'#9ba29b');box(px,2.15,c.z+1.12,.42,.42,.06,'#3d5055');obstacles.push([px,c.z-1,.5]);obstacles.push([px,c.z+1.4,.5]);
  }
  // Roadside security office: low dark-stone wing with pale windowed front.

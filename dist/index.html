@@ -6,7 +6,7 @@
   <title>숨결 · 캠퍼스 산책</title>
   <link rel="icon" type="image/png" href="assets/sumgyeol_symbol_blue.png">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="sumgyeol.css?v=campus-r28a">
+  <link rel="stylesheet" href="sumgyeol.css?v=avatar-r29d">
 </head>
 <body data-mode="loading" data-ready="false">
   <canvas id="world" aria-label="제주대학교 아라캠퍼스 3D 지도" tabindex="0"></canvas>
@@ -18,10 +18,10 @@
     </button>
     <span class="site-label"><span class="status-dot"></span> 제주대학교 아라캠퍼스</span>
     <nav class="toolbar" aria-label="화면 도구">
-      <button class="tool" id="time" title="시간대 바꾸기" aria-label="시간대 바꾸기" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><span id="timeLabel">오후</span></button>
+      <button class="tool" id="time" title="시간대 바꾸기" aria-label="시간대 바꾸기" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><span id="timeLabel">맑음</span></button>
       <button class="tool" id="help" aria-label="조작 방법"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 4m0 3v.1"/></svg></button>
       <button class="tool" id="photo" aria-label="사진 모드"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h4l2-3h4l2 3h4v13H4Z"/><circle cx="12" cy="13" r="4"/></svg></button>
-      <button class="tool" id="settings" aria-label="화면 설정"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="8" cy="7" r="2"/><circle cx="16" cy="17" r="2"/></svg></button>
+      <button class="tool mobile-places" id="mobilePlaces" aria-label="장소 메뉴" aria-expanded="false">장소</button><button class="tool" id="settings" aria-label="화면 설정"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="8" cy="7" r="2"/><circle cx="16" cy="17" r="2"/></svg></button>
     </nav>
   </header>
 
@@ -74,13 +74,13 @@
   </aside>
   <div class="scene-caption" id="sceneCaption" hidden><span class="status-dot"></span><span id="sceneLabel">오후의 아라캠퍼스</span><span class="caption-separator">/</span><span id="sceneHint">드래그로 둘러보기 · 휠로 확대</span></div>
   <nav class="bottom-dock" id="dock" hidden aria-label="캠퍼스 장소"><div id="placeTabs" class="place-tabs"></div><button id="campusOverview" class="perspective-toggle" aria-label="학교 전체 건물 보기">학교 전체</button><span class="dock-separator"></span><button id="walkToggle" class="walk-toggle"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="m10 8 4 1 3 4m-7-5-3 5M12 9l-1 6-4 6m4-6 5 6"/></svg><span>직접 걷기</span></button><button id="perspective" class="perspective-toggle" aria-label="1인칭 시점으로">1인칭</button></nav>
-  <div id="touch" class="touch-controls" hidden><div id="joystick" role="group" aria-label="이동 조이스틱"><div id="knob"></div></div><div class="touch-buttons"><button id="jump" aria-label="점프">↑</button><button id="run" aria-label="달리기">»</button></div></div>
+  <div id="touch" class="touch-controls" hidden><div id="joystick" role="group" aria-label="이동 조이스틱"><div id="knob"></div></div><div class="touch-buttons"><button id="jump" aria-label="점프"><span aria-hidden="true">↑</span><small>점프</small></button><button id="touchPerspective" aria-label="시점 전환">시점</button><button id="run" aria-label="달리기">»</button></div></div>
   <div id="walkKeys" class="walk-keys" hidden><kbd>W A S D</kbd> 이동 <span>·</span> <kbd>Shift</kbd> 달리기 <span>·</span> <kbd>Space</kbd> 점프 <span>·</span> <kbd>R</kbd> 정문 <span>·</span> <kbd>V</kbd> 시점</div>
   <footer><button id="about">지도와 제작 안내</button><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a></footer>
   <div id="photoTools" class="photo-tools" hidden><span>PHOTO MODE</span><button id="capturePhoto">사진 저장 ↗</button><button id="closePhoto">돌아가기 ×</button></div>
   <div id="toast" role="status" aria-live="polite"></div>
   <dialog id="dialog" aria-labelledby="dialogTitle"><button id="closeDialog" class="dialog-close" aria-label="닫기">×</button><div class="eyebrow">숨결 · 캠퍼스 산책</div><h2 id="dialogTitle"></h2><div id="dialogBody"></div></dialog>
   <section id="error" class="error-panel" hidden role="alert"><span class="eyebrow">잠시만요</span><h2>캠퍼스를 불러오지 못했어요.</h2><p id="errorMessage">WebGL을 지원하는 최신 브라우저에서 다시 열어주세요.</p><button id="retry" class="primary">다시 시도하기 ↗</button></section>
-  <script type="module" src="game.js?v=campus-r28a"></script>
+  <script type="module" src="game.js?v=avatar-r29d"></script>
 </body>
 </html>

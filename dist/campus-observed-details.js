@@ -1,6 +1,6 @@
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {roadWidth,roadWidthAt} from './road-profile.js?v=satellite-r27a';
+import {roadWidth,roadWidthAt} from './road-profile.js?v=campus-r28a';
 
 // Original geometry based on the named Roadview observations in campus-survey.json.
 // Positions and dimensions are approximations anchored to existing OSM footprints.

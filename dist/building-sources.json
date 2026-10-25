@@ -1,0 +1,57 @@
+{
+  "version": "campus-r28",
+  "reviewedOn": "2026-10-25",
+  "latestUserScope": "Restore all campus buildings as before; buildings are no longer hidden outside the three focus zones.",
+  "source": {
+    "url": "https://map.kakao.com/?q=제주대학교",
+    "display": "Kakao Skyview / latest mosaic, viewed directly in browser",
+    "captureDate": "Not established from latest-mosaic UI. No historical year selected.",
+    "copyright": "Reference screenshots kept locally only; no map imagery or tiles published or used as textures."
+  },
+  "buildingRestoration": {
+    "sourceCount": 59,
+    "renderedCount": 59,
+    "footprints": "Existing OSM world coordinates unchanged, no horizontal scaling or relocation.",
+    "heights": "Existing individually reconstructed profiles where available; otherwise OSM levels or unknown-height display estimates. All59 are not surveyed or individually photo-matched.",
+    "facades": "Retained independent detailed models plus existing generic window facades, not59 newly detailed facades."
+  },
+  "zoneAudit": [
+    {
+      "zone": "정문 및 가까운 주변",
+      "compared": "Road axis, museum east of road, wooded hill to the west, open park south of museum. Existing source placement is consistent in plan.",
+      "applied": "Whole-campus context restored; r27 widened avenue and planting setbacks retained. No unsupported new gate dimensions or building relocation.",
+      "limit": "Aerial plan does not establish gate height, office dimensions or hidden rear facade; previous dated Roadview models retained."
+    },
+    {
+      "zone": "경상대 1·2호관–중앙도서관",
+      "compared": "Bent/L footprints, long solar strips and small roof blocks on economics1, muted green/olive roof on economics2, south parking aprons between buildings and woodland, rectangular green library roof with equipment.",
+      "applied": "Updated four focus roof colors; independent solar frames/roof blocks; asphalt aprons and approximate parking lines; removed generated forest trunks and understory from those aprons.",
+      "limit": "Solar module counts, equipment dimensions and bay positions are estimates. The library forecourt and facade are retained from Roadview because aerial shadows alone cannot resolve them."
+    },
+    {
+      "zone": "학생회관 신관",
+      "compared": "Irregular footprint and lower northern wing, green roof, northern park and mapped pond, paved road-facing court.",
+      "applied": "Retained tiered massing, stairs and lowered court; updated roof tone and two estimated rooftop service volumes.",
+      "limit": "Unseen facade, equipment heights and precise court levels are not measured."
+    }
+  ],
+  "correctionsToPriorWording": [
+    "In r27 the identifier areaMaterials.wood was mistakenly described as a timber material. It actually represents woodland-colored grass. The remaining green strip over the student-side pavement is removed; actual student timber deck geometry remains in focus-details."
+  ],
+  "presentation": {
+    "overview": "School-wide orbit view, no replacement of the walking game.",
+    "terrain": "Existing coarse AWS raster unchanged, campus ground/roads/parks visible beneath restored buildings.",
+    "groundColor": "Original ground texture receives a neutral green luma tint to better match the observed broad grass/forest palette; not an aerial texture.",
+    "walking": "Existing three walking zones, avatar, movement, jump, collision and camera retained."
+  },
+  "estimated": [
+    "All new local dimensions, solar counts, roof-equipment positions and parking extents.",
+    "Unknown building heights and facades, individual tree placement."
+  ],
+  "excluded": [
+    "NEXT, OneStore, Trash, credentials, external map/model extraction, new policy content."
+  ],
+  "notClaimed": [
+    "Photogrammetry, live October2026 imagery, precise site survey, individual real-world reproduction of all59 facades."
+  ]
+}

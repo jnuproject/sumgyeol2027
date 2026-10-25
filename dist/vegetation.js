@@ -1,8 +1,9 @@
-import {insideFocusClearance} from './focus-details.js?v=satellite-r27a';
+import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=campus-r28a';
+import {insideFocusClearance} from './focus-details.js?v=campus-r28a';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {insideEntranceOffice} from './entrance-observed.js?v=satellite-r27a';
-import {roadWidth,roadWidthAt} from './road-profile.js?v=satellite-r27a';
+import {insideEntranceOffice} from './entrance-observed.js?v=campus-r28a';
+import {roadWidth,roadWidthAt} from './road-profile.js?v=campus-r28a';
 
 // OSM supplies the woodland/park extents. Individual trees, canopy sizes and
 // the photo-informed entrance avenue remain a deterministic visual reconstruction.
@@ -24,7 +25,7 @@ export function generateVegetationLayout(data){
  const pitch=data.areas.find(a=>a.id==='286070859');
  const sportsCenter=pitch?[(Math.min(...pitch.points.map(p=>p[0]))+Math.max(...pitch.points.map(p=>p[0])))/2,(Math.min(...pitch.points.map(p=>p[1]))+Math.max(...pitch.points.map(p=>p[1])))/2]:null;
  const blocked=(x,z,h,type)=>{
-  if(insideFocusClearance(x,z,data))return true;
+  if(insideFocusClearance(x,z,data)||OBSERVED_GROUND_PATCHES.some(a=>insidePolygon(x,z,a.points)))return true;
   if(insideEntranceOffice(x,z,data,Math.max(4,h*.4)))return true;
   if(sportsCenter&&Math.hypot(x-sportsCenter[0],Math.max(0,Math.abs(z-sportsCenter[1])-42.2))<50.5)return true;
   if(Math.hypot(x-data.spawn[0],z-data.spawn[1])<9)return true;
@@ -93,7 +94,7 @@ export function generateUnderstoryLayout(data,visibleAt=()=>true){
   for(let z=Math.min(...zs)+2;z<Math.max(...zs);z+=4.1)for(let x=Math.min(...xs)+2;x<Math.max(...xs);x+=4.1){
    const px=x+(random()-.5)*2.4,pz=z+(random()-.5)*2.4;
    if(!visibleAt(px,pz)||!insidePolygon(px,pz,area.points)||!insidePolygon(px,pz,data.boundary)||insideFocusClearance(px,pz,data)||insideEntranceOffice(px,pz,data,3))continue;
-   if(excluded.some(a=>insidePolygon(px,pz,a.points)))continue;
+   if([...excluded,...OBSERVED_GROUND_PATCHES].some(a=>insidePolygon(px,pz,a.points)))continue;
    if(roads.some(r=>segmentDistance(px,pz,r.a,r.b)<roadWidthAt(r.road,px,pz)/2+(r.road.id==='286085067'?4.7:2.5)))continue;
    if(data.buildings.some(b=>insidePolygon(px,pz,b.points)||edgeDistance(px,pz,b.points)<2.5))continue;
    result.push({x:px,z:pz,radius:1.15+random()*.65,height:.18+random()*.32,variation:random(),areaId:area.id});
@@ -115,7 +116,7 @@ export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
  }
  const leafTexture=new THREE.CanvasTexture(canvas);leafTexture.colorSpace=THREE.SRGBColorSpace;leafTexture.anisotropy=4;
  const leavesMaterial=new THREE.MeshStandardMaterial({map:leafTexture,alphaTest:.42,side:THREE.DoubleSide,roughness:.95,emissive:'#25391d',emissiveIntensity:.08});
- const leavesPerTree=p=>p.type==='deciduous'?0:p.type==='avenue'?160:p.type==='conifer'?80:p.type==='park'?64:58;
+ const leavesPerTree=p=>p.type==='deciduous'?0:p.type==='avenue'?160:p.type==='conifer'?80:p.type==='park'?64:(p.x < -230 || p.x > 230 ? 18 : 45);
  const leaves=new THREE.InstancedMesh(new THREE.PlaneGeometry(1,1),leavesMaterial,points.reduce((n,p)=>n+leavesPerTree(p),0));
  // Layered alpha-tested leaf sprays form the canopy. There is no opaque inner
  // sphere: gaps and twig-shaped silhouettes remain visible from the road.

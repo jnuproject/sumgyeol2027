@@ -1,12 +1,12 @@
-import {createCampusReflections} from './reflection-probes.js?v=satellite-r27a';
+import {createCampusReflections} from './reflection-probes.js?v=campus-r28a';
 import * as THREE from './three.module.js';
-import { createCampus, makeAvatar } from './world.js?v=satellite-r27a';
-import {isWalkingRoad} from './road-profile.js?v=satellite-r27a';
-import { places } from './places.js?v=satellite-r27a';
-import {FOCUS_SCOPE,resolveFocusStops,focusZoneLabel} from './focus-route.js?v=satellite-r27a';
+import { createCampus, makeAvatar } from './world.js?v=campus-r28a';
+import {isWalkingRoad} from './road-profile.js?v=campus-r28a';
+import { places } from './places.js?v=campus-r28a';
+import {FOCUS_SCOPE,resolveFocusStops,focusZoneLabel} from './focus-route.js?v=campus-r28a';
 import { walkable } from './navigation.js';
-import {createFocusWalkArea,safeFocusPosition} from './walk-area.js?v=satellite-r27a';
-import { advanceVertical, terrainCameraDistance } from './movement.js?v=satellite-r27a';
+import {createFocusWalkArea,safeFocusPosition} from './walk-area.js?v=campus-r28a';
+import { advanceVertical, terrainCameraDistance } from './movement.js?v=campus-r28a';
 
 const $=id=>document.getElementById(id);
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
@@ -76,6 +76,7 @@ gl_FragColor=vec4(c,1.);
   const visitMarkers=focusLocations.map((p,i)=>{const group=new THREE.Group();group.position.set(p[0],groundAt(p[0],p[1])+.04,p[1]);const ring=new THREE.Mesh(new THREE.RingGeometry(2.5,2.7,48),new THREE.MeshBasicMaterial({color:'#00bfff',transparent:true,opacity:.8,side:THREE.DoubleSide}));ring.rotation.x=-Math.PI/2;group.add(ring);scene.add(group);group.visible=false;return group;});
   const cameras=focusStops.map(p=>p.camera);
   $('navPlaces').disabled=true;$('navWalk').disabled=true;
+  let overview=false;
   let mode='welcome',selected=0,night=false,elapsed=0,quality='balanced';
   let yaw=.62,pitch=.64,distance=79,walkYaw=Math.PI,walkPitch=.16,walkDistance=14,verticalVelocity=0;
   let firstPerson=false,frameDuration=16.7;
@@ -114,6 +115,7 @@ gl_FragColor=vec4(c,1.);
   }
   function setNight(value){night=value;$('time').setAttribute('aria-pressed',String(night));$('timeLabel').textContent=night?'저녁':'오후';$('sceneLabel').textContent=night?'저녁빛 아라캠퍼스':'오후의 아라캠퍼스';}
   function showPlace(index){
+    overview=false;
     selected=(index+places.length)%places.length;const place=places[selected];setMode('explore');
     yaw=cameras[selected].yaw;pitch=cameras[selected].pitch;distance=cameras[selected].radius;
     $('placeCategory').textContent=place.category;$('placeNumber').textContent=place.number;$('placeTitle').textContent=place.title;
@@ -126,6 +128,7 @@ gl_FragColor=vec4(c,1.);
     snapCamera();
   }
   function startWalk(arrival=false){
+    overview=false;
     if(mode==='welcome')selected=0;
     const linked=arrival==='ascent'?focusStops[selected].ascent:arrival?focusStops[selected].arrival:linkedWalkStart();
     const start=linked?.position??((mode==='welcome'||selected===0)?(campus.entrySpawn??data.spawn):focusStops[selected].walkPosition);
@@ -135,10 +138,11 @@ gl_FragColor=vec4(c,1.);
     toast(matchMedia('(pointer: coarse)').matches?'왼쪽 조이스틱으로 이동하고 화면을 드래그해 보세요.':'WASD 이동 · 화면 드래그 · V로 1인칭 전환');
   }
   function resetPlayer(){const entry=campus.entrySpawn??data.spawn;const p=safeWalkStart(entry);if(!p)return;player.position.set(p[0],groundAt(...p),p[1]);verticalVelocity=0;grounded=true;clearInput();walkYaw=Math.PI;body.rotation.y=0;toast('정문으로 돌아왔어요.');}
-  function goHome(){setMode('welcome');setNight(false);snapCamera();}
+  function goHome(){overview=false;setMode('welcome');setNight(false);snapCamera();}
   $('explore').onclick=()=>startWalk();$('walkIntro').onclick=()=>showPlace(0);$('walkHere').onclick=()=>startWalk();$('walkArrival').onclick=()=>startWalk(true);$('walkAscent').onclick=()=>startWalk('ascent');$('walkToggle').onclick=()=>mode==='walk'?showPlace(selected):startWalk();
   $('backToIdeas').onclick=()=>showPlace(selected);$('previous').onclick=()=>showPlace(selected-1);$('next').onclick=()=>showPlace(selected+1);
   $('navHome').onclick=()=>{$('welcome').scrollTo({top:0,behavior:reducedMotion.matches?'instant':'smooth'});};$('navPlaces').onclick=()=>showPlace(0);$('navWalk').onclick=()=>startWalk();$('homeHelp').onclick=()=>$('help').click();
+  $('campusOverview').onclick=()=>{overview=true;setMode('explore');$('explorer').hidden=true;distance=1400;pitch=1.05;yaw=Math.PI;snapCamera();};
   $('home').onclick=goHome;$('back').onclick=goHome;$('time').onclick=()=>setNight(!night);
   function togglePerspective(){firstPerson=!firstPerson;body.visible=!firstPerson;avatar.shadow.visible=!firstPerson;$('perspective').textContent=firstPerson?'3인칭':'1인칭';$('perspective').setAttribute('aria-label',firstPerson?'3인칭 시점으로':'1인칭 시점으로');if(mode!=='walk')startWalk();snapCamera();}
   $('perspective').onclick=togglePerspective;
@@ -152,7 +156,7 @@ gl_FragColor=vec4(c,1.);
     $('quality').value=quality;$('gentle').checked=instantCamera;$('gentle').onchange=()=>{instantCamera=$('gentle').checked;};
     $('quality').onchange=()=>{quality=$('quality').value;renderer.setPixelRatio(quality==='low'?1:Math.min(devicePixelRatio,quality==='high'?2:1.6));renderer.shadowMap.enabled=quality!=='low';sun.shadow.mapSize.set(quality==='high'?2048:1024,quality==='high'?2048:1024);if(sun.shadow.map){sun.shadow.map.dispose();sun.shadow.map=null;}scene.traverse(o=>{if(o.isMesh){const materials=Array.isArray(o.material)?o.material:[o.material];materials.forEach(m=>m.needsUpdate=true);}});resize();};
   };
-  $('about').onclick=()=>showDialog('숨결에서 만나는 우리 캠퍼스',`<p><b>교내 간선도로 정정:</b> 정문부터 위쪽까지 왕복 4차선(방향별 2차선)으로 맞췄습니다. 사용자의 현장 확인을 반영했으며, 카카오맵 최근사진 스카이뷰를 직접 대조해 차도 폭을 약 18m로 보정했습니다. 지도에서 선택한 경계와 수목 가림에 오차가 있는 시각 추정값이며 실측 폭은 아닙니다. 경상대 앞 연결 도로도 동일 폭으로 이어지도록 보정하고, 일반 보도의 연속 목재 띠를 제거했습니다. <a href="./road-correction.json" target="_blank" rel="noopener">정정 내역 ↗</a></p><p><b>2026년 3월 모습으로 주변 환경 보강:</b> 정문 가로수·숲 하층, 작은 보도블록과 입체 연석, 경상대의 연속 관목·덩굴, 신관 앞 가지가 드러난 수목, 도서관 계단 옆의 두꺼운 관목을 재구성했습니다. 개별 위치와 치수는 추정이며, 10월 현장 실측은 아닙니다. <a href="./surroundings-sources.json" target="_blank" rel="noopener">이번 환경 보강의 관찰·추정 기록 ↗</a></p><p><b>정문 현재 모습 재확인:</b>2026년3월 촬영 로드뷰를 다시 관찰해 돌하르방 두 개와 예전 사진에서 추정한 기와형 지붕을 제거했습니다. 낮은 연결 보는 유지했습니다. 신관 데크·진입 계단과 창 분할도 보정했습니다. 게시일만 최신인 과거 사진은 이번 수정에 사용하지 않습니다. <a href="./identity-sources.json" target="_blank" rel="noopener">최신 관찰·철회·추정 기록 ↗</a></p><p>세 구역과 가까운 주변을 보강했습니다. 교내 차도 폭과 보도·수목 관계, 도서관 앞 정류장, 경상대의 현무암 경계, 신관 북쪽 연못과 난간을 대조했습니다. <a href="./periphery-sources.json" target="_blank" rel="noopener">주변 환경 관찰·추정 기록 ↗</a></p><p>경상대 1·2호관의 외벽·창·계단실, 중앙도서관 정면과 계단·차양·수목, 학생회관 신관의 타일·유리 계단실·낮은 마당과 진입 계단을 공개 로드뷰 관찰로 구체화했습니다. 오르막 계단의 단수·치수와 보정 고도는 추정입니다. <a href="./focus-detail-sources.json" target="_blank" rel="noopener">구체화 자료와 관찰/추정 구분 ↗</a></p><p>이번 산책의 중점 구역은 <b>정문 · 경상대에서 중앙도서관으로 올라가는 길 · 학생회관(신관)</b>입니다. 정책 내용은 아직 추가하지 않았습니다. 세 구역과 바로 인접한 주변 환경만 표시합니다. 박물관·구본관·법학전문대학원·디지털도서관은 가까운 배경으로만 보이며, 멀리 있는 교내 건물과 운동장은 표시하지 않습니다. 파란 경계 안의 세 구역과 연결 길에서만 걸을 수 있습니다.</p><p>OpenStreetMap 원자료는 <b>건물 59개, 도로·보행로 91개, 구역 35개</b>입니다. 현재 장면은 정문과 경상대학1·2호관, 중앙도서관, 학생회관 신관 및 연결 길만 표시합니다. 인접한 네 건물만 배경으로 추가했으며 멀리 있는 건물·운동장·기숙사는 생성하지 않습니다. 선택한 건물은 공개 로드뷰와 사진을 대조해 독자 모델링했습니다. 사진 시점과 다른 현재 상태 및 미관찰 면은 추정입니다.</p><p>나무·일반 건물의 창·도로 폭은 시각적 재구성입니다. 정문은2026년3월 촬영 카카오 로드뷰를 직접 이동·회전하며 관찰해 도로 옆 경비실, 중앙 차량관리 부스, 곡선 지붕과 볼라드·낮은 식재를 재구성했습니다. 개별 위치와 치수는 측량값이 아닙니다. 사진 기반 표면 재질은 제주 현장 자체를 촬영한 것은 아닙니다. 지형은 공개 AWS Terrain Tiles의 SRTM 기반 약 30m 고도 자료를 사용합니다. 운동장과 도서관·공학관·학생회관 마당에는 로드뷰에서 확인한 형태를 표현하기 위한 국소 정지면을 보정했으며, 그 높이와 전이 경사는 실측값이 아닙니다. 약 4m 타일 픽셀과 삼각형 보간이 현장 정밀도를 높이지는 않습니다. 보도·계단의 실측 고도는 아니며, 도로 폭과 미기록 건물 높이는 추정입니다.</p><p>바로 걸어보기: <a href="?place=286237890">중앙도서관</a> · <a href="?place=471297909">경상대학1호관</a> · <a href="?place=471297922">경상대학2호관</a> · <a href="?place=471697621">학생회관(신관)</a></p><p><a href="./campus-survey.json" target="_blank" rel="noopener">교내 로드뷰 관찰 구간과 적용·추정 내역 ↗</a><br><a href="./odbl-provenance.json" target="_blank" rel="noopener">추가한 ODbL 공개 지도 데이터와 변환 기록 ↗</a><br><a href="./provenance.json" target="_blank" rel="noopener">지도 원자료와 변환 출처 ↗</a><br><a href="./reference-expansion.json" target="_blank" rel="noopener">확장한 참고자료와 건물 식별 정정 ↗</a><br><a href="./roadview-observation.json" target="_blank" rel="noopener">로드뷰 관찰 구간과 추정 치수 ↗</a><br><a href="./visual-references.json" target="_blank" rel="noopener">정문·박물관·구본관 사진 참고 기록 ↗</a><br><a href="./campus-data.json" download>사용한 지도 데이터 내려받기 ↗</a><br><a href="./presentation-notes.json" target="_blank" rel="noopener">시각적 표현과 한계 ↗</a></p><p class="privacy-note">© OpenStreetMap contributors · ODbL 1.0<br>Terrain Tiles / Mapzen, hosted on AWS. SRTM data courtesy of the U.S. Geological Survey.<br><a href="./terrain-data/terrain.json" target="_blank" rel="noopener">고도 자료 범위·해상도·출처 ↗</a><br>Three.js · MIT · Pretendard · SIL OFL 1.1 · <a href="./assets/materials/sources.json" target="_blank" rel="noopener">Poly Haven 재질 · CC0</a>. 숨결의 캠퍼스 산책 프로토타입이며, 대학 공식 서비스는 아닙니다. 도장은 이 브라우저에만 저장됩니다.</p>`);
+  $('about').onclick=()=>showDialog('숨결에서 만나는 우리 캠퍼스',`<p><b>건물 전체 표시 및 항공사진 대조:</b> 학교 전체 건물 59개를 복원하고 경상대·도서관·신관의 녹색 옥상, 경상대 1호관의 태양광 배열과 도서관 옥상 구조물을 독자 재구성했습니다. <a href="./building-sources.json" target="_blank" rel="noopener">관찰·추정 기록 ↗</a></p><p><b>교내 간선도로 정정:</b> 정문부터 위쪽까지 왕복 4차선(방향별 2차선)으로 맞췄습니다. 사용자의 현장 확인을 반영했으며, 카카오맵 최근사진 스카이뷰를 직접 대조해 차도 폭을 약 18m로 보정했습니다. 지도에서 선택한 경계와 수목 가림에 오차가 있는 시각 추정값이며 실측 폭은 아닙니다. 경상대 앞 연결 도로도 동일 폭으로 이어지도록 보정하고, 일반 보도의 연속 목재 띠를 제거했습니다. <a href="./road-correction.json" target="_blank" rel="noopener">정정 내역 ↗</a></p><p><b>2026년 3월 모습으로 주변 환경 보강:</b> 정문 가로수·숲 하층, 작은 보도블록과 입체 연석, 경상대의 연속 관목·덩굴, 신관 앞 가지가 드러난 수목, 도서관 계단 옆의 두꺼운 관목을 재구성했습니다. 개별 위치와 치수는 추정이며, 10월 현장 실측은 아닙니다. <a href="./surroundings-sources.json" target="_blank" rel="noopener">이번 환경 보강의 관찰·추정 기록 ↗</a></p><p><b>정문 현재 모습 재확인:</b>2026년3월 촬영 로드뷰를 다시 관찰해 돌하르방 두 개와 예전 사진에서 추정한 기와형 지붕을 제거했습니다. 낮은 연결 보는 유지했습니다. 신관 데크·진입 계단과 창 분할도 보정했습니다. 게시일만 최신인 과거 사진은 이번 수정에 사용하지 않습니다. <a href="./identity-sources.json" target="_blank" rel="noopener">최신 관찰·철회·추정 기록 ↗</a></p><p>세 구역과 가까운 주변을 보강했습니다. 교내 차도 폭과 보도·수목 관계, 도서관 앞 정류장, 경상대의 현무암 경계, 신관 북쪽 연못과 난간을 대조했습니다. <a href="./periphery-sources.json" target="_blank" rel="noopener">주변 환경 관찰·추정 기록 ↗</a></p><p>경상대 1·2호관의 외벽·창·계단실, 중앙도서관 정면과 계단·차양·수목, 학생회관 신관의 타일·유리 계단실·낮은 마당과 진입 계단을 공개 로드뷰 관찰로 구체화했습니다. 오르막 계단의 단수·치수와 보정 고도는 추정입니다. <a href="./focus-detail-sources.json" target="_blank" rel="noopener">구체화 자료와 관찰/추정 구분 ↗</a></p><p>이번 산책의 중점 구역은 <b>정문 · 경상대에서 중앙도서관으로 올라가는 길 · 학생회관(신관)</b>입니다. 정책 내용은 아직 추가하지 않았습니다. 학교 전체 건물 59개와 지형·도로·녹지를 표시합니다. 아래 학교 전체 버튼에서 배치를 조망할 수 있습니다. 파란 경계 안의 세 구역과 연결 길에서만 걸을 수 있습니다.</p><p>OpenStreetMap 원자료는 <b>건물 59개, 도로·보행로 91개, 구역 35개</b>입니다. 현재 장면에는 원자료의 건물 59개를 모두 표시합니다. 주요 건물은 개별 외관을 유지하고, 나머지는 실제 지도 윤곽과 기록된 층수 또는 추정 높이에 기반한 일반 외관입니다. 선택한 건물은 공개 로드뷰와 사진을 대조해 독자 모델링했습니다. 사진 시점과 다른 현재 상태 및 미관찰 면은 추정입니다.</p><p>나무·일반 건물의 창·도로 폭은 시각적 재구성입니다. 정문은2026년3월 촬영 카카오 로드뷰를 직접 이동·회전하며 관찰해 도로 옆 경비실, 중앙 차량관리 부스, 곡선 지붕과 볼라드·낮은 식재를 재구성했습니다. 개별 위치와 치수는 측량값이 아닙니다. 사진 기반 표면 재질은 제주 현장 자체를 촬영한 것은 아닙니다. 지형은 공개 AWS Terrain Tiles의 SRTM 기반 약 30m 고도 자료를 사용합니다. 운동장과 도서관·공학관·학생회관 마당에는 로드뷰에서 확인한 형태를 표현하기 위한 국소 정지면을 보정했으며, 그 높이와 전이 경사는 실측값이 아닙니다. 약 4m 타일 픽셀과 삼각형 보간이 현장 정밀도를 높이지는 않습니다. 보도·계단의 실측 고도는 아니며, 도로 폭과 미기록 건물 높이는 추정입니다.</p><p>바로 걸어보기: <a href="?place=286237890">중앙도서관</a> · <a href="?place=471297909">경상대학1호관</a> · <a href="?place=471297922">경상대학2호관</a> · <a href="?place=471697621">학생회관(신관)</a></p><p><a href="./campus-survey.json" target="_blank" rel="noopener">교내 로드뷰 관찰 구간과 적용·추정 내역 ↗</a><br><a href="./odbl-provenance.json" target="_blank" rel="noopener">추가한 ODbL 공개 지도 데이터와 변환 기록 ↗</a><br><a href="./provenance.json" target="_blank" rel="noopener">지도 원자료와 변환 출처 ↗</a><br><a href="./reference-expansion.json" target="_blank" rel="noopener">확장한 참고자료와 건물 식별 정정 ↗</a><br><a href="./roadview-observation.json" target="_blank" rel="noopener">로드뷰 관찰 구간과 추정 치수 ↗</a><br><a href="./visual-references.json" target="_blank" rel="noopener">정문·박물관·구본관 사진 참고 기록 ↗</a><br><a href="./campus-data.json" download>사용한 지도 데이터 내려받기 ↗</a><br><a href="./presentation-notes.json" target="_blank" rel="noopener">시각적 표현과 한계 ↗</a></p><p class="privacy-note">© OpenStreetMap contributors · ODbL 1.0<br>Terrain Tiles / Mapzen, hosted on AWS. SRTM data courtesy of the U.S. Geological Survey.<br><a href="./terrain-data/terrain.json" target="_blank" rel="noopener">고도 자료 범위·해상도·출처 ↗</a><br>Three.js · MIT · Pretendard · SIL OFL 1.1 · <a href="./assets/materials/sources.json" target="_blank" rel="noopener">Poly Haven 재질 · CC0</a>. 숨결의 캠퍼스 산책 프로토타입이며, 대학 공식 서비스는 아닙니다. 도장은 이 브라우저에만 저장됩니다.</p>`);
   const visitKey='JejuCampusWalk.focus.visited.v1';
   let saved=[];try{saved=JSON.parse(localStorage.getItem(visitKey)||'[]');}catch{}
   const visited=new Set(Array.isArray(saved)?saved.filter(id=>places.some(p=>p.id===id)):[]);
@@ -183,7 +187,7 @@ gl_FragColor=vec4(c,1.);
   });
   $('world').addEventListener('pointermove',event=>{
     if(!pointers.has(event.pointerId))return;pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});
-    if(pointers.size===2){const [a,b]=[...pointers.values()],next=Math.hypot(a.x-b.x,a.y-b.y);if(pinchDistance){const factor=pinchDistance/Math.max(next,1);if(mode==='walk')walkDistance=THREE.MathUtils.clamp(walkDistance*factor,7,38);else distance=THREE.MathUtils.clamp(distance*factor,30,[125,270,150][selected]);}pinchDistance=next;return;}
+    if(pointers.size===2){const [a,b]=[...pointers.values()],next=Math.hypot(a.x-b.x,a.y-b.y);if(pinchDistance){const factor=pinchDistance/Math.max(next,1);if(mode==='walk')walkDistance=THREE.MathUtils.clamp(walkDistance*factor,7,38);else distance=THREE.MathUtils.clamp(distance*factor,overview?400:30,overview?1900:[125,270,150][selected]);}pinchDistance=next;return;}
     if(!drag||event.pointerId!==drag.id)return;
     const dx=event.clientX-drag.x,dy=event.clientY-drag.y;
     if(mode==='walk'){walkYaw-=dx*.005;walkPitch=THREE.MathUtils.clamp(walkPitch+dy*.004,.14,1.15);}else{yaw-=dx*.005;pitch=THREE.MathUtils.clamp(pitch+dy*.004,.22,1.3);}
@@ -191,7 +195,7 @@ gl_FragColor=vec4(c,1.);
   });
   function endPointer(event){pointers.delete(event.pointerId);pinchDistance=null;if(drag?.id===event.pointerId)drag=null;}
   for(const event of ['pointerup','pointercancel','lostpointercapture'])$('world').addEventListener(event,endPointer);
-  $('world').addEventListener('wheel',event=>{if(mode==='welcome'||$('dialog').open)return;event.preventDefault();if(mode==='walk')walkDistance=THREE.MathUtils.clamp(walkDistance+event.deltaY*.025,7,38);else distance=THREE.MathUtils.clamp(distance+event.deltaY*.07,30,[125,270,150][selected]);},{passive:false});
+  $('world').addEventListener('wheel',event=>{if(mode==='welcome'||$('dialog').open)return;event.preventDefault();if(mode==='walk')walkDistance=THREE.MathUtils.clamp(walkDistance+event.deltaY*.025,7,38);else distance=THREE.MathUtils.clamp(distance+event.deltaY*.07,overview?400:30,overview?1900:[125,270,150][selected]);},{passive:false});
   function joyMove(event){if(event.pointerId!==joystickPointer)return;const rect=$('joystick').getBoundingClientRect();let x=event.clientX-rect.left-rect.width/2,y=event.clientY-rect.top-rect.height/2;const length=Math.hypot(x,y);if(length>29){x*=29/length;y*=29/length;}touchX=x/29;touchY=-y/29;$('knob').style.transform=`translate(${x}px,${y}px)`;}
   $('joystick').onpointerdown=event=>{if(joystickPointer!==null)return;joystickPointer=event.pointerId;$('joystick').setPointerCapture(event.pointerId);joyMove(event);};$('joystick').onpointermove=joyMove;
   for(const event of ['pointerup','pointercancel','lostpointercapture'])$('joystick').addEventListener(event,()=>{joystickPointer=null;touchX=touchY=0;$('knob').style.transform='';});
@@ -265,7 +269,7 @@ gl_FragColor=vec4(c,1.);
       desiredCamera.set(desiredFocus.x+Math.sin(angle)*introDistance,desiredFocus.y+introDistance*.59,desiredFocus.z-Math.cos(angle)*introDistance);
     }else if(mode==='explore'){
       const responsiveDistance=distance*Math.min(2.5,Math.max(1,1.25/camera.aspect));
-      const p=locations[selected];desiredFocus.set(p[0],terrainAt(...p)+(selected===1?5:1.5),p[1]);
+      const p=overview?[0,0]:locations[selected];desiredFocus.set(p[0],terrainAt(...p)+(overview?0:selected===1?5:1.5),p[1]);
       desiredCamera.copy(desiredFocus).add(new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch)*responsiveDistance,Math.sin(pitch)*responsiveDistance,-Math.cos(yaw)*Math.cos(pitch)*responsiveDistance));
     }else{
       if(firstPerson){desiredCamera.copy(player.position);desiredCamera.y+=1.65;desiredFocus.copy(desiredCamera).add(new THREE.Vector3(-Math.sin(walkYaw)*10,-Math.sin(walkPitch-.16)*10,-Math.cos(walkYaw)*10));return;}
@@ -280,7 +284,7 @@ gl_FragColor=vec4(c,1.);
   function snapCamera(){cameraGoal();camera.position.copy(desiredCamera);currentFocus.copy(desiredFocus);camera.lookAt(currentFocus);}
   function resize(){
     camera.near=mode==='walk'?.12:3;camera.aspect=innerWidth/innerHeight;renderer.setSize(innerWidth,innerHeight);
-    if(mode==='walk'){camera.clearViewOffset();}else if(innerWidth<761){camera.setViewOffset(innerWidth,innerHeight,0,innerHeight*(mode==='welcome'?.23:.18),innerWidth,innerHeight);}else{camera.setViewOffset(innerWidth,innerHeight,-innerWidth*(mode==='welcome'?.16:.12),0,innerWidth,innerHeight);}
+    if(mode==='walk'||overview){camera.clearViewOffset();}else if(innerWidth<761){camera.setViewOffset(innerWidth,innerHeight,0,innerHeight*(mode==='welcome'?.23:.18),innerWidth,innerHeight);}else{camera.setViewOffset(innerWidth,innerHeight,-innerWidth*(mode==='welcome'?.16:.12),0,innerWidth,innerHeight);}
     camera.updateProjectionMatrix();
   }
   addEventListener('resize',resize);
@@ -289,7 +293,7 @@ gl_FragColor=vec4(c,1.);
   const projection=new THREE.Vector3();
   function updatePins(){
     pins.forEach((pin,i)=>{
-      if(mode==='welcome'||mode==='walk'){pin.hidden=true;return;}
+      if(overview||mode==='welcome'||mode==='walk'){pin.hidden=true;return;}
       const p=mode==='walk'?focusLocations[i]:locations[i];projection.set(p[0],terrainAt(...p)+(mode==='walk'?3.7:i===1?24:7),p[1]);const dist=camera.position.distanceTo(projection);projection.project(camera);
       const x=(projection.x*.5+.5)*innerWidth,y=(-projection.y*.5+.5)*innerHeight;
       const covered=innerWidth<761&&mode==='explore'&&y>innerHeight*.52;
@@ -304,14 +308,14 @@ gl_FragColor=vec4(c,1.);
     const blend=instantCamera&&mode!=='walk'?1:1-Math.exp(-(mode==='walk'?9:3.5)*dt);
     camera.position.lerp(desiredCamera,blend);if(mode==='walk')camera.position.y=Math.max(camera.position.y,groundAt(camera.position.x,camera.position.z)+.45);currentFocus.lerp(desiredFocus,blend);camera.lookAt(currentFocus);
     sky.position.copy(camera.position);skyUniforms.top.value.lerp(night?skyNightTop:skyDayTop,1-Math.exp(-dt*2));skyUniforms.bottom.value.lerp(night?skyNightBottom:skyDayBottom,1-Math.exp(-dt*2));
-    scene.background.lerp(night?colors.night:colors.day,1-Math.exp(-dt*2));scene.fog.color.copy(scene.background);scene.fog.near=mode==='explore'?180:85;scene.fog.far=mode==='explore'?650:260;
+    scene.background.lerp(night?colors.night:colors.day,1-Math.exp(-dt*2));scene.fog.color.copy(scene.background);scene.fog.near=overview?1200:mode==='explore'?180:85;scene.fog.far=overview?3200:mode==='explore'?1000:550;
     const lightBlend=1-Math.exp(-dt*2);sun.intensity+=((night?.35:2.6)-sun.intensity)*lightBlend;ambient.intensity+=((night?.7:1.4)-ambient.intensity)*lightBlend;
     sun.position.set(currentFocus.x-100,currentFocus.y+160,currentFocus.z-70);sun.target.position.copy(currentFocus);
     mapElapsed+=dt;if(mapElapsed>.1){drawMap();mapElapsed=0;if(mode==='walk'){let nearest=0;for(let i=1;i<focusLocations.length;i++)if(Math.hypot(player.position.x-focusLocations[i][0],player.position.z-focusLocations[i][1])<Math.hypot(player.position.x-focusLocations[nearest][0],player.position.z-focusLocations[nearest][1]))nearest=i;const named=data.buildings.filter(b=>b.name).reduce((best,b)=>{const d=Math.hypot(player.position.x-b.center[0],player.position.z-b.center[1]);return d<best.distance?{building:b,distance:d}:best;},{building:null,distance:55});$('nearPlace').textContent=focusZoneLabel(player.position.x,player.position.z)??(named.building?named.building.name+' 주변':places[nearest].place);}}
     visitMarkers.forEach((marker,i)=>{marker.visible=false;marker.children[0].material.color.set(visited.has(places[i].id)?'#66e1ff':'#00bfff');});
     reflections.update(mode==='walk'?player.position.x:currentFocus.x,mode==='walk'?player.position.z:currentFocus.z,{night,quality,dt});
     updatePins();renderer.render(scene,camera);frame++;
-    if(frame%30===0){$('world').dataset.verification=JSON.stringify({version:'satellite-r27',cacheRevision:'satellite-r27a',focusAreas:places.map(p=>p.id),selectedPlace:places[selected].id,areaCount:data.areas.length,parkingCount:data.areas.filter(a=>a.tags.amenity==='parking').length,mode,perspective:firstPerson?'first':'third',position:player.position.toArray(),ground:groundAt(player.position.x,player.position.z),grounded,verticalVelocity,walked:totalWalked,jumps:jumpCount,maxJumpClearance,blockedMoves,camera:camera.position.toArray(),buildingCount:data.buildings.length,renderedBuildingIds:campus.renderedBuildingIds,renderedBuildingCount:campus.renderedBuildingIds.length,roadCount:data.roads.length,vehicleRoadCount:data.roads.filter(r=>!isWalkingRoad(r)).length,entrance:campus.observedEntrance,walkArea:{restricted:true,inside:walkArea.contains(player.position.x,player.position.z),boundaryBlockedMoves},surveyDetails:campus.observedDetails,periphery:campus.periphery,reflections:reflections.stats,focusDetails:campus.focusDetails,grading:campus.terrain?.metadata?.localObservedGrading,openData:data.openDataIntegration?.source??null,terrain:campus.terrain?.metadata?.source??'AWS Terrain Tiles',webgl:renderer.capabilities.isWebGL2?'WebGL2':'WebGL'});$('world').dataset.renderedFrames=String(frame);$('world').dataset.fps=(1000/frameDuration).toFixed(1);$('world').dataset.treeCount=String(campus.treeCount);$('world').dataset.drawCalls=String(renderer.info.render.calls);$('world').dataset.playerPosition=[player.position.x.toFixed(2),player.position.y.toFixed(2),player.position.z.toFixed(2)].join(',');}
+    if(frame%30===0){$('world').dataset.verification=JSON.stringify({version:'campus-r28',cacheRevision:'campus-r28a',focusAreas:places.map(p=>p.id),selectedPlace:places[selected].id,areaCount:data.areas.length,parkingCount:data.areas.filter(a=>a.tags.amenity==='parking').length,mode,overview,perspective:firstPerson?'first':'third',position:player.position.toArray(),ground:groundAt(player.position.x,player.position.z),grounded,verticalVelocity,walked:totalWalked,jumps:jumpCount,maxJumpClearance,blockedMoves,camera:camera.position.toArray(),buildingCount:data.buildings.length,renderedBuildingIds:campus.renderedBuildingIds,renderedBuildingCount:campus.renderedBuildingIds.length,roadCount:data.roads.length,vehicleRoadCount:data.roads.filter(r=>!isWalkingRoad(r)).length,entrance:campus.observedEntrance,aerialBuildings:campus.aerialBuildingStats,walkArea:{restricted:true,inside:walkArea.contains(player.position.x,player.position.z),boundaryBlockedMoves},surveyDetails:campus.observedDetails,periphery:campus.periphery,reflections:reflections.stats,focusDetails:campus.focusDetails,grading:campus.terrain?.metadata?.localObservedGrading,openData:data.openDataIntegration?.source??null,terrain:campus.terrain?.metadata?.source??'AWS Terrain Tiles',webgl:renderer.capabilities.isWebGL2?'WebGL2':'WebGL'});$('world').dataset.renderedFrames=String(frame);$('world').dataset.fps=(1000/frameDuration).toFixed(1);$('world').dataset.treeCount=String(campus.treeCount);$('world').dataset.drawCalls=String(renderer.info.render.calls);$('world').dataset.playerPosition=[player.position.x.toFixed(2),player.position.y.toFixed(2),player.position.z.toFixed(2)].join(',');}
   }
   const reflections=createCampusReflections({renderer,scene,heightAt:groundAt,anchors:[{name:'gate',position:campus.entrySpawn??data.spawn},{name:'economics',position:[-44,87.6]},{name:'library',position:[-104,224]},{name:'student-hall',position:[-87.8,-21]}],hidden:[player,boundaryLine,...visitMarkers]});
   resize();snapCamera();tick();

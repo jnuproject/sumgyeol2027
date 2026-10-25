@@ -3,10 +3,10 @@ import {insidePolygon} from './navigation.js';
 
 // Original geometry from public Roadview observations. Dimensions are estimates.
 export const FOCUS_BUILDING_PROFILES={
- '471297909':{kind:'economics1',height:12.3,wall:'#d7d8d1',roof:'#9b9e98',floors:3},
- '471297922':{kind:'economics2',height:11.7,wall:'#deded0',roof:'#d0c5a5',floors:3},
- '286237890':{kind:'library',height:14.5,wall:'#b9a47b',roof:'#9d9686',floors:3},
- '471697621':{kind:'student',height:13.8,wall:'#e0e0d4',roof:'#a4a8a0',floors:4}
+ '471297909':{kind:'economics1',height:12.3,wall:'#d7d8d1',roof:'#3e725b',floors:3},
+ '471297922':{kind:'economics2',height:11.7,wall:'#deded0',roof:'#71816b',floors:3},
+ '286237890':{kind:'library',height:14.5,wall:'#b9a47b',roof:'#50876d',floors:3},
+ '471697621':{kind:'student',height:13.8,wall:'#e0e0d4',roof:'#477e65',floors:4}
 };
 export function createFocusWallMaterials(){
  const result={};

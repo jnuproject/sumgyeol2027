@@ -1,10 +1,10 @@
-import {cropSceneGeometry} from './scene-scope.js?v=satellite-r27a';
+import {cropSceneGeometry} from './scene-scope.js?v=campus-r28a';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=satellite-r27a';
+import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=campus-r28a';
 export {roadWidth};
 
 function geometryFrom(raw){
@@ -117,10 +117,9 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
      const start=d/len,end=Math.min(len,d+1.5)/len;
      const cell=(near,far)=>{const [p,q]=parallel(side*(wa/2+near),side*(wb/2+near),start,end),[v,u]=parallel(side*(wa/2+far),side*(wb/2+far),start,end);return[p,q,u,v];};
      raisedPavement(cell(.035,pavement),pavingMaterial,.14);
-     // Timber deck belongs only to the observed student-hall west frontage.
-     // Other avenue sidewalks are paved, not a continuous wooden boardwalk.
-     const deckMidZ=a[1]+dz*(start+end)/2;
-     if(r.id==='286085067'&&nx*side<0&&deckMidZ>=-47&&deckMidZ<=30)raisedPavement(cell(.375,1.925),areaMaterials.wood,.15);
+     // Ordinary sidewalks remain paving. Student-hall timber geometry is
+     // already supplied by focus-details; areaMaterials.wood means woodland,
+     // not a timber material, so do not paint a green band over the deck.
     }
    }
    band(0,0,wa,wb,material,height);

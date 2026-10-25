@@ -39,7 +39,7 @@ vNormalMapUv=worldUV;
 vRoughnessMapUv=worldUV;
 #endif`);};
   const compile=m.onBeforeCompile;
-  m.onBeforeCompile=shader=>{compile(shader);if(name==='dark_brick_wall')shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>','#include <map_fragment>\ndiffuseColor.rgb=mix(vec3(dot(diffuseColor.rgb,vec3(.2126,.7152,.0722))),diffuseColor.rgb,.08)*1.35;');};
+  m.onBeforeCompile=shader=>{compile(shader);if(name==='grass_ground')shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>','#include <map_fragment>\nfloat campusLuma=dot(diffuseColor.rgb,vec3(.2126,.7152,.0722));diffuseColor.rgb=mix(diffuseColor.rgb,vec3(campusLuma*.85,campusLuma*1.20,campusLuma*.68),.65);');if(name==='dark_brick_wall')shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>','#include <map_fragment>\ndiffuseColor.rgb=mix(vec3(dot(diffuseColor.rgb,vec3(.2126,.7152,.0722))),diffuseColor.rgb,.08)*1.35;');};
   m.customProgramCacheKey=()=>`world-metre-${name}-${metres}`;return m;
  }
  // Original interlocking pavers reconstructed from the current roadside views.

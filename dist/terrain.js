@@ -1,4 +1,4 @@
-import {gradeObservedSportsField} from './site-grading.js?v=satellite-r27a';
+import {gradeObservedSportsField} from './site-grading.js?v=campus-r28a';
 // Independent rectilinear terrain adapter. Horizontal and vertical units are metres.
 // The AWS Terrarium grid is already resampled by its provider; ~4 m grid spacing
 // does not turn the underlying approximately 30 m source into a ground survey.

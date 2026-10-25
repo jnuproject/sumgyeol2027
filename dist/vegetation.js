@@ -1,8 +1,8 @@
-import {insideFocusClearance} from './focus-details.js?v=periphery-r23';
+import {insideFocusClearance} from './focus-details.js?v=identity-r24g';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
 import {insideEntranceOffice} from './entrance-observed.js?v=campus-r18';
-import {roadWidth,roadWidthAt} from './road-profile.js?v=periphery-r23';
+import {roadWidth,roadWidthAt} from './road-profile.js?v=identity-r24g';
 
 // OSM supplies the woodland/park extents. Individual trees, canopy sizes and
 // the photo-informed entrance avenue remain a deterministic visual reconstruction.
@@ -53,6 +53,10 @@ export function generateVegetationLayout(data){
    add(a[0]+dx*d/len+side*dz/len*offset,a[1]+dz*d/len-side*dx/len*offset,15.5+random()*2.5,'avenue');
   }
  }
+ // The photographed park beside the student approach includes a small dark,
+ // conical evergreen group. The OSM park bounds constrain this estimated row.
+ const studentPark=data.areas.find(a=>a.id==='969694343');
+ if(studentPark)for(const [i,z]of[-70,-61,-52].entries())if(insidePolygon(-106,z,studentPark.points))add(-106,z,6.8+i*.35,'conifer',studentPark.id);
  for(const area of forestAreas){
   const xs=area.points.map(p=>p[0]),zs=area.points.map(p=>p[1]),step=8.2;
   for(let z=Math.min(...zs)+step*.5;z<Math.max(...zs);z+=step)for(let x=Math.min(...xs)+step*.5;x<Math.max(...xs);x+=step){
@@ -85,7 +89,7 @@ export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
  }
  const leafTexture=new THREE.CanvasTexture(canvas);leafTexture.colorSpace=THREE.SRGBColorSpace;leafTexture.anisotropy=4;
  const leavesMaterial=new THREE.MeshStandardMaterial({map:leafTexture,alphaTest:.42,side:THREE.DoubleSide,roughness:.95,emissive:'#25391d',emissiveIntensity:.08});
- const leavesPerTree=p=>p.type==='avenue'?96:p.type==='park'?38:30;
+ const leavesPerTree=p=>p.type==='avenue'?96:p.type==='conifer'?80:p.type==='park'?38:30;
  const leaves=new THREE.InstancedMesh(new THREE.PlaneGeometry(1,1),leavesMaterial,points.reduce((n,p)=>n+leavesPerTree(p),0));
  // Layered alpha-tested leaf sprays form the canopy. There is no opaque inner
  // sphere: gaps and twig-shaped silhouettes remain visible from the road.
@@ -98,7 +102,7 @@ export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
   const {x,z,h,variation:r}=p,ground=heightAt(x,z);
   if(!Number.isFinite(ground))throw new Error('Non-finite vegetation terrain height');
   const trunkRadius=p.type==='park'?.20:p.type==='avenue'?.34:.25;obstacles.push([x,z,trunkRadius]);
-  const mature=p.type==='avenue',trunkHeight=h*(mature?.34:.53);
+  const mature=p.type==='avenue',conifer=p.type==='conifer',trunkHeight=h*(conifer?.28:mature?.34:.53);
   o.position.set(x,ground+trunkHeight*.5,z);o.scale.set(mature?1.14:.75,trunkHeight,mature?1.14:.75);o.rotation.set(0,r*6,0);o.updateMatrix();trunks.setMatrixAt(ti++,o.matrix);
   function branch(start,end,radius){const delta=end.clone().sub(start);o.position.copy(start).addScaledVector(delta,.5);o.scale.set(radius,delta.length(),radius);o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize());o.updateMatrix();trunks.setMatrixAt(ti++,o.matrix);}
   for(let k=0;k<3;k++){
@@ -107,15 +111,15 @@ export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
    for(const side of[-1,1]){const angle=a+side*.55,tip=new THREE.Vector3(x+Math.sin(angle)*h*(mature?.32:.24),ground+h*(.76+side*.035),z+Math.cos(angle)*h*(mature?.32:.24));branch(start.clone().lerp(end,.67),tip,mature?.12:.085);}
   }
   for(let j=0;j<leavesPerTree(p);j++){
-   const a=random()*Math.PI*2,radius=Math.sqrt(random())*h*(mature?.37:.32);
+   const tier=Math.floor(j/10),a=conifer?(j%10)*Math.PI/5+tier*.38:random()*Math.PI*2,radius=conifer?h*.29*(1-tier/9)*(.7+random()*.3):Math.sqrt(random())*h*(mature?.37:.32);
    const inward=mature?(x<-78?1:-1)*h*.08:0;
-   o.position.set(x+Math.cos(a)*radius+inward,ground+h*(mature?.55+random()*.25:.54+random()*.34),z+Math.sin(a)*radius);
-   const size=h*(.22+random()*.11);o.scale.set(size,size,1);o.rotation.set((random()-.5)*1.6,random()*Math.PI*2,(random()-.5)*.9);o.updateMatrix();leaves.setMatrixAt(li,o.matrix);
-   color.setHSL(.22+random()*.035,.08+random()*.12,.73+random()*.16);leaves.setColorAt(li++,color);
+   o.position.set(x+Math.cos(a)*radius+inward,ground+h*(conifer?.25+tier*.085+random()*.04:mature?.55+random()*.25:.54+random()*.34),z+Math.sin(a)*radius);
+   const size=conifer?h*(.32*(1-tier/10)+.04):h*(.22+random()*.11);o.scale.set(size,conifer?size*.68:size,1);o.rotation.set(conifer?-.25+random()*.55:(random()-.5)*1.6,conifer?a+Math.PI/2:random()*Math.PI*2,(random()-.5)*.9);o.updateMatrix();leaves.setMatrixAt(li,o.matrix);
+   color.setHSL(conifer?.28:.22+random()*.035,conifer?.2:.08+random()*.12,conifer?.62:.73+random()*.16);leaves.setColorAt(li++,color);
   }
  }
  for(const [mesh,name]of [[trunks,'campus-tree-trunks'],[leaves,'campus-tree-leaves']]){
   mesh.name=name;mesh.castShadow=true;mesh.receiveShadow=true;mesh.computeBoundingSphere();scene.add(mesh);
  }
- return {treeCount:points.length,obstacles,counts:{forest:points.filter(p=>p.type==='forest').length,park:points.filter(p=>p.type==='park').length,avenue:points.filter(p=>p.type==='avenue').length},placementNotes:'OSM forest/wood/park extents; reconstructed tree density, heights and entrance avenue; terrain-grounded, with road and building clearance.'};
+ return {treeCount:points.length,obstacles,counts:{forest:points.filter(p=>p.type==='forest').length,park:points.filter(p=>p.type==='park').length,avenue:points.filter(p=>p.type==='avenue').length,conifer:points.filter(p=>p.type==='conifer').length},placementNotes:'OSM forest/wood/park extents; reconstructed tree density, heights and entrance avenue; terrain-grounded, with road and building clearance.'};
 }

@@ -50,5 +50,5 @@ export function glassMaterial(){
  const c=document.createElement('canvas');c.width=512;c.height=256;const g=c.getContext('2d');
  const gradient=g.createLinearGradient(0,0,0,256);gradient.addColorStop(0,'#6195bd');gradient.addColorStop(.44,'#d5e5eb');gradient.addColorStop(.54,'#89978d');gradient.addColorStop(1,'#39443c');g.fillStyle=gradient;g.fillRect(0,0,512,256);
  const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;texture.mapping=THREE.EquirectangularReflectionMapping;
- return new THREE.MeshStandardMaterial({color:'#7b969f',roughness:.19,metalness:.65,envMap:texture,envMapIntensity:.85});
+ const material=new THREE.MeshStandardMaterial({color:'#667879',roughness:.16,metalness:.12,envMap:texture,envMapIntensity:.85});material.userData.campusGlass=true;return material;
 }

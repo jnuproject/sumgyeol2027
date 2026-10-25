@@ -1,0 +1,102 @@
+{
+  "version": "identity-r24",
+  "reviewedOn": "2026-10-25",
+  "currentAppearancePolicy": "Use only capture-dated2026 Roadview observations for new appearance decisions. Publication date is not capture date. Historical images are excluded from this revision and remain audit history only.",
+  "sources": [
+    {
+      "type": "Kakao Roadview public UI",
+      "url": "https://map.kakao.com/?q=제주대학교 정문",
+      "captureDate": "2026-03",
+      "directlyRevisited": "2026-10-25",
+      "views": [
+        "entrance looking into campus",
+        "east pier and connector",
+        "west pier and security office",
+        "approach road"
+      ],
+      "observed": [
+        "Horizontally coursed dark basalt piers",
+        "Three round inset discs on tall and short piers",
+        "Low shallow connector across sidewalk",
+        "No dolharubang at the modelled entrances; user independently confirms current absence",
+        "Pale flat-roofed security office, planted sidewalk borders, hatched median and flexible posts, paired curved vehicle-control canopy"
+      ],
+      "changed": [
+        "Removed both dolharubang and their collision geometry",
+        "Removed old-image-derived pitched lintel caps and decorative tile ends",
+        "Kept only the low connector supported by the2026 Roadview",
+        "Moved first walking position to the paved approach before the entrance"
+      ],
+      "estimated": [
+        "All dimensions and local coordinates",
+        "Generated short road/sidewalk continuation beyond OSM endpoint",
+        "Pier, office, tree and hedge proportions; no measured survey"
+      ]
+    },
+    {
+      "type": "Previously captured public Kakao Roadview screenshots, re-inspected",
+      "captureDate": "2026-03",
+      "views": [
+        "student-front",
+        "student-road-axis",
+        "economics1-front",
+        "economics1-eastward",
+        "library-front",
+        "library-road-bus-stop"
+      ],
+      "observed": [
+        "Student front court below a brown-railed roadside deck",
+        "Short descending entrance stair and paved connection",
+        "Gray economics cladding, grouped three-pane windows, low basalt border and tactile sidewalk",
+        "Library broad front stairs, pale ribs and layered clipped planting"
+      ],
+      "changed": [
+        "8m two-flight student access replaces long20m stair run; independent estimated geometry",
+        "Brown wood deck, fine tactile domes and asphalt court",
+        "Student window divisions, economics three-pane mullions",
+        "Four-layer clipped planting silhouettes and player collisions"
+      ],
+      "estimated": [
+        "Front court depth2.1m,14steps,3.2m width and8m run are visual estimates",
+        "Planter island position and individual conifers",
+        "Window dimensions and unseen sides"
+      ],
+      "notClaimed": "These changes do not establish a present-day survey or photoreal reconstruction."
+    }
+  ],
+  "withdrawn": [
+    {
+      "source": "2024 news photograph, capture date unknown",
+      "decision": "No longer used: pitched gate cap, tile-end geometry and dolharubang removed."
+    },
+    {
+      "source": "2026 news article with unknown image capture date",
+      "decision": "Excluded as a current gate reference; publication date cannot establish current appearance."
+    },
+    {
+      "source": "2023 student-hall visit",
+      "decision": "New rear-entry terrace based only on this historical account withdrawn. Rear terrain remains existing coarse data."
+    }
+  ],
+  "nonVisualSourceCheck": {
+    "url": "https://sketchfab.com/3d-models/3d-map-66994283798747f0b8eca9ad0960c319",
+    "result": "Page metadata displays NoAI restriction. Model rendering was not captured, observed or extracted for this revision; not used as input."
+  },
+  "rendering": {
+    "materials": "Original procedural stone, foliage and panel-joint patterns. No Roadview or news pixels embedded.",
+    "reflections": "Four128px local cube captures render this independent game scene once at load; not live site photographs. Daytime approximation dimmed at night; original sky fallback in low quality or on failure."
+  },
+  "preserved": [
+    "Original OSM coordinates and AWS elevation bytes",
+    "Three playable zones and connecting paths",
+    "Eight existing focus/context buildings",
+    "Avatar, walking, running, jump, first/third camera, collision and UI",
+    "NEXT, OneStore, Trash, signing files and credentials untouched"
+  ],
+  "limits": [
+    "Current appearance verification is limited to the named2026 views. Older model sections retained elsewhere are not freshly verified.",
+    "Every measured-looking dimension above is a reconstruction estimate, not surveyed elevation or architecture.",
+    "Original approximate30m source terrain cannot represent curb/stair precision.",
+    "No new contemporary rear-facade data or full photogrammetric scan acquired."
+  ]
+}

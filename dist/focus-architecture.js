@@ -13,14 +13,18 @@ export function createFocusWallMaterials(){
  for(const [id,p] of Object.entries(FOCUS_BUILDING_PROFILES)){
   const canvas=document.createElement('canvas');canvas.width=canvas.height=512;
   const c=canvas.getContext('2d');c.fillStyle=p.wall;c.fillRect(0,0,512,512);
+  const relief=document.createElement('canvas');relief.width=relief.height=512;const r=relief.getContext('2d');r.fillStyle='#bdbdbd';r.fillRect(0,0,512,512);
   const tile=p.kind==='student'?32:p.kind==='library'?32:128;
   for(let row=0;row<512/tile;row++)for(let col=-1;col<512/(p.kind==='library'?tile/2:tile);col++){
    const cellWidth=p.kind==='library'?tile/2:tile;const x=col*cellWidth+(p.kind==='library'&&row%2?cellWidth/2:0),y=row*tile;
    c.strokeStyle=p.kind==='library'?'#94896e':p.kind==='student'?'#bfc3b9':'#b3b8b1';c.lineWidth=p.kind==='student'?1:2;c.strokeRect(x,y,p.kind==='library'?tile/2:tile,tile);
    c.fillStyle='rgba(255,255,255,.045)';c.fillRect(x+2,y+2,tile-4,2);
+   r.strokeStyle='#777';r.lineWidth=p.kind==='student'?1.2:2.4;r.strokeRect(x,y,cellWidth,tile);
+   const variation=Math.sin(row*47.1+col*19.7)*.025;c.fillStyle=`rgba(${variation>0?'255,255,255':'0,0,0'},${Math.abs(variation)})`;c.fillRect(x+2,y+2,cellWidth-4,tile-4);
   }
   const map=new THREE.CanvasTexture(canvas);map.colorSpace=THREE.SRGBColorSpace;map.wrapS=map.wrapT=THREE.RepeatWrapping;map.repeat.set(p.kind==='economics1'?.28:p.kind==='student'?.55:p.kind==='library'?.45:.2,p.kind==='economics1'?.28:p.kind==='student'?.55:p.kind==='library'?.45:.2);map.anisotropy=4;
-  result[id]=new THREE.MeshStandardMaterial({map,color:'#ffffff',roughness:.91});
+  const bumpMap=new THREE.CanvasTexture(relief);bumpMap.wrapS=bumpMap.wrapT=THREE.RepeatWrapping;bumpMap.repeat.copy(map.repeat);bumpMap.anisotropy=4;
+  result[id]=new THREE.MeshStandardMaterial({map,bumpMap,bumpScale:p.kind==='student'?.016:.028,color:'#ffffff',roughness:p.kind==='student'?.78:.91});
  }
  return result;
 }
@@ -37,7 +41,7 @@ export function addFocusFacade({scene,b,height,panel,box,base}){
    for(let floor=0;floor<3;floor++)for(let n=0;n<count;n++){
     const t=(n+.5)/count,y=2.0+floor*3.55;
     p(t,y,2.95,1.95,.16,'#424c4a',.13);p(t,y-.04,2.52,1.55,.2,glass,.24);
-    p(t,y,.09,1.63,.35,frame,.34);p(t,y-.88,3.06,.13,.5,'#b7bdb7',.38);
+    for(const offset of[-.095,.095])p(t+offset/count,y,.07,1.63,.35,frame,.34);p(t,y-.88,3.06,.13,.5,'#b7bdb7',.38);
     if(floor===2&&n%2===0)p(t+.35/count,8.7,1.0,3.9,.32,'#849397',.4);
    }
    if(length>20){
@@ -88,6 +92,7 @@ export function addFocusFacade({scene,b,height,panel,box,base}){
     const y=1.9+floor*3.15;
     p(.5,y,length-.5,1.9,.17,glass,.2);
     for(let n=0;n<=count;n++)p(n/count,y,.12,1.96,.4,'#d3dcd4',.38);
+    p(.5,y-.28,length-.5,.075,.43,'#c1ccc6',.36);
     p(.5,y-.96,length,.13,.43,'#e9eadd',.36);
     p(.5,y+1.43,length,.14,.45,'#bc684d',.4);
    }

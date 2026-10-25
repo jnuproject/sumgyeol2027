@@ -3,13 +3,13 @@ import {segmentDistance} from './navigation.js';
 
 // OSM anchors are exact source points. Flight counts/widths/rises are a visual
 // reconstruction; the coarse elevation source is not a stair survey.
-export function makeStairRoute(a,b,heightAt,{width=5.4,flights=7,steps=12,landing=2.1}={}){
+export function makeStairRoute(a,b,heightAt,{width=5.4,flights=7,steps=12,landing=2.1,surfaceOffset=.32,startHeight=null,endHeight=null}={}){
  const length=Math.hypot(b[0]-a[0],b[1]-a[1]),ux=(b[0]-a[0])/length,uz=(b[1]-a[1])/length;
  const flightLength=(length-landing*(flights-1))/flights,treads=[];
- const pos=d=>[a[0]+ux*d,a[1]+uz*d];let d=0,start=heightAt(...a)+.32;
+ const pos=d=>[a[0]+ux*d,a[1]+uz*d],linear=Number.isFinite(startHeight)&&Number.isFinite(endHeight);let d=0,start=linear?startHeight:heightAt(...a)+surfaceOffset;
  for(let f=0;f<flights;f++){
   const end=d+flightLength,next=f===flights-1?end:end+landing;
-  const finish=heightAt(...pos(next))+.32;
+  const finish=linear?startHeight+(endHeight-startHeight)*next/length:heightAt(...pos(next))+surfaceOffset;
   for(let i=0;i<steps;i++)treads.push({from:d+i*flightLength/steps,to:d+(i+1)*flightLength/steps,height:start+(finish-start)*(i+1)/steps,landing:false});
   if(f<flights-1)treads.push({from:end,to:next,height:finish,landing:true});
   start=finish;d=next;
@@ -40,8 +40,8 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
   routes.push(route);
   for(const [i,t] of route.treads.entries()){
    const d=(t.from+t.to)/2,x=route.a[0]+route.ux*d,z=route.a[1]+route.uz*d,bottom=Math.min(terrain.heightAt(x,z)-.6,t.height-.18);
-   const m=absBox(x,(t.height+bottom)/2,z,route.width,t.height-bottom,t.to-t.from+.025,i%4===0?'#bfc1b8':color);m.rotation.y=Math.atan2(route.ux,route.uz);m.userData.batch=false;collisionMeshes.push(m);
-   const edge=absBox(x,t.height+.015,z,route.width,.035,.055,'#d1d1c4');edge.rotation.y=m.rotation.y;
+   const m=absBox(x,(t.height+bottom)/2,z,route.width,t.height-bottom,t.to-t.from+.025,i%4===0?(wood?'#a29075':'#bfc1b8'):color);m.rotation.y=Math.atan2(route.ux,route.uz);m.userData.batch=false;collisionMeshes.push(m);
+   const edge=absBox(x,t.height+.015,z,route.width,.035,.055,wood?'#b4a083':'#d1d1c4');edge.rotation.y=m.rotation.y;
   }
   for(const side of[-1,1]){
    const samples=[];for(let d=0;d<=route.length+.01;d+=2.4){
@@ -64,7 +64,7 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
  for(let x=-65;x<0;x+=3.4)environment.segment([x,86.4],[x,88.8],.035,mat('#7c8178'),.14);
  // Low planted edge and rough stone retaining courses seen beneath the facade.
 
- const shrubGeo=new THREE.SphereGeometry(1,10,6),shrubs=[];
+ const shrubGeo=new THREE.SphereGeometry(1,20,12),shrubs=[];
  const shrub=(x,z,w,h,d,ground=terrain.heightAt(x,z),color='#43583c')=>{shrubs.push({x,z,w,h,d,ground,color});};
  for(const x of[-62,-48,-34,-20,-7])shrub(x,90.1,1.2,.9,.7);
  // Library approach: broad asphalt court, paired clipped shrubs and handrails.
@@ -76,7 +76,7 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
    for(const [i,zz] of[232.5,236.2,239.2].entries()){
     const xx=x+side*(13.8+i*.75),ground=terrain.heightAt(xx,zz);
     absBox(xx,ground+.35,zz,3.4,.7,3.4,'#525e50');
-    shrub(xx,zz,2.05,.78,1.65,ground+.7);shrub(xx,zz,1.5,.65,1.25,ground+1.7);shrub(xx,zz,.95,.55,.9,ground+2.45);stats.topiaryGroups++;
+    shrub(xx,zz,2.2,.84,1.75,ground+.7);shrub(xx,zz,1.75,.70,1.35,ground+1.34);shrub(xx,zz,1.35,.65,1.05,ground+1.88);shrub(xx,zz,.95,.55,.75,ground+2.37);obstacles.push([xx,zz,1.7]);stats.topiaryGroups++;
    }
    const lower=terrain.heightAt(x+side*9,232.4)+.18;
    for(let d=0;d<=8.4;d+=2.1){const y=lower+(base+2.5-lower)*d/8.4;rail([x+side*9,y,232.4+d],[x+side*9,y+1.0,232.4+d]);}
@@ -99,8 +99,18 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
  // Roadview shows a lower student-hall court, stairs and guarded access.
  const student=data.buildings.find(b=>b.id==='471697621');
  if(student){
-  environment.polygon([[-125,-31],[-95,-31],[-95,-13],[-116,-13],[-125,-20]],surfaces.paving,.12);
-  const access=makeStairRoute([-91,-21],[-111,-21],terrain.heightAt,{width:4.6,flights:2,steps:7,landing:2.4});stairs(access,'#a5aaa0',true);stats.studentAccessFlights=2;
+  environment.polygon([[-125,-31],[-95,-31],[-95,-13],[-116,-13],[-125,-20]],surfaces.asphalt,.10);
+  const courtBase=terrain.heightAt(-111,-21),deckHeight=Math.max(...[[-91,-23.4],[-91,-18.6],[-86.5,-23.4],[-86.5,-18.6]].map(p=>terrain.heightAt(...p)))+.07;
+  // Photo comparison: the street deck is ABOVE the front court, not below it.
+  const access=makeStairRoute([-91,-21],[-99,-21],terrain.heightAt,{width:3.2,flights:2,steps:7,landing:2.4,surfaceOffset:.12,startHeight:deckHeight,endHeight:courtBase+.12});stairs(access,'#8c7a61',true);stats.studentAccessFlights=2;
+  environment.segment([-99,-21],[-111.5,-21],3.2,surfaces.paving,.12);
+  for(let x=-90.98;x<-86.5;x+=.16)absBox(x,deckHeight-.065,-21,.145,.13,4.8,'#76644f');
+  platforms.push({cx:-88.75,cz:-21,ux:1,uz:0,nx:0,nz:1,width:4.5,depth:4.8,height:deckHeight+.012});
+  absBox(-87.15,deckHeight+.015,-21,.5,.03,4.75,'#d5bd4d');
+  const dots=new THREE.InstancedMesh(new THREE.CylinderGeometry(.014,.017,.007,6),mat('#ddc957'),5*67),dot=new THREE.Object3D();let di=0;
+  for(let row=0;row<5;row++)for(let col=0;col<67;col++){dot.position.set(-87.33+row*.09,deckHeight+.0335,-23.28+col*.07);dot.updateMatrix();dots.setMatrixAt(di++,dot.matrix);}dots.receiveShadow=true;scene.add(dots);
+  for(const zz of[-23.52,-18.48]){for(const xx of[-90.9,-88.8,-86.7]){rail([xx,deckHeight,zz],[xx,deckHeight+1.08,zz],'#6d5945',.075);obstacles.push([xx,zz,.08]);}for(const h of[.48,.99])rail([-91,deckHeight+h,zz],[-86.5,deckHeight+h,zz],'#7c674f',.065);}
+  stats.studentCourtBelowStreet=true;stats.studentCourtDrop=deckHeight-courtBase;
   const a=[-91,-29],b=[-113,-29],ha=terrain.heightAt(...a)+.15,hb=terrain.heightAt(...b)+.15;
   const positions=[a[0],ha,a[1]-1.1,a[0],ha,a[1]+1.1,b[0],hb,b[1]-1.1,b[0],hb,b[1]+1.1];
   for(const [x,z]of[[a[0],a[1]-1.1],[a[0],a[1]+1.1],[b[0],b[1]-1.1],[b[0],b[1]+1.1]])positions.push(x,Math.min(ha,hb,terrain.heightAt(x,z))-.2,z);
@@ -109,8 +119,12 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
   for(const side of[-1,1]){const z=-29+side*1.2;rail([a[0],ha+1,z],[b[0],hb+1,z]);for(let x=-92;x>-113;x-=3){const y=ha+(hb-ha)*(x-a[0])/(b[0]-a[0]);rail([x,y,z],[x,y+1,z]);obstacles.push([x,z,.06]);}}
   for(const p of[[-121,-29],[-123,-18],[-104,-12.4]]){
    const [x,z]=p,h=terrain.heightAt(x,z);absBox(x,h+.18,z,2.8,.36,1.8,'#8c9684');absBox(x,h+.39,z,2.5,.1,1.5,'#5f6950');
-   for(const dx of[-.65,0,.65])shrub(x+dx,z,.68,.66,.65,h+.4);
+   for(const dx of[-.65,0,.65])shrub(x+dx,z,.68,.66,.65,h+.4);obstacles.push([x,z,1.35]);
   }
+  const islandX=-104.5,islandZ=-16,islandBase=terrain.heightAt(islandX,islandZ);
+  const island=new THREE.Mesh(new THREE.CylinderGeometry(1,1,.22,28),mat('#949c8c'));island.position.set(islandX,islandBase+.11,islandZ);island.scale.set(2.5,1,1.6);island.receiveShadow=true;scene.add(island);collisionMeshes.push(island);
+  const soil=new THREE.Mesh(new THREE.CylinderGeometry(1,1,.025,28),mat('#536249'));soil.position.set(islandX,islandBase+.235,islandZ);soil.scale.set(2.28,1,1.38);scene.add(soil);
+  for(const dx of[-1.15,0,1.15]){shrub(islandX+dx,islandZ,.82,.56,.75,islandBase+.25);obstacles.push([islandX+dx,islandZ,.88]);}
   const base=terrain.heightAt(...student.center),center=[-117.4,-13.7],nx=.726,nz=-.688,ux=.688,uz=.726,angle=-Math.atan2(uz,ux);
   const at=(u,n)=>[center[0]+ux*u+nx*n,center[1]+uz*u+nz*n];
   const position=at(0,1.9),gallery=absBox(position[0],base+6.2,position[1],14.5,3.9,3.8,'#e0e0d4');gallery.rotation.y=angle;
@@ -118,7 +132,7 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
   for(const [y,h,c]of[[5.95,1.9,'#64817e'],[4.75,.12,'#bc684d'],[7.6,.12,'#bc684d'],[4.32,.45,'#e3e3d7'],[8.15,.3,'#d5d8cd']]){const m=absBox(front[0],base+y,front[1],14.6,h,.15,c);m.rotation.y=angle;}
   for(let u=-7;u<=7;u+=1.1){const p=at(u,3.96),m=absBox(p[0],base+5.95,p[1],.10,2.0,.22,'#465b5e');m.rotation.y=angle;}
   for(let y=4.5;y<8.2;y+=.22){const m=absBox(front[0],base+y,front[1],14.6,.015,.08,'#bfc4b8');m.rotation.y=angle;}
-  for(const u of[-5.7,0,5.7]){const p=at(u,3.0),column=new THREE.Mesh(new THREE.CylinderGeometry(.23,.26,3.15,16),mat('#e1e3d7'));column.position.set(p[0],base+2.4,p[1]);column.castShadow=true;scene.add(column);collisionMeshes.push(column);obstacles.push([p[0],p[1],.27]);}
+  for(const u of[-5.7,0,5.7]){const p=at(u,3.0),column=new THREE.Mesh(new THREE.CylinderGeometry(.23,.26,3.4,16),mat('#e1e3d7'));column.position.set(p[0],base+2.6,p[1]);column.castShadow=true;scene.add(column);collisionMeshes.push(column);obstacles.push([p[0],p[1],.27]);}
   const landing=at(0,2.5),slab=absBox(landing[0],base+.78,landing[1],14.3,.24,3.0,'#c4c7ba');slab.rotation.y=angle;platforms.push({cx:landing[0],cz:landing[1],ux,uz,nx,nz,width:14.3,depth:3,height:base+.912});
   const entryA=at(0,7.0),entryB=at(0,4.0),length=3,entry={a:entryA,b:entryB,ux:-nx,uz:-nz,length,width:14.0,flights:1,steps:6,split:true,treads:[]},bottom=terrain.heightAt(...entryA)+.10;
   for(let i=0;i<6;i++)entry.treads.push({from:i*.5,to:(i+1)*.5,height:bottom+(base+.9-bottom)*(i+1)/6,landing:false});stairs(entry,'#b6b8ad');
@@ -127,8 +141,15 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
 
  }
  // Original clumps, instanced. Planting positions are reconstructed, not surveyed.
- if(shrubs.length){const mesh=new THREE.InstancedMesh(shrubGeo,mat('#ffffff'),shrubs.length),o=new THREE.Object3D(),c=new THREE.Color();
-  shrubs.forEach((s,i)=>{o.position.set(s.x,s.ground+s.h/2,s.z);o.scale.set(s.w,s.h,s.d);o.updateMatrix();mesh.setMatrixAt(i,o.matrix);mesh.setColorAt(i,c.set(s.color));});mesh.castShadow=true;mesh.receiveShadow=true;scene.add(mesh);}
+ if(shrubs.length){
+  const shrubMaterial=new THREE.MeshStandardMaterial({color:'#ffffff',roughness:.97});
+  if(typeof document!=='undefined'){
+   const canvas=document.createElement('canvas');canvas.width=canvas.height=128;const ctx=canvas.getContext('2d');ctx.fillStyle='#ddd';ctx.fillRect(0,0,128,128);
+   for(let i=0;i<4200;i++){const n=170+(i*37%74);ctx.fillStyle=`rgb(${n},${n},${n})`;ctx.beginPath();ctx.ellipse(i*31%128,(i*73+Math.floor(i/128)*17)%128,.8+(i%4)*.25,.5+(i%3)*.2,i*.71,0,Math.PI*2);ctx.fill();}
+   const texture=new THREE.CanvasTexture(canvas);texture.wrapS=texture.wrapT=THREE.RepeatWrapping;texture.repeat.set(4,2);texture.anisotropy=4;shrubMaterial.map=texture;shrubMaterial.bumpMap=texture;shrubMaterial.bumpScale=.035;
+  }
+  const mesh=new THREE.InstancedMesh(shrubGeo,shrubMaterial,shrubs.length),o=new THREE.Object3D(),c=new THREE.Color();
+  shrubs.forEach((s,i)=>{o.position.set(s.x,s.ground+s.h/2,s.z);o.scale.set(s.w,s.h/2,s.d);o.updateMatrix();mesh.setMatrixAt(i,o.matrix);mesh.setColorAt(i,c.set(s.color));});mesh.castShadow=true;mesh.receiveShadow=true;scene.add(mesh);}
  // Refine the photographed security-office porch without blocking the sidewalk.
  const gx=data.spawn[0],gz=data.spawn[1],ox=gx+24,oz=gz+2,base=terrain.heightAt(ox,oz);
  for(let i=0;i<3;i++)absBox(ox-4.7-i*.32,base+.12+(2-i)*.11,oz, .34,.22+(2-i)*.22,3.5,'#acb0a7');

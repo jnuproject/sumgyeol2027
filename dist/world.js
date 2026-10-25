@@ -1,17 +1,17 @@
-import {addObservedPeriphery} from './periphery.js?v=periphery-r23';
-import {createSceneScope} from './scene-scope.js?v=periphery-r23';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=periphery-r23';
-import {addFocusDetails} from './focus-details.js?v=periphery-r23';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=periphery-r23';
-import {addObservedEntrance} from './entrance-observed.js?v=periphery-r23';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=periphery-r23';
-import {addSportsGrounds} from './sports-ground.js?v=periphery-r23';
+import {addObservedPeriphery} from './periphery.js?v=identity-r24g';
+import {createSceneScope} from './scene-scope.js?v=identity-r24g';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=identity-r24g';
+import {addFocusDetails} from './focus-details.js?v=identity-r24g';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=identity-r24g';
+import {addObservedEntrance} from './entrance-observed.js?v=identity-r24g';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=identity-r24g';
+import {addSportsGrounds} from './sports-ground.js?v=identity-r24g';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=periphery-r23';
-import { addVegetation } from './vegetation.js?v=periphery-r23';
-import { loadCampusTerrain } from './terrain.js?v=periphery-r23';
-import { addCampusEnvironment } from './environment.js?v=periphery-r23';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=identity-r24g';
+import { addVegetation } from './vegetation.js?v=identity-r24g';
+import { loadCampusTerrain } from './terrain.js?v=identity-r24g';
+import { addCampusEnvironment } from './environment.js?v=identity-r24g';
 
 export async function createCampus(scene,data) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();
@@ -24,8 +24,8 @@ const unitBox=new THREE.BoxGeometry(1,1,1);
 // Independently drawn horizontal basalt courses, observed on the entrance piers.
 const basaltCanvas=document.createElement('canvas');basaltCanvas.width=basaltCanvas.height=512;
 const basaltContext=basaltCanvas.getContext('2d');basaltContext.fillStyle='#303732';basaltContext.fillRect(0,0,512,512);
-for(let row=0;row<8;row++)for(let col=-1;col<3;col++){const shade=68+((row*19+col*13+71)%22);const x=col*256+(row%2)*128;basaltContext.fillStyle=`rgb(${shade},${shade+4},${shade+2})`;basaltContext.fillRect(x+1,row*64+2,254,60);for(let dot=0;dot<110;dot++){const n=(dot*37+row*61+col*43+8192)%8192;basaltContext.fillStyle=dot%3?'#424b45':'#68716a';basaltContext.fillRect(x+(n%252),row*64+(n*17%58)+3,1,1);}}
-const basalt=surfaces.stone.clone();basalt.map=new THREE.CanvasTexture(basaltCanvas);basalt.map.colorSpace=THREE.SRGBColorSpace;basalt.map.wrapS=basalt.map.wrapT=THREE.RepeatWrapping;basalt.normalMap=null;basalt.onBeforeCompile=surfaces.stone.onBeforeCompile;basalt.customProgramCacheKey=()=>surfaces.stone.customProgramCacheKey()+'-observed-basalt';
+for(let row=0;row<8;row++)for(let col=-1;col<3;col++){const shade=58+((row*19+col*13+71)%12);const x=col*256+(row%2)*128;basaltContext.fillStyle=`rgb(${shade},${shade+4},${shade+2})`;basaltContext.fillRect(x+1,row*64+2,254,60);for(let dot=0;dot<110;dot++){const n=(dot*37+row*61+col*43+8192)%8192;basaltContext.fillStyle=dot%3?'#424b45':'#68716a';basaltContext.fillRect(x+(n%252),row*64+(n*17%58)+3,1,1);}}
+const basalt=surfaces.stone.clone();basalt.color.set('#c0c7c0');basalt.map=new THREE.CanvasTexture(basaltCanvas);basalt.map.colorSpace=THREE.SRGBColorSpace;basalt.map.wrapS=basalt.map.wrapT=THREE.RepeatWrapping;basalt.normalMap=null;basalt.bumpMap=basalt.map;basalt.bumpScale=.03;basalt.onBeforeCompile=surfaces.stone.onBeforeCompile;basalt.customProgramCacheKey=()=>surfaces.stone.customProgramCacheKey()+'-observed-basalt';
 
 const mats={};
 const surfaceColors={'#afbba0':surfaces.grass,'#9cac83':surfaces.grass,'#7c956b':surfaces.grass,'#83a67e':surfaces.grass,'#68756d':surfaces.asphalt,'#d0c5a9':surfaces.paving,'#4d5350':basalt,'#62685c':basalt,'#aa8277':surfaces.redPaving};
@@ -78,16 +78,20 @@ for(const b of visibleData.buildings){
 const gateX=data.spawn[0],gateZ=data.spawn[1];
 function stonePillar(x,z,h,w=1.7){box(x,h/2,z,w,h,1.65,'#4d5350');box(x,h+.07,z,w+.15,.17,1.8,'#62685c');obstacles.push([x,z,w*.65]);}
 function disc(x,y,z,r,c){const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,.14,20),mat(c));o.rotation.x=Math.PI/2;o.position.set(x,y+baseAt(x,z),z);scene.add(o)}
-function dol(x,z){const g=new THREE.Group();g.position.set(x,terrain.heightAt(x,z),z);scene.add(g);box(0,1.1,0,.8,2.2,.7,'#75796a',g);const head=new THREE.Mesh(new THREE.SphereGeometry(.5,8,6),mat('#777b6b'));head.position.y=2.5;g.add(head);const hat=new THREE.Mesh(new THREE.CylinderGeometry(.67,.63,.4,10),mat('#636b5d'));hat.position.y=2.9;g.add(hat);box(0,2.5,-.45,.16,.25,.16,'#666e5f',g);box(-.21,2.65,-.43,.1,.08,.1,'#404b41',g);box(.21,2.65,-.43,.1,.08,.1,'#404b41',g);}
+
 for(const side of[-1,1]){
  const inner=gateX+side*10,outer=gateX+side*18;
  stonePillar(inner,gateZ,7.4,1.7);stonePillar(outer,gateZ,4.8,1.6);
- // Published current entrance photograph shows a lintel over each sidewalk.
- box(gateX+side*14,4.25,gateZ,7.3,.5,1.1,'#62685c');box(gateX+side*14,4.54,gateZ,7.6,.15,1.4,'#363c3b');
+ // Re-observed in dated Kakao Roadview2026-03: a low, shallow connector.
+ // Older news photographs and their inferred pitched roof are excluded.
+ box(gateX+side*14,4.25,gateZ,7.3,.30,1.1,'#62685c');
+ box(gateX+side*14,4.43,gateZ,7.6,.12,1.4,'#9c9e94');
+
  box(inner,.16,gateZ,2.1,.32,2.0,'#8d9487');box(outer,.16,gateZ,2.0,.32,1.95,'#8d9487');
- for(let y of[5.05,5.95,6.85]){disc(inner,y,gateZ-.88,.31,'#b5b9b5');disc(inner,y,gateZ-.97,.24,'#e5e8e5');disc(inner,y,gateZ-1.06,.17,'#92a1a7');}
+ for(let y of[5.05,5.95,6.85]){disc(inner,y,gateZ-.88,.31,'#7f8982');disc(inner,y,gateZ-.97,.24,'#adb4ad');disc(inner,y,gateZ-1.06,.17,'#6f817d');}
  box(inner,2.6,gateZ-.9,.36,2,.08,'#546857');
- dol(gateX+side*14,gateZ-1.5);
+ // No dolharubang at this entrance in the current Roadview; user confirms removal.
+ for(const y of[3.38,3.88,4.38]){disc(outer,y,gateZ-.88,.12,'#a4aba1');disc(outer,y,gateZ-.97,.08,'#626c62');}
 }
 
 label('제주대학교 정문 · 사진 참고',gateX,11,gateZ,1.1);
@@ -95,7 +99,7 @@ const boundaryLine=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(d
 const extentPoints=[...data.boundary,...data.roads.flatMap(r=>r.points)];
 const bounds={minX:Math.max(terrain.worldBounds.minX+.5,Math.min(...extentPoints.map(p=>p[0]))-10),maxX:Math.min(terrain.worldBounds.maxX-.5,Math.max(...extentPoints.map(p=>p[0]))+10),minZ:Math.max(terrain.worldBounds.minZ+.5,Math.min(...extentPoints.map(p=>p[1]))-10),maxZ:Math.min(terrain.worldBounds.maxZ-.5,Math.max(...extentPoints.map(p=>p[1]))+10)};
 
-const observedEntrance=addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles});
+const observedEntrance=addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles,surfaces});
 const vegetation=addVegetation(scene,data,terrain.heightAt,sceneScope.treeVisible);obstacles.push(...vegetation.obstacles);
 addEntranceDetails();
 const observedDetails=addCampusObservedDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,visibleAt:(x,z)=>sceneScope.renderDistance(x,z)<20});

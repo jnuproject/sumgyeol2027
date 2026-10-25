@@ -46,3 +46,15 @@ test('four independent focus facades preserve original footprints and produce fi
  }
  assert.equal(JSON.stringify(data.buildings),before);
 });
+
+test('student approach has a short descending staircase and a lower court',()=>{
+ const scene=new THREE.Scene(),obstacles=[],unit=new THREE.BoxGeometry(1,1,1),make=()=>new THREE.MeshStandardMaterial();
+ const box=(x,y,z,w,h,d)=>{const m=new THREE.Mesh(unit,make());m.position.set(x,terrain.heightAt(x,z)+y,z);m.scale.set(w,h,d);scene.add(m);return m;};
+ const details=addFocusDetails({scene,data,terrain,surfaces:{paving:make(),asphalt:make()},box,collisionMeshes:[],obstacles,environment:{polygon(){},segment(){}},fallbackHeightAt:terrain.heightAt});
+ const access=details.routes.find(r=>r.a[0]===-91&&r.a[1]===-21);
+ assert.equal(access.length,8);assert.equal(access.width,3.2);assert.equal(access.treads.filter(t=>!t.landing).length,14);
+ let previous=details.heightAt(-87.8,-21);const street=previous,court=terrain.heightAt(-111,-21);
+ assert.ok(street-court>1.5&&street-court<2.8);
+ for(const t of access.treads){assert.ok(t.height<=previous+.02);assert.ok(previous-t.height<.30);if(!t.landing)assert.ok(t.to-t.from>=.3&&t.to-t.from<=.5);const d=(t.from+t.to)/2,x=access.a[0]+access.ux*d,z=access.a[1]+access.uz*d;assert.ok(t.height>=terrain.heightAt(x,z)-.015,'treads must not disappear beneath the bank');previous=t.height;}
+ assert.ok(Math.abs(previous-court-.12)<1e-6);
+});

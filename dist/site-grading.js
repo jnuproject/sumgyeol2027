@@ -20,7 +20,7 @@ export function gradeObservedSportsField(xs,zs,sourceHeights,data){
  const pads=[
   {feature:'신관 북쪽 아라연 연못',bounds:[-163,-133,-76,-54],reference:[-147,-65],blend:5,source:'OSM water outline: flat-water visual reconstruction; water elevation is not surveyed'},
   {feature:'경상대학1호관 건물 바닥',bounds:[-70,13,90,138],reference:[-30,86],offset:.6,blend:6,source:'Roadview2026-03; low planted bank at north facade, not a tall exposed foundation'},
-  {feature:'학생회관 신관 앞 낮은 마당',bounds:[-125,-96,-31,-13],reference:[-135,-12],blend:4,source:'Roadview2026-03; lower court and guarded descending access observed'},
+  {feature:'학생회관 신관 앞 낮은 마당',bounds:[-171,-96,-36,-5],reference:[-88,-21],offset:-2.1,blend:5,source:'Roadview2026-03: front court is below the roadside deck; depth2.1m is a visual estimate, not a survey'},
   {feature:'중앙도서관 건물·전면 마당',bounds:[-141,-69,214,282],reference:[-104,224],blend:8,source:'Roadview2026-03'},
   {feature:'디지털도서관 건물·전면 마당',bounds:[-138,-68,291,346],reference:[-104,342],blend:8,source:'Roadview2022-03'},
   {feature:'공과대학1호관 건물·전면 마당',bounds:[263,378,-244,-188],reference:[320,-204],blend:10,source:'Roadview2026-03'}

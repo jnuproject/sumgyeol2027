@@ -6,12 +6,24 @@ import {roadWidth} from './road-profile.js';
 // Presence/arrangement are observed; all dimensions and local offsets are estimates.
 export function entranceLayout(data){
  const [x,z]=data.spawn;
- return {x,z,office:{x:x+24,z:z+2,w:8.8,d:6},canopy:{x:x+4.7,z:z+38},entrySpawn:[x+12.2,z+16],medianEnd:z+69};
+ return {x,z,office:{x:x+24,z:z+2,w:8.8,d:6},canopy:{x:x+4.7,z:z+38},entrySpawn:[x+12.2,z-7],medianEnd:z+69};
 }
 export function insideEntranceOffice(x,z,data,margin=0){const o=entranceLayout(data).office;return Math.abs(x-o.x)<o.w/2+margin&&Math.abs(z-o.z)<o.d/2+margin;}
-export function addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles}){
+export function addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles,surfaces=null}){
  const layout=entranceLayout(data),{x,z,office:o,canopy:c}=layout;
  const material=color=>new THREE.MeshStandardMaterial({color,roughness:.85});
+ // The OSM way stops at the campus boundary. A short, explicitly reconstructed
+ // approach keeps the before-gate spawn on paving rather than unsupported grass.
+ const main=data.roads.find(r=>r.id==='286085067'),end=main?.points.at(-1);
+ if(end){
+  const prior=main.points.at(-2),dz=end[1]-prior[1],ratio=Math.abs(dz)>.01?(z-22-end[1])/dz:0;
+  const front=[end[0]+(end[0]-prior[0])*ratio,z-22],width=17.5;
+  const ring=w=>[[end[0]-w/2,end[1]],[end[0]+w/2,end[1]],[front[0]+w/2,front[1]],[front[0]-w/2,front[1]]];
+  environment.polygon(ring(width+8.4),surfaces?.redPaving??material('#a3877a'),.055);
+  environment.polygon(ring(width),surfaces?.asphalt??material('#656d68'),.08);
+  for(const side of[-1,1]){environment.segment([end[0]+side*.17,end[1]],[front[0]+side*.17,front[1]],.12,material('#cfb45d'),.095);environment.segment([end[0]+side*(width/2-.25),end[1]],[front[0]+side*(width/2-.25),front[1]],.12,material('#e4e4d8'),.095);}
+ }
+
  const steel=material('#c6c6b5'),dark=material('#615950'),rim=material('#ab8c67'),yellow=material('#d7b347');
  const roofMat=new THREE.MeshStandardMaterial({color:'#84715b',roughness:.9,side:THREE.DoubleSide});
  function tube(a,b,r=.06,mat=steel){const delta=b.clone().sub(a),m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,delta.length(),8),mat);m.position.copy(a).addScaledVector(delta,.5);m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),delta.normalize());m.castShadow=true;scene.add(m);return m;}
@@ -74,5 +86,5 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
  }
  const hedge=new THREE.InstancedMesh(hedgeGeo,hedgeMat,hedges.length),obj=new THREE.Object3D();
  hedges.forEach(([px,pz],i)=>{obj.position.set(px,terrain.heightAt(px,pz)+.35,pz);obj.scale.set(1.35,.6,2.4);obj.rotation.y=0;obj.updateMatrix();hedge.setMatrixAt(i,obj.matrix);});hedge.name='Observed low entrance planting border';hedge.castShadow=true;hedge.receiveShadow=true;scene.add(hedge);
- return {entrySpawn:layout.entrySpawn,source:'Kakao Roadview2026-03, manually observed',geometryEstimated:true,hedgeSegments:hedges.length};
+ return {entrySpawn:layout.entrySpawn,source:'Kakao Roadview2026-03, revisited2026-10-25',referenceCapture:'2026-03',dolharubang:0,geometryEstimated:true,hedgeSegments:hedges.length};
 }

@@ -1,10 +1,10 @@
-import {cropSceneGeometry} from './scene-scope.js?v=surroundings-r25d';
+import {cropSceneGeometry} from './scene-scope.js?v=lanes-r26b';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,roadWidthAt,roadRenderPoints,isWalkingRoad as isWalking} from './road-profile.js?v=surroundings-r25d';
+import {roadWidth,roadWidthAt,roadRenderPoints,isWalkingRoad as isWalking} from './road-profile.js?v=lanes-r26b';
 export {roadWidth};
 
 function geometryFrom(raw){
@@ -127,7 +127,8 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
      band(side*(wa/2-.22),side*(wb/2-.22),.12,.12,paintWhite,.094);
      for(let start=0;start<len;start+=1.5){const end=Math.min(len,start+1.5),t=(start+end)/2/len,w=wa+(wb-wa)*t,x=a[0]+dx*t+nx*side*(w/2+.16),z=a[1]+dz*t+nz*side*(w/2+.16);if(!atJunction(x,z,r.id)){const [p,q]=parallel(side*(wa/2+.16),side*(wb/2+.16),start/len,end/len),l=Math.hypot(q[0]-p[0],q[1]-p[1]),ox=(q[1]-p[1])/l*.125,oz=-(q[0]-p[0])/l*.125,ring=[[p[0]-ox,p[1]-oz],[q[0]-ox,q[1]-oz],[q[0]+ox,q[1]+oz],[p[0]+ox,p[1]+oz]];if(ring.some(p=>onVehicleRoad(...p)))continue;polygon(ring,kerb,.18,'road');kerbBlocks.push([p,q]);}}
     }
-    if((wa+wb)/2>14)for(let d=4;d<len-4;d+=9)for(const side of[-1,1])segment(...parallel(side*4.4,side*4.4,(d-1.5)/len,(d+1.5)/len),.15,paintWhite,.095);
+    // One dashed divider per direction: two uphill + two downhill lanes.
+    for(let d=4;d<len-4;d+=9)for(const side of[-1,1])segment(...parallel(side*wa/4,side*wb/4,(d-1.5)/len,(d+1.5)/len),.15,paintWhite,.095);
    }
   }
   if(!r.walking&&!main)for(const p of r.points)circle(p,r.width/2+.25,roadShoulder,.06);

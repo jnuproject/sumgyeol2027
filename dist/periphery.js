@@ -1,6 +1,6 @@
-import {addCurrentPlantingBeds} from './observed-planting.js?v=surroundings-r25d';
+import {addCurrentPlantingBeds} from './observed-planting.js?v=lanes-r26b';
 import * as THREE from './three.module.js';
-import {roadWidthAt} from './road-profile.js?v=periphery-r23';
+import {roadWidthAt} from './road-profile.js?v=lanes-r26b';
 
 // Roadview-visible street furniture, independently modelled. Source road/park
 // outlines anchor placement; dimensions and exact prop positions are estimates.
@@ -45,9 +45,9 @@ export function addObservedPeriphery({scene,data,terrain,environment,surfaces,bo
  if(main)for(const z of[-135,-55]){
   const i=main.points.findIndex((p,i)=>i&&z>=Math.min(p[1],main.points[i-1][1])&&z<=Math.max(p[1],main.points[i-1][1]));
   if(i<1)continue;const a=main.points[i-1],b=main.points[i],x=a[0]+(b[0]-a[0])*(z-a[1])/(b[1]-a[1]),w=roadWidthAt(main,x,z);
-  for(const side of[-1,1]){
-   arrow(x+side*w*.25,z,side);
-   const points=[[0,-1.3],[.65,0],[0,1.3],[-.65,0],[0,-1.3]].map(([u,v])=>[x+side*w*.25+u,z+8+v]);for(let n=1;n<points.length;n++)environment.segment(points[n-1],points[n],.12,paint,.116);
+  for(const side of[-1,1])for(const lane of[.125,.375]){
+   arrow(x+side*w*lane,z,side);
+   const points=[[0,-1.3],[.65,0],[0,1.3],[-.65,0],[0,-1.3]].map(([u,v])=>[x+side*w*lane+u,z+8+v]);for(let n=1;n<points.length;n++)environment.segment(points[n-1],points[n],.12,paint,.116);
   }
  }
  // Irregular low basalt wall along economics1, instead of repeated square blocks.

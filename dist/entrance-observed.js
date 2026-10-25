@@ -1,12 +1,13 @@
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
-import {roadWidth} from './road-profile.js';
+import {roadWidth,MAIN_AVENUE_WIDTH,MAIN_AVENUE_LANES} from './road-profile.js?v=lanes-r26b';
 
 // Independently constructed from the public Kakao Roadview, labelled2026-03.
 // Presence/arrangement are observed; all dimensions and local offsets are estimates.
 export function entranceLayout(data){
  const [x,z]=data.spawn;
- return {x,z,office:{x:x+24,z:z+2,w:8.8,d:6},canopy:{x:x+4.7,z:z+38},entrySpawn:[x+12.2,z-7],medianEnd:z+69};
+ const main=data.roads.find(r=>r.id==='286085067'),width=main?roadWidth(main):MAIN_AVENUE_WIDTH,half=width/2;
+ return {x,z,roadWidth:width,lanes:MAIN_AVENUE_LANES,office:{x:x+half+15.25,z:z+2,w:8.8,d:6},canopy:{x:x+width/4,z:z+38},entrySpawn:[x+half+3.45,z-7],medianEnd:z+69};
 }
 export function insideEntranceOffice(x,z,data,margin=0){const o=entranceLayout(data).office;return Math.abs(x-o.x)<o.w/2+margin&&Math.abs(z-o.z)<o.d/2+margin;}
 export function addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles,surfaces=null}){
@@ -17,13 +18,15 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
  const main=data.roads.find(r=>r.id==='286085067'),end=main?.points.at(-1);
  if(end){
   const prior=main.points.at(-2),dz=end[1]-prior[1],ratio=Math.abs(dz)>.01?(z-22-end[1])/dz:0;
-  const front=[end[0]+(end[0]-prior[0])*ratio,z-22],width=17.5;
+  const front=[end[0]+(end[0]-prior[0])*ratio,z-22],width=layout.roadWidth;
   const ring=w=>[[end[0]-w/2,end[1]],[end[0]+w/2,end[1]],[front[0]+w/2,front[1]],[front[0]-w/2,front[1]]];
   const paving=surfaces?.redPaving??material('#a3877a');
   environment.polygon(ring(width+8.4),paving,.055);
   for(const side of[-1,1]){const inner=side*width/2,outer=side*(width/2+4.2);environment.polygon([[end[0]+inner,end[1]],[end[0]+outer,end[1]],[front[0]+outer,front[1]],[front[0]+inner,front[1]]],paving,.14);}
   environment.polygon(ring(width),surfaces?.asphalt??material('#656d68'),.08);
   for(const side of[-1,1]){environment.segment([end[0]+side*.17,end[1]],[front[0]+side*.17,front[1]],.12,material('#cfb45d'),.095);environment.segment([end[0]+side*(width/2-.25),end[1]],[front[0]+side*(width/2-.25),front[1]],.12,material('#e4e4d8'),.095);}
+  const length=Math.hypot(front[0]-end[0],front[1]-end[1]);
+  for(let d=4;d<length-2;d+=9)for(const side of[-1,1]){const at=t=>[end[0]+(front[0]-end[0])*t+side*width/4,end[1]+(front[1]-end[1])*t];environment.segment(at((d-1.5)/length),at((d+1.5)/length),.15,material('#e4e4d8'),.095);}
  }
 
  const steel=material('#c6c6b5'),dark=material('#615950'),rim=material('#ab8c67'),yellow=material('#d7b347');
@@ -35,7 +38,7 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
  // Paired curved sheets over the outbound vehicle lanes; roof top and underside
  // are original geometry, never panorama image textures.
  for(let sheet=0;sheet<2;sheet++){
-  const left=x+.2+sheet*4.65,width=4.4,front=c.z-5,back=c.z+5;
+  const left=x+.2+sheet*layout.roadWidth/4,width=layout.roadWidth/4-.35,front=c.z-5,back=c.z+5;
   const roofAt=(u,t)=>[left+width*u,6.05+.72*Math.sin(u*Math.PI)+.22*t+(sheet?.25:0),front+(back-front)*t];
   const positions=[],indices=[];
   for(let row=0;row<=8;row++)for(let col=0;col<=20;col++){const p=roofAt(col/20,row/8);positions.push(p[0],flatBase+p[1],p[2]);}
@@ -46,7 +49,7 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
   for(const t of[.15,.4,.65,.9])for(let i=0;i<20;i++){const a=roofAt(i/20,t),b=roofAt((i+1)/20,t);a[1]-=.11;b[1]-=.11;tube(cv(...a),cv(...b),.025,dark);}
  }
  for(const side of[-1,1])for(const dz of[-3.9,3.9]){
-  const px=c.x+side*4.8,pz=c.z+dz;
+  const px=c.x+side*(layout.roadWidth/4+.15),pz=c.z+dz;
   tube(cv(px,0,pz),cv(px,9.1,pz),.075);obstacles.push([px,pz,.22]);
   tube(cv(px,8.65,pz),cv(c.x+side*.2,6.7,pz),.025);
   tube(cv(px,8.65,pz),cv(px,6.3,c.z-dz),.025);
@@ -65,7 +68,7 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
   }
  }
  // Vehicle-control hardware on the outer lane edge, without an invented closed gate.
- for(const px of[x+8.7,x+4.8]){
+ for(const px of[x+layout.roadWidth/2,x+layout.roadWidth/4]){
   box(px,.1,c.z, .75,.2,6.5,'#a2a28e');box(px,.8,c.z-1,.55,1.5,.55,'#858e8a');box(px,1.38,c.z-1,.59,.18,.6,'#d2ad45');box(px,1.65,c.z+1.4,.65,3.1,.5,'#9ba29b');box(px,2.15,c.z+1.12,.42,.42,.06,'#3d5055');obstacles.push([px,c.z-1,.5]);obstacles.push([px,c.z+1.4,.5]);
  }
  // Roadside security office: low dark-stone wing with pale windowed front.
@@ -85,12 +88,12 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
  // Low planted borders alongside the red sidewalks. Gaps follow mapped paths/junctions.
  const hedgeGeo=new THREE.IcosahedronGeometry(1,2),hedgeMat=material('#475d3e'),hedges=[];
  for(const side of[-1,1])for(let pz=z+7;pz<z+108;pz+=1.2){
-  const px=x+side*14.7;
+  const px=x+side*(layout.roadWidth/2+5.95);
   if(insideEntranceOffice(px,pz,data,2))continue;
   if(data.roads.some(r=>r.id!=='286085067'&&r.points.some((b,i)=>i&&segmentDistance(px,pz,r.points[i-1],b)<roadWidth(r)/2+2)))continue;
   hedges.push([px,pz]);
  }
  const hedge=new THREE.InstancedMesh(hedgeGeo,hedgeMat,hedges.length),obj=new THREE.Object3D();
  hedges.forEach(([px,pz],i)=>{obj.position.set(px,terrain.heightAt(px,pz)+.46,pz);obj.scale.set(.76,.44,.86);obj.rotation.y=0;obj.updateMatrix();hedge.setMatrixAt(i,obj.matrix);});hedge.name='Observed low entrance planting border';hedge.castShadow=true;hedge.receiveShadow=true;scene.add(hedge);
- return {entrySpawn:layout.entrySpawn,source:'Kakao Roadview2026-03, revisited2026-10-25',referenceCapture:'2026-03',dolharubang:0,geometryEstimated:true,hedgeSegments:hedges.length};
+ return {entrySpawn:layout.entrySpawn,source:'Kakao Roadview2026-03; lane count corrected by user2026-10-25',referenceCapture:'2026-03',dolharubang:0,lanes:layout.lanes,roadWidthEstimate:layout.roadWidth,geometryEstimated:true,hedgeSegments:hedges.length};
 }

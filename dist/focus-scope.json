@@ -1,5 +1,5 @@
 {
-  "version": "surroundings-r25",
+  "version": "lanes-r26",
   "areas": [
     "정문",
     "경상대 앞에서 중앙도서관으로 올라가는 구간",
@@ -39,5 +39,6 @@
     "471377428",
     "953564621"
   ],
-  "latestAppearanceSources": "surroundings-sources.json"
+  "latestAppearanceSources": "surroundings-sources.json",
+  "roadCorrection": "road-correction.json"
 }

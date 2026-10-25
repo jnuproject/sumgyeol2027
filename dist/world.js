@@ -1,17 +1,17 @@
-import {addObservedPeriphery} from './periphery.js?v=surroundings-r25d';
-import {createSceneScope} from './scene-scope.js?v=surroundings-r25d';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=surroundings-r25d';
-import {addFocusDetails} from './focus-details.js?v=surroundings-r25d';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=surroundings-r25d';
-import {addObservedEntrance} from './entrance-observed.js?v=surroundings-r25d';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=surroundings-r25d';
-import {addSportsGrounds} from './sports-ground.js?v=surroundings-r25d';
+import {addObservedPeriphery} from './periphery.js?v=lanes-r26b';
+import {createSceneScope} from './scene-scope.js?v=lanes-r26b';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=lanes-r26b';
+import {addFocusDetails} from './focus-details.js?v=lanes-r26b';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=lanes-r26b';
+import {addObservedEntrance,entranceLayout} from './entrance-observed.js?v=lanes-r26b';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=lanes-r26b';
+import {addSportsGrounds} from './sports-ground.js?v=lanes-r26b';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=surroundings-r25d';
-import { addVegetation } from './vegetation.js?v=surroundings-r25d';
-import { loadCampusTerrain } from './terrain.js?v=surroundings-r25d';
-import { addCampusEnvironment } from './environment.js?v=surroundings-r25d';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=lanes-r26b';
+import { addVegetation } from './vegetation.js?v=lanes-r26b';
+import { loadCampusTerrain } from './terrain.js?v=lanes-r26b';
+import { addCampusEnvironment } from './environment.js?v=lanes-r26b';
 
 export async function createCampus(scene,data) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();
@@ -76,16 +76,17 @@ for(const b of visibleData.buildings){
 }
 // The main roadway stays open: paired basalt piers frame SIDEWALKS, never an invented road-spanning arch.
 const gateX=data.spawn[0],gateZ=data.spawn[1];
+const gateLayout=entranceLayout(data),gateInner=gateLayout.roadWidth/2+1.25,gateOuter=gateInner+8,gateBridge=gateInner+4;
 function stonePillar(x,z,h,w=1.7){box(x,h/2,z,w,h,1.65,'#4d5350');box(x,h+.07,z,w+.15,.17,1.8,'#62685c');obstacles.push([x,z,w*.65]);}
 function disc(x,y,z,r,c){const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,.14,20),mat(c));o.rotation.x=Math.PI/2;o.position.set(x,y+baseAt(x,z),z);scene.add(o)}
 
 for(const side of[-1,1]){
- const inner=gateX+side*10,outer=gateX+side*18;
+ const inner=gateX+side*gateInner,outer=gateX+side*gateOuter;
  stonePillar(inner,gateZ,7.4,1.7);stonePillar(outer,gateZ,4.8,1.6);
  // Re-observed in dated Kakao Roadview2026-03: a low, shallow connector.
  // Older news photographs and their inferred pitched roof are excluded.
- box(gateX+side*14,4.25,gateZ,7.3,.30,1.1,'#62685c');
- box(gateX+side*14,4.43,gateZ,7.6,.12,1.4,'#9c9e94');
+ box(gateX+side*gateBridge,4.25,gateZ,7.3,.30,1.1,'#62685c');
+ box(gateX+side*gateBridge,4.43,gateZ,7.6,.12,1.4,'#9c9e94');
 
  box(inner,.16,gateZ,2.1,.32,2.0,'#8d9487');box(outer,.16,gateZ,2.0,.32,1.95,'#8d9487');
  for(let y of[5.05,5.95,6.85]){disc(inner,y,gateZ-.88,.31,'#7f8982');disc(inner,y,gateZ-.97,.24,'#adb4ad');disc(inner,y,gateZ-1.06,.17,'#6f817d');}
@@ -139,15 +140,15 @@ function sign(text,x,y,z,w,h,bg='#254d61',fg='#f4f5ef'){
 function addEntranceDetails(){
  // Entrance fixtures retained; the separate Roadview pass adds the observed canopy, median and roadside office.
  for(const side of[-1,1]){
-  environment.polygon([[gateX+side*14-3,gateZ-4.5],[gateX+side*14+3,gateZ-4.5],[gateX+side*14+3,gateZ+2.5],[gateX+side*14-3,gateZ+2.5]],surfaces.paving,.055);
+  environment.polygon([[gateX+side*gateBridge-3,gateZ-4.5],[gateX+side*gateBridge+3,gateZ-4.5],[gateX+side*gateBridge+3,gateZ+2.5],[gateX+side*gateBridge-3,gateZ+2.5]],surfaces.paving,.055);
   for(let z=gateZ+26;z<-150;z+=47){
-   const x=gateX+side*10.0;foundationBase=terrain.heightAt(x,z);
+   const x=gateX+side*gateInner;foundationBase=terrain.heightAt(x,z);
    box(x,4.1,z,.12,8.2,.12,'#646c6d');box(x-side*.9,8.14,z,1.9,.12,.12,'#646c6d');box(x-side*1.7,8.08,z,.65,.14,.35,'#d8dcda');obstacles.push([x,z,.4]);foundationBase=null;
   }
  }
  for(const side of[-1,1]){
   const plaque=document.createElement('canvas');plaque.width=128;plaque.height=512;const g=plaque.getContext('2d');g.fillStyle='#4e6557';g.fillRect(0,0,128,512);g.fillStyle='#e8e9d8';g.font='500 64px Pretendard,sans-serif';g.textAlign='center';[...'제주대학교'].forEach((letter,i)=>g.fillText(letter,64,90+i*85));
-  const t=new THREE.CanvasTexture(plaque);t.colorSpace=THREE.SRGBColorSpace;const m=new THREE.Mesh(new THREE.PlaneGeometry(.32,1.8),new THREE.MeshStandardMaterial({map:t,roughness:.8}));m.position.set(gateX+side*10,2.6+terrain.heightAt(gateX+side*10,gateZ),gateZ-.96);m.rotation.y=Math.PI;scene.add(m);
+  const t=new THREE.CanvasTexture(plaque);t.colorSpace=THREE.SRGBColorSpace;const m=new THREE.Mesh(new THREE.PlaneGeometry(.32,1.8),new THREE.MeshStandardMaterial({map:t,roughness:.8}));m.position.set(gateX+side*gateInner,2.6+terrain.heightAt(gateX+side*gateInner,gateZ),gateZ-.96);m.rotation.y=Math.PI;scene.add(m);
  }
  // A restrained, photo-informed central island. Exact dimensions are estimated.
  foundationBase=terrain.heightAt(gateX,gateZ+35);

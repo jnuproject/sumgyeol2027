@@ -1,0 +1,29 @@
+{
+  "version": "lanes-r26",
+  "date": "2026-10-25",
+  "authoritativeCorrection": "사용자의 최종 확인: 정문부터 위쪽까지 왕복 4차선, 방향별 2차선.",
+  "source": "Current user statement: 아니 왕복 4차선",
+  "supersedes": [
+    "Previous visual inference of two lanes in the internal main avenue",
+    "Intermediate two-lane correction request, superseded by the user before publication"
+  ],
+  "roadId": "286085067",
+  "laneCount": 4,
+  "lanesPerDirection": 2,
+  "estimatedCarriagewayWidthMetres": 14.4,
+  "widthIsMeasured": false,
+  "changes": [
+    "Remove the 17.5m-to-7.4m taper; use one four-lane profile throughout the main avenue",
+    "Keep original OSM centreline and bends",
+    "White dashed separator at one-quarter road width on both sides of the yellow centreline",
+    "Place arrows and diamond markings at each of the four lane centres",
+    "Match entrance continuation, sidewalks, piers, canopy and control hardware to the same estimated width",
+    "Keep the entrance walking spawn on the sidewalk and re-anchor the two estimated student-front deciduous trees beyond the widened road edge"
+  ],
+  "unchanged": [
+    "OSM building outlines and source road coordinates",
+    "Source elevation raster",
+    "Walking avatar, jumping, camera controls, selected three areas and buildings"
+  ],
+  "limits": "Lane count follows user confirmation. Width, markings dimensions, roadside offsets and hardware positions remain reconstruction estimates, not a survey."
+}

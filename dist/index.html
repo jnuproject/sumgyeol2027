@@ -6,7 +6,7 @@
   <title>숨결 · 캠퍼스 산책</title>
   <link rel="icon" type="image/png" href="assets/sumgyeol_symbol_blue.png">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="sumgyeol.css?v=detail-r20">
+  <link rel="stylesheet" href="sumgyeol.css?v=walk-r21">
 </head>
 <body data-mode="loading" data-ready="false">
   <canvas id="world" aria-label="제주대학교 아라캠퍼스 3D 지도" tabindex="0"></canvas>
@@ -65,7 +65,7 @@
     <div class="place-pager"><button id="previous" aria-label="이전 장소">←</button><span id="placeCounter">01 <span>/ 03</span></span><button id="next" aria-label="다음 장소">→</button></div>
   </section>
 
-  <section id="walking" class="walking" hidden aria-label="걷기 안내"><div class="walking-label"><span class="status-dot"></span> 직접 걷는 중</div><h2 id="nearPlace">정문 주변</h2><small class="focus-route-tag">정문 · 도서관 오르막 · 신관</small><p>세 구역을 자유롭게 걸어보세요.</p><div id="stamps" class="stamps" aria-label="산책 도장"></div><div class="journey-progress"><span id="visitCount">0 / 3 장소 발견</span><span>이 기기에 저장</span></div><button id="backToIdeas" class="primary compact">장소 둘러보기 <span>↗</span></button></section>
+  <section id="walking" class="walking" hidden aria-label="걷기 안내"><div class="walking-label"><span class="status-dot"></span> 직접 걷는 중</div><h2 id="nearPlace">정문 주변</h2><small class="focus-route-tag">세 구역과 연결 길만 산책할 수 있어요</small><p>세 구역을 자유롭게 걸어보세요.</p><div id="stamps" class="stamps" aria-label="산책 도장"></div><div class="journey-progress"><span id="visitCount">0 / 3 장소 발견</span><span>이 기기에 저장</span></div><button id="backToIdeas" class="primary compact">장소 둘러보기 <span>↗</span></button></section>
 
   <aside id="mapPanel" class="map-panel" aria-label="캠퍼스 지도" hidden>
     <div class="map-heading"><span>FOCUS WALK · 3</span><button id="mapToggle" aria-label="지도 접기" aria-expanded="true">−</button></div>
@@ -81,6 +81,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <dialog id="dialog" aria-labelledby="dialogTitle"><button id="closeDialog" class="dialog-close" aria-label="닫기">×</button><div class="eyebrow">숨결 · 캠퍼스 산책</div><h2 id="dialogTitle"></h2><div id="dialogBody"></div></dialog>
   <section id="error" class="error-panel" hidden role="alert"><span class="eyebrow">잠시만요</span><h2>캠퍼스를 불러오지 못했어요.</h2><p id="errorMessage">WebGL을 지원하는 최신 브라우저에서 다시 열어주세요.</p><button id="retry" class="primary">다시 시도하기 ↗</button></section>
-  <script type="module" src="game.js?v=detail-r20"></script>
+  <script type="module" src="game.js?v=walk-r21"></script>
 </body>
 </html>

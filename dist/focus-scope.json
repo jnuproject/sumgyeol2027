@@ -1,5 +1,5 @@
 {
-  "version": "detail-r20",
+  "version": "walk-r21",
   "areas": [
     "정문",
     "경상대 앞에서 중앙도서관으로 올라가는 구간",
@@ -15,5 +15,9 @@
     "471297922"
   ],
   "note": "Walking starts and camera framing are independently chosen presentation positions; not surveyed entrances.",
-  "detailSources": "focus-detail-sources.json"
+  "detailSources": "focus-detail-sources.json",
+  "walkingRestricted": true,
+  "allowedConnections": "Entrance avenue, student-hall forecourt, economics approach and mapped economics-to-library stairs only",
+  "boundaryDefinition": "walk-area.js: union of selected forecourts and buffered source road segments",
+  "backgroundBuildingsWalkable": false
 }

@@ -1,10 +1,10 @@
-import {cropSceneGeometry} from './scene-scope.js?v=identity-r24g';
+import {cropSceneGeometry} from './scene-scope.js?v=surroundings-r25d';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,roadWidthAt,roadRenderPoints,isWalkingRoad as isWalking} from './road-profile.js?v=identity-r24g';
+import {roadWidth,roadWidthAt,roadRenderPoints,isWalkingRoad as isWalking} from './road-profile.js?v=surroundings-r25d';
 export {roadWidth};
 
 function geometryFrom(raw){
@@ -41,7 +41,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
  }
  const terrainMesh=new THREE.Mesh(geometryFrom(scope?cropSceneGeometry(terrain.geometry,scope):terrain.geometry),scopedMaterial(surfaces.grass));
  terrainMesh.name='AWS terrain at original campus coordinates';terrainMesh.userData.campusTerrain=true;terrainMesh.receiveShadow=true;scene.add(terrainMesh);
- const chunks=new Map(),walkRegions=[];
+ const chunks=new Map(),walkRegions=[],kerbBlocks=[];
  const materialCache=new Map();
  function colored(base,color){const key=base.uuid+color;if(!materialCache.has(key)){const material=base.clone();material.color.set(color);material.onBeforeCompile=base.onBeforeCompile;material.customProgramCacheKey=base.customProgramCacheKey;materialCache.set(key,material);}return materialCache.get(key);}
  const areaMaterials={wood:colored(surfaces.grass,'#6e8d57'),grass:colored(surfaces.grass,'#a8bc80'),park:colored(surfaces.grass,'#8da876'),pitch:colored(surfaces.grass,'#88a171'),tennis:new THREE.MeshStandardMaterial({color:'#5e8590',roughness:1}),parking:colored(surfaces.asphalt,'#c9cdca'),water:new THREE.MeshStandardMaterial({color:'#789fa9',roughness:.35,metalness:.12})};
@@ -80,9 +80,29 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
  }
  const roads=data.roads.map(r=>({...r,points:roadRenderPoints(r),width:roadWidth(r),walking:isWalking(r)}));
  function atJunction(x,z,exclude){return roads.some(r=>r.id!==exclude&&!r.walking&&r.points.some((p,i)=>i&&segmentDistance(x,z,r.points[i-1],p)<r.width*.5+1.2));}
+ const onVehicleRoad=(x,z,margin=.025)=>roads.some(r=>!r.walking&&r.points.some((p,i)=>i&&segmentDistance(x,z,r.points[i-1],p)<=roadWidthAt(r,x,z)*.5+margin));
+ function raisedPavement(points,material,offset){
+  // Small cells are conservatively omitted at intersecting vehicle roads.
+  // The low underlay remains below asphalt; it cannot cover a junction.
+  const samples=[...points,points.reduce((p,q)=>[p[0]+q[0]/points.length,p[1]+q[1]/points.length],[0,0])];
+  for(let i=0;i<points.length;i++){const p=points[i],q=points[(i+1)%points.length];samples.push([(p[0]+q[0])/2,(p[1]+q[1])/2]);}
+  if(samples.some(p=>onVehicleRoad(...p)))return;
+  polygon(points,material,offset,'road');
+ }
  for(const r of roads){
   const main=r.id==='286085067',pavement=main?4.2:0,material=r.walking?surfaces.paving:surfaces.asphalt,height=r.walking?.09:.08;
-  if(pavement)for(const p of r.points)circle(p,roadWidthAt(r,...p)/2+pavement,p[1]<-409?surfaces.redPaving:surfaces.paving,.055);
+  if(pavement)for(const p of r.points){
+   const inner=roadWidthAt(r,...p)/2,outer=inner+pavement,mat=p[1]<-409?surfaces.redPaving:surfaces.paving;
+   circle(p,outer,mat,.055);
+   // entrance-observed extends the final OSM point into the approach road.
+   // Its side quads supply the raised pavement; a radial cap would cross that
+   // extension because it is not part of this module's OSM vehicle footprint.
+   if(p===r.points.at(-1))continue;
+   // Annular caps, never raised disks across the road centre. Slightly expand
+   // the inner radius so each chord also stays outside the asphalt radius.
+   const radius=(inner+.035)/Math.cos(Math.PI/32);
+   for(let i=0;i<32;i++){const a=i*Math.PI/16,b=(i+1)*Math.PI/16,at=(angle,d)=>[p[0]+Math.cos(angle)*d,p[1]+Math.sin(angle)*d];raisedPavement([at(a,radius),at(b,radius),at(b,outer),at(a,outer)],mat,.14);}
+  }
   for(let i=1;i<r.points.length;i++){
    const a=r.points[i-1],b=r.points[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);if(len<.01)continue;stats.roadSegments++;
    const nx=dz/len,nz=-dx/len,wa=roadWidthAt(r,...a),wb=roadWidthAt(r,...b),midZ=(a[1]+b[1])/2;
@@ -90,8 +110,14 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
    const band=(offsetA,offsetB,widthA,widthB,mat,lift)=>{const [p,q]=parallel(offsetA-widthA/2,offsetB-widthB/2),[v,u]=parallel(offsetA+widthA/2,offsetB+widthB/2);convex([p,q,u,v],mat,lift);};
    if(!r.walking&&!main)segment(a,b,r.width+.5,roadShoulder,.06);
    if(pavement){
-    band(0,0,wa+pavement*2,wb+pavement*2,midZ<-409?surfaces.redPaving:surfaces.paving,.055);
-    for(const side of[-1,1])band(side*(wa/2+1.15),side*(wb/2+1.15),1.55,1.55,areaMaterials.wood,.072);
+    const pavingMaterial=midZ<-409?surfaces.redPaving:surfaces.paving;
+    band(0,0,wa+pavement*2,wb+pavement*2,pavingMaterial,.055);
+    for(const side of[-1,1])for(let d=0;d<len;d+=1.5){
+     const start=d/len,end=Math.min(len,d+1.5)/len;
+     const cell=(near,far)=>{const [p,q]=parallel(side*(wa/2+near),side*(wb/2+near),start,end),[v,u]=parallel(side*(wa/2+far),side*(wb/2+far),start,end);return[p,q,u,v];};
+     raisedPavement(cell(.035,pavement),pavingMaterial,.14);
+     raisedPavement(cell(.375,1.925),areaMaterials.wood,.15);
+    }
    }
    band(0,0,wa,wb,material,height);
    if(main){
@@ -99,13 +125,18 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
     else if(!(midZ>=data.spawn[1]&&midZ<=data.spawn[1]+69))for(const side of[-1,1])segment(...parallel(side*.17),.12,paintYellow,.094);
     for(const side of[-1,1]){
      band(side*(wa/2-.22),side*(wb/2-.22),.12,.12,paintWhite,.094);
-     for(let start=0;start<len;start+=3){const end=Math.min(len,start+3),t=(start+end)/2/len,w=wa+(wb-wa)*t,x=a[0]+dx*t+nx*side*(w/2+.13),z=a[1]+dz*t+nz*side*(w/2+.13);if(!atJunction(x,z,r.id))segment(...parallel(side*(wa/2+.13),side*(wb/2+.13),start/len,end/len),.25,kerb,.13);}
+     for(let start=0;start<len;start+=1.5){const end=Math.min(len,start+1.5),t=(start+end)/2/len,w=wa+(wb-wa)*t,x=a[0]+dx*t+nx*side*(w/2+.16),z=a[1]+dz*t+nz*side*(w/2+.16);if(!atJunction(x,z,r.id)){const [p,q]=parallel(side*(wa/2+.16),side*(wb/2+.16),start/len,end/len),l=Math.hypot(q[0]-p[0],q[1]-p[1]),ox=(q[1]-p[1])/l*.125,oz=-(q[0]-p[0])/l*.125,ring=[[p[0]-ox,p[1]-oz],[q[0]-ox,q[1]-oz],[q[0]+ox,q[1]+oz],[p[0]+ox,p[1]+oz]];if(ring.some(p=>onVehicleRoad(...p)))continue;polygon(ring,kerb,.18,'road');kerbBlocks.push([p,q]);}}
     }
     if((wa+wb)/2>14)for(let d=4;d<len-4;d+=9)for(const side of[-1,1])segment(...parallel(side*4.4,side*4.4,(d-1.5)/len,(d+1.5)/len),.15,paintWhite,.095);
    }
   }
   if(!r.walking&&!main)for(const p of r.points)circle(p,r.width/2+.25,roadShoulder,.06);
   for(const p of r.points)circle(p,roadWidthAt(r,...p)/2,material,height);
+ }
+ // Solid kerb faces give the observed road/sidewalk edge a visible step.
+ const visibleKerbs=kerbBlocks.filter(([a,b])=>!scope||scope.alphaAt((a[0]+b[0])/2,(a[1]+b[1])/2)>.95);
+ if(visibleKerbs.length){const mesh=new THREE.InstancedMesh(new THREE.BoxGeometry(.25,.18,1),kerb,visibleKerbs.length),o=new THREE.Object3D(),axis=new THREE.Vector3(0,0,1);
+  visibleKerbs.forEach(([a,b],i)=>{const va=new THREE.Vector3(a[0],terrain.heightAt(...a)+.09,a[1]),vb=new THREE.Vector3(b[0],terrain.heightAt(...b)+.09,b[1]),delta=vb.clone().sub(va);o.position.copy(va).add(vb).multiplyScalar(.5);o.quaternion.setFromUnitVectors(axis,delta.clone().normalize());o.scale.set(1,1,Math.max(.01,delta.length()-.025));o.updateMatrix();mesh.setMatrixAt(i,o.matrix);});mesh.name='Observed solid roadside kerbs';mesh.receiveShadow=true;mesh.castShadow=true;scene.add(mesh);stats.kerbBlocks=visibleKerbs.length;
  }
  function flush(){for(const [material,list] of chunks){
   const vertexCount=list.reduce((n,c)=>n+c.positions.length/3,0),indexCount=list.reduce((n,c)=>n+c.indices.length,0);
@@ -120,7 +151,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
    for(let i=1;i<road.points.length;i++){
     const d=segmentDistance(x,z,road.points[i-1],road.points[i]),width=roadWidthAt(road,x,z);
     if(d<=width*.5)offset=Math.max(offset,road.walking?.09:.08);
-    else if(road.id==='286085067'&&d<=width*.5+4.2){offset=Math.max(offset,.055);if(Math.abs(d-(width*.5+.13))<=.125&&!atJunction(x,z,road.id))offset=Math.max(offset,.13);}
+    else if(road.id==='286085067'&&d<=width*.5+4.2)offset=Math.max(offset,.055);
    }
   }
   return offset;

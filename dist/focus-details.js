@@ -23,6 +23,9 @@ export function stairRouteHeight(route,x,z){
 }
 export function insideFocusClearance(x,z,data){
  if(x>-126&&x<-87&&z>-34&&z<-12)return true;
+ // The photographed deck access and its road-side approach are open. Keep
+ // procedural avenue trunks out of this continuous walking/camera corridor.
+ if(segmentDistance(x,z,[-99,-21],[-73,-21])<4.2)return true;
  if(x>-137&&x<-73&&z>212&&z<241)return true;
  const r=data.roads.find(r=>r.id==='471489721');
  return Boolean(r&&segmentDistance(x,z,r.points[0],r.points.at(-1))<4.2);
@@ -64,7 +67,7 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
  for(let x=-65;x<0;x+=3.4)environment.segment([x,86.4],[x,88.8],.035,mat('#7c8178'),.14);
  // Low planted edge and rough stone retaining courses seen beneath the facade.
 
- const shrubGeo=new THREE.SphereGeometry(1,20,12),shrubs=[];
+ const shrubGeo=new THREE.SphereGeometry(1,20,12),shrubs=[],clippedShrubs=[];
  const shrub=(x,z,w,h,d,ground=terrain.heightAt(x,z),color='#43583c')=>{shrubs.push({x,z,w,h,d,ground,color});};
  for(const x of[-62,-48,-34,-20,-7])shrub(x,90.1,1.2,.9,.7);
  // Library approach: broad asphalt court, paired clipped shrubs and handrails.
@@ -75,8 +78,13 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
   for(const side of[-1,1]){
    for(const [i,zz] of[232.5,236.2,239.2].entries()){
     const xx=x+side*(13.8+i*.75),ground=terrain.heightAt(xx,zz);
-    absBox(xx,ground+.35,zz,3.4,.7,3.4,'#525e50');
-    shrub(xx,zz,2.2,.84,1.75,ground+.7);shrub(xx,zz,1.75,.70,1.35,ground+1.34);shrub(xx,zz,1.35,.65,1.05,ground+1.88);shrub(xx,zz,.95,.55,.75,ground+2.37);obstacles.push([xx,zz,1.7]);stats.topiaryGroups++;
+    //2026-03 front Roadview shows thick rounded hedge masses rising along
+    // the stairs, not four discs stacked vertically at every planting location.
+    // Keep existing six positions and player clearances; heights are estimates.
+    const pedestal=.58+i*.55,crownHeight=1.15+i*.075;
+    absBox(xx,ground+pedestal/2,zz,3.4,pedestal,3.4,'#525e50');
+    clippedShrubs.push({x:xx,z:zz,w:1.95-i*.09,h:crownHeight,d:1.65,ground:ground+pedestal,color:i===1?'#4b5936':'#3e5037'});
+    obstacles.push([xx,zz,1.7]);stats.topiaryGroups++;
    }
    const lower=terrain.heightAt(x+side*9,232.4)+.18;
    for(let d=0;d<=8.4;d+=2.1){const y=lower+(base+2.5-lower)*d/8.4;rail([x+side*9,y,232.4+d],[x+side*9,y+1.0,232.4+d]);}
@@ -141,15 +149,42 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
 
  }
  // Original clumps, instanced. Planting positions are reconstructed, not surveyed.
- if(shrubs.length){
+ if(shrubs.length||clippedShrubs.length){
   const shrubMaterial=new THREE.MeshStandardMaterial({color:'#ffffff',roughness:.97});
   if(typeof document!=='undefined'){
    const canvas=document.createElement('canvas');canvas.width=canvas.height=128;const ctx=canvas.getContext('2d');ctx.fillStyle='#ddd';ctx.fillRect(0,0,128,128);
    for(let i=0;i<4200;i++){const n=170+(i*37%74);ctx.fillStyle=`rgb(${n},${n},${n})`;ctx.beginPath();ctx.ellipse(i*31%128,(i*73+Math.floor(i/128)*17)%128,.8+(i%4)*.25,.5+(i%3)*.2,i*.71,0,Math.PI*2);ctx.fill();}
    const texture=new THREE.CanvasTexture(canvas);texture.wrapS=texture.wrapT=THREE.RepeatWrapping;texture.repeat.set(4,2);texture.anisotropy=4;shrubMaterial.map=texture;shrubMaterial.bumpMap=texture;shrubMaterial.bumpScale=.035;
   }
-  const mesh=new THREE.InstancedMesh(shrubGeo,shrubMaterial,shrubs.length),o=new THREE.Object3D(),c=new THREE.Color();
-  shrubs.forEach((s,i)=>{o.position.set(s.x,s.ground+s.h/2,s.z);o.scale.set(s.w,s.h/2,s.d);o.updateMatrix();mesh.setMatrixAt(i,o.matrix);mesh.setColorAt(i,c.set(s.color));});mesh.castShadow=true;mesh.receiveShadow=true;scene.add(mesh);}
+  const instanceClumps=(geometry,list,name)=>{
+   if(!list.length)return;
+   const mesh=new THREE.InstancedMesh(geometry,shrubMaterial,list.length),o=new THREE.Object3D(),c=new THREE.Color();
+   list.forEach((s,i)=>{o.position.set(s.x,s.ground+s.h/2,s.z);o.scale.set(s.w,s.h/2,s.d);o.updateMatrix();mesh.setMatrixAt(i,o.matrix);mesh.setColorAt(i,c.set(s.color));});mesh.name=name;mesh.castShadow=true;mesh.receiveShadow=true;scene.add(mesh);
+  };
+  instanceClumps(shrubGeo,shrubs,'Low reconstructed planting clumps');
+  if(clippedShrubs.length){
+   const rounded=new THREE.BoxGeometry(2,2,2,6,4,6),positions=rounded.attributes.position;
+   const inset=new THREE.Vector3(),point=new THREE.Vector3();
+   const roundPoint=p=>{inset.copy(p).clampScalar(-.72,.72);return p.sub(inset).normalize().multiplyScalar(.28).add(inset);};
+   for(let i=0;i<positions.count;i++){point.fromBufferAttribute(positions,i);roundPoint(point);positions.setXYZ(i,point.x,point.y,point.z);}rounded.computeVertexNormals();
+   instanceClumps(rounded,clippedShrubs,'Roadview2026 library rounded hedge masses');
+   // Small original leaf surfaces break the smooth solid silhouette. These are
+   // reconstructed foliage, not sampled image pixels or additional plant sites.
+   const perCrown=220,leaves=new THREE.InstancedMesh(new THREE.CircleGeometry(1,5),new THREE.MeshStandardMaterial({color:'#fff',roughness:1,side:THREE.DoubleSide}),clippedShrubs.length*perCrown),leaf=new THREE.Object3D(),color=new THREE.Color(),normal=new THREE.Vector3(),forward=new THREE.Vector3(0,0,1);
+   const rand=n=>{const f=Math.sin(n*127.1+311.7)*43758.5453;return f-Math.floor(f);};
+   let next=0;
+   for(const [ci,crown]of clippedShrubs.entries())for(let j=0;j<perCrown;j++){
+    const seed=ci*perCrown+j,face=j%5,u=rand(seed+17)*2-1,v=rand(seed+71)*2-1;
+    point.set(face<2?(face===0?-1:1):u,face===4?1:v,face===2?-1:face===3?1:face===4?v:u);roundPoint(point);
+    inset.copy(point).clampScalar(-.72,.72);normal.copy(point).sub(inset).normalize();
+    leaf.position.set(crown.x+point.x*crown.w+normal.x*.018,crown.ground+crown.h/2+point.y*crown.h/2+normal.y*.018,crown.z+point.z*crown.d+normal.z*.018);
+    leaf.quaternion.setFromUnitVectors(forward,normal);leaf.rotateZ(rand(seed+91)*Math.PI);const size=.038+rand(seed+31)*.032;leaf.scale.set(size,size*.56,1);leaf.updateMatrix();leaves.setMatrixAt(next,leaf.matrix);
+    color.set(crown.color).multiplyScalar(.82+rand(seed+101)*.43);leaves.setColorAt(next++,color);
+   }
+   leaves.name='Fine leaves on clipped library planting';leaves.receiveShadow=true;scene.add(leaves);
+  }
+ }
+
  // Refine the photographed security-office porch without blocking the sidewalk.
  const gx=data.spawn[0],gz=data.spawn[1],ox=gx+24,oz=gz+2,base=terrain.heightAt(ox,oz);
  for(let i=0;i<3;i++)absBox(ox-4.7-i*.32,base+.12+(2-i)*.11,oz, .34,.22+(2-i)*.22,3.5,'#acb0a7');

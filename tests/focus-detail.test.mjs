@@ -7,6 +7,7 @@ import {makeStairRoute,stairRouteHeight,addFocusDetails,insideFocusClearance} fr
 import {FOCUS_BUILDING_PROFILES,addFocusFacade} from '../dist/focus-architecture.js';
 import {generateVegetationLayout} from '../dist/vegetation.js';
 import {walkable} from '../dist/navigation.js';
+import {segmentDistance} from '../dist/navigation.js';
 const data=JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.meta.url)));
 const meta=JSON.parse(fs.readFileSync(new URL('../dist/terrain-data/terrain.json',import.meta.url)));
 const raw=fs.readFileSync(new URL('../dist/terrain-data/elevations.f32',import.meta.url));
@@ -36,6 +37,7 @@ test('reconstructed vegetation keeps the selected stairs and low courts clear',(
  const trees=generateVegetationLayout(data);
  assert.ok(trees.length>100);
  for(const p of trees)assert.equal(insideFocusClearance(p.x,p.z,data),false);
+ for(const p of trees)assert.ok(segmentDistance(p.x,p.z,[-99,-21],[-73,-21])>=4.2,'student deck approach must not be blocked by avenue trunks');
 });
 test('four independent focus facades preserve original footprints and produce finite geometry',()=>{
  const before=JSON.stringify(data.buildings);

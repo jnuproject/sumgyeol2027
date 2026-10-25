@@ -1,0 +1,180 @@
+{
+  "version": "surroundings-r25",
+  "reviewedOn": "2026-10-25",
+  "referenceCaptureMonth": "2026-03",
+  "method": "Re-inspection of publicly displayed Kakao Roadview frames with the capture month visible in the UI. Gate frames were also revisited in the public viewer during the r24 review. Review date is not image capture date or an on-site survey date.",
+  "scope": "Environment appearance in the existing playable entrance, economics-to-library and new student-hall areas; no replacement terrain viewer.",
+  "currentAppearancePolicy": "Only the named March 2026 captures support new appearance decisions in this revision. A publication date alone does not establish image capture date. March imagery does not verify the campus condition in October 2026.",
+  "sources": [
+    {
+      "id": "gate-march-2026",
+      "area": "정문",
+      "url": "https://map.kakao.com/?q=제주대학교 정문",
+      "captureMonth": "2026-03",
+      "reviewFrames": [
+        "gate-front-roadview-2026-03.png",
+        "gate-east-roadview-2026-03.png",
+        "gate-west-roadview-2026-03.png"
+      ],
+      "localReviewCollection": "identity-r24/references; kept outside public game assets",
+      "observed": [
+        "Low planted borders run alongside the red sidewalks; larger trees and a lower planting layer create a wooded edge.",
+        "Dark coursed-stone piers, shallow sidewalk connectors and a pale flat-roofed security office remain the r24 reference. No dolharubang is visible at the modelled entrances; the user independently confirmed their removal."
+      ],
+      "implementedThisRevision": [
+        "Entrance border uses overlapping rounded hedge clusters instead of uniform box segments.",
+        "Mapped woodland receives a low groundcover layer and revised layered tree crowns; this represents observed density and silhouette, not individually identified plants.",
+        "Pale security-office walls, road-facing glazing and a flat pale porch canopy replace the dark undifferentiated block; dimensions remain estimates.",
+        "Gate basalt course scale is reduced, retaining the current low connector and no statues."
+      ],
+      "estimated": [
+        "Border offsets, crown dimensions, spacing, species and individual tree locations.",
+        "Groundcover distribution follows OSM woodland polygons plus clearance rules, not a complete planting inventory."
+      ],
+      "retainedFromPriorRevision": [
+        "Gate form, removed dolharubang and approach layout from r24; these are not newly measured in r25."
+      ]
+    },
+    {
+      "id": "economics1-march-2026",
+      "area": "경상대학 1호관 앞 보도와 식재 경계",
+      "url": "https://place.map.kakao.com/17567337",
+      "captureMonth": "2026-03",
+      "reviewFrames": [
+        "economics1-front-2026-03.png",
+        "economics1-eastward-2026-03.png"
+      ],
+      "localReviewCollection": "focus-detail-r20/references; kept outside public game assets",
+      "observed": [
+        "Low irregular dark-stone bank with ivy across its face, a continuous hedge above it, and small ornamental crowns behind it.",
+        "Gray interlocking pavers and a narrow yellow tactile strip. A small blue/red circular roadside prohibition sign stands on a slim pole.",
+        "Light-gray panel facade with grouped recessed windows and a dark stone stair tower; the entry follows a curved asphalt edge rather than a tall exposed foundation."
+      ],
+      "implementedThisRevision": [
+        "Small irregular stone forms are combined with ivy, a continuous dense hedge and five reconstructed ornamental-tree placements.",
+        "An independently drawn blue/red round sign is added near the planting edge.",
+        "Pavement uses an original interlocking pattern with gray and muted-red variants; the existing stone material is made more neutral in color.",
+        "Original leaf-and-twig alpha sprays break the silhouette of reconstructed hedges, ivy and small crowns; no photographic texture is used."
+      ],
+      "estimated": [
+        "Five tree placements are modelling choices, not a verified count of real trees.",
+        "Plant-bed extents, ivy coverage, exact sign pin and dimensions, paver dimensions and material coloration.",
+        "Repeated procedural geometry represents observed spatial order; it is not a botanical or masonry survey."
+      ]
+    },
+    {
+      "id": "library-march-2026",
+      "area": "중앙도서관 정면과 접근 도로",
+      "url": "https://place.map.kakao.com/8065442",
+      "captureMonth": "2026-03",
+      "reviewFrames": [
+        "library-front-2026-03.png",
+        "library-road-bus-stop-2026-03.png"
+      ],
+      "localReviewCollection": "focus-detail-r20/references; kept outside public game assets",
+      "observed": [
+        "Broad entry stairs between thick clipped hedge masses; the visible massing rises toward the building along stair depth. The oblique view does not establish an exact count of plants or vertical tiers.",
+        "Buff masonry, repeated pale ribs, long dark upper windows and a recessed entrance under the canopy.",
+        "A red sidewalk, dark-framed glass bus shelter and dense wooded edge with slender branches and undergrowth along the approach."
+      ],
+      "implementedThisRevision": [
+        "Replaced the four thin stacked-disc shapes at each of the six retained library planting positions with one thick rounded rectangular crown per position.",
+        "The reconstructed bases and crowns rise progressively with stair depth; small original leaf geometry breaks the smooth solid surface.",
+        "General mapped woodland rendering now includes denser layered foliage and a low groundcover layer."
+      ],
+      "estimated": [
+        "The six retained x/z placements and 1.7 m collision radii are inherited game reconstruction positions, not six surveyed real shrubs.",
+        "Crown heights of 1.15–1.30 m, widths of approximately 3.54–3.90 m, depths of 3.30 m and supporting heights of 0.58–1.68 m are visual modelling estimates.",
+        "Actual plant species, exact clipped outline, hidden planting and relative elevations are not measured."
+      ],
+      "preserved": [
+        "Existing stair routes, flight and tread geometry, height sampler, railings and all six shrub collision placements.",
+        "Existing bus-shelter geometry remains from earlier work; it is not newly measured or replaced in r25."
+      ]
+    },
+    {
+      "id": "student-march-2026",
+      "area": "학생회관 신관 앞 도로와 낮은 마당",
+      "url": "https://place.map.kakao.com/13499343",
+      "captureMonth": "2026-03",
+      "reviewFrames": [
+        "student-front-2026-03.png",
+        "student-road-axis-2026-03.png"
+      ],
+      "localReviewCollection": "focus-detail-r20/references; kept outside public game assets",
+      "observed": [
+        "Large bare-branched deciduous foreground trees partly obscure the facade; the frame does not support replacing every foreground tree with a compact evergreen crown.",
+        "Brown roadside deck/guardrail, yellow tactile threshold and a short descent to a lower paved court; curved planting edge and guarded vehicle access remain visible.",
+        "Wide asphalt street with a yellow centre line, directional arrows and diamond marks; dark conical evergreen foliage clusters behind the park-side railing."
+      ],
+      "implementedThisRevision": [
+        "Two estimated student-front deciduous tree placements use an explicit branching silhouette without evergreen leaf filler.",
+        "A small estimated conifer group is constrained to the mapped neighbouring park; tree rendering uses layered alpha-tested leaf sprays and branches rather than an opaque inner sphere.",
+        "Existing access, deck, court and road objects remain; no speculative new court furniture or new stair layout was introduced by this revision.",
+        "The deck and its roadside approach are excluded from procedural avenue placement to preserve the observed open access."
+      ],
+      "estimated": [
+        "Two foreground positions and heights of 11.2 m and 10.4 m are reconstruction choices; their count, coordinates and species are not surveyed.",
+        "Conifer coordinates and heights, individual tree spacing, crown widths and understory density.",
+        "Bare branches represent the verified March reference season, not a claim that these trees are bare in October."
+      ]
+    }
+  ],
+  "sharedSurfaceChanges": {
+    "implemented": [
+      "Solid terrain-aligned kerb faces add visible road/sidewalk edges where existing road geometry places them. Junction gaps and focus-zone visibility are retained.",
+      "Original canvas-generated interlocking pavers, foliage and bark patterns are used alongside pre-existing separately licensed CC0 material maps.",
+      "Raised sidewalks use exterior strips with vehicle-junction cutouts and a matching height sampler; entrance extension and node caps are verified together."
+    ],
+    "estimated": [
+      "The 0.18 m kerb height, 0.25 m width and modelled paver scale are modelling dimensions, not survey measurements.",
+      "Visibility of a kerb in Roadview does not establish precise curb levels throughout the route."
+    ],
+    "materialLicenseRecord": "assets/materials/sources.json"
+  },
+  "explicitCorrection": {
+    "supersedes": "The four-layer clipped-planting interpretation in identity-r24 and the corresponding library geometry.",
+    "incorrectInterpretation": "Four thin circular discs stacked vertically at every library shrub position.",
+    "correctedInterpretation": "Thick rounded hedge masses that rise along the depth of the stairs. A single oblique image does not justify an exact four-tier count.",
+    "implementationLimit": "Six existing reconstruction positions are retained for gameplay continuity. They do not certify the real number of shrubs. Earlier observation files remain as audit history and must not override this correction."
+  },
+  "excludedReferences": [
+    {
+      "source": "economics2-side-2024-06.png and other 2023/2024 imagery",
+      "reason": "Outside the current-image requirement; not used for new appearance decisions in r25. Retained older model sections are not newly verified."
+    },
+    {
+      "source": "2026 news and university posts without a verified photo capture date",
+      "reason": "Publication month alone cannot verify the depicted condition. Search results were not treated as new current visual evidence."
+    },
+    {
+      "source": "https://sketchfab.com/3d-models/3d-map-66994283798747f0b8eca9ad0960c319",
+      "reason": "Explicit NoAI restriction identified in r24 metadata review; no rendering pixels, textures or mesh from that model used as input for r25."
+    }
+  ],
+  "dataAndRights": {
+    "referenceImages": "Roadview frames are local review evidence only. No panorama, screenshot or news image is copied into public game assets or used as a material texture.",
+    "geometry": "Independent procedural reconstruction informed by visible forms; no restricted model extraction or remote game code/assets copied.",
+    "baseData": "Existing OSM coordinates and public AWS terrain remain the base data. This revision does not increase their original survey resolution.",
+    "baseRecords": [
+      "../identity-r24/observations.json",
+      "../focus-detail-r20/observations.json",
+      "../../odbl/README.md",
+      "../../../dist/assets/materials/sources.json"
+    ]
+  },
+  "preserved": [
+    "Existing three playable zones and connecting routes",
+    "Existing buildings and their current scene placement",
+    "Avatar, walk/run, jump, first/third-person cameras, collision and UI",
+    "Library and student stair routes, height handling and court layout",
+    "Road/building/focus-clearance rules for planting"
+  ],
+  "limits": [
+    "This is an observation-informed improvement, not a photogrammetric scan or a claim of a complete replica.",
+    "Only the named March 2026 views were used as current appearance evidence. No October 2026 field survey occurred.",
+    "Unseen sides, hidden planting, exact levels, species and all new dimensions remain uncertain.",
+    "The original coarse terrain cannot resolve individual kerbs, stair rises or court levels; local details remain independent estimates.",
+    "Source review and file edits alone do not establish successful browser rendering or deployment. Runtime/gameplay validation is recorded separately by the coordinating implementation task."
+  ]
+}

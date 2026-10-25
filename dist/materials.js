@@ -42,7 +42,18 @@ vRoughnessMapUv=worldUV;
   m.onBeforeCompile=shader=>{compile(shader);if(name==='dark_brick_wall')shader.fragmentShader=shader.fragmentShader.replace('#include <map_fragment>','#include <map_fragment>\ndiffuseColor.rgb=mix(vec3(dot(diffuseColor.rgb,vec3(.2126,.7152,.0722))),diffuseColor.rgb,.08)*1.35;');};
   m.customProgramCacheKey=()=>`world-metre-${name}-${metres}`;return m;
  }
- return {asphalt:surface('clean_asphalt','#eeeeee',4,.4),grass:surface('grass_ground','#a8c58b',3.8,.55),stone:surface('dark_brick_wall','#ffffff',2.1,.65),paving:surface('concrete_pavement','#dfd8cd',3.5,.4),redPaving:surface('concrete_pavement','#aa8277',3.5,.3),wall:surface('concrete_pavement','#e9e4d9',5,.12)};
+ // Original interlocking pavers reconstructed from the current roadside views.
+ function interlockingPaving(color){
+  const c=document.createElement('canvas');c.width=c.height=512;const g=c.getContext('2d');g.fillStyle='#5e635d';g.fillRect(0,0,512,512);
+  for(let row=-1;row<17;row++)for(let col=-1;col<9;col++){
+   const x=col*64+(row%2)*32,y=row*32,n=Math.sin(row*37+col*13)*9,shade=171+n;
+   g.fillStyle=`rgb(${shade},${shade+2},${shade-4})`;g.beginPath();g.moveTo(x+2,y+3);g.lineTo(x+23,y+3);g.lineTo(x+27,y+7);g.lineTo(x+39,y+7);g.lineTo(x+43,y+3);g.lineTo(x+62,y+3);g.lineTo(x+62,y+29);g.lineTo(x+43,y+29);g.lineTo(x+39,y+33);g.lineTo(x+27,y+33);g.lineTo(x+23,y+29);g.lineTo(x+2,y+29);g.closePath();g.fill();g.strokeStyle='rgba(235,236,223,.32)';g.lineWidth=1;g.stroke();
+  }
+  for(let i=0;i<14000;i++){g.fillStyle=i%2?'rgba(25,35,25,.045)':'rgba(235,230,210,.08)';g.fillRect(i*47%512,(i*103+Math.floor(i/512)*29)%512,1,1);}
+  const map=new THREE.CanvasTexture(c);map.colorSpace=THREE.SRGBColorSpace;map.wrapS=map.wrapT=THREE.RepeatWrapping;map.anisotropy=8;
+  const m=surface('concrete_pavement',color,1.6,.25);m.map=map;m.normalMap=null;m.roughnessMap=null;m.bumpMap=map;m.bumpScale=.012;m.customProgramCacheKey=()=>`original-interlocking-pavers-${color}`;return m;
+ }
+ return {asphalt:surface('clean_asphalt','#e5e7e2',4,.4),grass:surface('grass_ground','#acb18b',3.8,.55),stone:surface('dark_brick_wall','#ffffff',2.1,.65),paving:interlockingPaving('#d3d3ca'),redPaving:interlockingPaving('#ad7c6c'),wall:surface('concrete_pavement','#e9e4d9',5,.12)};
 }
 
 export function glassMaterial(){

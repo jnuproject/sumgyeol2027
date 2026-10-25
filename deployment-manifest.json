@@ -1,5 +1,5 @@
 {
-  "version": "identity-r24",
+  "version": "surroundings-r25",
   "files": [
     {
       "path": ".nojekyll",
@@ -143,13 +143,13 @@
     },
     {
       "path": "entrance-observed.js",
-      "bytes": 7011,
-      "sha256": "4a9f1e1794616cc9824615e60ed926edbc0e868220f7a5735dcbd3a838b37f69"
+      "bytes": 7635,
+      "sha256": "322cf3becf10f20b3228efe963784964ab5a09e4c8d66a388841500fe49cca09"
     },
     {
       "path": "environment.js",
-      "bytes": 10713,
-      "sha256": "e8c2ca1153ca30965901fc0f9f3e88bedd7c1abf2cea28bb81952e3497e85a5e"
+      "bytes": 13550,
+      "sha256": "083ceaae13d5d108018cc2609323dbe7af0ba642e3640bbca0b79a105563107c"
     },
     {
       "path": "focus-architecture.js",
@@ -163,8 +163,8 @@
     },
     {
       "path": "focus-details.js",
-      "bytes": 15738,
-      "sha256": "8d439ffe772fa696810109efa3215a256afa2012c7bad8eee88d4399a6f8e43e"
+      "bytes": 18504,
+      "sha256": "15559d3aeaff1d144e1fb4cd1510908d6e2545ed7f3f9bf9b2cacba088d53687"
     },
     {
       "path": "focus-route.js",
@@ -173,13 +173,13 @@
     },
     {
       "path": "focus-scope.json",
-      "bytes": 1523,
-      "sha256": "c50963b4945e315089cd27218124e30dd44269aeba41a897520c3b663d5f3e79"
+      "bytes": 1531,
+      "sha256": "0a4889a23bdc05170fcabd1854b45799265e68ef2c20a8b58a9ee33565a19c57"
     },
     {
       "path": "game.js",
-      "bytes": 43390,
-      "sha256": "545fc5044a72ae4ec019094fb0a0b0f42d03035bddcc080edc90207e3230293f"
+      "bytes": 43898,
+      "sha256": "c4f8383a4e94dc546e43e4eaad260535925e51e6f59a94454e5aa2908e85c311"
     },
     {
       "path": "identity-sources.json",
@@ -188,13 +188,13 @@
     },
     {
       "path": "index.html",
-      "bytes": 10412,
-      "sha256": "3e992e0a7e5ba0e136886822f19d9736100a4526b05fd13d5b85e6d213274df7"
+      "bytes": 10420,
+      "sha256": "a2185fb10b31667eaf07e76fb333bb9258cfbd69051542e68f09523bc1f835a4"
     },
     {
       "path": "materials.js",
-      "bytes": 3766,
-      "sha256": "fd46973201568b9a281ebf8c4156290e3f21c885155f33fd2d63f2e5b0c8821f"
+      "bytes": 5012,
+      "sha256": "761dd5f7cb5cb71c27ceab70a6acf308515b092e74bbf06713d95da68d6d83f1"
     },
     {
       "path": "model-preview.html",
@@ -222,6 +222,11 @@
       "sha256": "abda9eb53a20d67a0ad029ccd796a30965ac944185dd7a55c2c61276e51bede5"
     },
     {
+      "path": "observed-planting.js",
+      "bytes": 5274,
+      "sha256": "34277d6e97ce91b222f68fad368cb6e1239485851c5e070d97a59998610bbf5d"
+    },
+    {
       "path": "odbl-provenance.json",
       "bytes": 5744,
       "sha256": "8951cdb9015ac62e8626ef54b67d80e24cbd42adc08ed83ef22b21b8aaf887d5"
@@ -233,8 +238,8 @@
     },
     {
       "path": "periphery.js",
-      "bytes": 4310,
-      "sha256": "c1ecfee7c2cc43a00d41fd502c437124e5e428d88b0ee0c0f5ece6eaae76e4ed"
+      "bytes": 4492,
+      "sha256": "9a35cd133f42ce5eae97be4a2cce04498a0a5b0ab5cc396c945431c29acc9e43"
     },
     {
       "path": "places.js",
@@ -297,6 +302,11 @@
       "sha256": "921014034b1d352f0f98ae83a8117213eb6d1093f18a2c72a6e997b25522e9d9"
     },
     {
+      "path": "surroundings-sources.json",
+      "bytes": 12505,
+      "sha256": "35414e57407a8c5471633310ce887c22c7b63a8ed587401f2738f7d0b3a921e2"
+    },
+    {
       "path": "terrain-data/NOTICE.txt",
       "bytes": 522,
       "sha256": "df2805a05d000ed0da0b9f855f9d870b23c29271230871eedfac4f69dd288abf"
@@ -313,8 +323,8 @@
     },
     {
       "path": "terrain.js",
-      "bytes": 10251,
-      "sha256": "9d0e3b5072430f6eb577c0634f36c14a1336d36d81666b8376905124f29d32ba"
+      "bytes": 10255,
+      "sha256": "53a4916ea0827a4cd6d7acc89c605b49691bd1c9da796b724785feac0ffdd9d5"
     },
     {
       "path": "three.module.js",
@@ -323,8 +333,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 10650,
-      "sha256": "774f02a2cc8345f060f5131a1cd8d827572aa8846c5172c282fd11736c012f11"
+      "bytes": 14707,
+      "sha256": "7acaf2818900ae30dd7c57f06b410f69d1fd93e0e77b2a608727a3da5a01679a"
     },
     {
       "path": "visual-references.json",
@@ -338,13 +348,13 @@
     },
     {
       "path": "walk.html",
-      "bytes": 10412,
-      "sha256": "3e992e0a7e5ba0e136886822f19d9736100a4526b05fd13d5b85e6d213274df7"
+      "bytes": 10420,
+      "sha256": "a2185fb10b31667eaf07e76fb333bb9258cfbd69051542e68f09523bc1f835a4"
     },
     {
       "path": "world.js",
-      "bytes": 17586,
-      "sha256": "b88d85b3dd02b93753162ee5c8d14f1f2fff767e041bb02720c72c921b86f6af"
+      "bytes": 17634,
+      "sha256": "06350a038799ae9b653319c9091153607bf76628faed0b0f29af439e327d32c9"
     }
   ]
 }

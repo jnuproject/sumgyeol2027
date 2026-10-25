@@ -1,17 +1,17 @@
-import {addObservedPeriphery} from './periphery.js?v=identity-r24g';
-import {createSceneScope} from './scene-scope.js?v=identity-r24g';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=identity-r24g';
-import {addFocusDetails} from './focus-details.js?v=identity-r24g';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=identity-r24g';
-import {addObservedEntrance} from './entrance-observed.js?v=identity-r24g';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=identity-r24g';
-import {addSportsGrounds} from './sports-ground.js?v=identity-r24g';
+import {addObservedPeriphery} from './periphery.js?v=surroundings-r25d';
+import {createSceneScope} from './scene-scope.js?v=surroundings-r25d';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=surroundings-r25d';
+import {addFocusDetails} from './focus-details.js?v=surroundings-r25d';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=surroundings-r25d';
+import {addObservedEntrance} from './entrance-observed.js?v=surroundings-r25d';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=surroundings-r25d';
+import {addSportsGrounds} from './sports-ground.js?v=surroundings-r25d';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=identity-r24g';
-import { addVegetation } from './vegetation.js?v=identity-r24g';
-import { loadCampusTerrain } from './terrain.js?v=identity-r24g';
-import { addCampusEnvironment } from './environment.js?v=identity-r24g';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=surroundings-r25d';
+import { addVegetation } from './vegetation.js?v=surroundings-r25d';
+import { loadCampusTerrain } from './terrain.js?v=surroundings-r25d';
+import { addCampusEnvironment } from './environment.js?v=surroundings-r25d';
 
 export async function createCampus(scene,data) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();
@@ -24,7 +24,7 @@ const unitBox=new THREE.BoxGeometry(1,1,1);
 // Independently drawn horizontal basalt courses, observed on the entrance piers.
 const basaltCanvas=document.createElement('canvas');basaltCanvas.width=basaltCanvas.height=512;
 const basaltContext=basaltCanvas.getContext('2d');basaltContext.fillStyle='#303732';basaltContext.fillRect(0,0,512,512);
-for(let row=0;row<8;row++)for(let col=-1;col<3;col++){const shade=58+((row*19+col*13+71)%12);const x=col*256+(row%2)*128;basaltContext.fillStyle=`rgb(${shade},${shade+4},${shade+2})`;basaltContext.fillRect(x+1,row*64+2,254,60);for(let dot=0;dot<110;dot++){const n=(dot*37+row*61+col*43+8192)%8192;basaltContext.fillStyle=dot%3?'#424b45':'#68716a';basaltContext.fillRect(x+(n%252),row*64+(n*17%58)+3,1,1);}}
+for(let row=0;row<16;row++)for(let col=-1;col<5;col++){const shade=58+((row*19+col*13+71)%12);const x=col*128+(row%2)*64;basaltContext.fillStyle=`rgb(${shade},${shade+4},${shade+2})`;basaltContext.fillRect(x+1,row*32+2,126,28);for(let dot=0;dot<110;dot++){const n=(dot*37+row*61+col*43+8192)%8192;basaltContext.fillStyle=dot%3?'#424b45':'#68716a';basaltContext.fillRect(x+(n%124),row*32+(n*17%26)+3,1,1);}}
 const basalt=surfaces.stone.clone();basalt.color.set('#c0c7c0');basalt.map=new THREE.CanvasTexture(basaltCanvas);basalt.map.colorSpace=THREE.SRGBColorSpace;basalt.map.wrapS=basalt.map.wrapT=THREE.RepeatWrapping;basalt.normalMap=null;basalt.bumpMap=basalt.map;basalt.bumpScale=.03;basalt.onBeforeCompile=surfaces.stone.onBeforeCompile;basalt.customProgramCacheKey=()=>surfaces.stone.customProgramCacheKey()+'-observed-basalt';
 
 const mats={};

@@ -19,7 +19,9 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
   const prior=main.points.at(-2),dz=end[1]-prior[1],ratio=Math.abs(dz)>.01?(z-22-end[1])/dz:0;
   const front=[end[0]+(end[0]-prior[0])*ratio,z-22],width=17.5;
   const ring=w=>[[end[0]-w/2,end[1]],[end[0]+w/2,end[1]],[front[0]+w/2,front[1]],[front[0]-w/2,front[1]]];
-  environment.polygon(ring(width+8.4),surfaces?.redPaving??material('#a3877a'),.055);
+  const paving=surfaces?.redPaving??material('#a3877a');
+  environment.polygon(ring(width+8.4),paving,.055);
+  for(const side of[-1,1]){const inner=side*width/2,outer=side*(width/2+4.2);environment.polygon([[end[0]+inner,end[1]],[end[0]+outer,end[1]],[front[0]+outer,front[1]],[front[0]+inner,front[1]]],paving,.14);}
   environment.polygon(ring(width),surfaces?.asphalt??material('#656d68'),.08);
   for(const side of[-1,1]){environment.segment([end[0]+side*.17,end[1]],[front[0]+side*.17,front[1]],.12,material('#cfb45d'),.095);environment.segment([end[0]+side*(width/2-.25),end[1]],[front[0]+side*(width/2-.25),front[1]],.12,material('#e4e4d8'),.095);}
  }
@@ -69,22 +71,26 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
  // Roadside security office: low dark-stone wing with pale windowed front.
  const ring=[[o.x-o.w/2,o.z-o.d/2],[o.x+o.w/2,o.z-o.d/2],[o.x+o.w/2,o.z+o.d/2],[o.x-o.w/2,o.z+o.d/2],[o.x-o.w/2,o.z-o.d/2]];
  collisions.push(ring);
- const officeBody=box(o.x,1.55,o.z,o.w,3.1,o.d,'#434b46');officeBody.material=basalt;officeBody.userData.batch=false;collisionMeshes.push(officeBody);
- box(o.x,3.19,o.z,o.w+.6,.25,o.d+.5,'#d3d3c4');
+ const officeBody=box(o.x,1.55,o.z,o.w,3.1,o.d,'#d3d0be');officeBody.userData.batch=false;collisionMeshes.push(officeBody);
+ box(o.x,3.19,o.z,o.w+.6,.25,o.d+.5,'#dddcd1');
+ const officeStone=box(o.x-2.0,1.60,o.z-o.d/2-.05,1.25,3.2,.16,'#434b46');officeStone.material=basalt;officeStone.userData.batch=false;
+ for(const dx of[.05,1.5,2.95]){box(o.x+dx,1.95,o.z-o.d/2-.13,1.25,1.42,.13,'#64817e');box(o.x+dx,1.18,o.z-o.d/2-.16,1.38,.12,.24,'#d3d6cd');}
  const east=o.x-o.w/2-.04;
  box(east,1.74,o.z,.13,2.05,o.d*.86,'#c9cbbc');
  for(let i=0;i<4;i++){const pz=o.z-o.d*.38+i*o.d*.25;box(east-.08,1.9,pz,.12,1.35,1.1,'#64817e');box(east-.14,1.9,pz+.56,.12,1.5,.07,'#d5d7cb');}
  box(east-.08,.13,o.z,.95,.26,o.d*.9,'#a0a395');
+ box(east-.60,3.02,o.z,1.6,.27,o.d+.5,'#dddcd1');
+ for(const pz of[o.z-2.7,o.z,o.z+2.7])box(east-.98,1.52,pz,.11,2.95,.11,'#c9cbc0');
  environment.polygon([[o.x-5.2,o.z-4.3],[o.x+6.1,o.z-4.3],[o.x+6.1,o.z+4.3],[o.x-5.2,o.z+4.3]],material('#7c7770'),.065);
  // Low planted borders alongside the red sidewalks. Gaps follow mapped paths/junctions.
- const hedgeGeo=new THREE.BoxGeometry(1,1,1),hedgeMat=material('#475d3e'),hedges=[];
- for(const side of[-1,1])for(let pz=z+7;pz<z+108;pz+=2.5){
+ const hedgeGeo=new THREE.IcosahedronGeometry(1,2),hedgeMat=material('#475d3e'),hedges=[];
+ for(const side of[-1,1])for(let pz=z+7;pz<z+108;pz+=1.2){
   const px=x+side*14.7;
   if(insideEntranceOffice(px,pz,data,2))continue;
   if(data.roads.some(r=>r.id!=='286085067'&&r.points.some((b,i)=>i&&segmentDistance(px,pz,r.points[i-1],b)<roadWidth(r)/2+2)))continue;
   hedges.push([px,pz]);
  }
  const hedge=new THREE.InstancedMesh(hedgeGeo,hedgeMat,hedges.length),obj=new THREE.Object3D();
- hedges.forEach(([px,pz],i)=>{obj.position.set(px,terrain.heightAt(px,pz)+.35,pz);obj.scale.set(1.35,.6,2.4);obj.rotation.y=0;obj.updateMatrix();hedge.setMatrixAt(i,obj.matrix);});hedge.name='Observed low entrance planting border';hedge.castShadow=true;hedge.receiveShadow=true;scene.add(hedge);
+ hedges.forEach(([px,pz],i)=>{obj.position.set(px,terrain.heightAt(px,pz)+.46,pz);obj.scale.set(.76,.44,.86);obj.rotation.y=0;obj.updateMatrix();hedge.setMatrixAt(i,obj.matrix);});hedge.name='Observed low entrance planting border';hedge.castShadow=true;hedge.receiveShadow=true;scene.add(hedge);
  return {entrySpawn:layout.entrySpawn,source:'Kakao Roadview2026-03, revisited2026-10-25',referenceCapture:'2026-03',dolharubang:0,geometryEstimated:true,hedgeSegments:hedges.length};
 }

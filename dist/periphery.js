@@ -1,3 +1,4 @@
+import {addCurrentPlantingBeds} from './observed-planting.js?v=surroundings-r25d';
 import * as THREE from './three.module.js';
 import {roadWidthAt} from './road-profile.js?v=periphery-r23';
 
@@ -53,9 +54,10 @@ export function addObservedPeriphery({scene,data,terrain,environment,surfaces,bo
  const rocks=[],rockGeo=new THREE.IcosahedronGeometry(1,1);
  for(let x=-67;x<-3;x+=.64)for(let row=0;row<2;row++){
   const z=89.24+row*.12,noise=Math.sin(x*37.1+row*19.3),h=terrain.heightAt(x,z);
-  rocks.push({x:x+noise*.12,y:h+.16+row*.24,z,w:.42+noise*.08,h:.20+Math.abs(noise)*.10,d:.31});
+  rocks.push({x:x+noise*.12,y:h+.16+row*.24,z,w:.29+noise*.055,h:.15+Math.abs(noise)*.06,d:.23});
  }
  const stones=new THREE.InstancedMesh(rockGeo,mat('#666e62'),rocks.length),o=new THREE.Object3D(),color=new THREE.Color();
  rocks.forEach((r,i)=>{o.position.set(r.x,r.y,r.z);o.scale.set(r.w,r.h,r.d);o.rotation.set(i*.31,i*.73,i*.17);o.updateMatrix();stones.setMatrixAt(i,o.matrix);color.setHSL(.18,.05,.36+(i%7)*.018);stones.setColorAt(i,color);});stones.castShadow=true;stones.receiveShadow=true;scene.add(stones);stats.basaltStones=rocks.length;
+ Object.assign(stats,addCurrentPlantingBeds({scene,terrain,environment,surfaces,box,obstacles}));
  return {stats};
 }

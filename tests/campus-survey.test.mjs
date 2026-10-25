@@ -5,6 +5,7 @@ import * as THREE from '../dist/three.module.js';
 import {createCampusTerrain} from '../dist/terrain.js';
 import {addCampusObservedDetails} from '../dist/campus-observed-details.js';
 import {observedMassParts,BUILDING_PROFILES,foldedRoofParts} from '../dist/observed-campus.js';
+import {createSceneScope} from '../dist/scene-scope.js';
 import {insidePolygon} from '../dist/navigation.js';
 const data=JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.meta.url)));
 const meta=JSON.parse(fs.readFileSync(new URL('../dist/terrain-data/terrain.json',import.meta.url)));
@@ -15,11 +16,11 @@ test('observed sports pad is level without modifying source height samples or sp
  for(let x=-268;x<=-204;x+=8)for(let z=-95;z<=5;z+=10)samples.push(t.heightAt(x,z));
  assert.ok(Math.max(...samples)-Math.min(...samples)<.001);assert.deepEqual(heights,original);assert.ok(Math.abs(t.heightAt(...data.spawn))<1e-9);assert.equal(t.metadata.verticalExaggeration,1);assert.ok(t.metadata.localObservedGrading[0].changedSamples>0);
 });
-function fixture(){
+function fixture(visibleAt=()=>true){
  const scene=new THREE.Scene(),terrain=createCampusTerrain(meta,heights,data),collisions=[],obstacles=[];
  const make=()=>new THREE.MeshStandardMaterial();const surfaces={asphalt:make(),paving:make(),grass:make()};
  function box(x,y,z,w,h,d){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),make());m.position.set(x,terrain.heightAt(x,z)+y,z);scene.add(m);return m;}
- const result=addCampusObservedDetails({scene,data,terrain,environment:{polygon(){},segment(){},heightAt:terrain.heightAt},surfaces,box,collisionMeshes:collisions,obstacles});return {scene,terrain,result};
+ const result=addCampusObservedDetails({scene,data,terrain,environment:{polygon(){},segment(){},heightAt:terrain.heightAt},surfaces,box,collisionMeshes:collisions,obstacles,visibleAt});return {scene,terrain,result};
 }
 test('stairs height sampler matches their generated treads, including downhill approaches',()=>{
  const {result}=fixture();assert.equal(result.stairways.length,3);
@@ -35,4 +36,10 @@ test('student hall retains its footprint while using two distinct roof levels',(
 });
 test('new details and folded roof vertices are finite',()=>{
  const {scene}=fixture();scene.traverse(o=>{if(o.isMesh)for(const value of o.geometry.attributes.position.array)assert.ok(Number.isFinite(value));});const b=data.buildings.find(b=>b.id==='741724817');for(const p of foldedRoofParts(b.points,14.2,1.8,0,1))assert.ok(p.positions.every(Number.isFinite));
+});
+
+test('focused scene never leaves parked vehicles floating outside rendered ground',()=>{
+ const scope=createSceneScope(data),visibleAt=(x,z)=>scope.outsideDistance(x,z)<5;
+ const {result}=fixture(visibleAt),unfiltered=fixture().result;assert.ok(unfiltered.stats.parkedCars>0);assert.ok(result.stats.parkedCars<unfiltered.stats.parkedCars);assert.ok(unfiltered.carLocations.some(([x,z])=>!visibleAt(x,z)));
+ for(const [x,z,ux,uz] of result.carLocations)for(const a of[-2,2])for(const b of[-1,1])assert.ok(visibleAt(x+ux*a-uz*b,z+uz*a+ux*b));
 });

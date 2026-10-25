@@ -28,7 +28,7 @@ export function insideFocusClearance(x,z,data){
  return Boolean(r&&segmentDistance(x,z,r.points[0],r.points.at(-1))<4.2);
 }
 export function addFocusDetails({scene,data,terrain,environment,surfaces,box,collisionMeshes,obstacles,fallbackHeightAt}){
- const routes=[],ramps=[],stats={ascentFlights:0,ascentTreads:0,studentAccessFlights:0,handrailSegments:0,topiaryGroups:0};
+ const routes=[],ramps=[],platforms=[],stats={ascentFlights:0,ascentTreads:0,studentAccessFlights:0,handrailSegments:0,topiaryGroups:0};
  const railMeshes=[],railGeometry=new THREE.CylinderGeometry(1,1,1,6);
  const materials=new Map(),mat=color=>{if(!materials.has(color))materials.set(color,new THREE.MeshStandardMaterial({color,roughness:.88}));return materials.get(color);};
  const absBox=(x,y,z,w,h,d,c)=>box(x,y-terrain.heightAt(x,z),z,w,h,d,c);
@@ -93,6 +93,12 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
   for(const dx of[-7.8,7.8])absBox(x+dx,base+4.15,z-3.6,.38,3.3,.38,'#c4c7bc');
   absBox(x,base+2.45,z-1.3,18,.18,2.6,'#c9cbbf');
  }
+ if(lib){
+  const x=-136.5,z=220,base=terrain.heightAt(x,z),geometry=new THREE.IcosahedronGeometry(1,1),p=geometry.attributes.position;
+  for(let i=0;i<p.count;i++){const v=1+.12*Math.sin(i*9.7);p.setXYZ(i,p.getX(i)*1.55*v,Math.max(-1.0,p.getY(i)*1.7*v),p.getZ(i)*1.0*v);}geometry.computeVertexNormals();
+  const stone=new THREE.Mesh(geometry,mat('#84937b'));stone.position.set(x,base+1.3,z);stone.castShadow=true;scene.add(stone);collisionMeshes.push(stone);obstacles.push([x,z,1.6]);
+  if(typeof document!=='undefined'){const c=document.createElement('canvas');c.width=512;c.height=128;const g=c.getContext('2d');g.fillStyle='#3d4842';g.fillRect(0,0,512,128);g.fillStyle='#d7dfce';g.font='48px serif';g.textAlign='center';g.fillText('中央圖書館',256,87);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const sign=new THREE.Mesh(new THREE.PlaneGeometry(2.1,.52),new THREE.MeshStandardMaterial({map:t,roughness:.9}));sign.position.set(x,base+1.5,z-1.0);sign.rotation.y=Math.PI;scene.add(sign);}
+ }
  // Roadview shows a lower student-hall court, stairs and guarded access.
  const student=data.buildings.find(b=>b.id==='471697621');
  if(student){
@@ -108,7 +114,20 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
    const [x,z]=p,h=terrain.heightAt(x,z);absBox(x,h+.18,z,2.8,.36,1.8,'#8c9684');absBox(x,h+.39,z,2.5,.1,1.5,'#5f6950');
    for(const dx of[-.65,0,.65])shrub(x+dx,z,.68,.66,.65,h+.4);
   }
-  const base=terrain.heightAt(...student.center);const canopy=absBox(-116.0,base+4.0,-15.2,9,.35,3.4,'#d1d7cb');canopy.rotation.y=2.33;
+  const base=terrain.heightAt(...student.center),center=[-117.4,-13.7],nx=.726,nz=-.688,ux=.688,uz=.726,angle=-Math.atan2(uz,ux);
+  const at=(u,n)=>[center[0]+ux*u+nx*n,center[1]+uz*u+nz*n];
+  const position=at(0,1.9),gallery=absBox(position[0],base+6.2,position[1],14.5,3.9,3.8,'#e0e0d4');gallery.rotation.y=angle;
+  const front=at(0,3.85);
+  for(const [y,h,c]of[[5.95,1.9,'#64817e'],[4.75,.12,'#bc684d'],[7.6,.12,'#bc684d'],[4.32,.45,'#e3e3d7'],[8.15,.3,'#d5d8cd']]){const m=absBox(front[0],base+y,front[1],14.6,h,.15,c);m.rotation.y=angle;}
+  for(let u=-7;u<=7;u+=1.1){const p=at(u,3.96),m=absBox(p[0],base+5.95,p[1],.10,2.0,.22,'#465b5e');m.rotation.y=angle;}
+  for(let y=4.5;y<8.2;y+=.22){const m=absBox(front[0],base+y,front[1],14.6,.015,.08,'#bfc4b8');m.rotation.y=angle;}
+  for(const u of[-5.7,0,5.7]){const p=at(u,3.0),column=new THREE.Mesh(new THREE.CylinderGeometry(.23,.26,3.15,16),mat('#e1e3d7'));column.position.set(p[0],base+2.4,p[1]);column.castShadow=true;scene.add(column);collisionMeshes.push(column);obstacles.push([p[0],p[1],.27]);}
+  const landing=at(0,2.5),slab=absBox(landing[0],base+.78,landing[1],14.3,.24,3.0,'#c4c7ba');slab.rotation.y=angle;platforms.push({cx:landing[0],cz:landing[1],ux,uz,nx,nz,width:14.3,depth:3,height:base+.912});
+  const entryA=at(0,7.0),entryB=at(0,4.0),length=3,entry={a:entryA,b:entryB,ux:-nx,uz:-nz,length,width:14.0,flights:1,steps:6,split:true,treads:[]},bottom=terrain.heightAt(...entryA)+.10;
+  for(let i=0;i<6;i++)entry.treads.push({from:i*.5,to:(i+1)*.5,height:bottom+(base+.9-bottom)*(i+1)/6,landing:false});stairs(entry,'#b6b8ad');
+  for(let d=0;d<3;d+=.5){const p=at(0,7-d),y=bottom+(base+.9-bottom)*d/3;const m=absBox(p[0],y+.42,p[1],.24,.84,.53,'#c4c8ba');m.rotation.y=angle;obstacles.push([p[0],p[1],.14]);}
+  stats.studentPorchColumns=3;stats.studentEntryTreads=6;
+
  }
  // Original clumps, instanced. Planting positions are reconstructed, not surveyed.
  if(shrubs.length){const mesh=new THREE.InstancedMesh(shrubGeo,mat('#ffffff'),shrubs.length),o=new THREE.Object3D(),c=new THREE.Color();
@@ -125,6 +144,7 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
  return {stats,routes,ramps,heightAt(x,z){
   for(const route of routes){const h=stairRouteHeight(route,x,z);if(h!==null)return h;}
   for(const r of ramps)if(Math.abs(z-r.a[1])<=r.width/2&&x<=r.a[0]&&x>=r.b[0])return r.ha+(r.hb-r.ha)*(x-r.a[0])/(r.b[0]-r.a[0])+.012;
+  for(const p of platforms){const dx=x-p.cx,dz=z-p.cz;if(Math.abs(dx*p.ux+dz*p.uz)<=p.width/2&&Math.abs(dx*p.nx+dz*p.nz)<=p.depth/2)return p.height;}
   return fallbackHeightAt(x,z);
  }};
 }

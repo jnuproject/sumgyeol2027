@@ -1,19 +1,21 @@
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=detail-r20';
-import {addFocusDetails} from './focus-details.js?v=detail-r20';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=detail-r20';
-import {addObservedEntrance} from './entrance-observed.js?v=detail-r20';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=detail-r20';
-import {addSportsGrounds} from './sports-ground.js?v=detail-r20';
+import {createSceneScope} from './scene-scope.js?v=scene-r22';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=scene-r22';
+import {addFocusDetails} from './focus-details.js?v=scene-r22';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=scene-r22';
+import {addObservedEntrance} from './entrance-observed.js?v=scene-r22';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=scene-r22';
+import {addSportsGrounds} from './sports-ground.js?v=scene-r22';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=detail-r20';
-import { addVegetation } from './vegetation.js?v=detail-r20';
-import { loadCampusTerrain } from './terrain.js?v=detail-r20';
-import { addCampusEnvironment } from './environment.js?v=detail-r20';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=scene-r22';
+import { addVegetation } from './vegetation.js?v=scene-r22';
+import { loadCampusTerrain } from './terrain.js?v=scene-r22';
+import { addCampusEnvironment } from './environment.js?v=scene-r22';
 
 export async function createCampus(scene,data) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();
-const environment=addCampusEnvironment(scene,data,terrain,surfaces);
+const sceneScope=createSceneScope(data),visibleData=sceneScope.visibleData;
+const environment=addCampusEnvironment(scene,visibleData,terrain,surfaces,sceneScope);
 const focusWallMaterials=createFocusWallMaterials();
 let foundationBase=null;const buildingBases=new Map();
 const baseAt=(x,z)=>foundationBase??terrain.heightAt(x,z);
@@ -35,14 +37,14 @@ function footprint(points,height,color,y=0){const shape=new THREE.Shape();points
 const observedModels=new Set(['471490497','471697017']);
 function panelAlong(a,b,t,y,w,h,depth,color,offset=0){const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);const nx=dz/len,nz=-dx/len;const o=box(a[0]+dx*t+nx*offset,y,a[1]+dz*t+nz*offset,w,h,depth,color);o.rotation.y=-Math.atan2(dz,dx);return o}
 function edgesDetail(b,levels,glass,trim,spacing=4){for(let i=1;i<b.points.length;i++){const a=b.points[i-1],e=b.points[i],len=Math.hypot(e[0]-a[0],e[1]-a[1]);if(len<4)continue;const count=Math.max(1,Math.floor(len/spacing));for(let n=0;n<count;n++){const t=(n+.5)/count;for(let floor=0;floor<levels;floor++)panelAlong(a,e,t,2.4+floor*4,Math.min(2.3,len/count*.65),2.4,.22,glass);panelAlong(a,e,t,6,.35,10,.4,trim);}}}
-for(const b of data.buildings){
+for(const b of visibleData.buildings){
  foundationBase=terrain.heightAt(b.center[0],b.center[1]);buildingBases.set(b.id,foundationBase);
  // A simple foundation closes the downhill gap without warping the preserved building.
  const low=Math.min(...b.points.map(p=>terrain.heightAt(p[0],p[1])));
  if(foundationBase-low>.12){const saved=foundationBase;foundationBase=low;footprint(b.points,saved-low+.2,'#a1a397');foundationBase=saved;}
  const main=b.id==='471490497',museum=b.id==='471697017';const profile=FOCUS_BUILDING_PROFILES[b.id]??BUILDING_PROFILES[b.id];const h=profile?.height??(museum?18:b.height);
  const palette=['#e6e9e4','#e9e7df','#dce3e0','#e5e9e7'];const color=profile?.wall??(museum?'#79545d':b.tags.building==='dormitory'?'#d1c9bd':palette[Number(b.id)%4]);
- for(const part of observedMassParts(b,h)){const wall=footprint(part.points,part.height,color,part.y);if(!museum)wall.material=focusWallMaterials[b.id]??new THREE.MeshStandardMaterial({color,roughness:.88});footprint(part.points,.3,profile?.roof??(museum?'#655b59':'#7db6a0'),part.y+part.height);}collisions.push(b.points);
+ for(const part of observedMassParts(b,h)){const wall=footprint(part.points,part.height,color,part.y);wall.name='focus-building-'+b.id;if(!museum)wall.material=focusWallMaterials[b.id]??new THREE.MeshStandardMaterial({color,roughness:.88});footprint(part.points,.3,profile?.roof??(museum?'#655b59':'#7db6a0'),part.y+part.height);}collisions.push(b.points);
  for(let i=1;i<b.points.length;i++){
   const a=b.points[i-1],e=b.points[i],l=Math.hypot(e[0]-a[0],e[1]-a[1]);if(l<1)continue;
   const edgeHeight=b.id==='471697621'&&(a[1]+e[1])*.5<1?8.4:h;
@@ -79,7 +81,8 @@ function dol(x,z){const g=new THREE.Group();g.position.set(x,terrain.heightAt(x,
 for(const side of[-1,1]){
  const inner=gateX+side*10,outer=gateX+side*18;
  stonePillar(inner,gateZ,7.4,1.7);stonePillar(outer,gateZ,4.8,1.6);
- //2026 Roadview shows freestanding basalt piers; remove the older imagined lintel.
+ // Published current entrance photograph shows a lintel over each sidewalk.
+ box(gateX+side*14,4.25,gateZ,7.3,.5,1.1,'#62685c');box(gateX+side*14,4.54,gateZ,7.6,.15,1.4,'#363c3b');
  box(inner,.16,gateZ,2.1,.32,2.0,'#8d9487');box(outer,.16,gateZ,2.0,.32,1.95,'#8d9487');
  for(let y of[5.05,5.95,6.85]){disc(inner,y,gateZ-.88,.31,'#b5b9b5');disc(inner,y,gateZ-.97,.24,'#e5e8e5');disc(inner,y,gateZ-1.06,.17,'#92a1a7');}
  box(inner,2.6,gateZ-.9,.36,2,.08,'#546857');
@@ -87,15 +90,15 @@ for(const side of[-1,1]){
 }
 
 label('제주대학교 정문 · 사진 참고',gateX,11,gateZ,1.1);
-const boundaryLine=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(data.boundary.map(p=>new THREE.Vector3(p[0],terrain.heightAt(p[0],p[1])+.04,p[1]))),new THREE.LineBasicMaterial({color:'#73866b'}));scene.add(boundaryLine);
+const boundaryLine=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(data.boundary.map(p=>new THREE.Vector3(p[0],terrain.heightAt(p[0],p[1])+.04,p[1]))),new THREE.LineBasicMaterial({color:'#73866b'}));// The full-campus source outline is deliberately omitted from the focused scene.
 const extentPoints=[...data.boundary,...data.roads.flatMap(r=>r.points)];
 const bounds={minX:Math.max(terrain.worldBounds.minX+.5,Math.min(...extentPoints.map(p=>p[0]))-10),maxX:Math.min(terrain.worldBounds.maxX-.5,Math.max(...extentPoints.map(p=>p[0]))+10),minZ:Math.max(terrain.worldBounds.minZ+.5,Math.min(...extentPoints.map(p=>p[1]))-10),maxZ:Math.min(terrain.worldBounds.maxZ-.5,Math.max(...extentPoints.map(p=>p[1]))+10)};
 
 const observedEntrance=addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles});
-const vegetation=addVegetation(scene,data,terrain.heightAt);obstacles.push(...vegetation.obstacles);
-addEntranceDetails();addSportsGrounds(scene,data,terrain,environment);
-const observedDetails=addCampusObservedDetails({scene,data,terrain,environment,surfaces,box,collisionMeshes,obstacles});
-const focusDetails=addFocusDetails({scene,data,terrain,environment,surfaces,box,collisionMeshes,obstacles,fallbackHeightAt:observedDetails.heightAt});environment.flush();
+const vegetation=addVegetation(scene,data,terrain.heightAt,sceneScope.treeVisible);obstacles.push(...vegetation.obstacles);
+addEntranceDetails();
+const observedDetails=addCampusObservedDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,visibleAt:(x,z)=>sceneScope.outsideDistance(x,z)<5});
+const focusDetails=addFocusDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,fallbackHeightAt:observedDetails.heightAt});environment.flush();
 
 // Instance static details by material to keep the scene responsive.
 scene.updateMatrixWorld(true);
@@ -150,7 +153,7 @@ function addEntranceDetails(){
  box(gateX-.7,2.2,gateZ+35,.06,1.25,2.7,'#64817e');box(gateX+.7,2.2,gateZ+35,.06,1.25,2.7,'#64817e');
  sign('출입관리',gateX,2.65,gateZ+33.2,1.15,.27,'#315c78');foundationBase=null;
  // Museum paving and panel seams.
- const museum=data.buildings.find(b=>b.id==='471697017');
+ const museum=visibleData.buildings.find(b=>b.id==='471697017');
  if(museum){foundationBase=buildingBases.get(museum.id);const a=museum.points[0],b=museum.points[1],len=Math.hypot(b[0]-a[0],b[1]-a[1]);
   for(let y=1;y<18;y+=1.15)panelAlong(a,b,.5,y,len,.024,.06,'#674c52',-.18);
   for(let t=.03;t<1;t+=.048)panelAlong(a,b,t,9,.025,18,.06,'#674c52',-.18);
@@ -158,7 +161,7 @@ function addEntranceDetails(){
  }
 
 }
-return {bounds,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
+return {bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
 }
 
 export function makeAvatar(scene){

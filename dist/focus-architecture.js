@@ -14,12 +14,12 @@ export function createFocusWallMaterials(){
   const canvas=document.createElement('canvas');canvas.width=canvas.height=512;
   const c=canvas.getContext('2d');c.fillStyle=p.wall;c.fillRect(0,0,512,512);
   const tile=p.kind==='student'?32:p.kind==='library'?32:128;
-  for(let row=0;row<512/tile;row++)for(let col=-1;col<512/tile;col++){
-   const x=col*tile+(p.kind==='library'&&row%2?tile/2:0),y=row*tile;
-   c.strokeStyle=p.kind==='library'?'#94896e':p.kind==='student'?'#bfc3b9':'#b3b8b1';c.lineWidth=p.kind==='student'?1:2;c.strokeRect(x,y,tile,tile);
+  for(let row=0;row<512/tile;row++)for(let col=-1;col<512/(p.kind==='library'?tile/2:tile);col++){
+   const cellWidth=p.kind==='library'?tile/2:tile;const x=col*cellWidth+(p.kind==='library'&&row%2?cellWidth/2:0),y=row*tile;
+   c.strokeStyle=p.kind==='library'?'#94896e':p.kind==='student'?'#bfc3b9':'#b3b8b1';c.lineWidth=p.kind==='student'?1:2;c.strokeRect(x,y,p.kind==='library'?tile/2:tile,tile);
    c.fillStyle='rgba(255,255,255,.045)';c.fillRect(x+2,y+2,tile-4,2);
   }
-  const map=new THREE.CanvasTexture(canvas);map.colorSpace=THREE.SRGBColorSpace;map.wrapS=map.wrapT=THREE.RepeatWrapping;map.repeat.set(p.kind==='economics1'?.28:.2,p.kind==='economics1'?.28:.2);map.anisotropy=4;
+  const map=new THREE.CanvasTexture(canvas);map.colorSpace=THREE.SRGBColorSpace;map.wrapS=map.wrapT=THREE.RepeatWrapping;map.repeat.set(p.kind==='economics1'?.28:p.kind==='student'?.55:p.kind==='library'?.45:.2,p.kind==='economics1'?.28:p.kind==='student'?.55:p.kind==='library'?.45:.2);map.anisotropy=4;
   result[id]=new THREE.MeshStandardMaterial({map,color:'#ffffff',roughness:.91});
  }
  return result;
@@ -76,7 +76,8 @@ export function addFocusFacade({scene,b,height,panel,box,base}){
    p(.5,13.15,length,2.65,.55,'#b6a17a',.38);
    for(let y=12.0;y<14.45;y+=.24)p(.5,y,length,.035,.62,'#8e866d',.43);
    if(north&&length>25){
-    for(let n=0;n<=count;n++)p(n/count,5.65,.40,9.55,.62,'#e6e5d7',.48);
+    for(let n=0;n<=count;n++){p(n/count,5.65,.40,9.55,.62,'#e6e5d7',.48);p(n/count,10.35,.72,.32,.95,'#e6e5d7',.54);}
+    p(.95,7.7,5.2,15.4,.85,'#4d5350',.6);for(const y of[2.1,6.7,11.3]){p(.95,y,.75,1.85,1.0,'#d5d6c9',.75);p(.95,y,.48,1.6,1.05,glass,.85);}
     p(.5,4.2,11.6,3.35,.65,glass,.6);
     for(const t of[.435,.467,.5,.533,.565])p(t,4.2,.1,3.45,.78,'#d3d8cf',.76);
    }
@@ -105,5 +106,6 @@ export function addFocusFacade({scene,b,height,panel,box,base}){
    }
   }
  }
+ if(kind==='library')box(b.center[0],height+1.35,b.center[1],8,2.6,5.5,'#b9b8aa');
  return true;
 }

@@ -1,4 +1,4 @@
-import {insideFocusClearance} from './focus-details.js?v=detail-r20';
+import {insideFocusClearance} from './focus-details.js?v=scene-r22';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
 import {insideEntranceOffice} from './entrance-observed.js?v=campus-r18';
@@ -71,8 +71,8 @@ export function generateVegetationLayout(data){
  return points;
 }
 
-export function addVegetation(scene,data,heightAt=()=>0){
- const points=generateVegetationLayout(data),random=seededRandom(980109),obstacles=[];
+export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
+ const points=generateVegetationLayout(data).filter(p=>visibleAt(p.x,p.z)),random=seededRandom(980109),obstacles=[];
  const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const ctx=canvas.getContext('2d');
  for(let branch=0;branch<16;branch++){
   const angle=random()*Math.PI*2,length=42+random()*61,bx=128+Math.cos(angle)*length,by=128+Math.sin(angle)*length;

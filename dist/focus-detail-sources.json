@@ -1,5 +1,5 @@
 {
-  "version": "detail-r20",
+  "version": "scene-r22",
   "observedOn": "2026-10-25 Asia/Seoul",
   "method": "Public Kakao Roadview displayed in browser; searched, rotated and visually compared. No panorama pixels used as game textures.",
   "zones": [
@@ -12,7 +12,7 @@
         "red sidewalk, planted tree borders, central flexible posts and outbound curved control canopy"
       ],
       "changes": [
-        "removed former imagined stone lintel across sidewalk",
+        "restored observed stone lintels over sidewalks after comparing a wider published entrance photograph",
         "added pier footing, office porch steps and canopy supports",
         "trimmed continuous entrance hedge instead of repeated round clumps"
       ],
@@ -95,7 +95,8 @@
       "changes": [
         "replaced generic front glazing with observed bands, ribs and entry doors",
         "tapered canopy and landing, stair handrails",
-        "paired tiered topiary groups and broader asphalt approach"
+        "paired tiered topiary groups and broader asphalt approach",
+        "narrow rectangular buff tiles, white rib caps, dark end tower, rooftop box and independently modelled marker stone"
       ],
       "estimated": [
         "brick sizes, heights, canopy dimensions, planting positions",
@@ -116,19 +117,36 @@
       "changes": [
         "tile material and separate high/low facade rows",
         "tall glazed stair core, entrance doors and aligned canopy",
-        "local low court, two reconstructed descending stair flights, guarded side approach and physical walking surfaces"
+        "local low court, two reconstructed descending stair flights, guarded side approach and physical walking surfaces",
+        "projecting upper-floor entrance gallery, three round porch columns, split front-entry steps and landing with matching collision height"
       ],
       "estimated": [
         "exact court level from median coarse raster near building",
         "stair14 treads/width/placement, side approach shape and grade",
-        "no surveyed curb levels or accessibility compliance claim"
+        "no surveyed curb levels or accessibility compliance claim",
+        "upper gallery14.5m width, column spacing, six front-entry treads, dimensions and levels"
       ]
     }
   ],
   "geometry": "Original59 building outlines and91 road centrelines retained; no remote model mesh or restricted textures extracted.",
   "sourceTerrain": "Original AWS elevations.f32 unchanged on disk. Local student court grading is an estimated reconstruction, not new measured elevation data.",
-  "scope": "Only selected gate, economics/library corridor and student hall were detailed; other campus areas retain prior background models.",
+  "scope": "Only gate, economics1/2, central library, student hall and connecting corridors are rendered. Full source map retained unmodified.",
   "preserved": "avatar, walk/run,1st/3rd person, jump, collisions, stamps, local storage, photo mode, full original map geometry",
-  "referenceScreenshots": "Kept only in local focus-detail-r20/references review folder; not included in public game assets.",
-  "policyContent": "No policy claims or promises have been added."
+  "referenceScreenshots": "Kept only in local review folders, not included in game assets or public repository.",
+  "policyContent": "No policy claims or promises have been added.",
+  "additionalPublicReferences": [
+    {
+      "url": "https://www.jnuri.net/news/article.html?no=67142",
+      "published": "2026-02-24",
+      "capture": "Not provided; publication date is not assumed to be capture date",
+      "observed": "Entrance sidewalk lintels, tall medallion piers, red paving and vehicle-control canopy",
+      "correction": "Restored stone lintels over sidewalks. The earlier close Roadview angle did not show the entire portal. No lintel spans the vehicle roadway."
+    },
+    {
+      "url": "https://mostadmired.tistory.com/238",
+      "visitDate": "2023-12-04",
+      "observed": "Student hall projecting upper floor, three circular porch columns, split broad steps, orange horizontal bands and small pale tile. Central library narrow buff tiles, white column caps, dark end tower, rooftop service box and inscribed marker stone.",
+      "limitations": "Older photography may precede changes. Dimensions, new stairs six treads, position of marker stone and tower proportions are independent visual estimates. Interior photo and law-school photo were excluded."
+    }
+  ]
 }

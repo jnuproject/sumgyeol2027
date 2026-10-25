@@ -1,12 +1,12 @@
 {
-  "version": "walk-r21",
+  "version": "scene-r22",
   "areas": [
     "정문",
     "경상대 앞에서 중앙도서관으로 올라가는 구간",
     "학생회관(신관)"
   ],
   "mapGeometryUnchanged": true,
-  "backgroundBuildingsPreserved": true,
+  "backgroundBuildingsPreserved": false,
   "policyContentAdded": false,
   "studentHallOSMId": "471697621",
   "libraryOSMId": "286237890",
@@ -19,5 +19,13 @@
   "walkingRestricted": true,
   "allowedConnections": "Entrance avenue, student-hall forecourt, economics approach and mapped economics-to-library stairs only",
   "boundaryDefinition": "walk-area.js: union of selected forecourts and buffered source road segments",
-  "backgroundBuildingsWalkable": false
+  "backgroundBuildingsWalkable": false,
+  "renderedBuildingIds": [
+    "471297909",
+    "471297922",
+    "286237890",
+    "471697621"
+  ],
+  "renderedBuildingCount": 4,
+  "renderScope": "Only three focus zones and connecting walking corridors, with an8–22m atmospheric render margin. Other campus buildings and sports grounds are not generated."
 }

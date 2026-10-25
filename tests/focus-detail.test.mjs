@@ -24,7 +24,7 @@ test('detailed environment remains finite and new access stairs use the same wal
  const scene=new THREE.Scene(),collisionMeshes=[],obstacles=[],surfaces={paving:new THREE.MeshStandardMaterial(),asphalt:new THREE.MeshStandardMaterial()},unit=new THREE.BoxGeometry(1,1,1);
  const box=(x,y,z,w,h,d,c)=>{const m=new THREE.Mesh(unit,new THREE.MeshStandardMaterial({color:c}));m.position.set(x,y+terrain.heightAt(x,z),z);m.scale.set(w,h,d);scene.add(m);return m;};
  const details=addFocusDetails({scene,data,terrain,surfaces,box,collisionMeshes,obstacles,environment:{segment(){},polygon(){}},fallbackHeightAt:terrain.heightAt});
- for(const route of details.routes)for(const t of route.treads){const d=(t.from+t.to)/2,x=route.a[0]+route.ux*d,z=route.a[1]+route.uz*d;assert.equal(details.heightAt(x,z),t.height+.012);assert.ok(obstacles.every(o=>Math.hypot(o[0]-x,o[1]-z)>o[2]+.4));}
+ for(const route of details.routes)for(const t of route.treads){const d=(t.from+t.to)/2,side=route.split?route.width*.22:0,x=route.a[0]+route.ux*d-route.uz*side,z=route.a[1]+route.uz*d+route.ux*side;assert.equal(details.heightAt(x,z),t.height+.012);assert.ok(obstacles.every(o=>Math.hypot(o[0]-x,o[1]-z)>o[2]+.4));}
  scene.traverse(o=>{if(o.isMesh){for(const v of o.geometry.attributes.position.array)assert.ok(Number.isFinite(v));for(const v of o.matrix.elements)assert.ok(Number.isFinite(v));}});
  assert.equal(details.stats.studentAccessFlights,2);
 });

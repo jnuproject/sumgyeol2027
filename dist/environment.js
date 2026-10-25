@@ -1,3 +1,4 @@
+import {cropSceneGeometry} from './scene-scope.js?v=scene-r22';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
@@ -10,14 +11,35 @@ function geometryFrom(raw){
  const geometry=new THREE.BufferGeometry();
  geometry.setAttribute('position',new THREE.Float32BufferAttribute(raw.positions,3));
  geometry.setIndex(new THREE.BufferAttribute(new Uint32Array(raw.indices),1));
+ if(raw.colors)geometry.setAttribute('color',new THREE.BufferAttribute(raw.colors,4));
  if(raw.normals)geometry.setAttribute('normal',new THREE.Float32BufferAttribute(raw.normals,3));else geometry.computeVertexNormals();
  const uv=new Float32Array(raw.positions.length/3*2);
  for(let i=0;i<raw.positions.length/3;i++){uv[i*2]=raw.positions[i*3];uv[i*2+1]=raw.positions[i*3+2];}
  geometry.setAttribute('uv',new THREE.BufferAttribute(uv,2));geometry.computeBoundingSphere();return geometry;
 }
 
-export function addCampusEnvironment(scene,data,terrain,surfaces){
- const terrainMesh=new THREE.Mesh(geometryFrom(terrain.geometry),surfaces.grass);
+export function addCampusEnvironment(scene,data,terrain,surfaces,scope=null){
+ const scopedMaterials=new Map();
+ function scopedMaterial(material){
+  if(!scope)return material;
+  if(!scopedMaterials.has(material)){
+   const copy=material.clone();
+   copy.onBeforeCompile=shader=>{
+    material.onBeforeCompile(shader);
+    shader.fragmentShader=shader.fragmentShader.replace('#include <fog_fragment>',`#include <fog_fragment>
+#if defined(USE_COLOR_ALPHA) && defined(USE_FOG)
+// Blend the diorama edge into the same atmospheric colour as the sky.
+gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
+#endif`);
+   };
+   copy.customProgramCacheKey=()=>material.customProgramCacheKey()+'-scene-alpha-fog';
+   // Keep opaque depth ordering: transparent terrain would cover roads drawn above it.
+   copy.vertexColors=true;copy.transparent=false;copy.alphaHash=true;copy.alphaTest=.015;copy.depthWrite=true;
+   scopedMaterials.set(material,copy);
+  }
+  return scopedMaterials.get(material);
+ }
+ const terrainMesh=new THREE.Mesh(geometryFrom(scope?cropSceneGeometry(terrain.geometry,scope):terrain.geometry),scopedMaterial(surfaces.grass));
  terrainMesh.name='AWS terrain at original campus coordinates';terrainMesh.userData.campusTerrain=true;terrainMesh.receiveShadow=true;scene.add(terrainMesh);
  const chunks=new Map(),walkRegions=[];
  const materialCache=new Map();
@@ -29,7 +51,7 @@ export function addCampusEnvironment(scene,data,terrain,surfaces){
  const roadShoulder=new THREE.MeshStandardMaterial({color:'#777b74',roughness:1});
  const kerb=new THREE.MeshStandardMaterial({color:'#bcc0b6',roughness:.95});
  const stats={roads:data.roads.length,areas:data.areas.length,roadSegments:0,roadTriangles:0,areaTriangles:0,source:'AWS Terrain Tiles / OSM',widthsAreEstimates:true};
- function append(raw,material,kind){if(!raw.positions.length)return;if(!chunks.has(material))chunks.set(material,[]);chunks.get(material).push(raw);if(kind==='road')stats.roadTriangles+=raw.indices.length/3;else stats.areaTriangles+=raw.indices.length/3;}
+ function append(raw,material,kind){if(scope)raw=cropSceneGeometry(raw,scope);if(!raw.positions.length)return;if(!chunks.has(material))chunks.set(material,[]);chunks.get(material).push(raw);if(kind==='road')stats.roadTriangles+=raw.indices.length/3;else stats.areaTriangles+=raw.indices.length/3;}
  function convex(points,material,offset,kind='road'){append(terrain.drapeConvexPolygon(points,offset),material,kind);}
  function polygon(points,material,offset,kind='area'){
   const ring=points.filter((p,i)=>!i||p[0]!==points[i-1][0]||p[1]!==points[i-1][1]);
@@ -87,9 +109,9 @@ export function addCampusEnvironment(scene,data,terrain,surfaces){
  }
  function flush(){for(const [material,list] of chunks){
   const vertexCount=list.reduce((n,c)=>n+c.positions.length/3,0),indexCount=list.reduce((n,c)=>n+c.indices.length,0);
-  const positions=new Float32Array(vertexCount*3),normals=new Float32Array(vertexCount*3),indices=new Uint32Array(indexCount);let vertex=0,index=0;
-  for(const part of list){positions.set(part.positions,vertex*3);if(part.normals)normals.set(part.normals,vertex*3);for(let i=0;i<part.indices.length;i++)indices[index+i]=part.indices[i]+vertex;vertex+=part.positions.length/3;index+=part.indices.length;}
-  const mesh=new THREE.Mesh(geometryFrom({positions,indices,normals}),material);mesh.name='Terrain-draped campus surface';mesh.receiveShadow=true;scene.add(mesh);
+  const positions=new Float32Array(vertexCount*3),normals=new Float32Array(vertexCount*3),colors=new Float32Array(vertexCount*4),indices=new Uint32Array(indexCount);let vertex=0,index=0;
+  for(const part of list){positions.set(part.positions,vertex*3);if(part.normals)normals.set(part.normals,vertex*3);if(part.colors)colors.set(part.colors,vertex*4);else colors.fill(1,vertex*4,(vertex+part.positions.length/3)*4);for(let i=0;i<part.indices.length;i++)indices[index+i]=part.indices[i]+vertex;vertex+=part.positions.length/3;index+=part.indices.length;}
+  const mesh=new THREE.Mesh(geometryFrom({positions,indices,normals,colors:scope?colors:undefined}),scopedMaterial(material));mesh.name='Terrain-draped campus surface';mesh.receiveShadow=true;scene.add(mesh);
  }chunks.clear();}
  flush();
  function surfaceOffset(x,z){

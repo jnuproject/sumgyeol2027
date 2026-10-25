@@ -1,5 +1,5 @@
 {
-  "version": "walk-r21",
+  "version": "scene-r22",
   "files": [
     {
       "path": ".nojekyll",
@@ -30,6 +30,11 @@
       "path": "assets/campus-outline.svg",
       "bytes": 26476,
       "sha256": "304cad33d027179fd7b818c422622ec34f2861c9d78400bec7cf36074e718cc6"
+    },
+    {
+      "path": "assets/focus-outline-r22.svg",
+      "bytes": 19989,
+      "sha256": "bd051eca77d17908bc4b2712e2dcdabce496c194f213a1eb206c8c661f2ef711"
     },
     {
       "path": "assets/materials/README.md",
@@ -118,8 +123,8 @@
     },
     {
       "path": "campus-observed-details.js",
-      "bytes": 6793,
-      "sha256": "5b563855de5cea653277d0fc1e78939c0ec9b1ddfdad638530ce414c515cd622"
+      "bytes": 6910,
+      "sha256": "3216647c00c431b1cdfa0398b910ff78b59375d6366d035b5cf848de7ede7c0a"
     },
     {
       "path": "campus-survey.json",
@@ -143,23 +148,23 @@
     },
     {
       "path": "environment.js",
-      "bytes": 9013,
-      "sha256": "fa4d0c20ee5d69d3db90637eebbf7caa02f32e140deb7a1e01bc6eb1d21d80cc"
+      "bytes": 10404,
+      "sha256": "f7b09da23bceed430dc186c63a5221759510bd2f8e757ab6f713b13c8cd4d322"
     },
     {
       "path": "focus-architecture.js",
-      "bytes": 5406,
-      "sha256": "86893a48b55e50b83140b1f2ba9f3877e18a14d1a6ccbedca8e415cdf5d3fb5a"
+      "bytes": 5878,
+      "sha256": "7633751cac9b9e2b96e26fa75f5131a4ab81b06d16dd5b02ee3e7f5412dc81e3"
     },
     {
       "path": "focus-detail-sources.json",
-      "bytes": 6228,
-      "sha256": "eb50807a546dfe165445174362c13540616e9fa96a1c476837130aeeb10131da"
+      "bytes": 7737,
+      "sha256": "54a310bdf3555d8dfdb213933b9006b771ca7066931409adfb356f95e3dd77ab"
     },
     {
       "path": "focus-details.js",
-      "bytes": 9991,
-      "sha256": "98411081625699ec10e47a4ed2597fd495f94ec6d2040c912c932c8ff39193b8"
+      "bytes": 12876,
+      "sha256": "ca5dc79b722da2b60406eb341aee30444471b9ab548fcd636ddf3c03328e08ee"
     },
     {
       "path": "focus-route.js",
@@ -168,18 +173,18 @@
     },
     {
       "path": "focus-scope.json",
-      "bytes": 857,
-      "sha256": "e34d2fe2467730970f99d10f6a29ee97f662d55a343ca87f3542b1b427ddec93"
+      "bytes": 1169,
+      "sha256": "bc66cec18034f4126f93ca277ad26a9626a2e59b00beceb9efe3c412c5d8b5f8"
     },
     {
       "path": "game.js",
-      "bytes": 41516,
-      "sha256": "6f6614e326ade228d934ab28af5f9356b40eb5645120c89978ea8d5b2734769d"
+      "bytes": 41766,
+      "sha256": "ba077e20f0d90aab15fd03902375523752cd506042ebbc2f82e77c704943e4b3"
     },
     {
       "path": "index.html",
-      "bytes": 10399,
-      "sha256": "a3e6ec13f1e0f3daaae7a046f44ffb99f1e2f8f8896c64b400bf949b225c6498"
+      "bytes": 10404,
+      "sha256": "6650ab3b249609c54e58c673887495730675da13f3e979dddaa584b4a1ac1ef4"
     },
     {
       "path": "materials.js",
@@ -247,6 +252,11 @@
       "sha256": "cdb0b7d088ee02ff22d8c879f89a505819280fc2ce09d6bc00b06256c8ca3763"
     },
     {
+      "path": "scene-scope.js",
+      "bytes": 2082,
+      "sha256": "b2631413647802f097b640e7b42c81247c61738d9c5a6b5cc7090ca6b9abc99c"
+    },
+    {
       "path": "site-grading.js",
       "bytes": 3549,
       "sha256": "41fc2b97d5816749007c46a5f1afdab157489a1eb38c148587119fa65d72c6a0"
@@ -293,8 +303,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 8676,
-      "sha256": "92fa5ad446809dc2a165d7a14de70e4ac87721f48e0d8a4fcc6ea606ddd42af2"
+      "bytes": 8724,
+      "sha256": "85c03363438abdc145fb44958b452fd17e8565806ef72fb0d003a562d38f0152"
     },
     {
       "path": "visual-references.json",
@@ -308,13 +318,13 @@
     },
     {
       "path": "walk.html",
-      "bytes": 10399,
-      "sha256": "a3e6ec13f1e0f3daaae7a046f44ffb99f1e2f8f8896c64b400bf949b225c6498"
+      "bytes": 10404,
+      "sha256": "6650ab3b249609c54e58c673887495730675da13f3e979dddaa584b4a1ac1ef4"
     },
     {
       "path": "world.js",
-      "bytes": 17016,
-      "sha256": "3a4bc1a7dff47ac9208cf2e99c3bcf48e45ac1aa2d28c7aa48d9c264a42e20ff"
+      "bytes": 17481,
+      "sha256": "7f56485973c46bfb4dc19d6c05a3b7e31d92476f1f38a9b6d04f6697637b5fc4"
     }
   ]
 }

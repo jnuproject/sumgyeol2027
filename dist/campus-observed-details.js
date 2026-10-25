@@ -4,7 +4,7 @@ import {roadWidth} from './road-profile.js';
 
 // Original geometry based on the named Roadview observations in campus-survey.json.
 // Positions and dimensions are approximations anchored to existing OSM footprints.
-export function addCampusObservedDetails({scene,data,terrain,environment,surfaces,box,collisionMeshes,obstacles}){
+export function addCampusObservedDetails({scene,data,terrain,environment,surfaces,box,collisionMeshes,obstacles,visibleAt=()=>true}){
  const stairways=[],carLocations=[],stats={stairways:0,forecourts:0,parkedCars:0,observedCrossings:0};
  const material=c=>new THREE.MeshStandardMaterial({color:c,roughness:.92});
  const paint=material('#e1dfcd'),hump=material('#c6ad54');for(const m of[paint,hump]){m.polygonOffset=true;m.polygonOffsetFactor=-3;m.polygonOffsetUnits=-3;}
@@ -75,6 +75,7 @@ export function addCampusObservedDetails({scene,data,terrain,environment,surface
    if(stats.parkedCars>=42)break;
    const x=a[0]+ux*u+vx*v,z=a[1]+uz*u+vz*v;
    if(![[x,z],...[-2,2].flatMap(along=>[-.9,.9].map(side=>[x+vx*along+ux*side,z+vz*along+uz*side]))].every(p=>insidePolygon(...p,area.points)))continue;
+   if(![[-2,-1],[-2,1],[2,-1],[2,1]].every(([u,v])=>visibleAt(x+vx*u+ux*v,z+vz*u+uz*v)))continue;
    if(data.roads.some(r=>r.points.some((p,i)=>i&&segmentDistance(x,z,r.points[i-1],p)<roadWidth(r)/2+2)))continue;
    car(x,z,vx,vz,stats.parkedCars);
   }

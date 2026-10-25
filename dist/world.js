@@ -1,21 +1,23 @@
-import {loadSumgyeolAvatar} from './avatar.js?v=avatar-r29d';
-import {addAerialRoofDetails,addAerialGroundDetails} from './aerial-buildings.js?v=avatar-r29d';
-import {addObservedPeriphery} from './periphery.js?v=avatar-r29d';
-import {createSceneScope} from './scene-scope.js?v=avatar-r29d';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=avatar-r29d';
-import {addFocusDetails} from './focus-details.js?v=avatar-r29d';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=avatar-r29d';
-import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=avatar-r29d';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=avatar-r29d';
-import {addSportsGrounds} from './sports-ground.js?v=avatar-r29d';
+import {batchStaticMeshes} from './static-mesh-batches.js?v=mobile-r31c';
+import {addAerialLandscape} from './aerial-landscape.js?v=mobile-r31c';
+import {loadSumgyeolAvatar} from './avatar.js?v=mobile-r31c';
+import {addAerialRoofDetails,addAerialGroundDetails} from './aerial-buildings.js?v=mobile-r31c';
+import {addObservedPeriphery} from './periphery.js?v=mobile-r31c';
+import {createSceneScope} from './scene-scope.js?v=mobile-r31c';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=mobile-r31c';
+import {addFocusDetails} from './focus-details.js?v=mobile-r31c';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=mobile-r31c';
+import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=mobile-r31c';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=mobile-r31c';
+import {addSportsGrounds} from './sports-ground.js?v=mobile-r31c';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=avatar-r29d';
-import { addVegetation } from './vegetation.js?v=avatar-r29d';
-import { loadCampusTerrain } from './terrain.js?v=avatar-r29d';
-import { addCampusEnvironment } from './environment.js?v=avatar-r29d';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=mobile-r31c';
+import { addVegetation } from './vegetation.js?v=mobile-r31c';
+import { loadCampusTerrain } from './terrain.js?v=mobile-r31c';
+import { addCampusEnvironment } from './environment.js?v=mobile-r31c';
 
-export async function createCampus(scene,data) {
+export async function createCampus(scene,data,{mobile=false}={}) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();
 const sceneScope=createSceneScope(data,{allBuildings:true}),visibleData=sceneScope.visibleData;
 const environment=addCampusEnvironment(scene,visibleData,terrain,surfaces,sceneScope);
@@ -105,6 +107,7 @@ const extentPoints=[...data.boundary,...data.roads.flatMap(r=>r.points)];
 const bounds={minX:Math.max(terrain.worldBounds.minX+.5,Math.min(...extentPoints.map(p=>p[0]))-10),maxX:Math.min(terrain.worldBounds.maxX-.5,Math.max(...extentPoints.map(p=>p[0]))+10),minZ:Math.max(terrain.worldBounds.minZ+.5,Math.min(...extentPoints.map(p=>p[1]))-10),maxZ:Math.min(terrain.worldBounds.maxZ-.5,Math.max(...extentPoints.map(p=>p[1]))+10)};
 
 const observedEntrance=addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles,surfaces});
+const aerialLandscape=addAerialLandscape({scene,environment,surfaces});
 const vegetation=addVegetation(scene,data,terrain.heightAt,sceneScope.treeVisible);obstacles.push(...vegetation.obstacles);
 addEntranceDetails();
 addAerialGroundDetails({environment,surfaces:{...surfaces,aerialParkingPaint:new THREE.MeshStandardMaterial({color:'#e1e2d5',roughness:.95})}});
@@ -173,7 +176,8 @@ function addEntranceDetails(){
  }
 
 }
-return {aerialBuildingStats,bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),periphery:periphery.stats,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
+const mobileBatching=mobile?batchStaticMeshes(scene):null;
+return {mobileBatching,aerialBuildingStats,bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),periphery:periphery.stats,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),aerialLandscape,treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
 }
 
 export async function makeAvatar(scene){return loadSumgyeolAvatar(scene);}

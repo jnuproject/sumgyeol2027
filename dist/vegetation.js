@@ -1,9 +1,11 @@
-import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=avatar-r29d';
-import {insideFocusClearance} from './focus-details.js?v=avatar-r29d';
+import {spatialInstanceBatches} from './spatial-instances.js?v=mobile-r31c';
+import {AERIAL_GROVES,AERIAL_PATHS,AERIAL_SPECIMEN_TREES,MANAGED_AREA_IDS,insideAerialOpenLawn} from './aerial-landscape.js?v=mobile-r31c';
+import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=mobile-r31c';
+import {insideFocusClearance} from './focus-details.js?v=mobile-r31c';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {insideEntranceOffice} from './entrance-observed.js?v=avatar-r29d';
-import {roadWidth,roadWidthAt} from './road-profile.js?v=avatar-r29d';
+import {insideEntranceOffice} from './entrance-observed.js?v=mobile-r31c';
+import {roadWidth,roadWidthAt} from './road-profile.js?v=mobile-r31c';
 
 // OSM supplies the woodland/park extents. Individual trees, canopy sizes and
 // the photo-informed entrance avenue remain a deterministic visual reconstruction.
@@ -25,7 +27,8 @@ export function generateVegetationLayout(data){
  const pitch=data.areas.find(a=>a.id==='286070859');
  const sportsCenter=pitch?[(Math.min(...pitch.points.map(p=>p[0]))+Math.max(...pitch.points.map(p=>p[0])))/2,(Math.min(...pitch.points.map(p=>p[1]))+Math.max(...pitch.points.map(p=>p[1])))/2]:null;
  const blocked=(x,z,h,type)=>{
-  if(insideFocusClearance(x,z,data)||OBSERVED_GROUND_PATCHES.some(a=>insidePolygon(x,z,a.points)))return true;
+  if(AERIAL_PATHS.some(p=>p.points.some((q,i)=>i&&segmentDistance(x,z,p.points[i-1],q)<p.width/2+2)))return true;
+  if(insideAerialOpenLawn(x,z)||insideFocusClearance(x,z,data)||OBSERVED_GROUND_PATCHES.some(a=>insidePolygon(x,z,a.points)))return true;
   if(insideEntranceOffice(x,z,data,Math.max(4,h*.4)))return true;
   if(sportsCenter&&Math.hypot(x-sportsCenter[0],Math.max(0,Math.abs(z-sportsCenter[1])-42.2))<50.5)return true;
   if(Math.hypot(x-data.spawn[0],z-data.spawn[1])<9)return true;
@@ -47,32 +50,32 @@ export function generateVegetationLayout(data){
  // Re-anchor the estimated positions outside the corrected four-lane edge.
  add(-96.0,-35.2,11.2,'deciduous');
  add(-96.0,-10.4,10.4,'deciduous');
+ for(const p of AERIAL_SPECIMEN_TREES)add(p.x,p.z,p.h,p.type,p.areaId);
  // Preserve the existing photograph-informed double avenue. Its exact tree
  // positions were not surveyed; the road centreline remains the original OSM line.
  const avenue=data.roads.find(r=>r.id==='286085067');
- if(avenue)for(let i=1;i<avenue.points.length;i++){
-  const a=avenue.points[i-1],b=avenue.points[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);
-  if(len<.01||Math.min(a[1],b[1])>30)continue;
-  for(let d=8;d<len;d+=10.5)for(const side of[-1,1]){
-   const px=a[0]+dx*d/len,pz=a[1]+dz*d/len;
-   const offset=roadWidthAt(avenue,px,pz)/2+4.8+random()*.35;
-   add(a[0]+dx*d/len+side*dz/len*offset,a[1]+dz*d/len-side*dx/len*offset,11.2+random()*2.2,'avenue');
-  }
- }
+ if(avenue){let arc=0,next=8;
+ for(let i=1;i<avenue.points.length;i++){
+  const a=avenue.points[i-1],b=avenue.points[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);if(len<.01)continue;
+  while(next<arc+len){const d=next-arc,px=a[0]+dx*d/len,pz=a[1]+dz*d/len;
+   if(pz<30)for(const side of[-1,1]){const offset=roadWidthAt(avenue,px,pz)/2+4.8+random()*.35;add(px+side*dz/len*offset,pz-side*dx/len*offset,11.2+random()*2.2,'avenue');}next+=10.5;
+  }arc+=len;
+ }}
  // The photographed park beside the student approach includes a small dark,
  // conical evergreen group. The OSM park bounds constrain this estimated row.
  const studentPark=data.areas.find(a=>a.id==='969694343');
  if(studentPark)for(const [i,z]of[-70,-61,-52].entries())if(insidePolygon(-106,z,studentPark.points))add(-106,z,6.8+i*.35,'conifer',studentPark.id);
- for(const area of forestAreas){
-  const xs=area.points.map(p=>p[0]),zs=area.points.map(p=>p[1]),step=8.2;
+ for(const area of [...AERIAL_GROVES.map(a=>({...a,tags:{natural:'wood'},aerial:true})),...forestAreas]){
+  const xs=area.points.map(p=>p[0]),zs=area.points.map(p=>p[1]),step=area.id==='471490139'?16:area.id==='471490215'?12.5:area.spacing??8.2;
   for(let z=Math.min(...zs)+step*.5;z<Math.max(...zs);z+=step)for(let x=Math.min(...xs)+step*.5;x<Math.max(...xs);x+=step){
    const px=x+(random()-.5)*6,pz=z+(random()-.5)*6;
-   if(insidePolygon(px,pz,area.points)&&insidePolygon(px,pz,data.boundary))add(px,pz,11+random()*5,'forest',area.id);
+   if(insidePolygon(px,pz,area.points)&&insidePolygon(px,pz,data.boundary))add(px,pz,area.id==='471490139'?6+random()*3:area.height?area.height[0]+random()*(area.height[1]-area.height[0]):11+random()*5,'forest',area.id);
   }
  }
  // Parks stay open: sparse trees are restricted to the park perimeter, never
  // scattered across mapped sports fields, water or parking areas.
  for(const area of parkAreas){
+  if(MANAGED_AREA_IDS.has(area.id))continue;
   const xs=area.points.map(p=>p[0]),zs=area.points.map(p=>p[1]),step=18;
   for(let z=Math.min(...zs)+4;z<Math.max(...zs);z+=step)for(let x=Math.min(...xs)+4;x<Math.max(...xs);x+=step){
    const px=x+(random()-.5)*5,pz=z+(random()-.5)*5;
@@ -93,6 +96,7 @@ export function generateUnderstoryLayout(data,visibleAt=()=>true){
   const xs=area.points.map(p=>p[0]),zs=area.points.map(p=>p[1]);
   for(let z=Math.min(...zs)+2;z<Math.max(...zs);z+=4.1)for(let x=Math.min(...xs)+2;x<Math.max(...xs);x+=4.1){
    const px=x+(random()-.5)*2.4,pz=z+(random()-.5)*2.4;
+   if(insideAerialOpenLawn(px,pz))continue;
    if(!visibleAt(px,pz)||!insidePolygon(px,pz,area.points)||!insidePolygon(px,pz,data.boundary)||insideFocusClearance(px,pz,data)||insideEntranceOffice(px,pz,data,3))continue;
    if([...excluded,...OBSERVED_GROUND_PATCHES].some(a=>insidePolygon(px,pz,a.points)))continue;
    if(roads.some(r=>segmentDistance(px,pz,r.a,r.b)<roadWidthAt(r.road,px,pz)/2+(r.road.id==='286085067'?4.7:2.5)))continue;
@@ -161,7 +165,7 @@ export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
  }
  trunks.count=ti;
  for(const [mesh,name]of [[trunks,'campus-tree-trunks'],[leaves,'campus-tree-leaves']]){
-  mesh.name=name;mesh.castShadow=true;mesh.receiveShadow=true;mesh.computeBoundingSphere();scene.add(mesh);
+  mesh.name=name;mesh.castShadow=true;mesh.receiveShadow=true;mesh.computeBoundingSphere();for(const batch of spatialInstanceBatches(mesh))scene.add(batch);mesh.dispose();
  }
  const understory=generateUnderstoryLayout(data,visibleAt);
  const groundLeaves=new THREE.InstancedMesh(new THREE.PlaneGeometry(1,1),leavesMaterial,understory.length*12);let gi=0;
@@ -169,6 +173,6 @@ export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
   const a=i*Math.PI*.618+p.variation*6,r=Math.sqrt((i+.5)/12)*p.radius,px=p.x+Math.cos(a)*r,pz=p.z+Math.sin(a)*r;
   o.position.set(px,heightAt(px,pz)+p.height*.5,pz);o.scale.set(1.4,1.4,1);o.rotation.set(-Math.PI/2+(i%3-1)*.22,a,.1);o.updateMatrix();groundLeaves.setMatrixAt(gi,o.matrix);color.setHSL(.22,.1,.62+(i%4)*.045);groundLeaves.setColorAt(gi++,color);
  }
- groundLeaves.name='Mapped woodland low evergreen groundcover';groundLeaves.castShadow=false;groundLeaves.receiveShadow=true;groundLeaves.computeBoundingSphere();scene.add(groundLeaves);
- return {treeCount:points.length,obstacles,counts:{forest:points.filter(p=>p.type==='forest').length,park:points.filter(p=>p.type==='park').length,avenue:points.filter(p=>p.type==='avenue').length,conifer:points.filter(p=>p.type==='conifer').length,deciduous:points.filter(p=>p.type==='deciduous').length,understory:understory.length},placementNotes:'OSM forest/wood/park extents and March2026 Roadview silhouettes; reconstructed tree density, heights, foreground student-hall trunks and woodland groundcover; terrain-grounded, with road and building clearance.'};
+ groundLeaves.name='Mapped woodland low evergreen groundcover';groundLeaves.castShadow=false;groundLeaves.receiveShadow=true;groundLeaves.computeBoundingSphere();for(const batch of spatialInstanceBatches(groundLeaves))scene.add(batch);groundLeaves.dispose();
+ return {treeCount:points.length,obstacles,counts:{forest:points.filter(p=>p.type==='forest').length,park:points.filter(p=>p.type==='park').length,avenue:points.filter(p=>p.type==='avenue').length,conifer:points.filter(p=>p.type==='conifer').length,deciduous:points.filter(p=>p.type==='deciduous').length,understory:understory.length},placementNotes:'OSM extents plus2026-10-26 latest Skyview observation of open meadow centres, crown groups and library east woodland; March2026 Roadview silhouettes; reconstructed tree density, heights, foreground student-hall trunks and woodland groundcover; terrain-grounded, with road and building clearance.'};
 }

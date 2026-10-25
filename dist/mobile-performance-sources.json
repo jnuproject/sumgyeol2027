@@ -1,0 +1,46 @@
+{
+  "version": "campus-mobile-r31",
+  "issues": [
+    {
+      "cause": "r29 capped each frame at40ms, dropping movement time below25fps",
+      "fix": "Keep elapsed time up to120ms. 15/20/30/60fps game-time and analytic jump regression tests."
+    },
+    {
+      "cause": "Touch pointerout on one finger released all held inputs",
+      "fix": "Only clear a true mouse exit with no held buttons. Pointer IDs continue to release independently."
+    },
+    {
+      "cause": "Mobile joystick default speed was3.4m/s",
+      "fix": "6m/s walk,10m/s run at full joystick input; PC controls preserved."
+    },
+    {
+      "cause": "Whole-campus instance bounds and repeated static draw calls; full dynamic shadow rendering",
+      "fix": "Spatially culled tree/groundcover instances; static material/cell batching; mobile1x pixel cap,512px static shadow tiles, existing sky reflection instead of24 scene captures. Adaptive pixel ratio down to0.75 if sustained slow frames."
+    }
+  ],
+  "preserved": [
+    "59 buildings",
+    "source map and elevation raster",
+    "all tree instances (spatial batching does not delete them)",
+    "walking, jumping, collision and first/third-person camera",
+    "existing rounded Kenney character; blocky switch cancelled by user",
+    "Sumgyeol original chest/back logo",
+    "observed aerial landscaping from r30"
+  ],
+  "verification": {
+    "tests": "tests-final.txt",
+    "viewport": [
+      390,
+      844
+    ],
+    "observedDrawCallsBeforeStaticBatching": 813,
+    "observedDrawCallsAfterStaticBatching": 344,
+    "staticMeshesGrouped": 610,
+    "renderBatches": 51,
+    "fullJoystickHoldSeconds": 2,
+    "observedDistanceMetersApprox": 12,
+    "physicalPhoneTested": false,
+    "physicalMultitouchTested": false,
+    "note": "These render observations are from the Mac browser at phone viewport size, not a physical phone FPS measurement."
+  }
+}

@@ -7,9 +7,9 @@
   "originalModel": "skaterMaleA.fbx",
   "modifications": [
     "Original CC0 SVG recolored in Sumgyeol sky blue",
-    "Skull motif replaced by independently drawn three breath strokes",
     "Standing height normalized to 1.78 scene meters",
-    "Idle/run/jump clips bound to original rig; root translation stays with existing game collision controller"
+    "Idle/run/jump clips bound to original rig; root translation stays with existing game collision controller",
+    "Original Sumgyeol navigation artwork on cloth badges, separate brand rights"
   ],
   "files": [
     {
@@ -42,5 +42,12 @@
       "bytes": 29664,
       "sha256": "f7ffa5ee40d094a863c5d1bedf4aff60c8ae67281510975194a620941c9a9748"
     }
-  ]
+  ],
+  "brand": {
+    "source": "Existing user-provided Sumgyeol navigation wordmark",
+    "path": "assets/sumgyeol_wordmark_blue.png",
+    "sha256": "554c7d78c9ecb3f1f161235c9d69220f20f561d776e6ef945f5832d4097d9708",
+    "application": "Original blue artwork on white cloth badges at chest and back. Back UV orientation compensated by180-degree canvas rotation.",
+    "licenseSeparation": "Kenney CC0 covers the underlying model/animation/base skin; the existing Sumgyeol brand artwork has separate rights and is not relicensed as Kenney CC0."
+  }
 }

@@ -1,0 +1,50 @@
+{
+  "version": "aerial-landscape-r30",
+  "observedDateKST": "2026-10-26",
+  "reference": {
+    "name": "Kakao Skyview, selected Recent Photos",
+    "url": "https://map.kakao.com/?q=%EC%A0%9C%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90",
+    "selectionConfirmed": "Recent Photos selected in map UI",
+    "captureDate": "Exact capture year/date for individual image pixels was not displayed; not claimed as an October2026 survey",
+    "method": "Direct visual observation of displayed public imagery; independent geometry. No map raster is used as a game texture or republished in this repository."
+  },
+  "observations": [
+    {
+      "area": "정문~본관 진입축",
+      "observed": "도로 양옆의 연속 가로수와 서쪽 밀집 숲, 박물관 쪽의 열린 공간",
+      "applied": "도로가 짧은 선분으로 세분화된 곳에서도 식재 간격이 이어지도록 수정; 기존 숲과 건물·도로 경계 유지"
+    },
+    {
+      "area": "본관 및 북쪽 잔디",
+      "observed": "중앙이 빈 직사각형 잔디와 경계 수목; 북쪽 공원은 띄엄띄엄한 군집과 열린 풀밭",
+      "applied": "빈 잔디 중심3개, 관찰 기반 주변 수목 후보100개, 관리 녹지의 무작위 가장자리 배치 대체"
+    },
+    {
+      "area": "학생회관 신관 북쪽 아라연 주변",
+      "observed": "작은 연못과 굽은 산책길, 분리된 수목 군집과 잔디",
+      "applied": "기존 연못 보존, 독립 산책길2개와 주변 소규모 군집; 도로와 건물 진입 공간 제외"
+    },
+    {
+      "area": "경상대~중앙도서관",
+      "observed": "경상대 남쪽의 연속 숲, 도서관 동쪽 숲과 열린 주차 공간, 건물 북쪽의 성긴 식재",
+      "applied": "숲 군집 보강, 사회과학대~경상대 사이의 식재 밀도 감소, 도서관 동쪽과 디지털도서관 남쪽 주차 면 및 도서관 동쪽 정원 길"
+    }
+  ],
+  "limits": [
+    "Individual tree locations, heights, species and crown sizes are estimates, not a survey.",
+    "Some features are partly obscured by crowns and shadows. Exact hidden garden edges are unconfirmed.",
+    "Existing buildings, source map, source height raster, character walking/jump/collision and mobile controls are preserved."
+  ],
+  "runtimeModules": [
+    "aerial-landscape.js",
+    "vegetation.js",
+    "spatial-layout.js"
+  ],
+  "brand": {
+    "source": "Existing user-provided Sumgyeol navigation wordmark",
+    "path": "assets/sumgyeol_wordmark_blue.png",
+    "sha256": "554c7d78c9ecb3f1f161235c9d69220f20f561d776e6ef945f5832d4097d9708",
+    "application": "Original blue artwork on white cloth badges at chest and back. Back UV orientation compensated by180-degree canvas rotation.",
+    "licenseSeparation": "Kenney CC0 covers the underlying model/animation/base skin; the existing Sumgyeol brand artwork has separate rights and is not relicensed as Kenney CC0."
+  }
+}

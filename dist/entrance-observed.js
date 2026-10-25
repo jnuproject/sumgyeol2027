@@ -1,6 +1,6 @@
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
-import {roadWidth,MAIN_AVENUE_WIDTH,MAIN_AVENUE_LANES} from './road-profile.js?v=avatar-r29d';
+import {roadWidth,MAIN_AVENUE_WIDTH,MAIN_AVENUE_LANES} from './road-profile.js?v=mobile-r31c';
 
 // Independently constructed from the public Kakao Roadview, labelled2026-03.
 // Presence/arrangement are observed; all dimensions and local offsets are estimates.

@@ -1,5 +1,5 @@
 import {insidePolygon} from './navigation.js';
-import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js';
+import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=mobile-r31c';
 
 // Shapes are independently modelled from the displayed aerial image.
 // Heights, exact counts and placements remain estimates. No image is a texture.

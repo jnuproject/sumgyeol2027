@@ -2,7 +2,8 @@ import * as THREE from './three.module.js';
 
 // Capture our own reconstructed scene. No street-view pixels or external imagery
 // are sampled. Local probes approximate nearby glazing, not survey-grade optics.
-export function createCampusReflections({renderer,scene,heightAt,anchors,hidden=[]}){
+export function createCampusReflections({renderer,scene,heightAt,anchors,hidden=[],lightweight=false}){
+ if(lightweight)return {stats:{enabled:false,probeCount:0,resolution:0,active:'lightweight sky reflection',bakeMilliseconds:0,source:'existing local sky material; no six-direction scene captures on mobile'},update(){},dispose(){}};
  const glass=new Set();scene.traverse(o=>{if(o.isMesh)for(const m of Array.isArray(o.material)?o.material:[o.material])if(m?.userData?.campusGlass)glass.add(m);});
  const original=new Map([...glass].map(m=>[m,m.envMap])),probes=[];
  const resolution=renderer.capabilities.isWebGL2?128:64;

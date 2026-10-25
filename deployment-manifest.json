@@ -1,5 +1,5 @@
 {
-  "version": "scene-r22",
+  "version": "periphery-r23",
   "files": [
     {
       "path": ".nojekyll",
@@ -123,8 +123,8 @@
     },
     {
       "path": "campus-observed-details.js",
-      "bytes": 6910,
-      "sha256": "3216647c00c431b1cdfa0398b910ff78b59375d6366d035b5cf848de7ede7c0a"
+      "bytes": 7046,
+      "sha256": "14aa16f9181e786a76821a5c529ee2a703d63d64adcdf56f2c64f3b05d6de049"
     },
     {
       "path": "campus-survey.json",
@@ -148,8 +148,8 @@
     },
     {
       "path": "environment.js",
-      "bytes": 10404,
-      "sha256": "f7b09da23bceed430dc186c63a5221759510bd2f8e757ab6f713b13c8cd4d322"
+      "bytes": 10713,
+      "sha256": "3733f2575300f6a025ce86e3f6deaeee91f00d5d74c3e995b4cbdc5b4ff020ed"
     },
     {
       "path": "focus-architecture.js",
@@ -163,8 +163,8 @@
     },
     {
       "path": "focus-details.js",
-      "bytes": 12876,
-      "sha256": "ca5dc79b722da2b60406eb341aee30444471b9ab548fcd636ddf3c03328e08ee"
+      "bytes": 12724,
+      "sha256": "a5a855cd2609219b56a2431237829b1ef4e10f8d42d79e70ae1ae29b3940d68c"
     },
     {
       "path": "focus-route.js",
@@ -173,18 +173,18 @@
     },
     {
       "path": "focus-scope.json",
-      "bytes": 1169,
-      "sha256": "bc66cec18034f4126f93ca277ad26a9626a2e59b00beceb9efe3c412c5d8b5f8"
+      "bytes": 1470,
+      "sha256": "aca64df1341417b7fa9857864ee03f489f3ecbcd493fb997a36efd90d979c51d"
     },
     {
       "path": "game.js",
-      "bytes": 41766,
-      "sha256": "ba077e20f0d90aab15fd03902375523752cd506042ebbc2f82e77c704943e4b3"
+      "bytes": 42317,
+      "sha256": "a7cabd440a5392b27081b60caf3e1173dcc83d65c379711822af49d6cf6b37f2"
     },
     {
       "path": "index.html",
-      "bytes": 10404,
-      "sha256": "6650ab3b249609c54e58c673887495730675da13f3e979dddaa584b4a1ac1ef4"
+      "bytes": 10412,
+      "sha256": "f3a16e0b9797a15ea77384c2655ec79d5a7469b29eb2d42e53c8a28678b0b1fe"
     },
     {
       "path": "materials.js",
@@ -213,13 +213,23 @@
     },
     {
       "path": "observed-campus.js",
-      "bytes": 8230,
-      "sha256": "efbb7ff42f4c7565f6625468973521ef7978b114661dc4125c834c117bf486d0"
+      "bytes": 9677,
+      "sha256": "abda9eb53a20d67a0ad029ccd796a30965ac944185dd7a55c2c61276e51bede5"
     },
     {
       "path": "odbl-provenance.json",
       "bytes": 5744,
       "sha256": "8951cdb9015ac62e8626ef54b67d80e24cbd42adc08ed83ef22b21b8aaf887d5"
+    },
+    {
+      "path": "periphery-sources.json",
+      "bytes": 5319,
+      "sha256": "9d2c2aade7e6ff2bbeadfd085e5f371bbc89dbebeb6625101db8ffbac4a9a90e"
+    },
+    {
+      "path": "periphery.js",
+      "bytes": 4310,
+      "sha256": "c1ecfee7c2cc43a00d41fd502c437124e5e428d88b0ee0c0f5ece6eaae76e4ed"
     },
     {
       "path": "places.js",
@@ -243,8 +253,8 @@
     },
     {
       "path": "road-profile.js",
-      "bytes": 619,
-      "sha256": "3b0dcb64105cf6eae52a3566f50c4ee6e1173f734c48af816d8097ac5732a03b"
+      "bytes": 1411,
+      "sha256": "629dd543c9538cd184742126d6d98d7c01e876fd85807a628b342305028a4083"
     },
     {
       "path": "roadview-observation.json",
@@ -253,13 +263,13 @@
     },
     {
       "path": "scene-scope.js",
-      "bytes": 2082,
-      "sha256": "b2631413647802f097b640e7b42c81247c61738d9c5a6b5cc7090ca6b9abc99c"
+      "bytes": 2731,
+      "sha256": "ea7abeb91da7a81856d3957bdfb3fbe0fa07a5a31bb74d37167845385eb91c39"
     },
     {
       "path": "site-grading.js",
-      "bytes": 3549,
-      "sha256": "41fc2b97d5816749007c46a5f1afdab157489a1eb38c148587119fa65d72c6a0"
+      "bytes": 3745,
+      "sha256": "f1a5c32333e2b7ecb97f54c5fa85e787a0c6e9b82c498685860af91578a72cd2"
     },
     {
       "path": "sports-ground.js",
@@ -293,8 +303,8 @@
     },
     {
       "path": "terrain.js",
-      "bytes": 10248,
-      "sha256": "2f53706db8c82b24f692b77fc6ca4d52f381bb2b2ed7f557a1d4c5f84e8d933e"
+      "bytes": 10251,
+      "sha256": "50487efdb48946495f39f568835f9c34412029aae614529d17902ad496d2670c"
     },
     {
       "path": "three.module.js",
@@ -303,8 +313,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 8724,
-      "sha256": "85c03363438abdc145fb44958b452fd17e8565806ef72fb0d003a562d38f0152"
+      "bytes": 9910,
+      "sha256": "430547fd1c3fc6ff6c2684e618cb9b4873a1bcf83c19632cf2596f07414b64a7"
     },
     {
       "path": "visual-references.json",
@@ -318,13 +328,13 @@
     },
     {
       "path": "walk.html",
-      "bytes": 10404,
-      "sha256": "6650ab3b249609c54e58c673887495730675da13f3e979dddaa584b4a1ac1ef4"
+      "bytes": 10412,
+      "sha256": "f3a16e0b9797a15ea77384c2655ec79d5a7469b29eb2d42e53c8a28678b0b1fe"
     },
     {
       "path": "world.js",
-      "bytes": 17481,
-      "sha256": "7f56485973c46bfb4dc19d6c05a3b7e31d92476f1f38a9b6d04f6697637b5fc4"
+      "bytes": 17742,
+      "sha256": "36849c1d73e79b2be7c97281ff0dbf6074eab3c0e59fcecaf6d66379df464cb2"
     }
   ]
 }

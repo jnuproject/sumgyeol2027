@@ -1,0 +1,76 @@
+{
+  "version": "periphery-r23",
+  "reviewedOn": "2026-10-25 Asia/Seoul",
+  "method": "Existing direct public Roadview observation screenshots reviewed again and compared with the actual game; additional public photographs searched and visually inspected. No source panorama or photograph pixels distributed in game.",
+  "scope": {
+    "playable": "Same three zones and connecting routes as walk-r21. Background-only areas are not new walking destinations.",
+    "backgroundBuildings": [
+      "471697017 museum",
+      "471490497 old administration",
+      "471377428 law school",
+      "953564621 digital library"
+    ],
+    "renderMargin": "35m fully opaque plus40m atmospheric fade; the source map remains unchanged.",
+    "notRestored": "All other campus buildings and sports ground models remain excluded."
+  },
+  "observations": [
+    {
+      "feature": "Internal avenue",
+      "source": "Saved Kakao Roadview student-road-axis-2026-03.png and gate-current-jnuri-20260224.jpg",
+      "observed": "Wide vehicle entrance, narrower two-lane internal road, arrows/diamond markings, curbside trees and sidewalk behind planting strip.",
+      "change": "Entrance17.5m tapers to7.4m internal estimate. Rendering and surface-height sampling share this width profile. Road source coordinates unchanged.",
+      "estimated": "All widths, taper transition z=-390..-230, marking positions, tree offsets and sizes."
+    },
+    {
+      "feature": "Library frontage",
+      "source": "Saved public Kakao Roadview library-road-bus-stop-2026-03.png, plus2023 public photograph at https://mostadmired.tistory.com/238",
+      "observed": "Wooded roadside sidewalk, dark-frame glazed bus shelter, paved forecourt and wide entrance stairs.",
+      "change": "Independent original shelter/bench/frame/papers geometry and north-side sidewalk. Local front-court pad now uses coarse-raster reference near the court instead of building-centre median to reduce a hump.",
+      "estimated": "Shelter location x=-143,z=199.9, dimensions, bench, notice layouts, exact sidewalk width, reconstructed court elevation. Not a surveyed/precise shelter pin."
+    },
+    {
+      "feature": "Economics1 planting edge",
+      "source": "Saved public Kakao Roadview economics1-eastward-2026-03.png",
+      "observed": "Low irregular basalt retaining edge, gray pavers, yellow tactile strip and planting bank.",
+      "change": "200 independently generated irregular basalt stones replace repeated square wall blocks. Existing pavers/tactile strip and facade kept.",
+      "estimated": "Individual stone positions and dimensions."
+    },
+    {
+      "feature": "Student-hall surroundings",
+      "source": "OSM park969694343 and pond969694342, plus saved Roadview student-road-axis-2026-03.png",
+      "observed": "OSM records a pond/park north of the student hall; Roadview shows brown guard railing and evergreen planting near the approach.",
+      "change": "Pond restored at original outline, original coarse-source median used for a flat water surface and local blended banks; brown park-side railing added.",
+      "estimated": "Water elevation/bank grade, fence exact placement x=-99.2,z=-71..-38 and all fence dimensions. Fence does not claim an exact photographed alignment."
+    },
+    {
+      "feature": "Immediate law-school facade",
+      "url": "https://mostadmired.tistory.com/238",
+      "visitDate": "2023-12-04",
+      "observed": "Cream facade, red tiled roof, classical four-column portico, front gables and upper arched windows.",
+      "change": "Independent portico/column/gable/arch geometry on existing OSM footprint. Other sides repeat prior facade assumptions.",
+      "estimated": "Roof form, storey heights, proportions and unseen rear.2023 view may predate changes."
+    },
+    {
+      "feature": "Trees and outer visibility",
+      "observed": "Public entrance photo shows trunks and multiple fine branches, not repeated large Y-shaped forks.",
+      "change": "Thinner tapered trunks with three main and six secondary branches; canopy size reduced. OSM woodland area selection retained. Grainy alpha-hash border removed in favour of opaque-depth fog-colour edge.",
+      "estimated": "Every individual tree location/height/crown, reconstructed leaf patterns and a leafy-season presentation. Historical leafless Roadview season is not exactly replicated."
+    }
+  ],
+  "photographPages": [
+    "https://www.jnuri.net/news/article.html?no=67142",
+    "https://mostadmired.tistory.com/238"
+  ],
+  "unresolved": [
+    "Only the named selected and adjacent buildings were reviewed; missing nearby unobserved buildings are not claimed complete.",
+    "All environment is independent visual reconstruction; it is not photogrammetry, a complete photoreal reconstruction, or a survey.",
+    "No measured curb, stair, water-level or building-height dataset was acquired."
+  ],
+  "preserved": [
+    "Original OSM JSON coordinates",
+    "Original AWS elevation file",
+    "Avatar, walking/running, jump, first/third person, collisions, UI and walking boundary",
+    "NEXT, OneStore, Trash, credentials and unrelated files"
+  ],
+  "additionalQualityFix": "Original procedural bark texture added. Library marker stone geometry now welds coincident source vertices consistently and sits on the ground; closed-edge topology is tested."
+}

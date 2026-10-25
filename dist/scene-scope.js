@@ -2,6 +2,8 @@ import {createFocusWalkArea} from './walk-area.js';
 import {segmentDistance} from './navigation.js';
 
 export const VISIBLE_BUILDING_IDS=['471297909','471297922','286237890','471697621'];
+// Only directly adjacent, previously observed landmarks. Not a full-campus restore.
+export const CONTEXT_BUILDING_IDS=['471697017','471490497','471377428','953564621'];
 export function createSceneScope(data){
  const area=createFocusWalkArea(data);
  function outsideDistance(x,z){
@@ -12,10 +14,13 @@ export function createSceneScope(data){
   }
   return nearest;
  }
- function alphaAt(x,z){const t=Math.max(0,Math.min(1,(22-outsideDistance(x,z))/14));return t*t*(3-2*t);}
- const visibleData={...data,buildings:data.buildings.filter(b=>VISIBLE_BUILDING_IDS.includes(b.id)),
-  areas:data.areas.filter(a=>!a.tags.sport&&!['pitch','track','playground'].includes(a.tags.leisure)&&a.tags.natural!=='water')};
- return {area,visibleData,outsideDistance,alphaAt,treeVisible:(x,z)=>outsideDistance(x,z)<11};
+ const context=data.buildings.filter(b=>CONTEXT_BUILDING_IDS.includes(b.id));
+ const contextBounds=context.map(b=>({minX:Math.min(...b.points.map(p=>p[0])),maxX:Math.max(...b.points.map(p=>p[0])),minZ:Math.min(...b.points.map(p=>p[1])),maxZ:Math.max(...b.points.map(p=>p[1]))}));
+ function renderDistance(x,z){let d=outsideDistance(x,z);for(const r of contextBounds)d=Math.min(d,Math.hypot(Math.max(r.minX-x,0,x-r.maxX),Math.max(r.minZ-z,0,z-r.maxZ)));return d;}
+ function alphaAt(x,z){const t=Math.max(0,Math.min(1,(75-renderDistance(x,z))/40));return t*t*(3-2*t);}
+ const visibleData={...data,buildings:data.buildings.filter(b=>[...VISIBLE_BUILDING_IDS,...CONTEXT_BUILDING_IDS].includes(b.id)),
+  areas:data.areas.filter(a=>!a.tags.sport&&!['pitch','track','playground'].includes(a.tags.leisure))};
+ return {area,visibleData,outsideDistance,renderDistance,alphaAt,treeVisible:(x,z)=>renderDistance(x,z)<32};
 }
 
 // Crop render geometry only. Original coordinates and physics height samples stay intact.

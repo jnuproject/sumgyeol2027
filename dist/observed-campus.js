@@ -79,7 +79,11 @@ export function addObservedFacade({scene,b,height,panel,box,base}){
     }else if(kind==='music'){
      p(t,y,.72,2.4,.26,glass);p(t,y-.05,.98,2.65,.10,'#4e5c62',.1);
     }else if(kind==='law'){
-     p(t,y,1.8,2.2,.22,glass);p(t,y-1.2,2.2,.18,.4,'#e2dfd0');
+     const front=(a[1]+e[1])*.5>173&&length>25;
+     if(front&&floor===levels-1){
+      const shape=new THREE.Shape();shape.moveTo(-.9,0);shape.lineTo(.9,0);shape.lineTo(.9,1.8);shape.absarc(0,1.8,.9,0,Math.PI,false);shape.lineTo(-.9,0);
+      const arch=new THREE.Mesh(new THREE.ShapeGeometry(shape,14),archMaterial);arch.position.set(a[0]+dx*t+nx*.29*out,base+y-1.1,a[1]+dz*t+nz*.29*out);arch.rotation.y=-Math.atan2(dz,dx);scene.add(arch);
+     }else p(t,y,1.8,2.2,.22,glass);p(t,y-1.2,2.2,.18,.4,'#e2dfd0');
     }else p(t,y,.12,2.05,.36,trim,.35);
    }
   }
@@ -90,6 +94,20 @@ export function addObservedFacade({scene,b,height,panel,box,base}){
   }
   if(kind==='music'){p(.5,height+.05,length+.8,.48,1.0,'#4f5b60');p(.5,3.6,length,.58,.42,'#566167');}
   if(kind==='administration')p(.5,height+.1,length+.2,.32,.8,'#c8ccc3');
+ }
+ if(kind==='law'){
+  // South-facing classical portico and gables observed in the2023 campus photograph.
+  const cx=-153.5,cz=181.3;
+  const stone=new THREE.MeshStandardMaterial({color:'#cbc6b5',roughness:.9});
+  for(const x of[-4.4,-1.5,1.5,4.4]){
+   const column=new THREE.Mesh(new THREE.CylinderGeometry(.43,.49,9.6,16),stone);column.position.set(cx+x,base+5.3,cz);column.castShadow=true;scene.add(column);
+   box(cx+x,10.25,cz,1.1,.45,1.1,'#8b8d83');box(cx+x,.55,cz,1.2,.5,1.2,'#8b8d83');
+  }
+  for(const [x,z,w]of[[cx,182.3,13],[-181.5,176.1,10],[-130.5,177,10]]){
+   const shape=new THREE.Shape();shape.moveTo(-w/2,0);shape.lineTo(w/2,0);shape.lineTo(0,2.7);shape.closePath();
+   const g=new THREE.ExtrudeGeometry(shape,{depth:.45,bevelEnabled:false}),pediment=new THREE.Mesh(g,stone);pediment.position.set(x,base+12.3,z);pediment.castShadow=true;scene.add(pediment);
+   box(x,11.3,z,w+.4,1.6,.95,'#cbc6b5');box(x,12.22,z,w+.8,.30,1.15,'#777f7b');box(x,10.5,z,w+.8,.30,1.15,'#999d94');
+  }
  }
  if(kind==='residenceBrick'){
   const sections=[{points:clip(b.points,1,343,true),axis:1},{points:clip(clip(b.points,1,377,false),0,-460,true),axis:1},{points:clip(clip(b.points,1,343,false),1,377,true),axis:0}];

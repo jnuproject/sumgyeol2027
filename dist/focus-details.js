@@ -63,10 +63,7 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
  environment.segment([-66,87.6],[1,87.6],.28,mat('#d1b14f'),.145);
  for(let x=-65;x<0;x+=3.4)environment.segment([x,86.4],[x,88.8],.035,mat('#7c8178'),.14);
  // Low planted edge and rough stone retaining courses seen beneath the facade.
- for(let x=-61;x<-4;x+=7.0){
-  const h=terrain.heightAt(x,89.8);absBox(x,h+.29,89.8,5.8,.58,.7,'#606b5b');
-  for(let course=0;course<3;course++)absBox(x,h+.09+course*.18,89.35,5.8,.025,.08,'#343f35');
- }
+
  const shrubGeo=new THREE.SphereGeometry(1,10,6),shrubs=[];
  const shrub=(x,z,w,h,d,ground=terrain.heightAt(x,z),color='#43583c')=>{shrubs.push({x,z,w,h,d,ground,color});};
  for(const x of[-62,-48,-34,-20,-7])shrub(x,90.1,1.2,.9,.7);
@@ -95,8 +92,8 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
  }
  if(lib){
   const x=-136.5,z=220,base=terrain.heightAt(x,z),geometry=new THREE.IcosahedronGeometry(1,1),p=geometry.attributes.position;
-  for(let i=0;i<p.count;i++){const v=1+.12*Math.sin(i*9.7);p.setXYZ(i,p.getX(i)*1.55*v,Math.max(-1.0,p.getY(i)*1.7*v),p.getZ(i)*1.0*v);}geometry.computeVertexNormals();
-  const stone=new THREE.Mesh(geometry,mat('#84937b'));stone.position.set(x,base+1.3,z);stone.castShadow=true;scene.add(stone);collisionMeshes.push(stone);obstacles.push([x,z,1.6]);
+  for(let i=0;i<p.count;i++){const x=p.getX(i),y=p.getY(i),z=p.getZ(i),v=1+.08*Math.sin(x*17+y*11+z*23);p.setXYZ(i,x*1.55*v,Math.max(-1.0,y*1.7*v),z*v);}geometry.computeVertexNormals();
+  const stone=new THREE.Mesh(geometry,mat('#84937b'));stone.name='Library marker stone';stone.position.set(x,base+1.0,z);stone.castShadow=true;scene.add(stone);collisionMeshes.push(stone);obstacles.push([x,z,1.6]);
   if(typeof document!=='undefined'){const c=document.createElement('canvas');c.width=512;c.height=128;const g=c.getContext('2d');g.fillStyle='#3d4842';g.fillRect(0,0,512,128);g.fillStyle='#d7dfce';g.font='48px serif';g.textAlign='center';g.fillText('中央圖書館',256,87);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const sign=new THREE.Mesh(new THREE.PlaneGeometry(2.1,.52),new THREE.MeshStandardMaterial({map:t,roughness:.9}));sign.position.set(x,base+1.5,z-1.0);sign.rotation.y=Math.PI;scene.add(sign);}
  }
  // Roadview shows a lower student-hall court, stairs and guarded access.

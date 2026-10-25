@@ -1,6 +1,6 @@
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {roadWidth} from './road-profile.js';
+import {roadWidth,roadWidthAt} from './road-profile.js';
 
 // Original geometry based on the named Roadview observations in campus-survey.json.
 // Positions and dimensions are approximations anchored to existing OSM footprints.
@@ -45,9 +45,10 @@ export function addCampusObservedDetails({scene,data,terrain,environment,surface
  // first academic junction. Exact centre/rise is approximate, not a traffic survey.
  const main=data.roads.find(r=>r.id==='286085067');
  if(main){const z=-285;let x=data.spawn[0];for(let i=1;i<main.points.length;i++){const a=main.points[i-1],b=main.points[i];if(z>=Math.min(a[1],b[1])&&z<=Math.max(a[1],b[1])){const t=(z-a[1])/(b[1]-a[1]);x=a[0]+(b[0]-a[0])*t;break;}}
-  for(let dx=-8;dx<=8;dx+=1.45)rect(x+dx,z,.72,3.5,paint,.13);
-  rect(x,z+7.5,17,3.3,hump,.135);
-  for(let dx=-7;dx<=7;dx+=1.6)environment.segment([x+dx-.6,z+6],[x+dx+.6,z+9],.5,paint,.145);
+  const crossingWidth=roadWidthAt(main,x,z);
+  for(let dx=-crossingWidth/2+.7;dx<=crossingWidth/2-.7;dx+=1.45)rect(x+dx,z,.72,3.5,paint,.13);
+  rect(x,z+7.5,crossingWidth,3.3,hump,.135);
+  for(let dx=-crossingWidth/2+.8;dx<=crossingWidth/2-.8;dx+=1.6)environment.segment([x+dx-.6,z+6],[x+dx+.6,z+9],.5,paint,.145);
   stats.observedCrossings++;
  }
  // West grandstand visible across the track: simple low tiers, not a scanned model.

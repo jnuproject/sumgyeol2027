@@ -26,6 +26,10 @@ test('detailed environment remains finite and new access stairs use the same wal
  const details=addFocusDetails({scene,data,terrain,surfaces,box,collisionMeshes,obstacles,environment:{segment(){},polygon(){}},fallbackHeightAt:terrain.heightAt});
  for(const route of details.routes)for(const t of route.treads){const d=(t.from+t.to)/2,side=route.split?route.width*.22:0,x=route.a[0]+route.ux*d-route.uz*side,z=route.a[1]+route.uz*d+route.ux*side;assert.equal(details.heightAt(x,z),t.height+.012);assert.ok(obstacles.every(o=>Math.hypot(o[0]-x,o[1]-z)>o[2]+.4));}
  scene.traverse(o=>{if(o.isMesh){for(const v of o.geometry.attributes.position.array)assert.ok(Number.isFinite(v));for(const v of o.matrix.elements)assert.ok(Number.isFinite(v));}});
+ const marker=scene.getObjectByName('Library marker stone'),positions=marker.geometry.attributes.position,edges=new Map();
+ const key=i=>[positions.getX(i),positions.getY(i),positions.getZ(i)].map(v=>v.toFixed(5)).join(',');
+ for(let i=0;i<positions.count;i+=3)for(const [a,b]of[[i,i+1],[i+1,i+2],[i+2,i]]){const edge=[key(a),key(b)].sort().join('|');edges.set(edge,(edges.get(edge)||0)+1);}
+ assert.ok([...edges.values()].every(count=>count===2),'marker stone must be a closed surface without separated triangles');marker.geometry.computeBoundingBox();assert.ok(Math.abs(marker.position.y+marker.geometry.boundingBox.min.y-terrain.heightAt(marker.position.x,marker.position.z))<1e-6,'marker base meets ground');
  assert.equal(details.stats.studentAccessFlights,2);
 });
 test('reconstructed vegetation keeps the selected stairs and low courts clear',()=>{

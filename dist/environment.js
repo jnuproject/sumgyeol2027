@@ -1,10 +1,10 @@
-import {cropSceneGeometry} from './scene-scope.js?v=scene-r22';
+import {cropSceneGeometry} from './scene-scope.js?v=periphery-r23';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,isWalkingRoad as isWalking} from './road-profile.js?v=campus-r18';
+import {roadWidth,roadWidthAt,roadRenderPoints,isWalkingRoad as isWalking} from './road-profile.js?v=periphery-r23';
 export {roadWidth};
 
 function geometryFrom(raw){
@@ -34,7 +34,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
    };
    copy.customProgramCacheKey=()=>material.customProgramCacheKey()+'-scene-alpha-fog';
    // Keep opaque depth ordering: transparent terrain would cover roads drawn above it.
-   copy.vertexColors=true;copy.transparent=false;copy.alphaHash=true;copy.alphaTest=.015;copy.depthWrite=true;
+   copy.vertexColors=true;copy.transparent=false;copy.alphaHash=false;copy.alphaTest=.015;copy.depthWrite=true;
    scopedMaterials.set(material,copy);
   }
   return scopedMaterials.get(material);
@@ -78,34 +78,34 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
    if([p,q,mid].every(p=>insidePolygon(p[0],p[1],area.points)))segment(p,q,.10,paintWhite,.046);
   }
  }
- const roads=data.roads.map(r=>({...r,width:roadWidth(r),walking:isWalking(r)}));
+ const roads=data.roads.map(r=>({...r,points:roadRenderPoints(r),width:roadWidth(r),walking:isWalking(r)}));
  function atJunction(x,z,exclude){return roads.some(r=>r.id!==exclude&&!r.walking&&r.points.some((p,i)=>i&&segmentDistance(x,z,r.points[i-1],p)<r.width*.5+1.2));}
  for(const r of roads){
   const main=r.id==='286085067',pavement=main?4.2:0,material=r.walking?surfaces.paving:surfaces.asphalt,height=r.walking?.09:.08;
-  // Rounded joins fill centre-line corners and junctions with the same draped surface.
-  if(pavement)for(const p of r.points)circle(p,r.width/2+pavement,p[1]<-409?surfaces.redPaving:surfaces.paving,.055);
+  if(pavement)for(const p of r.points)circle(p,roadWidthAt(r,...p)/2+pavement,p[1]<-409?surfaces.redPaving:surfaces.paving,.055);
   for(let i=1;i<r.points.length;i++){
    const a=r.points[i-1],b=r.points[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);if(len<.01)continue;stats.roadSegments++;
-   const nx=dz/len,nz=-dx/len;
-   const parallel=(offset,start=0,end=1)=>[[a[0]+dx*start+nx*offset,a[1]+dz*start+nz*offset],[a[0]+dx*end+nx*offset,a[1]+dz*end+nz*offset]];
+   const nx=dz/len,nz=-dx/len,wa=roadWidthAt(r,...a),wb=roadWidthAt(r,...b),midZ=(a[1]+b[1])/2;
+   const parallel=(oa,ob=oa,start=0,end=1)=>[[a[0]+dx*start+nx*(oa+(ob-oa)*start),a[1]+dz*start+nz*(oa+(ob-oa)*start)],[a[0]+dx*end+nx*(oa+(ob-oa)*end),a[1]+dz*end+nz*(oa+(ob-oa)*end)]];
+   const band=(offsetA,offsetB,widthA,widthB,mat,lift)=>{const [p,q]=parallel(offsetA-widthA/2,offsetB-widthB/2),[v,u]=parallel(offsetA+widthA/2,offsetB+widthB/2);convex([p,q,u,v],mat,lift);};
    if(!r.walking&&!main)segment(a,b,r.width+.5,roadShoulder,.06);
    if(pavement){
-    segment(a,b,r.width+pavement*2,(a[1]+b[1])*.5<-409?surfaces.redPaving:surfaces.paving,.055);
-    for(const side of[-1,1])segment(...parallel(side*(r.width/2+1.15)),1.55,areaMaterials.wood,.072);
+    band(0,0,wa+pavement*2,wb+pavement*2,midZ<-409?surfaces.redPaving:surfaces.paving,.055);
+    for(const side of[-1,1])band(side*(wa/2+1.15),side*(wb/2+1.15),1.55,1.55,areaMaterials.wood,.072);
    }
-   segment(a,b,r.width,material,height);
+   band(0,0,wa,wb,material,height);
    if(main){
+    if(midZ>-230)segment(a,b,.12,paintYellow,.094);
+    else if(!(midZ>=data.spawn[1]&&midZ<=data.spawn[1]+69))for(const side of[-1,1])segment(...parallel(side*.17),.12,paintYellow,.094);
     for(const side of[-1,1]){
-     if(!((a[1]+b[1])*.5>=data.spawn[1]&&(a[1]+b[1])*.5<=data.spawn[1]+69))segment(...parallel(side*.17),.12,paintYellow,.094);
-     segment(...parallel(side*(r.width/2-.35)),.12,paintWhite,.094);
-     // Kerbs are interrupted where mapped vehicle routes join the entrance road.
-     for(let start=0;start<len;start+=3){const end=Math.min(len,start+3),mid=(start+end)/2;const x=a[0]+dx*mid/len+nx*side*(r.width/2+.13),z=a[1]+dz*mid/len+nz*side*(r.width/2+.13);if(!atJunction(x,z,r.id))segment(...parallel(side*(r.width/2+.13),start/len,end/len),.25,kerb,.13);}
+     band(side*(wa/2-.22),side*(wb/2-.22),.12,.12,paintWhite,.094);
+     for(let start=0;start<len;start+=3){const end=Math.min(len,start+3),t=(start+end)/2/len,w=wa+(wb-wa)*t,x=a[0]+dx*t+nx*side*(w/2+.13),z=a[1]+dz*t+nz*side*(w/2+.13);if(!atJunction(x,z,r.id))segment(...parallel(side*(wa/2+.13),side*(wb/2+.13),start/len,end/len),.25,kerb,.13);}
     }
-    for(let d=4;d<len-4;d+=9)for(const side of[-1,1])segment(...parallel(side*4.4,(d-1.5)/len,(d+1.5)/len),.15,paintWhite,.095);
+    if((wa+wb)/2>14)for(let d=4;d<len-4;d+=9)for(const side of[-1,1])segment(...parallel(side*4.4,side*4.4,(d-1.5)/len,(d+1.5)/len),.15,paintWhite,.095);
    }
   }
   if(!r.walking&&!main)for(const p of r.points)circle(p,r.width/2+.25,roadShoulder,.06);
-  for(const p of r.points)circle(p,r.width/2,material,height);
+  for(const p of r.points)circle(p,roadWidthAt(r,...p)/2,material,height);
  }
  function flush(){for(const [material,list] of chunks){
   const vertexCount=list.reduce((n,c)=>n+c.positions.length/3,0),indexCount=list.reduce((n,c)=>n+c.indices.length,0);
@@ -118,9 +118,9 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
   let offset=0;for(const a of walkRegions)if(x>=a.minX&&x<=a.maxX&&z>=a.minZ&&z<=a.maxZ&&insidePolygon(x,z,a.points))offset=Math.max(offset,a.offset);
   for(const road of roads){
    for(let i=1;i<road.points.length;i++){
-    const d=segmentDistance(x,z,road.points[i-1],road.points[i]);
-    if(d<=road.width*.5)offset=Math.max(offset,road.walking?.09:.08);
-    else if(road.id==='286085067'&&d<=road.width*.5+4.2){offset=Math.max(offset,.055);if(Math.abs(d-(road.width*.5+.13))<=.125&&!atJunction(x,z,road.id))offset=Math.max(offset,.13);}
+    const d=segmentDistance(x,z,road.points[i-1],road.points[i]),width=roadWidthAt(road,x,z);
+    if(d<=width*.5)offset=Math.max(offset,road.walking?.09:.08);
+    else if(road.id==='286085067'&&d<=width*.5+4.2){offset=Math.max(offset,.055);if(Math.abs(d-(width*.5+.13))<=.125&&!atJunction(x,z,road.id))offset=Math.max(offset,.13);}
    }
   }
   return offset;

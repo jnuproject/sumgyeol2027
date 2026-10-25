@@ -1,16 +1,17 @@
-import {createSceneScope} from './scene-scope.js?v=scene-r22';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=scene-r22';
-import {addFocusDetails} from './focus-details.js?v=scene-r22';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=scene-r22';
-import {addObservedEntrance} from './entrance-observed.js?v=scene-r22';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=scene-r22';
-import {addSportsGrounds} from './sports-ground.js?v=scene-r22';
+import {addObservedPeriphery} from './periphery.js?v=periphery-r23';
+import {createSceneScope} from './scene-scope.js?v=periphery-r23';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=periphery-r23';
+import {addFocusDetails} from './focus-details.js?v=periphery-r23';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=periphery-r23';
+import {addObservedEntrance} from './entrance-observed.js?v=periphery-r23';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=periphery-r23';
+import {addSportsGrounds} from './sports-ground.js?v=periphery-r23';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=scene-r22';
-import { addVegetation } from './vegetation.js?v=scene-r22';
-import { loadCampusTerrain } from './terrain.js?v=scene-r22';
-import { addCampusEnvironment } from './environment.js?v=scene-r22';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=periphery-r23';
+import { addVegetation } from './vegetation.js?v=periphery-r23';
+import { loadCampusTerrain } from './terrain.js?v=periphery-r23';
+import { addCampusEnvironment } from './environment.js?v=periphery-r23';
 
 export async function createCampus(scene,data) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();
@@ -97,8 +98,8 @@ const bounds={minX:Math.max(terrain.worldBounds.minX+.5,Math.min(...extentPoints
 const observedEntrance=addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles});
 const vegetation=addVegetation(scene,data,terrain.heightAt,sceneScope.treeVisible);obstacles.push(...vegetation.obstacles);
 addEntranceDetails();
-const observedDetails=addCampusObservedDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,visibleAt:(x,z)=>sceneScope.outsideDistance(x,z)<5});
-const focusDetails=addFocusDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,fallbackHeightAt:observedDetails.heightAt});environment.flush();
+const observedDetails=addCampusObservedDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,visibleAt:(x,z)=>sceneScope.renderDistance(x,z)<20});
+const focusDetails=addFocusDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,fallbackHeightAt:observedDetails.heightAt});const periphery=addObservedPeriphery({scene,data:visibleData,terrain,environment,surfaces,box,obstacles,collisionMeshes});environment.flush();
 
 // Instance static details by material to keep the scene responsive.
 scene.updateMatrixWorld(true);
@@ -161,7 +162,7 @@ function addEntranceDetails(){
  }
 
 }
-return {bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
+return {bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),periphery:periphery.stats,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
 }
 
 export function makeAvatar(scene){

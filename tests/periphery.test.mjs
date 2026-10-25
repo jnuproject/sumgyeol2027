@@ -1,0 +1,30 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as THREE from '../dist/three.module.js';
+import {roadWidthAt,roadRenderPoints} from '../dist/road-profile.js';
+import {createCampusTerrain} from '../dist/terrain.js';
+import {addObservedPeriphery} from '../dist/periphery.js';
+import {createSceneScope} from '../dist/scene-scope.js';
+const data=JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.meta.url))),meta=JSON.parse(fs.readFileSync(new URL('../dist/terrain-data/terrain.json',import.meta.url))),raw=fs.readFileSync(new URL('../dist/terrain-data/elevations.f32',import.meta.url));
+const heights=Array.from({length:raw.length/4},(_,i)=>raw.readFloatLE(i*4));
+test('entrance avenue narrows continuously to the observed internal two-lane street, without changing source coordinates',()=>{
+ const road=data.roads.find(r=>r.id==='286085067'),before=JSON.stringify(road);
+ assert.equal(roadWidthAt(road,-79,-460),17.5);assert.ok(Math.abs(roadWidthAt(road,-79,-50)-7.4)<1e-9);
+ let last=Infinity;for(let z=-480;z<=30;z+=.5){const width=roadWidthAt(road,-79,z);assert.ok(width<=last+1e-9);assert.ok(width>=7.4-1e-9&&width<=17.5);if(Number.isFinite(last))assert.ok(Math.abs(width-last)<.04);last=width;}
+ const points=roadRenderPoints(road);for(let i=1;i<points.length;i++){const a=points[i-1],b=points[i];assert.ok(Math.abs(roadWidthAt(road,(a[0]+b[0])/2,(a[1]+b[1])/2)-(roadWidthAt(road,...a)+roadWidthAt(road,...b))/2)<1e-9);}
+ assert.equal(JSON.stringify(road),before);const supplied={...road,tags:{...road.tags,width:'9'}};assert.equal(roadWidthAt(supplied,0,0),9);
+});
+test('nearby woodland and pond remain visible while remote dormitory and engineering terrain stay hidden',()=>{
+ const scope=createSceneScope(data);for(const p of[[-145,200],[-147,-65],[-153,175],[-103,300]])assert.equal(scope.alphaAt(...p),1);
+ for(const p of[[-440,350],[360,-220]])assert.equal(scope.alphaAt(...p),0);
+ const t=createCampusTerrain(meta,heights,data),pond=data.areas.find(a=>a.id==='969694342'),ys=pond.points.map(p=>t.heightAt(...p));assert.ok(Math.max(...ys)-Math.min(...ys)<.001);
+ const court=[220,224,228].map(z=>t.heightAt(-104,z));assert.ok(Math.max(...court)-Math.min(...court)<.001);
+});
+test('observed street furniture is finite, within the surrounding scene and clear of all chosen spawn points',()=>{
+ const scene=new THREE.Scene(),terrain=createCampusTerrain(meta,heights,data),obstacles=[],scope=createSceneScope(data),surfaces={paving:new THREE.MeshStandardMaterial(),redPaving:new THREE.MeshStandardMaterial()};
+ const box=(x,y,z,w,h,d)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshStandardMaterial());m.position.set(x,terrain.heightAt(x,z)+y,z);scene.add(m);return m;};
+ const result=addObservedPeriphery({scene,data,terrain,environment:{segment(){},polygon(){}},surfaces,box,obstacles,collisionMeshes:[]});assert.equal(result.stats.busShelters,1);assert.equal(result.stats.roadArrows,4);assert.ok(result.stats.basaltStones>100);
+ scene.traverse(o=>{if(!o.isMesh)return;for(const n of o.geometry.attributes.position.array)assert.ok(Number.isFinite(n));assert.ok(o.position.toArray().every(Number.isFinite));});
+ for(const [x,z,r]of obstacles){assert.ok(scope.alphaAt(x,z)>.98);for(const p of[[-67,-460],[-44,87.6],[-104,224],[-87.8,-21]])assert.ok(Math.hypot(x-p[0],z-p[1])>r+.55);}
+});

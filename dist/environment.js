@@ -1,12 +1,12 @@
-import {AERIAL_MEADOW_AREA_IDS} from './aerial-landscape.js?v=ground-r44';
-import {createRoadClearance} from './road-clearance.js?v=ground-r44';
-import {cropSceneGeometry} from './scene-scope.js?v=ground-r44';
+import {AERIAL_MEADOW_AREA_IDS} from './aerial-landscape.js?v=encounters-r48';
+import {createRoadClearance} from './road-clearance.js?v=encounters-r48';
+import {cropSceneGeometry} from './scene-scope.js?v=encounters-r48';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=ground-r44';
+import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=encounters-r48';
 export {roadWidth};
 
 function geometryFrom(raw){

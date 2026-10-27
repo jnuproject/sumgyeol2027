@@ -1,6 +1,7 @@
 // Keep gameplay time independent of the renderer's frame rate. Long stalls
-// are capped, while normal15/20/30fps frames retain all elapsed movement time.
-export function simulationDelta(seconds){return Math.max(0,Math.min(Number.isFinite(seconds)?seconds:0,.12));}
+// are capped, while even 5fps retains elapsed movement time. Short spatial
+// collision steps keep the faster phone run from passing through obstacles.
+export function simulationDelta(seconds){return Math.max(0,Math.min(Number.isFinite(seconds)?seconds:0,.25));}
 export function isTouchLayout({coarse=false,touches=0,width=1280,height=720}={}){return coarse||touches>0||width<=760||(width<=1100&&height<=500);}
 export function renderProfile({mobile=false,quality='balanced',pixelRatio=1}={}){
  if(quality==='low')return {mobile,pixelRatio:Math.min(pixelRatio,1),shadows:false,shadowSize:512,staticShadows:true};

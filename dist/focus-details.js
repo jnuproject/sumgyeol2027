@@ -1,5 +1,5 @@
-import {createCampusEscalator} from './campus-escalator.js?v=ground-r44';
-import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=ground-r44';
+import {createCampusEscalator} from './campus-escalator.js?v=encounters-r48';
+import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=encounters-r48';
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
 

@@ -1,7 +1,7 @@
-import {batchStaticMeshes} from './static-mesh-batches.js?v=ground-r44';
+import {batchStaticMeshes} from './static-mesh-batches.js?v=encounters-r48';
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
-import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=ground-r44';
+import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=encounters-r48';
 
 // Small fictional everyday scenes, not claims that these fixtures were surveyed.
 // Keep furniture off vehicle lanes, preserve through routes and existing trees.
@@ -135,7 +135,7 @@ export function createCampusLife({scene,data,avatar,groundAt,canStand,obstacles,
 
     s.person.setWalking(!stopped);
    }
-   if(rank<12||animationFrame%3===0)s.person.update(rank<12?dt:dt*3);
+   const smoothCount=mobile?6:12;if(rank<smoothCount||animationFrame%3===0)s.person.update(rank<smoothCount?dt:dt*3);
   }
  }
 

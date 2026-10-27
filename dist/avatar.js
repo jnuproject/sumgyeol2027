@@ -1,4 +1,4 @@
-import {createSeatedPose} from './seated-pose.js?v=ground-r44';
+import {createSeatedPose} from './seated-pose.js?v=encounters-r48';
 import * as THREE from './three.module.js';
 import {FBXLoader} from './vendor/FBXLoader.js';
 
@@ -44,7 +44,7 @@ export async function loadSumgyeolAvatar(scene){
   const next=!grounded?'jump':speed>.15?'run':'idle';
   if(next!==current){actions[current].fadeOut(.16);const action=actions[next];action.reset().setEffectiveWeight(1).fadeIn(.16).play();current=next;metadata.animation=next;}
   actions.run.timeScale=THREE.MathUtils.clamp(speed/7,.55,1.8);
-  mixer.update(Math.min(dt,.12));
+  mixer.update(Math.min(dt,.25));
  }
  // Companions share meshes/textures but have independent bones and idle clocks.
  const studentMaterials=new Map();

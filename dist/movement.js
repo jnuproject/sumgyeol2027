@@ -1,3 +1,15 @@
+// Phone controls cover a large campus with a short thumb travel. Keep the
+// movement rate explicit and independent of how frequently frames render.
+export function walkSpeed({touch=false,running=false}={}){
+  return touch?(running?20:9):(running?16:7);
+}
+
+export function advancePlanarMotion({x,z},target,dt,moving=true){
+  const rate=moving?12:20,decay=Math.exp(-rate*dt),integral=-Math.expm1(-rate*dt)/rate;
+  return {x:target.x+(x-target.x)*decay,z:target.z+(z-target.z)*decay,
+    dx:target.x*dt+(x-target.x)*integral,dz:target.z*dt+(z-target.z)*integral};
+}
+
 // World-space vertical motion: terrain following and airborne velocity are separate.
 export function advanceVertical(state, floor, dt, gravity=20) {
   if (![state.y,state.velocity,floor,dt].every(Number.isFinite) || dt<0) throw new Error('Invalid vertical state');

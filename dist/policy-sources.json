@@ -1,6 +1,6 @@
 {
-  "revision": "policy-r43",
-  "retrievedAt": "2026-10-26",
+  "revision": "encounters-r48",
+  "retrievedAt": "2026-10-27",
   "status": "Planning proposals, not confirmed implementations",
   "adaptation": "Short fictional conversations with branching player replies. No quiz, fetch quest or policy application.",
   "sources": [
@@ -49,5 +49,79 @@
     "festival": "경상대 · 숨플페",
     "voice": "학생회관 앞마당 부스 직원 · JNU상생협의회",
     "escalator": "도서관 오르막 아래 · 학내 에스컬레이터 설치"
-  }
+  },
+  "displayCategories": {
+    "memory": "제주4·3/기억",
+    "festival": "문화/대동제",
+    "voice": "소통",
+    "escalator": "시설/교통"
+  },
+  "npcLabels": "숨결 · 정책 카테고리; general students use role labels",
+  "additionalPolicyTabs": [
+    {
+      "id": "bookcamp",
+      "title": "제주대학교 북캠핑",
+      "category": "문화/대동제",
+      "url": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit?tab=t.jgc8diudiz",
+      "revisionId": "AHj4eMTHVOP9OScNmflcDiv0mHrnreyhJx2KeKjL2XXp0pLdKEp0-zQn4Zl_YJVw9vu7x6ePk5d47GFA5yLZRHrKdvTTDUFqiGTDUJ7utfw",
+      "claims": "야외음악당에서 책과 함께 쉬고, 낮의 피크닉과 저녁의 북토크를 도서관 희망도서 신청으로 잇는 구상."
+    },
+    {
+      "id": "sports",
+      "title": "통합체전 내 부스 활성화",
+      "category": "문화/대동제",
+      "url": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit?tab=t.87ifgzx9mcgw",
+      "revisionId": "AHj4eMTHVOP9OScNmflcDiv0mHrnreyhJx2KeKjL2XXp0pLdKEp0-zQn4Zl_YJVw9vu7x6ePk5d47GFA5yLZRHrKdvTTDUFqiGTDUJ7utfw",
+      "claims": "경기에 출전하지 않는 학우도 체험·동아리·먹거리 부스로 머물며 함께 즐기는 통합체전 구상."
+    },
+    {
+      "id": "accessibility",
+      "title": "배리어프리 아라캠퍼스",
+      "category": "인권/평등",
+      "url": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit?tab=t.gz4ehglf9dzr",
+      "revisionId": "AHj4eMTHVOP9OScNmflcDiv0mHrnreyhJx2KeKjL2XXp0pLdKEp0-zQn4Zl_YJVw9vu7x6ePk5d47GFA5yLZRHrKdvTTDUFqiGTDUJ7utfw",
+      "claims": "단차·안내시설·접근성 지도를 점검하고 행사 기획부터 모두의 이동과 정보 접근을 고려하는 구상."
+    },
+    {
+      "id": "interview",
+      "title": "교내 면접스튜디오 구축",
+      "category": "교육취업",
+      "url": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit?tab=t.oavd62277kcl",
+      "revisionId": "AHj4eMTHVOP9OScNmflcDiv0mHrnreyhJx2KeKjL2XXp0pLdKEp0-zQn4Zl_YJVw9vu7x6ePk5d47GFA5yLZRHrKdvTTDUFqiGTDUJ7utfw",
+      "claims": "화상·AI 면접을 연습하고 실제 응시에도 이용할 수 있는 장비와 방음 공간을 갖추려는 구상."
+    },
+    {
+      "id": "scholarship",
+      "title": "내장학찾기",
+      "category": "교육취업",
+      "url": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit?tab=t.eqhn59w13lab",
+      "revisionId": "AHj4eMTHVOP9OScNmflcDiv0mHrnreyhJx2KeKjL2XXp0pLdKEp0-zQn4Zl_YJVw9vu7x6ePk5d47GFA5yLZRHrKdvTTDUFqiGTDUJ7utfw",
+      "claims": "분산된 교내외 장학 공지를 조건에 따라 모으고 비교해 자신에게 맞는 정보를 찾기 쉽게 하는 구상."
+    },
+    {
+      "id": "reading",
+      "title": "중앙도서관 열람실 정비",
+      "category": "시설/교통",
+      "url": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw/edit?tab=t.uide5cdaab1j",
+      "revisionId": "AHj4eMTJUhDKl5r_3I5KqQ0kUjAnwbX-fZ4LlvZYvtTmsKh6GP6ShAoj_hQxBZEkRmUar1VB4jv2_QvqGNzJ8b_4VAsuwqJiDha-TYv5yY0",
+      "claims": "좌석 총량을 지키면서 전원 접근성·책상·공간 구성을 학우 수요조사와 공동 설계로 개선하려는 구상."
+    },
+    {
+      "id": "bus",
+      "title": "순환버스 개편",
+      "category": "시설/교통",
+      "url": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw/edit?tab=t.hqzufskjpgjb",
+      "revisionId": "AHj4eMTJUhDKl5r_3I5KqQ0kUjAnwbX-fZ4LlvZYvtTmsKh6GP6ShAoj_hQxBZEkRmUar1VB4jv2_QvqGNzJ8b_4VAsuwqJiDha-TYv5yY0",
+      "claims": "학우의 실제 이동 수요와 운전원 휴게를 함께 고려해 순환버스 운행 공백·정류장·안내를 개선하려는 구상."
+    },
+    {
+      "id": "tumbler",
+      "title": "텀블러 세척기 추가 설치",
+      "category": "그린환경",
+      "url": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw/edit?tab=t.rscw9jub4q95",
+      "revisionId": "AHj4eMTJUhDKl5r_3I5KqQ0kUjAnwbX-fZ4LlvZYvtTmsKh6GP6ShAoj_hQxBZEkRmUar1VB4jv2_QvqGNzJ8b_4VAsuwqJiDha-TYv5yY0",
+      "claims": "학생회관 등 이용 수요가 높은 공간에 세척 시설을 늘리고 위생·유지관리까지 함께 마련하려는 구상."
+    }
+  ],
+  "fictionalActivities": "Six campus-friend dialogues offer optional in-game group photos and map directions; no additional policy promises."
 }

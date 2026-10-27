@@ -1,5 +1,5 @@
 {
-  "version": "campus-mobile-r31",
+  "version": "campus-encounters-r48",
   "issues": [
     {
       "cause": "r29 capped each frame at40ms, dropping movement time below25fps",
@@ -42,5 +42,18 @@
     "physicalPhoneTested": false,
     "physicalMultitouchTested": false,
     "note": "These render observations are from the Mac browser at phone viewport size, not a physical phone FPS measurement."
+  },
+  "latest": {
+    "phoneMovement": {
+      "walkMetresPerSecond": 9,
+      "runMetresPerSecond": 20,
+      "fullJoystickThrow": 0.55,
+      "runControl": "tap toggle; stops on menu/dialog/blur"
+    },
+    "simulation": "analytic horizontal damping/integration; elapsed time retained at 5/10/15/30/60 fps, capped at 250ms on long stalls; 0.3m collision substeps",
+    "phoneRender": "four colour textures instead of twelve texture maps; five-sided trunk segments instead of eight; identical trees/branches/leaves/colliders; six nearest ambient animations smooth, remaining visible students amortized; quality checks every 2s",
+    "freeExploration": "full displayed campus bounds; focus boundary not drawn or enforced",
+    "validation": "390x844 and 844x390 browser viewports; physical phone hardware not available",
+    "policyEncounters": "12 unique policy NPCs plus six everyday campus conversations; optional shared photo and map directions; far characters culled on mobile"
   }
 }

@@ -1,0 +1,44 @@
+/* Thumb-first controls; the only persistent chrome is navigation and movement. */
+body[data-touch=true] .topbar{top:max(12px,env(safe-area-inset-top))!important;left:max(12px,env(safe-area-inset-left))!important;right:max(12px,env(safe-area-inset-right))!important}
+body[data-touch=true] .hud-tool{min-height:46px!important;min-width:44px!important}
+body[data-touch=true] #joystick{width:148px;height:148px;bottom:calc(28px + env(safe-area-inset-bottom));background:#e8f8ff2e;border:1.5px solid #ffffffb8;box-shadow:inset 0 0 0 16px #e4f7ff12,0 4px 20px #133e5320}
+body[data-touch=true] #knob{width:56px;height:56px;left:calc(50% - 28px);top:calc(50% - 28px);background:#35b4e9e8;border:2px solid white}
+body[data-touch=true] .touch-buttons{grid-template-columns:62px 78px;grid-template-rows:50px 78px;gap:12px;right:max(20px,env(safe-area-inset-right));bottom:calc(28px + env(safe-area-inset-bottom))}
+body[data-touch=true] #jump{grid-column:1;grid-row:2;width:62px;height:62px;align-self:end;background:#f4fbfff0;color:#086f9f;font-size:26px}
+body[data-touch=true] #run{grid-column:2;grid-row:2;width:78px;height:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;background:#f3fbfff2;color:#0875a6;border:2px solid #8bd2ee;font-size:28px;box-shadow:0 4px 16px #185b7929}
+body[data-touch=true] #run small{font-size:12px;font-weight:700}
+body[data-touch=true] #run[aria-pressed=true]{background:#079bd2;color:white;border-color:#e9faff;box-shadow:0 0 0 4px #28b6eb29,0 4px 16px #185b7929}
+body[data-touch=true] #touchPerspective{grid-column:2;grid-row:1;width:48px;height:48px;font-size:12px}
+body[data-touch=true] .touch-buttons button:active{filter:brightness(.92);scale:.96}
+body[data-touch=true] .story-talk{bottom:calc(198px + env(safe-area-inset-bottom));min-height:50px;max-width:calc(100% - 32px);padding:12px 20px;gap:10px}
+body[data-touch=true] .story-talk b{font-size:15px}
+body[data-touch=true] .story-talk kbd{display:none}
+body[data-touch=true] .hud-panel button{min-height:48px;font-size:15px}
+body[data-touch=true][data-mode=walk] #mapPanel,body[data-touch=true][data-mode=explore] #mapPanel{width:min(360px,calc(100vw - 28px),calc(100dvh - 130px))!important;right:max(14px,env(safe-area-inset-right))!important;top:calc(70px + env(safe-area-inset-top))!important;padding:14px!important}
+body[data-touch=true] .map-heading{font-size:11px}.map-heading button{min-width:44px;min-height:44px}
+body[data-touch=true][data-hud-panel=map] #touch,body[data-touch=true][data-hud-panel=places] #touch,body[data-touch=true][data-hud-panel=more] #touch{visibility:hidden}
+body[data-touch=true] dialog.npc-dialogue{width:calc(100% - 24px);max-height:47dvh;padding:16px 18px;border-radius:22px;bottom:max(12px,env(safe-area-inset-bottom));overscroll-behavior:contain}
+body[data-touch=true] .npc-line{font-size:16px;line-height:1.7;min-height:68px}
+body[data-touch=true] .npc-top h2{font-size:15px}
+body[data-touch=true] .npc-top button{min-height:44px;padding:8px 4px;font-size:12px}
+body[data-touch=true] .npc-choices{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+body[data-touch=true] .npc-choices button{min-height:52px;padding:12px 14px;font-size:14px;line-height:1.5}
+body[data-touch=true] .npc-choices button>span,body[data-touch=true] .npc-bottom>span{display:none}
+body[data-touch=true] .npc-bottom button{min-height:48px;padding:12px 20px;font-size:14px}
+@media(max-width:350px){body[data-touch=true] .brand b{display:none}body[data-touch=true] .toolbar{gap:4px!important}body[data-touch=true] .hud-tool{padding:0 8px!important}}
+@media(max-height:500px) and (orientation:landscape){
+ body[data-touch=true] #joystick{width:120px;height:120px;bottom:calc(18px + env(safe-area-inset-bottom))}
+ body[data-touch=true] .touch-buttons{grid-template-columns:56px 68px;grid-template-rows:44px 68px;gap:8px;bottom:calc(18px + env(safe-area-inset-bottom))}
+ body[data-touch=true] #jump{width:56px;height:56px}body[data-touch=true] #run{width:68px;height:68px}body[data-touch=true] #touchPerspective{width:44px;height:44px}
+ body[data-touch=true] .story-talk{bottom:calc(22px + env(safe-area-inset-bottom));max-width:calc(100% - 330px);min-height:48px}
+ body[data-touch=true] dialog.npc-dialogue{max-height:52dvh;padding:10px 18px;bottom:max(8px,env(safe-area-inset-bottom))}
+ body[data-touch=true] .npc-line{min-height:24px;font-size:14px;line-height:1.55}body[data-touch=true] .npc-top{margin-bottom:2px}
+ body[data-touch=true] .npc-choices{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:8px}body[data-touch=true] .npc-choices button{min-height:46px;font-size:13px;padding:9px 12px}
+}
+@media(prefers-reduced-motion:reduce){body[data-touch=true] .touch-buttons button:active{scale:1}}
+
+.npc-identity>div{min-width:0}#npcPolicy{display:block;font-size:11px;line-height:1.45;color:#67818f;margin-top:4px}.npc-journal h3{font-size:16px}
+body[data-touch=true] #npcPolicy{font-size:12px}body[data-touch=true] .npc-top{align-items:flex-start}body[data-touch=true] .npc-identity{align-items:flex-start;min-width:0}body[data-touch=true] .npc-top h2{line-height:1.5}
+body[data-touch=true] .photo-tools{bottom:calc(20px + env(safe-area-inset-bottom));max-width:calc(100% - 24px);padding:8px;gap:8px}body[data-touch=true] .photo-tools>span{display:none}body[data-touch=true] .photo-tools button{min-height:48px;padding:12px 20px;font-size:14px}
+
+body[data-hud-panel=map] .story-talk,body[data-hud-panel=places] .story-talk,body[data-hud-panel=more] .story-talk{visibility:hidden}

@@ -1,5 +1,12 @@
-import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=ground-r44';
+import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=encounters-r48';
 import {segmentDistance} from './navigation.js';
+
+// Free exploration uses the complete displayed map. The focus corridors below
+// still describe tours/scenery, but no longer act as invisible player walls.
+export function createCampusWalkArea(bounds){
+ const contains=(x,z,radius=.55)=>Number.isFinite(x)&&Number.isFinite(z)&&x>=bounds.minX+radius&&x<=bounds.maxX-radius&&z>=bounds.minZ+radius&&z<=bounds.maxZ-radius;
+ return {bounds,restricted:false,contains,containsRaw:(x,z)=>contains(x,z,0),outline:()=>[]};
+}
 
 // Gameplay boundaries, not real fences or a change to the source map.
 export function createFocusWalkArea(data){

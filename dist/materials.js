@@ -2,7 +2,7 @@ import * as THREE from './three.module.js';
 
 // Photo-based CC0 textures, kept local. UVs are measured in world metres,
 // including instanced geometry, so a large road never stretches one tiny tile.
-export async function loadCampusMaterials(){
+export async function loadCampusMaterials({mobile=false}={}){
  const manager=new THREE.LoadingManager();manager.onProgress=(_url,loaded,total)=>{const status=document.getElementById('loadingStatus');if(status)status.textContent=`표면 재질을 불러오고 있어요 · ${loaded} / ${total}`;};
  const loader=new THREE.TextureLoader(manager),sets={};
  async function localTexture(url){
@@ -14,9 +14,9 @@ export async function loadCampusMaterials(){
   }
  }
  await Promise.all(['clean_asphalt','grass_ground','dark_brick_wall','concrete_pavement'].map(async name=>{
-  const [map,normalMap,roughnessMap]=await Promise.all(['diff','nor_gl','rough'].map(kind=>localTexture(`./assets/materials/${name}_${kind}_1k.jpg`)));
+  const [map,normalMap=null,roughnessMap=null]=await Promise.all((mobile?['diff']:['diff','nor_gl','rough']).map(kind=>localTexture(`./assets/materials/${name}_${kind}_1k.jpg`)));
   map.colorSpace=THREE.SRGBColorSpace;
-  for(const t of [map,normalMap,roughnessMap]){t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=8;}
+  for(const t of [map,normalMap,roughnessMap].filter(Boolean)){t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=mobile?4:8;}
   sets[name]={map,normalMap,roughnessMap};
  }));
  function surface(name,color,metres=3,normal=.35){
@@ -51,7 +51,7 @@ vRoughnessMapUv=worldUV;
   }
   for(let i=0;i<14000;i++){g.fillStyle=i%2?'rgba(25,35,25,.045)':'rgba(235,230,210,.08)';g.fillRect(i*47%512,(i*103+Math.floor(i/512)*29)%512,1,1);}
   const map=new THREE.CanvasTexture(c);map.colorSpace=THREE.SRGBColorSpace;map.wrapS=map.wrapT=THREE.RepeatWrapping;map.anisotropy=8;
-  const m=surface('concrete_pavement',color,1.6,.25);m.map=map;m.normalMap=null;m.roughnessMap=null;m.bumpMap=map;m.bumpScale=.012;m.customProgramCacheKey=()=>`original-interlocking-pavers-${color}`;return m;
+  const m=surface('concrete_pavement',color,1.6,.25);m.map=map;m.normalMap=null;m.roughnessMap=null;m.bumpMap=mobile?null:map;m.bumpScale=.012;m.customProgramCacheKey=()=>`original-interlocking-pavers-${color}`;return m;
  }
  return {asphalt:surface('clean_asphalt','#e5e7e2',4,.4),grass:surface('grass_ground','#acb18b',3.8,.55),stone:surface('dark_brick_wall','#ffffff',2.1,.65),paving:interlockingPaving('#d3d3ca'),redPaving:interlockingPaving('#ad7c6c'),wall:surface('concrete_pavement','#e9e4d9',5,.12)};
 }

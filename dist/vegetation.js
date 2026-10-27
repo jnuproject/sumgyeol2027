@@ -1,13 +1,13 @@
-import {insideStudentGarden} from './student-hall-garden.js?v=ground-r44';
-import {SATELLITE_LAWNS} from './satellite-layout.js?v=ground-r44';
-import {spatialInstanceBatches} from './spatial-instances.js?v=ground-r44';
-import {AERIAL_LAWN_EDGE_TREES,AERIAL_GROVES,AERIAL_PATHS,AERIAL_SPECIMEN_TREES,MANAGED_AREA_IDS,insideAerialOpenLawn} from './aerial-landscape.js?v=ground-r44';
-import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=ground-r44';
-import {insideFocusClearance} from './focus-details.js?v=ground-r44';
+import {insideStudentGarden} from './student-hall-garden.js?v=encounters-r48';
+import {SATELLITE_LAWNS} from './satellite-layout.js?v=encounters-r48';
+import {spatialInstanceBatches} from './spatial-instances.js?v=encounters-r48';
+import {AERIAL_LAWN_EDGE_TREES,AERIAL_GROVES,AERIAL_PATHS,AERIAL_SPECIMEN_TREES,MANAGED_AREA_IDS,insideAerialOpenLawn} from './aerial-landscape.js?v=encounters-r48';
+import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=encounters-r48';
+import {insideFocusClearance} from './focus-details.js?v=encounters-r48';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {insideEntranceOffice} from './entrance-observed.js?v=ground-r44';
-import {roadWidth,roadWidthAt,roadSidewalkWidthAt} from './road-profile.js?v=ground-r44';
+import {insideEntranceOffice} from './entrance-observed.js?v=encounters-r48';
+import {roadWidth,roadWidthAt,roadSidewalkWidthAt} from './road-profile.js?v=encounters-r48';
 
 // OSM supplies the woodland/park extents. Individual trees, canopy sizes and
 // the photo-informed entrance avenue remain a deterministic visual reconstruction.
@@ -111,7 +111,7 @@ export function generateUnderstoryLayout(data,visibleAt=()=>true){
  return result;
 }
 
-export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
+export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true,{mobile=false}={}){
  const points=generateVegetationLayout(data).filter(p=>visibleAt(p.x,p.z)),random=seededRandom(980109),obstacles=[];
  const canvas=document.createElement('canvas');canvas.width=canvas.height=256;const ctx=canvas.getContext('2d');
  for(let branch=0;branch<16;branch++){
@@ -131,7 +131,7 @@ export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
  const barkCanvas=document.createElement('canvas');barkCanvas.width=256;barkCanvas.height=512;const bark=barkCanvas.getContext('2d');bark.fillStyle='#747369';bark.fillRect(0,0,256,512);
  for(let i=0;i<210;i++){const x=(i*31.17)%256,shade=55+(i*17%55);bark.strokeStyle=`rgb(${shade+8},${shade+7},${shade})`;bark.lineWidth=.4+(i%5)*.35;bark.beginPath();for(let y=0;y<=512;y+=16){const xx=x+Math.sin(y*.018+i*2)*2.3;y?bark.lineTo(xx,y):bark.moveTo(xx,y);}bark.stroke();}
  const barkTexture=new THREE.CanvasTexture(barkCanvas);barkTexture.colorSpace=THREE.SRGBColorSpace;barkTexture.wrapS=barkTexture.wrapT=THREE.RepeatWrapping;barkTexture.repeat.set(2,3);barkTexture.anisotropy=4;
- const trunks=new THREE.InstancedMesh(new THREE.CylinderGeometry(.19,.30,1,8),new THREE.MeshStandardMaterial({map:barkTexture,color:'#bebaa8',roughness:1,bumpMap:barkTexture,bumpScale:.035}),points.reduce((n,p)=>n+(p.type==='deciduous'?61:22),0));
+ const trunks=new THREE.InstancedMesh(new THREE.CylinderGeometry(.19,.30,1,mobile?5:8),new THREE.MeshStandardMaterial({map:barkTexture,color:'#bebaa8',roughness:1,bumpMap:mobile?null:barkTexture,bumpScale:.035}),points.reduce((n,p)=>n+(p.type==='deciduous'?61:22),0));
  const o=new THREE.Object3D(),color=new THREE.Color();let li=0,ti=0;
  for(const p of points){
   const {x,z,h,variation:r}=p,ground=heightAt(x,z);

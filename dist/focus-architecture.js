@@ -22,15 +22,15 @@ export function createFocusWallMaterials(){
    r.strokeStyle='#777';r.lineWidth=p.kind==='student'?1.2:2.4;r.strokeRect(x,y,cellWidth,tile);
    const variation=Math.sin(row*47.1+col*19.7)*.025;c.fillStyle=`rgba(${variation>0?'255,255,255':'0,0,0'},${Math.abs(variation)})`;c.fillRect(x+2,y+2,cellWidth-4,tile-4);
   }
-  const map=new THREE.CanvasTexture(canvas);map.colorSpace=THREE.SRGBColorSpace;map.wrapS=map.wrapT=THREE.RepeatWrapping;map.repeat.set(p.kind==='economics1'?.28:p.kind==='student'?.55:p.kind==='library'?.45:.2,p.kind==='economics1'?.28:p.kind==='student'?.55:p.kind==='library'?.45:.2);map.anisotropy=4;
+  const map=new THREE.CanvasTexture(canvas);map.colorSpace=THREE.SRGBColorSpace;map.wrapS=map.wrapT=THREE.RepeatWrapping;map.repeat.set(p.kind==='economics1'?.28:p.kind==='student'?.28:p.kind==='library'?.45:.2,p.kind==='economics1'?.28:p.kind==='student'?.28:p.kind==='library'?.45:.2);map.anisotropy=4;
   const bumpMap=new THREE.CanvasTexture(relief);bumpMap.wrapS=bumpMap.wrapT=THREE.RepeatWrapping;bumpMap.repeat.copy(map.repeat);bumpMap.anisotropy=4;
-  result[id]=new THREE.MeshStandardMaterial({map,bumpMap,bumpScale:p.kind==='student'?.016:.028,color:'#ffffff',roughness:p.kind==='student'?.78:.91});
+  result[id]=new THREE.MeshStandardMaterial({map,bumpMap,bumpScale:p.kind==='student'?.009:.028,color:'#ffffff',roughness:p.kind==='student'?.78:.91});
  }
  return result;
 }
 export function addFocusFacade({scene,b,height,panel,box,base}){
  const profile=FOCUS_BUILDING_PROFILES[b.id];if(!profile)return false;
- const kind=profile.kind,glass='#64817e',frame='#d8ded7',navy='#505e68';
+ const kind=profile.kind,glass=kind==='student'?'#445451':'#64817e',frame='#d8ded7',navy='#505e68';
  for(let i=1;i<b.points.length;i++){
   const a=b.points[i-1],e=b.points[i],dx=e[0]-a[0],dz=e[1]-a[1],length=Math.hypot(dx,dz);if(length<2)continue;
   const nx=dz/length,nz=-dx/length,out=insidePolygon((a[0]+e[0])/2+nx*.3,(a[1]+e[1])/2+nz*.3,b.points)?-1:1;
@@ -91,10 +91,10 @@ export function addFocusFacade({scene,b,height,panel,box,base}){
    for(let floor=0;floor<levels;floor++){
     const y=1.9+floor*3.15;
     p(.5,y,length-.5,1.9,.17,glass,.2);
-    for(let n=0;n<=count;n++)p(n/count,y,.12,1.96,.4,'#d3dcd4',.38);
-    p(.5,y-.28,length-.5,.075,.43,'#c1ccc6',.36);
+    for(let n=0;n<=count;n++)p(n/count,y,.075,1.96,.4,'#2e3835',.38);
+    p(.5,y-.28,length-.5,.065,.43,'#303b37',.36);
     p(.5,y-.96,length,.13,.43,'#e9eadd',.36);
-    p(.5,y+1.43,length,.14,.45,'#bc684d',.4);
+    p(.5,y+1.43,length,.09,.45,'#bd7459',.4);
    }
    p(.5,faceHeight+.15,length,.36,.7,'#d9dcd2',.4);
    if(!low&&length>20){

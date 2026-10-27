@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import * as THREE from '../dist/three.module.js';
 import {addObservedEntrance,entranceLayout} from '../dist/entrance-observed.js';
 import {walkable} from '../dist/navigation.js';
-import {roadWidthAt} from '../dist/road-profile.js';
 import fs from 'node:fs';
 const data=JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.meta.url)));
 function sceneFixture(){
@@ -24,8 +23,7 @@ test('sidewalk spawn and continuous100m walk avoid new office, control hardware 
 test('roadside office blocks walking through its wall while vehicle lanes remain open',()=>{
  const {collisions,obstacles}=sceneFixture(),layout=entranceLayout(data);
  assert.equal(walkable(layout.office.x,layout.office.z,collisions),false);
- const laneWidth=roadWidthAt(data.roads.find(r=>r.id==='286085067'),layout.x,layout.z+18)/4;
- for(const dx of[-laneWidth*1.5,-laneWidth*.5,laneWidth*.5,laneWidth*1.5]){
+ for(const dx of[-6.5,-2.5,2.5,6.5]){
   const x=layout.x+dx,z=layout.z+18;
   assert.ok(walkable(x,z,collisions));assert.ok(obstacles.every(p=>Math.hypot(x-p[0],z-p[1])>=p[2]+.4));
  }

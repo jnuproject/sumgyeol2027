@@ -1,11 +1,13 @@
-import {spatialInstanceBatches} from './spatial-instances.js?v=mobile-r31c';
-import {AERIAL_GROVES,AERIAL_PATHS,AERIAL_SPECIMEN_TREES,MANAGED_AREA_IDS,insideAerialOpenLawn} from './aerial-landscape.js?v=mobile-r31c';
-import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=mobile-r31c';
-import {insideFocusClearance} from './focus-details.js?v=mobile-r31c';
+import {insideStudentGarden} from './student-hall-garden.js?v=ground-r44';
+import {SATELLITE_LAWNS} from './satellite-layout.js?v=ground-r44';
+import {spatialInstanceBatches} from './spatial-instances.js?v=ground-r44';
+import {AERIAL_LAWN_EDGE_TREES,AERIAL_GROVES,AERIAL_PATHS,AERIAL_SPECIMEN_TREES,MANAGED_AREA_IDS,insideAerialOpenLawn} from './aerial-landscape.js?v=ground-r44';
+import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=ground-r44';
+import {insideFocusClearance} from './focus-details.js?v=ground-r44';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {insideEntranceOffice} from './entrance-observed.js?v=mobile-r31c';
-import {roadWidth,roadWidthAt} from './road-profile.js?v=mobile-r31c';
+import {insideEntranceOffice} from './entrance-observed.js?v=ground-r44';
+import {roadWidth,roadWidthAt,roadSidewalkWidthAt} from './road-profile.js?v=ground-r44';
 
 // OSM supplies the woodland/park extents. Individual trees, canopy sizes and
 // the photo-informed entrance avenue remain a deterministic visual reconstruction.
@@ -26,9 +28,11 @@ export function generateVegetationLayout(data){
  const buildings=data.buildings.map(b=>({points:b.points,minX:Math.min(...b.points.map(p=>p[0])),maxX:Math.max(...b.points.map(p=>p[0])),minZ:Math.min(...b.points.map(p=>p[1])),maxZ:Math.max(...b.points.map(p=>p[1]))}));
  const pitch=data.areas.find(a=>a.id==='286070859');
  const sportsCenter=pitch?[(Math.min(...pitch.points.map(p=>p[0]))+Math.max(...pitch.points.map(p=>p[0])))/2,(Math.min(...pitch.points.map(p=>p[1]))+Math.max(...pitch.points.map(p=>p[1])))/2]:null;
- const blocked=(x,z,h,type)=>{
+ const blocked=(x,z,h,type,areaId)=>{
+  if(data.studentHallReference&&insideStudentGarden(x,z)&&areaId!=='student-hall-reference')return true;
+  const observedEdge=areaId==='lawn-edge-observed'&&SATELLITE_LAWNS.slice(0,3).some(a=>edgeDistance(x,z,a.points)<6.5);
   if(AERIAL_PATHS.some(p=>p.points.some((q,i)=>i&&segmentDistance(x,z,p.points[i-1],q)<p.width/2+2)))return true;
-  if(insideAerialOpenLawn(x,z)||insideFocusClearance(x,z,data)||OBSERVED_GROUND_PATCHES.some(a=>insidePolygon(x,z,a.points)))return true;
+  if((insideAerialOpenLawn(x,z)&&!observedEdge)||insideFocusClearance(x,z,data)||OBSERVED_GROUND_PATCHES.some(a=>insidePolygon(x,z,a.points)))return true;
   if(insideEntranceOffice(x,z,data,Math.max(4,h*.4)))return true;
   if(sportsCenter&&Math.hypot(x-sportsCenter[0],Math.max(0,Math.abs(z-sportsCenter[1])-42.2))<50.5)return true;
   if(Math.hypot(x-data.spawn[0],z-data.spawn[1])<9)return true;
@@ -39,7 +43,7 @@ export function generateVegetationLayout(data){
   return buildings.some(b=>x>b.minX-margin&&x<b.maxX+margin&&z>b.minZ-margin&&z<b.maxZ+margin&&(insidePolygon(x,z,b.points)||edgeDistance(x,z,b.points)<margin));
  };
  function add(x,z,h,type,areaId=null){
-  if(points.length>=3300||blocked(x,z,h,type))return false;
+  if(points.length>=3300||blocked(x,z,h,type,areaId))return false;
   const bx=Math.floor(x/cell),bz=Math.floor(z/cell),spacing=type==='avenue'?7.2:type==='forest'?6.1:6.8;
   for(let ix=bx-1;ix<=bx+1;ix++)for(let iz=bz-1;iz<=bz+1;iz++)for(const p of buckets.get(ix+','+iz)||[])if(Math.hypot(p.x-x,p.z-z)<spacing)return false;
   const p={x,z,h,variation:random(),type,areaId};points.push(p);
@@ -50,7 +54,7 @@ export function generateVegetationLayout(data){
  // Re-anchor the estimated positions outside the corrected four-lane edge.
  add(-96.0,-35.2,11.2,'deciduous');
  add(-96.0,-10.4,10.4,'deciduous');
- for(const p of AERIAL_SPECIMEN_TREES)add(p.x,p.z,p.h,p.type,p.areaId);
+ for(const p of [...AERIAL_LAWN_EDGE_TREES,...AERIAL_SPECIMEN_TREES])add(p.x,p.z,p.h,p.type,p.areaId);
  // Preserve the existing photograph-informed double avenue. Its exact tree
  // positions were not surveyed; the road centreline remains the original OSM line.
  const avenue=data.roads.find(r=>r.id==='286085067');
@@ -58,7 +62,7 @@ export function generateVegetationLayout(data){
  for(let i=1;i<avenue.points.length;i++){
   const a=avenue.points[i-1],b=avenue.points[i],dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz);if(len<.01)continue;
   while(next<arc+len){const d=next-arc,px=a[0]+dx*d/len,pz=a[1]+dz*d/len;
-   if(pz<30)for(const side of[-1,1]){const offset=roadWidthAt(avenue,px,pz)/2+4.8+random()*.35;add(px+side*dz/len*offset,pz-side*dx/len*offset,11.2+random()*2.2,'avenue');}next+=10.5;
+   if(pz<30)for(const side of[-1,1]){const offset=roadWidthAt(avenue,px,pz)/2+roadSidewalkWidthAt(avenue,px,pz)+.9+random()*.35;add(px+side*dz/len*offset,pz-side*dx/len*offset,11.2+random()*2.2,'avenue');}next+=10.5;
   }arc+=len;
  }}
  // The photographed park beside the student approach includes a small dark,
@@ -174,5 +178,16 @@ export function addVegetation(scene,data,heightAt=()=>0,visibleAt=()=>true){
   o.position.set(px,heightAt(px,pz)+p.height*.5,pz);o.scale.set(1.4,1.4,1);o.rotation.set(-Math.PI/2+(i%3-1)*.22,a,.1);o.updateMatrix();groundLeaves.setMatrixAt(gi,o.matrix);color.setHSL(.22,.1,.62+(i%4)*.045);groundLeaves.setColorAt(gi++,color);
  }
  groundLeaves.name='Mapped woodland low evergreen groundcover';groundLeaves.castShadow=false;groundLeaves.receiveShadow=true;groundLeaves.computeBoundingSphere();for(const batch of spatialInstanceBatches(groundLeaves))scene.add(batch);groundLeaves.dispose();
- return {treeCount:points.length,obstacles,counts:{forest:points.filter(p=>p.type==='forest').length,park:points.filter(p=>p.type==='park').length,avenue:points.filter(p=>p.type==='avenue').length,conifer:points.filter(p=>p.type==='conifer').length,deciduous:points.filter(p=>p.type==='deciduous').length,understory:understory.length},placementNotes:'OSM extents plus2026-10-26 latest Skyview observation of open meadow centres, crown groups and library east woodland; March2026 Roadview silhouettes; reconstructed tree density, heights, foreground student-hall trunks and woodland groundcover; terrain-grounded, with road and building clearance.'};
+ // At aerial distances leaf cards become subpixel and expose the ground.
+ // Reuse the identical tree locations for compact, solid canopy silhouettes.
+ const crownPoints=points.filter(p=>p.type!=='deciduous'),overviewCanopies=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(1,1),new THREE.MeshStandardMaterial({roughness:1}),crownPoints.length*3);
+ let ci=0;
+ for(const p of crownPoints)for(let lobe=0;lobe<3;lobe++){
+  const a=p.variation*6.283+lobe*2.094,r=p.h*(p.type==='avenue'?.29:.27),spread=r*.40;
+  o.position.set(p.x+Math.cos(a)*spread,heightAt(p.x,p.z)+p.h*(.64+lobe*.035),p.z+Math.sin(a)*spread);
+  o.rotation.set(p.variation*.3,a,.12);o.scale.set(r*(.85+p.variation*.2),r*.8,r);o.updateMatrix();overviewCanopies.setMatrixAt(ci,o.matrix);
+  color.setHSL(.24+p.variation*.035,.48,.022+p.variation*.025+lobe*.003);overviewCanopies.setColorAt(ci++,color);
+ }
+ overviewCanopies.name='Aerial tree canopy LOD at identical planted positions';overviewCanopies.visible=false;overviewCanopies.castShadow=true;overviewCanopies.receiveShadow=true;overviewCanopies.computeBoundingSphere();scene.add(overviewCanopies);
+ return {overviewCanopies,treeCount:points.length,obstacles,counts:{forest:points.filter(p=>p.type==='forest').length,park:points.filter(p=>p.type==='park').length,avenue:points.filter(p=>p.type==='avenue').length,conifer:points.filter(p=>p.type==='conifer').length,deciduous:points.filter(p=>p.type==='deciduous').length,understory:understory.length},placementNotes:'OSM extents plus2026-10-26 latest Skyview observation of open meadow centres, crown groups and library east woodland; March2026 Roadview silhouettes; reconstructed tree density, heights, foreground student-hall trunks and woodland groundcover; terrain-grounded, with road and building clearance.'};
 }

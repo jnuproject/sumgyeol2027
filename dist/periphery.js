@@ -1,6 +1,6 @@
-import {addCurrentPlantingBeds} from './observed-planting.js?v=mobile-r31c';
+import {addCurrentPlantingBeds} from './observed-planting.js?v=ground-r44';
 import * as THREE from './three.module.js';
-import {roadWidthAt} from './road-profile.js?v=mobile-r31c';
+import {roadWidthAt} from './road-profile.js?v=ground-r44';
 
 // Roadview-visible street furniture, independently modelled. Source road/park
 // outlines anchor placement; dimensions and exact prop positions are estimates.
@@ -31,7 +31,7 @@ export function addObservedPeriphery({scene,data,terrain,environment,surfaces,bo
  }
  // Brown park railing seen near the student-hall approach. The park boundary is OSM.
  const park=data.areas.find(a=>a.id==='969694343');
- if(park){const x=-99.2;for(let z=-71;z<-38;z+=2.6){
+ if(park&&!data.studentHallReference){const x=-99.2;for(let z=-71;z<-38;z+=2.6){
   const h=terrain.heightAt(x,z);absolute(x,h+.58,z,.17,1.16,.17,'#6a5541');
   for(const y of[.43,1.0]){const ha=terrain.heightAt(x,z),hb=terrain.heightAt(x,z+2.6),beam=absolute(x,(ha+hb)/2+y,z+1.3,.12,.13,2.65,'#79634b');beam.rotation.x=-Math.atan2(hb-ha,2.6);}
   obstacles.push([x,z,.15]);stats.woodFenceSegments++;

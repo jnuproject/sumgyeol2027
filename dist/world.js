@@ -1,21 +1,23 @@
-import {batchStaticMeshes} from './static-mesh-batches.js?v=mobile-r31c';
-import {addAerialLandscape} from './aerial-landscape.js?v=mobile-r31c';
-import {loadSumgyeolAvatar} from './avatar.js?v=mobile-r31c';
-import {addAerialRoofDetails,addAerialGroundDetails} from './aerial-buildings.js?v=mobile-r31c';
-import {addObservedPeriphery} from './periphery.js?v=mobile-r31c';
-import {createSceneScope} from './scene-scope.js?v=mobile-r31c';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=mobile-r31c';
-import {addFocusDetails} from './focus-details.js?v=mobile-r31c';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=mobile-r31c';
-import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=mobile-r31c';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=mobile-r31c';
-import {addSportsGrounds} from './sports-ground.js?v=mobile-r31c';
+import {addMuseumPhotoFacade,addMuseumForecourt} from './museum-forecourt.js?v=ground-r44';
+import {addStudentHallGarden} from './student-hall-garden.js?v=ground-r44';
+import {batchStaticMeshes} from './static-mesh-batches.js?v=ground-r44';
+import {addAerialLandscape} from './aerial-landscape.js?v=ground-r44';
+import {loadSumgyeolAvatar} from './avatar.js?v=ground-r44';
+import {addAerialRoofDetails,addAerialGroundDetails} from './aerial-buildings.js?v=ground-r44';
+import {addObservedPeriphery} from './periphery.js?v=ground-r44';
+import {createSceneScope} from './scene-scope.js?v=ground-r44';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=ground-r44';
+import {addFocusDetails} from './focus-details.js?v=ground-r44';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=ground-r44';
+import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=ground-r44';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=ground-r44';
+import {addSportsGrounds} from './sports-ground.js?v=ground-r44';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=mobile-r31c';
-import { addVegetation } from './vegetation.js?v=mobile-r31c';
-import { loadCampusTerrain } from './terrain.js?v=mobile-r31c';
-import { addCampusEnvironment } from './environment.js?v=mobile-r31c';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=ground-r44';
+import { addVegetation } from './vegetation.js?v=ground-r44';
+import { loadCampusTerrain } from './terrain.js?v=ground-r44';
+import { addCampusEnvironment } from './environment.js?v=ground-r44';
 
 export async function createCampus(scene,data,{mobile=false}={}) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials(),loadCampusTerrain(data)]);const glass=glassMaterial();
@@ -49,8 +51,8 @@ for(const b of visibleData.buildings){
  const low=Math.min(...b.points.map(p=>terrain.heightAt(p[0],p[1])));
  if(foundationBase-low>.12){const saved=foundationBase;foundationBase=low;footprint(b.points,saved-low+.2,'#a1a397');foundationBase=saved;}
  const main=b.id==='471490497',museum=b.id==='471697017';const profile=FOCUS_BUILDING_PROFILES[b.id]??BUILDING_PROFILES[b.id];const h=profile?.height??(museum?18:b.height);
- const palette=['#e6e9e4','#e9e7df','#dce3e0','#e5e9e7'];const color=profile?.wall??(museum?'#79545d':b.tags.building==='dormitory'?'#d1c9bd':palette[Number(b.id)%4]);
- for(const part of observedMassParts(b,h)){const wall=footprint(part.points,part.height,color,part.y);wall.name='focus-building-'+b.id;if(!museum)wall.material=focusWallMaterials[b.id]??new THREE.MeshStandardMaterial({color,roughness:.88});footprint(part.points,.3,profile?.roof??(museum?'#655b59':'#548c70'),part.y+part.height);}collisions.push(b.points);
+ const palette=['#e6e9e4','#e9e7df','#dce3e0','#e5e9e7'];const paletteIndex=Number.isFinite(Number(b.id))?Number(b.id)%4:[...b.id].reduce((n,c)=>(n*31+c.charCodeAt(0))>>>0,0)%4;const color=profile?.wall??(museum?'#846c63':b.tags.building==='dormitory'?'#d1c9bd':palette[paletteIndex]);
+ for(const part of observedMassParts(b,h)){const wall=footprint(part.points,part.height,color,part.y);wall.name='focus-building-'+b.id;if(!museum)wall.material=focusWallMaterials[b.id]??new THREE.MeshStandardMaterial({color,roughness:.88});footprint(part.points,.3,b.satelliteRoof??profile?.roof??(museum?'#548f78':'#548c70'),part.y+part.height);}collisions.push(b.points);
  for(let i=1;i<b.points.length;i++){
   const a=b.points[i-1],e=b.points[i],l=Math.hypot(e[0]-a[0],e[1]-a[1]);if(l<1)continue;
   const edgeHeight=b.id==='471697621'&&(a[1]+e[1])*.5<1?8.4:h;
@@ -60,22 +62,7 @@ for(const b of visibleData.buildings){
 
  if(main){addObservedFacade({scene,b,height:h,panel:panelAlong,box,base:foundationBase});
  }else if(museum){
- // West-facing burgundy-stone facade and blue-green curtain glazing observed in the entrance photograph.
- const a=b.points[0],e=b.points[1],L=Math.hypot(e[0]-a[0],e[1]-a[1]);
- panelAlong(a,e,.53,15.2,L*.74,3.6,.4,'#537e84',-.27);
- panelAlong(a,e,.5,18.15,L+1.4,.35,2.1,'#696d6b',-.35);
- panelAlong(a,e,.45,.22,15,.16,10,'#aa8277',-4.7);
- for(let t of[.18,.39,.6,.81]){
-  const nx=(e[1]-a[1])/L,nz=-(e[0]-a[0])/L;
-  for(const [y,h]of [[3.1,6.2],[15.4,5.2]]){const column=new THREE.Mesh(new THREE.CylinderGeometry(.48,.48,h,16),mat('#936a68'));column.position.set(a[0]+(e[0]-a[0])*t-nx*.67,y+foundationBase,a[1]+(e[1]-a[1])*t-nz*.67);column.castShadow=true;column.receiveShadow=true;scene.add(column);}
- }
- panelAlong(a,e,.53,9.3,L*.68,6.1,.35,'#537e84',-.2);panelAlong(a,e,.53,12.65,L*.74,.45,2,'#597774',-.4);
- for(let i=0;i<=12;i++)panelAlong(a,e,.19+i*.056,9.3,.12,6.1,.5,'#353f3b',-.35);
- for(let y of[6.3,8.4,10.5,12.3])panelAlong(a,e,.53,y,L*.68,.12,.5,'#414a44',-.35);
- for(let t of[.18,.39,.6,.81]){panelAlong(a,e,t,3.1,.8,6.2,.85,'#795557',-.45);panelAlong(a,e,t,15.4,.8,5.2,.85,'#936a68',-.45)}
- panelAlong(a,e,.45,2.5,6.8,4.8,.4,'#243b3a',-.45);panelAlong(a,e,.45,5.2,8,.6,3.5,'#b1b7ae',-1.4);
- for(let i=1;i<b.points.length;i++){const p=b.points[i-1],q=b.points[i];for(let t of[.12,.88])panelAlong(p,q,t,8,1.3,3,.3,'#aab9b5')}
- label('제주대학교 박물관 · 사진 참고',b.center[0],h+5,b.center[1],1.15);
+ addMuseumPhotoFacade({b,height:h,panel:panelAlong,box});
  }else { if(!addFocusFacade({scene,b,height:h,panel:panelAlong,box,base:foundationBase})&&!addObservedFacade({scene,b,height:h,panel:panelAlong,box,base:foundationBase}))genericFacade(b,h); }
  const roofDetails=addAerialRoofDetails({scene,b,height:h,base:foundationBase,box});if(roofDetails.services||roofDetails.panels)aerialBuildingStats.buildings++;aerialBuildingStats.services+=roofDetails.services;aerialBuildingStats.panels+=roofDetails.panels;
  foundationBase=null;
@@ -107,12 +94,13 @@ const extentPoints=[...data.boundary,...data.roads.flatMap(r=>r.points)];
 const bounds={minX:Math.max(terrain.worldBounds.minX+.5,Math.min(...extentPoints.map(p=>p[0]))-10),maxX:Math.min(terrain.worldBounds.maxX-.5,Math.max(...extentPoints.map(p=>p[0]))+10),minZ:Math.max(terrain.worldBounds.minZ+.5,Math.min(...extentPoints.map(p=>p[1]))-10),maxZ:Math.min(terrain.worldBounds.maxZ-.5,Math.max(...extentPoints.map(p=>p[1]))+10)};
 
 const observedEntrance=addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles,surfaces});
+const sports=addSportsGrounds(scene,visibleData,terrain,environment);
 const aerialLandscape=addAerialLandscape({scene,environment,surfaces});
 const vegetation=addVegetation(scene,data,terrain.heightAt,sceneScope.treeVisible);obstacles.push(...vegetation.obstacles);
 addEntranceDetails();
 addAerialGroundDetails({environment,surfaces:{...surfaces,aerialParkingPaint:new THREE.MeshStandardMaterial({color:'#e1e2d5',roughness:.95})}});
 const observedDetails=addCampusObservedDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,visibleAt:(x,z)=>sceneScope.renderDistance(x,z)<20});
-const focusDetails=addFocusDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,fallbackHeightAt:observedDetails.heightAt});const periphery=addObservedPeriphery({scene,data:visibleData,terrain,environment,surfaces,box,obstacles,collisionMeshes});environment.flush();
+const focusDetails=addFocusDetails({scene,data:visibleData,terrain,environment,surfaces,box,collisionMeshes,obstacles,fallbackHeightAt:observedDetails.heightAt});const periphery=addObservedPeriphery({scene,data:visibleData,terrain,environment,surfaces,box,obstacles,collisionMeshes});const museumForecourt=addMuseumForecourt({scene,data,terrain,environment,surfaces,box,obstacles});const studentGarden=addStudentHallGarden({scene,data,terrain,environment,surfaces,box,obstacles});environment.flush();
 
 // Instance static details by material to keep the scene responsive.
 scene.updateMatrixWorld(true);
@@ -167,17 +155,11 @@ function addEntranceDetails(){
  box(islandX,2.25,gateZ+33.27,1.15,1.3,.05,'#64817e');obstacles.push([islandX,gateZ+35,2.2]);
  box(islandX-.7,2.2,gateZ+35,.06,1.25,2.7,'#64817e');box(islandX+.7,2.2,gateZ+35,.06,1.25,2.7,'#64817e');
  sign('출입관리',islandX,2.65,gateZ+33.2,1.15,.27,'#315c78');foundationBase=null;
- // Museum paving and panel seams.
- const museum=visibleData.buildings.find(b=>b.id==='471697017');
- if(museum){foundationBase=buildingBases.get(museum.id);const a=museum.points[0],b=museum.points[1],len=Math.hypot(b[0]-a[0],b[1]-a[1]);
-  for(let y=1;y<18;y+=1.15)panelAlong(a,b,.5,y,len,.024,.06,'#674c52',-.18);
-  for(let t=.03;t<1;t+=.048)panelAlong(a,b,t,9,.025,18,.06,'#674c52',-.18);
-  const dx=b[0]-a[0],dz=b[1]-a[1];const museumSign=sign('JEJU NATIONAL UNIVERSITY MUSEUM',a[0]+dx*.53-dz/len*.6,6.3,a[1]+dz*.53+dx/len*.6,len*.62,.64,'#516b75');museumSign.rotation.y=-Math.atan2(dz,dx);foundationBase=null;
- }
+ // Museum facade and forecourt are supplied by museum-forecourt.js.
 
 }
 const mobileBatching=mobile?batchStaticMeshes(scene):null;
-return {mobileBatching,aerialBuildingStats,bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),periphery:periphery.stats,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),aerialLandscape,treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
+return {museumForecourt,studentGarden,setOverview:value=>{vegetation.overviewCanopies.visible=value;},sports,mobileBatching,aerialBuildingStats,bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),periphery:periphery.stats,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),aerialLandscape,treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,updateTransport:focusDetails.update,conveyorAt:focusDetails.conveyorAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
 }
 
 export async function makeAvatar(scene){return loadSumgyeolAvatar(scene);}

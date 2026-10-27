@@ -5,3 +5,6 @@ backups/
 .openai/
 .env
 .env.*
+
+# Local-only aerial reference screenshots
+source-data/appearance/satellite-r32/*-reference.png

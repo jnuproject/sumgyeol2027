@@ -1,9 +1,15 @@
 import {insidePolygon} from './navigation.js';
-import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=mobile-r31c';
+import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=ground-r44';
 
 // Shapes are independently modelled from the displayed aerial image.
 // Heights, exact counts and placements remain estimates. No image is a texture.
 export const AERIAL_ROOF_LAYOUTS={
+ '286070805':{services:[[-172,-391,4,3,1.8],[-125,-391,4,3,1.8]],solar:[[-149,-379.5,35]]},
+ '286070815':{services:[],solar:[[-175,-263,7],[-175,-273,7],[-175,-283,7]]},
+ 'sat-pharmacy-west':{services:[],solar:[[-219,-277,13]]},
+ '953800279':{services:[],solar:[[59,-355.5,33]]},
+ '953800624':{services:[],solar:[[63,-299,23]]},
+ '953546128':{services:[],solar:[]},
  '471297909':{services:[[-49,104,5,4,2.0]],solar:[[-22,94.5,8],[-18,102,18],[-55,110,4],[-38,110,4],[-10,110,11],[3.5,121,3],[3.5,129,3]]},
  '286237890':{services:[[-111,245.4,7,4.4,1.2],[-101,255.2,7,5,2.1],[-111,272,7.5,5.5,1.3]],solar:[]},
  '471697621':{services:[[-145,13,6,4,1.4],[-127,17,5,4,1.8]],solar:[]}

@@ -12,6 +12,8 @@ export function addSportsGrounds(scene,data,terrain,environment){
  function oval(radius,straight=84.4){const p=[];for(let i=0;i<=48;i++){const a=i*Math.PI/48;p.push(at(Math.cos(a)*radius,straight/2+Math.sin(a)*radius));}for(let i=0;i<=48;i++){const a=Math.PI+i*Math.PI/48;p.push(at(Math.cos(a)*radius,-straight/2+Math.sin(a)*radius));}return p;}
  function line(points,width=.12,offset=.078){for(let i=1;i<points.length;i++)environment.segment(points[i-1],points[i],width,paint,offset);}
  function closed(points,width=.12,offset=.078){line([...points,points[0]],width,offset);}
+ const apron=new THREE.MeshStandardMaterial({color:'#a3aaa0',roughness:1,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+ environment.polygon(oval(50),apron,.035);
  environment.polygon(oval(46.26),track,.044);
  environment.polygon(oval(36.5),grass,.058);
  for(let lane=0;lane<=8;lane++)closed(oval(36.5+lane*1.22),.085,.064);
@@ -25,5 +27,12 @@ export function addSportsGrounds(scene,data,terrain,environment){
   const p=at(-3.66,side*54.3),q=at(3.66,side*54.3),y=terrain.heightAt(cx,cz+side*54.3)+.08;
   pole(new THREE.Vector3(p[0],y,p[1]),new THREE.Vector3(p[0],y+2.44,p[1]));pole(new THREE.Vector3(q[0],y,q[1]),new THREE.Vector3(q[0],y+2.44,q[1]));pole(new THREE.Vector3(p[0],y+2.44,p[1]),new THREE.Vector3(q[0],y+2.44,q[1]));
  }
- return {id:field.id,center:[cx,cz],source:'OSM pitch outline, observed enclosing oval',trackDimensionsEstimated:true};
+ // Two small recreation courts occupy the south infield in the reference.
+ for(const cx of [-12,12]){
+  closed([at(cx-10,58),at(cx+10,58),at(cx+10,70),at(cx-10,70)],.10,.082);
+  line([at(cx,58),at(cx,70)],.10,.082);
+  closed(Array.from({length:32},(_,i)=>at(cx+Math.cos(i*Math.PI/16)*2,64+Math.sin(i*Math.PI/16)*2)),.10,.082);
+  for(const side of [-1,1])closed([at(cx+side*10,61),at(cx+side*6,61),at(cx+side*6,67),at(cx+side*10,67)],.10,.082);
+ }
+ return {recreationCourts:2,id:field.id,center:[cx,cz],source:'OSM pitch outline, observed enclosing oval',trackDimensionsEstimated:true};
 }

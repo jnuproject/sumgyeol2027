@@ -7,7 +7,6 @@ import {makeStairRoute,stairRouteHeight,addFocusDetails,insideFocusClearance} fr
 import {FOCUS_BUILDING_PROFILES,addFocusFacade} from '../dist/focus-architecture.js';
 import {generateVegetationLayout} from '../dist/vegetation.js';
 import {walkable} from '../dist/navigation.js';
-import {segmentDistance} from '../dist/navigation.js';
 const data=JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.meta.url)));
 const meta=JSON.parse(fs.readFileSync(new URL('../dist/terrain-data/terrain.json',import.meta.url)));
 const raw=fs.readFileSync(new URL('../dist/terrain-data/elevations.f32',import.meta.url));
@@ -31,13 +30,12 @@ test('detailed environment remains finite and new access stairs use the same wal
  const key=i=>[positions.getX(i),positions.getY(i),positions.getZ(i)].map(v=>v.toFixed(5)).join(',');
  for(let i=0;i<positions.count;i+=3)for(const [a,b]of[[i,i+1],[i+1,i+2],[i+2,i]]){const edge=[key(a),key(b)].sort().join('|');edges.set(edge,(edges.get(edge)||0)+1);}
  assert.ok([...edges.values()].every(count=>count===2),'marker stone must be a closed surface without separated triangles');marker.geometry.computeBoundingBox();assert.ok(Math.abs(marker.position.y+marker.geometry.boundingBox.min.y-terrain.heightAt(marker.position.x,marker.position.z))<1e-6,'marker base meets ground');
- assert.equal(details.stats.studentAccessFlights,2);
+ assert.equal(details.stats.studentAccessFlights,1);
 });
 test('reconstructed vegetation keeps the selected stairs and low courts clear',()=>{
  const trees=generateVegetationLayout(data);
  assert.ok(trees.length>100);
  for(const p of trees)assert.equal(insideFocusClearance(p.x,p.z,data),false);
- for(const p of trees)assert.ok(segmentDistance(p.x,p.z,[-99,-21],[-73,-21])>=4.2,'student deck approach must not be blocked by avenue trunks');
 });
 test('four independent focus facades preserve original footprints and produce finite geometry',()=>{
  const before=JSON.stringify(data.buildings);
@@ -49,14 +47,20 @@ test('four independent focus facades preserve original footprints and produce fi
  assert.equal(JSON.stringify(data.buildings),before);
 });
 
-test('student approach has a short descending staircase and a lower court',()=>{
+test('half-round student deck has four compact steps and leaves the court open',()=>{
  const scene=new THREE.Scene(),obstacles=[],unit=new THREE.BoxGeometry(1,1,1),make=()=>new THREE.MeshStandardMaterial();
  const box=(x,y,z,w,h,d)=>{const m=new THREE.Mesh(unit,make());m.position.set(x,terrain.heightAt(x,z)+y,z);m.scale.set(w,h,d);scene.add(m);return m;};
  const details=addFocusDetails({scene,data,terrain,surfaces:{paving:make(),asphalt:make()},box,collisionMeshes:[],obstacles,environment:{polygon(){},segment(){}},fallbackHeightAt:terrain.heightAt});
- const access=details.routes.find(r=>r.a[0]===-91&&r.a[1]===-21);
- assert.equal(access.length,8);assert.equal(access.width,3.2);assert.equal(access.treads.filter(t=>!t.landing).length,14);
- let previous=details.heightAt(-87.8,-21);const street=previous,court=terrain.heightAt(-111,-21);
- assert.ok(street-court>1.5&&street-court<2.8);
- for(const t of access.treads){assert.ok(t.height<=previous+.02);assert.ok(previous-t.height<.30);if(!t.landing)assert.ok(t.to-t.from>=.3&&t.to-t.from<=.5);const d=(t.from+t.to)/2,x=access.a[0]+access.ux*d,z=access.a[1]+access.uz*d;assert.ok(t.height>=terrain.heightAt(x,z)-.015,'treads must not disappear beneath the bank');previous=t.height;}
+ const access=details.routes.find(r=>r.id==='student-deck-access'),deck=details.stats.studentDeck;
+ assert.ok(Math.abs(access.length-1.8)<1e-8);assert.equal(access.width,2.5);assert.equal(access.treads.length,4);
+ assert.equal(deck.shape,'semicircle');assert.equal(details.ramps.length,0);assert.equal(details.stats.studentEntryTreads,3);
+ const [cx,cz]=deck.center,mesh=scene.getObjectByName('Student hall half-round roadside deck');scene.updateMatrixWorld(true);
+ const ray=new THREE.Raycaster(new THREE.Vector3(cx-1,500,cz),new THREE.Vector3(0,-1,0));
+ assert.ok(Math.abs(ray.intersectObject(mesh)[0].point.y+.012-details.heightAt(cx-1,cz))<1e-5,'half-round deck physics matches the visible top');
+ assert.equal(details.heightAt(cx+1,cz),terrain.heightAt(cx+1,cz),'no rectangular collision outside semicircle');
+ assert.equal(details.heightAt(-111,-29),terrain.heightAt(-111,-29),'old raised ramp no longer crosses the forecourt');
+ let previous=details.heightAt(cx-1,cz);const court=terrain.heightAt(...access.b);
+ assert.ok(previous-court>.2&&previous-court<1.1,'short stair drop matches small deck');
+ for(const t of access.treads){assert.ok(t.height<=previous+.02);assert.ok(previous-t.height<.25);const d=(t.from+t.to)/2,x=access.a[0]+access.ux*d,z=access.a[1]+access.uz*d;assert.ok(t.height>=terrain.heightAt(x,z)-.015,'treads stay above ground');previous=t.height;}
  assert.ok(Math.abs(previous-court-.12)<1e-6);
 });

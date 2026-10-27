@@ -1,12 +1,12 @@
-import {AERIAL_MEADOW_AREA_IDS} from './aerial-landscape.js?v=mobile-r31c';
-import {createRoadClearance} from './road-clearance.js?v=mobile-r31c';
-import {cropSceneGeometry} from './scene-scope.js?v=mobile-r31c';
+import {AERIAL_MEADOW_AREA_IDS} from './aerial-landscape.js?v=ground-r44';
+import {createRoadClearance} from './road-clearance.js?v=ground-r44';
+import {cropSceneGeometry} from './scene-scope.js?v=ground-r44';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=mobile-r31c';
+import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=ground-r44';
 export {roadWidth};
 
 function geometryFrom(raw){
@@ -47,7 +47,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
  const chunks=new Map(),walkRegions=[],kerbBlocks=[],roadClearance=createRoadClearance(data.buildings??[]);
  const materialCache=new Map();
  function colored(base,color){const key=base.uuid+color;if(!materialCache.has(key)){const material=base.clone();material.color.set(color);material.onBeforeCompile=base.onBeforeCompile;material.customProgramCacheKey=base.customProgramCacheKey;materialCache.set(key,material);}return materialCache.get(key);}
- const areaMaterials={meadow:colored(surfaces.grass,'#d9d9ad'),wood:colored(surfaces.grass,'#6e8d57'),grass:colored(surfaces.grass,'#a8bc80'),park:colored(surfaces.grass,'#8da876'),pitch:colored(surfaces.grass,'#88a171'),tennis:new THREE.MeshStandardMaterial({color:'#5e8590',roughness:1}),parking:colored(surfaces.asphalt,'#c9cdca'),water:new THREE.MeshStandardMaterial({color:'#789fa9',roughness:.35,metalness:.12})};
+ const areaMaterials={reedWater:new THREE.MeshStandardMaterial({color:'#435b50',roughness:.78}),wood:colored(surfaces.grass,'#6e8d57'),grass:colored(surfaces.grass,'#a8bc80'),park:colored(surfaces.grass,'#8da876'),pitch:colored(surfaces.grass,'#88a171'),tennis:new THREE.MeshStandardMaterial({color:'#5e8590',roughness:1}),parking:colored(surfaces.asphalt,'#c9cdca'),water:new THREE.MeshStandardMaterial({color:'#789fa9',roughness:.35,metalness:.12})};
  for(const [name,material] of Object.entries(areaMaterials)){material.name="area-"+name;material.polygonOffset=false;}
  const paintYellow=new THREE.MeshStandardMaterial({color:'#cfb45d',roughness:.9});
  const paintWhite=new THREE.MeshStandardMaterial({color:'#e4e4d8',roughness:.9});
@@ -66,7 +66,14 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
  }
  function segment(a,b,width,material,offset){append(terrain.drapeRoadSegment(a,b,width,offset),material,'road');}
  function circle(p,radius,material,offset){const points=[];for(let i=0;i<16;i++){const angle=i*Math.PI/8;points.push([p[0]+Math.cos(angle)*radius,p[1]+Math.sin(angle)*radius]);}convex(points,material,offset);}
- for(const a of data.areas){const tags=a.tags;const key=AERIAL_MEADOW_AREA_IDS.has(a.id)?'meadow':tags.amenity==='parking'?'parking':tags.natural==='water'?'water':tags.sport==='tennis'?'tennis':tags.leisure==='pitch'?'pitch':tags.landuse==='forest'||tags.natural==='wood'?'wood':tags.leisure==='park'?'park':'grass';polygon(a.points,areaMaterials[key],.024);}
+ for(const a of data.areas){
+  const tags=a.tags;
+  // Keep lawn outlines for tree placement only. The existing terrain grass
+  // remains exposed, with no separate colour, texture or coplanar lawn layer.
+  if(tags['surface:appearance']==='existing_grass'||tags['surface:appearance']==='dry_meadow'||AERIAL_MEADOW_AREA_IDS.has(a.id))continue;
+  const key=tags['surface:appearance']==='reed_pond'?'reedWater':tags.amenity==='parking'?'parking':tags.natural==='water'?'water':tags.sport==='tennis'?'tennis':tags.leisure==='pitch'?'pitch':tags.landuse==='forest'||tags.natural==='wood'?'wood':tags.leisure==='park'?'park':'grass';
+  polygon(a.points,areaMaterials[key],.024);
+ }
 
  // Parking outlines are original OSM. Bay spacing/alignment is a visual reconstruction.
  for(const area of data.areas.filter(a=>a.tags.amenity==='parking')){

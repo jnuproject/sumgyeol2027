@@ -1,3 +1,4 @@
+import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=ground-r44';
 // Three user-selected areas. Source geometry stays unchanged.
 // Walking starts/camera framing are presentation choices, not measured entrances.
 export const FOCUS_SCOPE={
@@ -14,10 +15,11 @@ export const FOCUS_SCOPE={
 export function resolveFocusStops(data,entrySpawn=data.spawn){
  const find=id=>{const b=data.buildings.find(b=>b.id===id);if(!b)throw Error('Missing focus building: '+id);return b;};
  const economics=find('471297909'),library=find('286237890'),student=find('471697621');
+ const studentWalkX=data.renderRoadCorrections?.mainAvenue?data.renderRoadCorrections.mainAvenue.axisX-MAIN_AVENUE_WIDTH/2-MAIN_AVENUE_SIDEWALK_WIDTH/2:-87.8;
  return [
   {id:'gate',position:data.landmarks[0].position,walkPosition:entrySpawn,visitPosition:entrySpawn,walkYaw:Math.PI,camera:{yaw:.62,radius:79,pitch:.64}},
-  {id:'library-route',position:[(economics.center[0]+library.center[0])/2,180],walkPosition:[-44,87.6],visitPosition:[-104,224],walkYaw:Math.PI,walkDistance:10,camera:{yaw:-.65,radius:220,pitch:.74},arrival:{position:[-104,224],yaw:Math.PI},ascent:{position:[-107.35,108.0],yaw:Math.PI},buildingIds:[economics.id,'471297922',library.id]},
-  {id:'student-hall',position:student.center,walkPosition:[-87.8,-21],visitPosition:[-87.8,-21],walkYaw:Math.PI/2,camera:{yaw:1.05,radius:100,pitch:.64},buildingIds:[student.id]}
+  {id:'library-route',position:[(economics.center[0]+library.center[0])/2,180],walkPosition:[-44,87.6],visitPosition:[-104,224],walkYaw:Math.PI,walkDistance:10,camera:{yaw:-.65,radius:220,pitch:.74},arrival:{position:[-104,224],yaw:Math.PI},ascent:{position:[-110.8,114],yaw:Math.PI},buildingIds:[economics.id,'471297922',library.id]},
+  {id:'student-hall',position:student.center,walkPosition:[studentWalkX,-21],visitPosition:[studentWalkX,-21],walkYaw:Math.PI/2,camera:{yaw:1.05,radius:100,pitch:.64},buildingIds:[student.id]}
  ];
 }
 

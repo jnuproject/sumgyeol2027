@@ -1,0 +1,23 @@
+[
+  {
+    "frame": "north",
+    "file": "north-reference.png",
+    "originalFilename": "스크린샷 2026-10-26 오전 2.06.37.png",
+    "sha256": "11dadc0184397f671e04b3a22e0c3288cd8f81a242740cb25299badf063edb3c",
+    "source": "User attachment 2026-10-26; imagery epoch unknown"
+  },
+  {
+    "frame": "centre",
+    "file": "centre-reference.png",
+    "originalFilename": "스크린샷 2026-10-26 오전 2.06.49.png",
+    "sha256": "63244ba30dc2b289cf71cd9c9743311dbe6c8d163736bcb53af0575c3bc97d7c",
+    "source": "User attachment 2026-10-26; imagery epoch unknown"
+  },
+  {
+    "frame": "south",
+    "file": "south-reference.png",
+    "originalFilename": "스크린샷 2026-10-26 오전 2.06.57.png",
+    "sha256": "99062de98ae93bdef0f40941fe6d75354e3357b0a37b76cbc10bf29869f26285",
+    "source": "User attachment 2026-10-26; imagery epoch unknown"
+  }
+]

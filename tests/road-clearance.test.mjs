@@ -20,9 +20,9 @@ const overlaps=(a,b)=>a[0]<b[1]&&a[1]>b[0]&&a[2]<b[3]&&a[3]>b[2];
 test('display alignment keeps source footprints, original map file geometry and confirmed four-lane width intact',()=>{
  const before=JSON.stringify(source),data=prepareCampusRoads(source);
  assert.equal(JSON.stringify(source),before);assert.equal(data.buildings,source.buildings);assert.equal(data.roads.length,source.roads.length);
- const main=data.roads.find(r=>r.id==='286085067');assert.ok(main.points.some(p=>p[0]<-84&&p[1]>-124&&p[1]<-88));
+ const main=data.roads.find(r=>r.id==='286085067');assert.ok(main.points.every(p=>p[0]===-85),'the confirmed main avenue stays straight');
  for(const p of main.points)assert.equal(roadWidthAt(main,...p),18);
- assert.deepEqual(main.points.at(-1),source.roads.find(r=>r.id===main.id).points.at(-1));
+ assert.equal(main.points.at(-1)[1],source.roads.find(r=>r.id===main.id).points.at(-1)[1],'alignment preserves source endpoint station');
  assert.equal(prepareCampusRoads(data),data);
 });
 test('all rendered vehicle-road ribbons and round caps have zero footprint overlap across59 buildings',()=>{

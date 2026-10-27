@@ -17,10 +17,12 @@ export function gradeObservedSportsField(xs,zs,sourceHeights,data){
   heights[i]=heights[i]*(1-blend)+level*blend;changed++;
  }
  const notes=[{feature:'대운동장',source:'Kakao Roadview2026-03: field and track appear level',operation:'constant-height sports pad with15m blend to surrounding source terrain',referenceHeightMeters:level,referenceMethod:'median of existing source raster inside field; not surveyed field height',changedSamples:changed,dimensionsEstimated:true}];
+ const pond=data.studentHallReference?data.areas.find(a=>a.id==='969694342'):null;
+ const pondBounds=pond?[Math.min(...pond.points.map(p=>p[0]))-1,Math.max(...pond.points.map(p=>p[0]))+1,Math.min(...pond.points.map(p=>p[1]))-1,Math.max(...pond.points.map(p=>p[1]))+1]:[-163,-133,-76,-54];
  const pads=[
-  {feature:'신관 북쪽 아라연 연못',bounds:[-163,-133,-76,-54],reference:[-147,-65],blend:5,source:'OSM water outline: flat-water visual reconstruction; water elevation is not surveyed'},
+  {feature:'신관 북쪽 아라연 연못',bounds:pondBounds,reference:[-147,-65],blend:5,source:'OSM water outline: flat-water visual reconstruction; water elevation is not surveyed'},
   {feature:'경상대학1호관 건물 바닥',bounds:[-70,13,90,138],reference:[-30,86],offset:.6,blend:6,source:'Roadview2026-03; low planted bank at north facade, not a tall exposed foundation'},
-  {feature:'학생회관 신관 앞 낮은 마당',bounds:[-171,-96,-36,-5],reference:[-88,-21],offset:-2.1,blend:5,source:'Roadview2026-03: front court is below the roadside deck; depth2.1m is a visual estimate, not a survey'},
+  {feature:'학생회관 신관 앞 낮은 마당',bounds:[-171,data.renderRoadCorrections?.mainAvenue?-100:-91.8,-36,-5],reference:data.renderRoadCorrections?.mainAvenue?[-96.9,-21]:[-88.75,-21],offset:-.6,blend:2.5,source:'User aerial/entrance photos2026-10-26: compact half-round roadside deck and short stairs; courtyard depth0.6m estimated, not surveyed'},
   {feature:'중앙도서관 건물·전면 마당',bounds:[-141,-69,214,282],reference:[-104,224],blend:8,source:'Roadview2026-03'},
   {feature:'디지털도서관 건물·전면 마당',bounds:[-138,-68,291,346],reference:[-104,342],blend:8,source:'Roadview2022-03'},
   {feature:'공과대학1호관 건물·전면 마당',bounds:[263,378,-244,-188],reference:[320,-204],blend:10,source:'Roadview2026-03'}

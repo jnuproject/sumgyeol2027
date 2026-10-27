@@ -1,3 +1,4 @@
+import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=ground-r44';
 import {segmentDistance} from './navigation.js';
 
 // Gameplay boundaries, not real fences or a change to the source map.
@@ -19,7 +20,7 @@ export function createFocusWalkArea(data){
  box('economics',economics.minX-12,economics.maxX+13,economics.minZ-15,economics.maxZ+13);
  const library=extent(buildings(['286237890']));
  box('central-library',library.minX-10,library.maxX+12,212,library.maxZ+5);
- road('286085067',14.8);
+ road('286085067',MAIN_AVENUE_WIDTH/2+MAIN_AVENUE_SIDEWALK_WIDTH+.7);
  const connector=data.roads.find(r=>r.id==='93690444');
  road('economics-connection',7.2,connector?.points.filter(p=>p[1]<=83));
  road('471694209',5.8);

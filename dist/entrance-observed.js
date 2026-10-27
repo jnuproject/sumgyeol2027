@@ -1,6 +1,6 @@
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
-import {roadWidth,MAIN_AVENUE_WIDTH,MAIN_AVENUE_LANES} from './road-profile.js?v=mobile-r31c';
+import {roadWidth,MAIN_AVENUE_WIDTH,MAIN_AVENUE_LANES,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=ground-r44';
 
 // Independently constructed from the public Kakao Roadview, labelled2026-03.
 // Presence/arrangement are observed; all dimensions and local offsets are estimates.
@@ -22,8 +22,8 @@ export function addObservedEntrance({scene,data,terrain,environment,box,basalt,c
   const front=[end[0]+(end[0]-prior[0])*ratio,z-22],width=layout.roadWidth;
   const ring=w=>[[end[0]-w/2,end[1]],[end[0]+w/2,end[1]],[front[0]+w/2,front[1]],[front[0]-w/2,front[1]]];
   const paving=surfaces?.redPaving??material('#a3877a');
-  environment.polygon(ring(width+8.4),paving,.055);
-  for(const side of[-1,1]){const inner=side*width/2,outer=side*(width/2+4.2);environment.polygon([[end[0]+inner,end[1]],[end[0]+outer,end[1]],[front[0]+outer,front[1]],[front[0]+inner,front[1]]],paving,.14);}
+  environment.polygon(ring(width+MAIN_AVENUE_SIDEWALK_WIDTH*2),paving,.055);
+  for(const side of[-1,1]){const inner=side*width/2,outer=side*(width/2+MAIN_AVENUE_SIDEWALK_WIDTH);environment.polygon([[end[0]+inner,end[1]],[end[0]+outer,end[1]],[front[0]+outer,front[1]],[front[0]+inner,front[1]]],paving,.14);}
   environment.polygon(ring(width),surfaces?.asphalt??material('#656d68'),.08);
   for(const side of[-1,1]){environment.segment([end[0]+side*.17,end[1]],[front[0]+side*.17,front[1]],.12,material('#cfb45d'),.095);environment.segment([end[0]+side*(width/2-.25),end[1]],[front[0]+side*(width/2-.25),front[1]],.12,material('#e4e4d8'),.095);}
   const length=Math.hypot(front[0]-end[0],front[1]-end[1]);

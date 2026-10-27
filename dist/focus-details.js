@@ -1,3 +1,5 @@
+import {createCampusEscalator} from './campus-escalator.js?v=ground-r44';
+import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=ground-r44';
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
 
@@ -59,8 +61,17 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
    }
   }
  }
- const sourceStairs=data.roads.find(r=>r.id==='471489721');
- if(sourceStairs){const route=makeStairRoute(sourceStairs.points[0],sourceStairs.points.at(-1),terrain.heightAt);stairs(route);stats.ascentFlights=route.flights;stats.ascentTreads=route.flights*route.steps;}
+ const escalator=createCampusEscalator({scene,data,terrain,collisionMeshes,obstacles});
+ if(escalator){
+  const {layout,at,profileAt}=escalator;
+  environment.polygon([at(-4.2,-2.7),at(-4.2,4.4),at(0,4.4),at(0,-2.7)],surfaces.paving,.035);
+  const sharedHeight=(x,z)=>profileAt((x-layout.a[0])*layout.ux+(z-layout.a[1])*layout.uz);
+  const route=makeStairRoute(at(0,layout.stairs.side),at(layout.length,layout.stairs.side),sharedHeight,{width:layout.stairs.width,surfaceOffset:0});
+  // Each horizontal tread must clear the hillside beneath its entire depth,
+  // rather than sharing only the centre-line height at the end of a flight.
+  for(const t of route.treads){for(let d=t.from;d<t.to;d+=.15)t.height=Math.max(t.height,profileAt(d));t.height=Math.max(t.height,profileAt(t.to));}
+  route.id='library-ascent';stairs(route);stats.ascentFlights=route.flights;stats.ascentTreads=route.flights*route.steps;stats.escalator=escalator.stats;
+ }
  // Observed small paver walk and tactile line outside the north face of economics1.
  environment.segment([-67,87.6],[2,87.6],2.5,surfaces.paving,.12);
  environment.segment([-66,87.6],[1,87.6],.28,mat('#d1b14f'),.145);
@@ -107,24 +118,27 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
  // Roadview shows a lower student-hall court, stairs and guarded access.
  const student=data.buildings.find(b=>b.id==='471697621');
  if(student){
+  const streetShift=data.renderRoadCorrections?.mainAvenue?data.renderRoadCorrections.mainAvenue.axisX-MAIN_AVENUE_WIDTH/2-MAIN_AVENUE_SIDEWALK_WIDTH/2+88.75:0,sx=x=>x+streetShift;
   environment.polygon([[-125,-31],[-95,-31],[-95,-13],[-116,-13],[-125,-20]],surfaces.asphalt,.10);
-  const courtBase=terrain.heightAt(-111,-21),deckHeight=Math.max(...[[-91,-23.4],[-91,-18.6],[-86.5,-23.4],[-86.5,-18.6]].map(p=>terrain.heightAt(...p)))+.07;
-  // Photo comparison: the street deck is ABOVE the front court, not below it.
-  const access=makeStairRoute([-91,-21],[-99,-21],terrain.heightAt,{width:3.2,flights:2,steps:7,landing:2.4,surfaceOffset:.12,startHeight:deckHeight,endHeight:courtBase+.12});stairs(access,'#8c7a61',true);stats.studentAccessFlights=2;
-  environment.segment([-99,-21],[-111.5,-21],3.2,surfaces.paving,.12);
-  for(let x=-90.98;x<-86.5;x+=.16)absBox(x,deckHeight-.065,-21,.145,.13,4.8,'#76644f');
-  platforms.push({cx:-88.75,cz:-21,ux:1,uz:0,nx:0,nz:1,width:4.5,depth:4.8,height:deckHeight+.012});
-  absBox(-87.15,deckHeight+.015,-21,.5,.03,4.75,'#d5bd4d');
-  const dots=new THREE.InstancedMesh(new THREE.CylinderGeometry(.014,.017,.007,6),mat('#ddc957'),5*67),dot=new THREE.Object3D();let di=0;
-  for(let row=0;row<5;row++)for(let col=0;col<67;col++){dot.position.set(-87.33+row*.09,deckHeight+.0335,-23.28+col*.07);dot.updateMatrix();dots.setMatrixAt(di++,dot.matrix);}dots.receiveShadow=true;scene.add(dots);
-  for(const zz of[-23.52,-18.48]){for(const xx of[-90.9,-88.8,-86.7]){rail([xx,deckHeight,zz],[xx,deckHeight+1.08,zz],'#6d5945',.075);obstacles.push([xx,zz,.08]);}for(const h of[.48,.99])rail([-91,deckHeight+h,zz],[-86.5,deckHeight+h,zz],'#7c674f',.065);}
+  // A compact half-round timber deck sits against the roadside. Its short
+  // access stair stops beside it; the forecourt has no cross-court ramp.
+  const cx=sx(-91.85),cz=-21,radius=3.3,clip=3.0;
+  const courtBase=terrain.heightAt(cx-4.8,cz),deckHeight=terrain.heightAt(sx(-88.75),cz)+.06;
+  const outline=Array.from({length:49},(_,i)=>{const a=-Math.PI/2+i*Math.PI/48;return [Math.max(cx-clip,cx-Math.cos(a)*radius),cz+Math.sin(a)*radius];});
+  const shape=new THREE.Shape();outline.forEach(([x,z],i)=>i?shape.lineTo(x,-z):shape.moveTo(x,-z));shape.closePath();
+  const deckGeometry=new THREE.ExtrudeGeometry(shape,{depth:.22,bevelEnabled:false});deckGeometry.rotateX(-Math.PI/2);
+  const deck=new THREE.Mesh(deckGeometry,mat('#8b7960'));deck.position.y=deckHeight-.22;deck.receiveShadow=true;deck.castShadow=true;deck.name='Student hall half-round roadside deck';scene.add(deck);collisionMeshes.push(deck);
+  platforms.push({type:'semicircle',cx,cz,radius,clip,height:deckHeight+.012});
+  for(let z=cz-radius+.15;z<cz+radius;z+=.16){const dx=Math.min(clip,Math.sqrt(radius*radius-(z-cz)**2));rail([cx-dx,deckHeight+.004,z],[cx,deckHeight+.004,z],'#a08b70',.009);}
+  const access=makeStairRoute([cx-clip,cz],[cx-clip-1.8,cz],terrain.heightAt,{width:2.5,flights:1,steps:4,landing:0,startHeight:deckHeight,endHeight:courtBase+.12});stairs(access,'#8c7a61',true);
+  access.id='student-deck-access';stats.studentAccessFlights=1;
+  for(let i=1;i<outline.length;i++){
+   const a=outline[i-1],b=outline[i];if(Math.abs((a[1]+b[1])/2-cz)<1.4)continue;
+   for(const h of[.5,1.0])rail([a[0],deckHeight+h,a[1]],[b[0],deckHeight+h,b[1]],'#7c674f',.045);
+   if(i%5===0){rail([b[0],deckHeight,b[1]],[b[0],deckHeight+1.05,b[1]],'#6d5945',.06);obstacles.push([b[0],b[1],.07]);}
+  }
+  stats.studentDeck={shape:'semicircle',center:[cx,cz],radius,clip,stairLength:access.length,stairTreads:4,crossCourtRamp:false};
   stats.studentCourtBelowStreet=true;stats.studentCourtDrop=deckHeight-courtBase;
-  const a=[-91,-29],b=[-113,-29],ha=terrain.heightAt(...a)+.15,hb=terrain.heightAt(...b)+.15;
-  const positions=[a[0],ha,a[1]-1.1,a[0],ha,a[1]+1.1,b[0],hb,b[1]-1.1,b[0],hb,b[1]+1.1];
-  for(const [x,z]of[[a[0],a[1]-1.1],[a[0],a[1]+1.1],[b[0],b[1]-1.1],[b[0],b[1]+1.1]])positions.push(x,Math.min(ha,hb,terrain.heightAt(x,z))-.2,z);
-  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));geometry.setIndex([0,2,1,1,2,3,0,4,6,0,6,2,1,3,7,1,7,5,0,1,5,0,5,4,2,6,7,2,7,3]);geometry.computeVertexNormals();
-  const ramp=new THREE.Mesh(geometry,mat('#bfc4b8'));ramp.receiveShadow=true;scene.add(ramp);collisionMeshes.push(ramp);ramps.push({a,b,ha,hb,width:2.2});
-  for(const side of[-1,1]){const z=-29+side*1.2;rail([a[0],ha+1,z],[b[0],hb+1,z]);for(let x=-92;x>-113;x-=3){const y=ha+(hb-ha)*(x-a[0])/(b[0]-a[0]);rail([x,y,z],[x,y+1,z]);obstacles.push([x,z,.06]);}}
   for(const p of[[-121,-29],[-123,-18],[-104,-12.4]]){
    const [x,z]=p,h=terrain.heightAt(x,z);absBox(x,h+.18,z,2.8,.36,1.8,'#8c9684');absBox(x,h+.39,z,2.5,.1,1.5,'#5f6950');
    for(const dx of[-.65,0,.65])shrub(x+dx,z,.68,.66,.65,h+.4);obstacles.push([x,z,1.35]);
@@ -137,15 +151,28 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
   const at=(u,n)=>[center[0]+ux*u+nx*n,center[1]+uz*u+nz*n];
   const position=at(0,1.9),gallery=absBox(position[0],base+6.2,position[1],14.5,3.9,3.8,'#e0e0d4');gallery.rotation.y=angle;
   const front=at(0,3.85);
-  for(const [y,h,c]of[[5.95,1.9,'#64817e'],[4.75,.12,'#bc684d'],[7.6,.12,'#bc684d'],[4.32,.45,'#e3e3d7'],[8.15,.3,'#d5d8cd']]){const m=absBox(front[0],base+y,front[1],14.6,h,.15,c);m.rotation.y=angle;}
-  for(let u=-7;u<=7;u+=1.1){const p=at(u,3.96),m=absBox(p[0],base+5.95,p[1],.10,2.0,.22,'#465b5e');m.rotation.y=angle;}
+  for(const [y,h,c]of[[5.95,1.9,'#445451'],[4.75,.09,'#bd7459'],[7.6,.09,'#bd7459'],[4.32,.45,'#e3e3d7'],[8.15,.3,'#d5d8cd']]){const m=absBox(front[0],base+y,front[1],14.6,h,.15,c);m.rotation.y=angle;}
+  for(let u=-7;u<=7;u+=1.1){const p=at(u,3.96),m=absBox(p[0],base+5.95,p[1],.075,2.0,.22,'#2e3734');m.rotation.y=angle;}
   for(let y=4.5;y<8.2;y+=.22){const m=absBox(front[0],base+y,front[1],14.6,.015,.08,'#bfc4b8');m.rotation.y=angle;}
   for(const u of[-5.7,0,5.7]){const p=at(u,3.0),column=new THREE.Mesh(new THREE.CylinderGeometry(.23,.26,3.4,16),mat('#e1e3d7'));column.position.set(p[0],base+2.6,p[1]);column.castShadow=true;scene.add(column);collisionMeshes.push(column);obstacles.push([p[0],p[1],.27]);}
-  const landing=at(0,2.5),slab=absBox(landing[0],base+.78,landing[1],14.3,.24,3.0,'#c4c7ba');slab.rotation.y=angle;platforms.push({cx:landing[0],cz:landing[1],ux,uz,nx,nz,width:14.3,depth:3,height:base+.912});
-  const entryA=at(0,7.0),entryB=at(0,4.0),length=3,entry={a:entryA,b:entryB,ux:-nx,uz:-nz,length,width:14.0,flights:1,steps:6,split:true,treads:[]},bottom=terrain.heightAt(...entryA)+.10;
-  for(let i=0;i<6;i++)entry.treads.push({from:i*.5,to:(i+1)*.5,height:bottom+(base+.9-bottom)*(i+1)/6,landing:false});stairs(entry,'#b6b8ad');
-  for(let d=0;d<3;d+=.5){const p=at(0,7-d),y=bottom+(base+.9-bottom)*d/3;const m=absBox(p[0],y+.42,p[1],.24,.84,.53,'#c4c8ba');m.rotation.y=angle;obstacles.push([p[0],p[1],.14]);}
-  stats.studentPorchColumns=3;stats.studentEntryTreads=6;
+  const landing=at(0,2.0),slab=absBox(landing[0],base+.38,landing[1],12.0,.18,3.0,'#c4c7ba');slab.rotation.y=angle;platforms.push({cx:landing[0],cz:landing[1],ux,uz,nx,nz,width:12,depth:3,height:base+.482});
+  const entryA=at(0,4.7),entryB=at(0,3.5),length=1.2,entry={a:entryA,b:entryB,ux:-nx,uz:-nz,length,width:10.2,flights:1,steps:3,split:false,treads:[]},bottom=terrain.heightAt(...entryA)+.10;
+  for(let i=0;i<3;i++)entry.treads.push({from:i*.4,to:(i+1)*.4,height:bottom+(base+.47-bottom)*(i+1)/3,landing:false});stairs(entry,'#b6b8ad');
+  const doors=at(0,.20),glazing=absBox(doors[0],base+2.2,doors[1],10,3.4,.12,'#344b4b');glazing.rotation.y=angle;
+  for(const u of[-4.5,-3,-1.5,0,1.5,3,4.5]){const p=at(u,.31),m=absBox(p[0],base+2.2,p[1],.06,3.4,.10,'#afbab4');m.rotation.y=angle;}
+  // Entrance photo: tiled parapet and name, round blue stair head and
+  // an open paved forecourt beneath the three white columns.
+  const parapet=at(0,3.96),nameBacking=absBox(parapet[0],base+8.65,parapet[1],14.8,.78,.22,'#e0e0d4');nameBacking.rotation.y=angle;
+  if(typeof document!=='undefined'){
+   const canvas=document.createElement('canvas');canvas.width=768;canvas.height=128;const ctx=canvas.getContext('2d');ctx.clearRect(0,0,768,128);ctx.fillStyle='#354b55';ctx.font='500 74px Pretendard,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('학 생 회 관',384,66);
+   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;
+   const name=new THREE.Mesh(new THREE.PlaneGeometry(5,.58),new THREE.MeshStandardMaterial({map:texture,transparent:true,roughness:.8,side:THREE.DoubleSide}));const p=at(0,4.10);name.position.set(p[0],base+8.68,p[1]);name.rotation.y=Math.atan2(nx,nz);name.name='Student hall entrance name';scene.add(name);
+  }
+  const stairHead=new THREE.Mesh(new THREE.CylinderGeometry(2.05,2.05,2.8,32),mat('#748f98'));stairHead.position.set(-138.7,base+9.9,-26.5);stairHead.castShadow=true;stairHead.receiveShadow=true;stairHead.name='Student hall round glazed stair head';scene.add(stairHead);
+  const cap=new THREE.Mesh(new THREE.CylinderGeometry(2.14,2.14,.22,32),mat('#c6cdc7'));cap.position.set(-138.7,base+11.4,-26.5);scene.add(cap);
+  for(let i=0;i<14;i++){const a=i*Math.PI/7,px=-138.7+Math.cos(a)*2.065,pz=-26.5+Math.sin(a)*2.065;absBox(px,base+9.9,pz,.065,2.7,.065,'#415754');}
+  stats.photoEntrance=true;
+  stats.studentPorchColumns=3;stats.studentEntryTreads=3;
 
  }
  // Original clumps, instanced. Planting positions are reconstructed, not surveyed.
@@ -194,10 +221,11 @@ export function addFocusDetails({scene,data,terrain,environment,surfaces,box,col
  scene.updateMatrixWorld(true);const grouped=new Map();
  for(const m of railMeshes){const k=m.material.uuid;if(!grouped.has(k))grouped.set(k,[]);grouped.get(k).push(m);}
  for(const list of grouped.values()){const batch=new THREE.InstancedMesh(railGeometry,list[0].material,list.length);list.forEach((m,i)=>batch.setMatrixAt(i,m.matrixWorld));batch.castShadow=true;batch.receiveShadow=true;scene.add(batch);list.forEach(m=>m.removeFromParent());}
- return {stats,routes,ramps,heightAt(x,z){
+ return {stats,routes,ramps,update:dt=>escalator?.update(dt),conveyorAt:(x,z)=>escalator?.conveyorAt(x,z),heightAt(x,z){
+  const transportHeight=escalator?.heightAt(x,z);if(transportHeight!=null)return Math.max(transportHeight,fallbackHeightAt(x,z));
   for(const route of routes){const h=stairRouteHeight(route,x,z);if(h!==null)return h;}
   for(const r of ramps)if(Math.abs(z-r.a[1])<=r.width/2&&x<=r.a[0]&&x>=r.b[0])return r.ha+(r.hb-r.ha)*(x-r.a[0])/(r.b[0]-r.a[0])+.012;
-  for(const p of platforms){const dx=x-p.cx,dz=z-p.cz;if(Math.abs(dx*p.ux+dz*p.uz)<=p.width/2&&Math.abs(dx*p.nx+dz*p.nz)<=p.depth/2)return p.height;}
+  for(const p of platforms){const dx=x-p.cx,dz=z-p.cz;if(p.type==='semicircle'){if(dx<=0&&dx>=-p.clip&&dx*dx+dz*dz<=p.radius*p.radius)return p.height;continue;}if(Math.abs(dx*p.ux+dz*p.uz)<=p.width/2&&Math.abs(dx*p.nx+dz*p.nz)<=p.depth/2)return p.height;}
   return fallbackHeightAt(x,z);
  }};
 }

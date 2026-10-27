@@ -1,9 +1,9 @@
 import * as THREE from './three.module.js';
 
 // Display-only alignment estimates; the downloaded OSM source stays immutable.
-// The widened avenue must pass WEST of the administration wing, not through it.
+// The main avenue is straight, confirmed by the user. Side-street adjustments
+// are retained independently; no building-avoidance warp may bend the avenue.
 const fields=[
- {id:'administration-avenue',x:[-123,-94,-70,-42],z:[-166,-126,-87,-51],dx:-9,dz:0},
  {id:'dormitory-north-edge',x:[-420,-396,-342,-314],z:[370,378,384,391],dx:0,dz:-2.5},
  {id:'marine3-north-edge',x:[160,182,248,265],z:[-282,-276,-268,-260],dx:0,dz:-1.6},
  {id:'translation-north-edge',x:[120,140,223,240],z:[-198,-190,-181,-172],dx:0,dz:-2},
@@ -15,19 +15,28 @@ function adjusted(p){let x=p[0],z=p[1];for(const f of fields){const w=weight(p[0
 export function prepareCampusRoads(source){
  if(source.renderRoadCorrections)return source;
  const changed=[];
+ const axisX=-85,main=source.roads.find(r=>r.id==='286085067');
+ const junctions=new Set((main?.points??[]).map(p=>p.join(',')));
+ const avenuePoint=(p,road)=>road.id==='286085067'||junctions.has(p.join(','))||(road.id==='93690444'&&p[1]<=82.744)?[axisX,p[1]]:p;
+
  const roads=source.roads.map(road=>{
+  // New aerial traces already include their observed alignment.
+  if(road.tags['source:geometry']==='user aerial reference')return road;
+  const sourcePoints=road.points.map(p=>avenuePoint(p,road));
   const points=[];
-  for(let i=1;i<road.points.length;i++){
-   const a=road.points[i-1],b=road.points[i],near=fields.some(f=>Math.max(a[0],b[0])>f.x[0]&&Math.min(a[0],b[0])<f.x[3]&&Math.max(a[1],b[1])>f.z[0]&&Math.min(a[1],b[1])<f.z[3]);
+  for(let i=1;i<sourcePoints.length;i++){
+   const a=sourcePoints[i-1],b=sourcePoints[i],near=fields.some(f=>Math.max(a[0],b[0])>f.x[0]&&Math.min(a[0],b[0])<f.x[3]&&Math.max(a[1],b[1])>f.z[0]&&Math.min(a[1],b[1])<f.z[3]);
    const n=near?Math.max(1,Math.ceil(Math.hypot(b[0]-a[0],b[1]-a[1])/4)):1;
    for(let k=0;k<n;k++)points.push(adjusted([a[0]+(b[0]-a[0])*k/n,a[1]+(b[1]-a[1])*k/n]));
   }
-  points.push(adjusted(road.points.at(-1)));
-  if(road.id==='93690444'){const b=points.at(-1),a=points.at(-2),l=Math.hypot(b[0]-a[0],b[1]-a[1]);points[points.length-1]=[b[0]+(a[0]-b[0])*Math.min(4.4/l,.9),b[1]+(a[1]-b[1])*Math.min(4.4/l,.9)];}
+  points.push(adjusted(sourcePoints.at(-1)));
+
   if(points.length!==road.points.length||points.some((p,i)=>!road.points[i]||Math.hypot(p[0]-road.points[i][0],p[1]-road.points[i][1])>.001))changed.push(road.id);
   return {...road,points};
  });
- return {...source,roads,renderRoadCorrections:{version:'clearance-r29',estimated:true,changedRoadIds:changed,fields:fields.map(f=>({id:f.id,offset:[f.dx,f.dz]})),buildingFootprintsUnchanged:true,minimumSurfaceSetback:.6}};
+ const spawn=main?[axisX,source.spawn[1]]:[...source.spawn];
+ const landmarks=source.landmarks?.map((l,i)=>i===0?{...l,position:[axisX,l.position[1]]}:l);
+ return {...source,spawn,landmarks,roads,renderRoadCorrections:{version:'straight-avenue-r35',mainAvenue:{axisX,straight:true,lanes:4,source:'user confirms straight main avenue'},estimated:true,changedRoadIds:changed,fields:fields.map(f=>({id:f.id,offset:[f.dx,f.dz]})),buildingFootprintsUnchanged:true,minimumSurfaceSetback:.6}};
 }
 const signedArea=p=>p.reduce((s,a,i)=>{const b=p[(i+1)%p.length];return s+a[0]*b[1]-a[1]*b[0];},0)/2;
 export const polygonArea=p=>Math.abs(signedArea(p));

@@ -1,0 +1,53 @@
+{
+  "revision": "policy-r43",
+  "retrievedAt": "2026-10-26",
+  "status": "Planning proposals, not confirmed implementations",
+  "adaptation": "Short fictional conversations with branching player replies. No quiz, fetch quest or policy application.",
+  "sources": [
+    {
+      "title": "야르렁 요약기획안(문화, 인권, 교육취업)",
+      "url": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4",
+      "tabId": "t.7a683j9zwd6d",
+      "revisionId": "AHj4eMTHVOP9OScNmflcDiv0mHrnreyhJx2KeKjL2XXp0pLdKEp0-zQn4Zl_YJVw9vu7x6ePk5d47GFA5yLZRHrKdvTTDUFqiGTDUJ7utfw",
+      "used": true,
+      "note": "Only the supplied tab was adapted into authored conversation."
+    },
+    {
+      "title": "야르렁 요약기획안(제주4・3, 시설, 환경)",
+      "url": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw",
+      "tabId": "t.dnxbswcvr9h",
+      "revisionId": "AHj4eMQ7wh4aryyTUEGeXsN_obPn-1TbvBWMb1fpZbaHGjyLZ20xI0glvNcAVVsiIJyYRxO5TsDEleCvEbJlLf05mTSLedtQR1FoP1wNv48",
+      "used": true,
+      "note": "Only the supplied tab was adapted into authored conversation."
+    },
+    {
+      "title": "야르렁 요약기획안(학생자치, 소통, 복지)",
+      "url": "https://docs.google.com/document/d/1S6U8Z2qC_jgUYqV4znknPQt1WBf_zaqgnIQo4EYd-AU",
+      "tabId": "t.0",
+      "revisionId": "AHj4eMTUTEnSxs6skNHDfJ1pZJcWJYYJcmxBreOUkSYV-Em4WhQUKBhmVGcClZNZ7IVhLb_1u3doOVM4AXX5MBq4NASwL6nDVspUYElMv0o",
+      "used": false,
+      "note": "Supplied tab contains a blank planning template; no policy invented."
+    },
+    {
+      "title": "야르렁 요약기획안(목소리, 어플)",
+      "url": "https://docs.google.com/document/d/1RNuE4E4FGFz-o-oba5O2mbU9xEljBUsJaJsBGs9wzh0",
+      "tabId": "t.u3vqo54dd2a",
+      "revisionId": "AHj4eMTsVLT4lbA-qS4eIuDjt5gOFsuA5tOiQ_X2XE1F99P2UCe2jgFggF3ZV-zop38mdxNfy5C4AHglxh1n3kk4zZLiXUhyjj6ReRm2AZ8",
+      "used": true,
+      "note": "Only the supplied tab was adapted into authored conversation."
+    },
+    {
+      "title": "학내 에스컬레이터 설치",
+      "providedAt": "2026-10-27",
+      "source": "사용자 첨부 정책 이미지 및 직접 설명",
+      "used": true,
+      "note": "중앙도서관 오르막에 상·하행 에스컬레이터와 차양을 배치한 게임 내 정책 미리보기. 실측 설계나 설치 확정이 아니며 일정·예산은 추가하지 않음."
+    }
+  ],
+  "assignment": {
+    "memory": "정문 · 제주대 4·3 평화길",
+    "festival": "경상대 · 숨플페",
+    "voice": "학생회관 앞마당 부스 직원 · JNU상생협의회",
+    "escalator": "도서관 오르막 아래 · 학내 에스컬레이터 설치"
+  }
+}

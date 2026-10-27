@@ -5,6 +5,7 @@ export const isWalkingRoad=road=>['footway','path','steps','pedestrian'].include
 // Width is still a visual estimate, not a measured road survey.
 export const MAIN_AVENUE_LANES=4;
 export const MAIN_AVENUE_WIDTH=18;
+export const MAIN_AVENUE_SIDEWALK_WIDTH=5.8;
 export const isMainAvenueRoad=road=>['286085067','93690444'].includes(road.id);
 export function roadWidth(road){
  const supplied=parseFloat(road.tags.width);if(supplied>0)return supplied;
@@ -27,4 +28,4 @@ export function roadRenderPoints(road){
 
 // The economics access loop has no surveyed continuous sidewalk. Keep the
 // broad avenue sidewalk only up to its cross street, without paving over walls.
-export const roadSidewalkWidthAt=(road,x,z)=>road.id==='286085067'||(road.id==='93690444'&&z<=82.744)?4.2:0;
+export const roadSidewalkWidthAt=(road,x,z)=>road.id==='286085067'||(road.id==='93690444'&&z<=82.744)?MAIN_AVENUE_SIDEWALK_WIDTH:0;

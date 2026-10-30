@@ -1,4 +1,4 @@
-import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=screen-r50';
+import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=realism-r51';
 import {segmentDistance} from './navigation.js';
 
 // Free exploration uses the complete displayed map. The focus corridors below
@@ -58,7 +58,7 @@ export function createFocusWalkArea(data){
   }
   return edges;
  }
- return {regions,bounds,contains,containsRaw,outline};
+ return {regions,bounds,restricted:true,contains,containsRaw,outline};
 }
 
 export function safeFocusPosition(point,area,canStand){

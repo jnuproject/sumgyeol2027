@@ -1,23 +1,25 @@
-import {addMuseumPhotoFacade,addMuseumForecourt} from './museum-forecourt.js?v=screen-r50';
-import {addStudentHallGarden} from './student-hall-garden.js?v=screen-r50';
-import {batchStaticMeshes} from './static-mesh-batches.js?v=screen-r50';
-import {addAerialLandscape} from './aerial-landscape.js?v=screen-r50';
-import {loadSumgyeolAvatar} from './avatar.js?v=screen-r50';
-import {addAerialRoofDetails,addAerialGroundDetails} from './aerial-buildings.js?v=screen-r50';
-import {addObservedPeriphery} from './periphery.js?v=screen-r50';
-import {createSceneScope} from './scene-scope.js?v=screen-r50';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=screen-r50';
-import {addFocusDetails} from './focus-details.js?v=screen-r50';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=screen-r50';
-import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=screen-r50';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=screen-r50';
-import {addSportsGrounds} from './sports-ground.js?v=screen-r50';
+import {addMuseumPhotoFacade,addMuseumForecourt} from './museum-forecourt.js?v=realism-r51';
+import {createBuildingIdentity} from './campus-identity.js?v=realism-r51';
+import {avenueFixtures} from './campus-streets.js?v=realism-r51';
+import {addStudentHallGarden} from './student-hall-garden.js?v=realism-r51';
+import {batchStaticMeshes} from './static-mesh-batches.js?v=realism-r51';
+import {addAerialLandscape} from './aerial-landscape.js?v=realism-r51';
+import {loadSumgyeolAvatar} from './avatar.js?v=realism-r51';
+import {addAerialRoofDetails,addAerialGroundDetails} from './aerial-buildings.js?v=realism-r51';
+import {addObservedPeriphery} from './periphery.js?v=realism-r51';
+import {createSceneScope} from './scene-scope.js?v=realism-r51';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=realism-r51';
+import {addFocusDetails} from './focus-details.js?v=realism-r51';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=realism-r51';
+import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=realism-r51';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=realism-r51';
+import {addSportsGrounds} from './sports-ground.js?v=realism-r51';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=screen-r50';
-import { addVegetation } from './vegetation.js?v=screen-r50';
-import { loadCampusTerrain } from './terrain.js?v=screen-r50';
-import { addCampusEnvironment } from './environment.js?v=screen-r50';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=realism-r51';
+import { addVegetation } from './vegetation.js?v=realism-r51';
+import { loadCampusTerrain } from './terrain.js?v=realism-r51';
+import { addCampusEnvironment } from './environment.js?v=realism-r51';
 
 export async function createCampus(scene,data,{mobile=false}={}) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials({mobile}),loadCampusTerrain(data)]);const glass=glassMaterial();
@@ -25,6 +27,7 @@ const sceneScope=createSceneScope(data,{allBuildings:true}),visibleData=sceneSco
 const environment=addCampusEnvironment(scene,visibleData,terrain,surfaces,sceneScope);
 const focusWallMaterials=createFocusWallMaterials();
 const aerialBuildingStats={buildings:0,services:0,panels:0};
+const buildingIdentity=createBuildingIdentity(data);
 let foundationBase=null;const buildingBases=new Map();
 const baseAt=(x,z)=>foundationBase??terrain.heightAt(x,z);
 const unitBox=new THREE.BoxGeometry(1,1,1);
@@ -65,6 +68,7 @@ for(const b of visibleData.buildings){
  addMuseumPhotoFacade({b,height:h,panel:panelAlong,box});
  }else { if(!addFocusFacade({scene,b,height:h,panel:panelAlong,box,base:foundationBase})&&!addObservedFacade({scene,b,height:h,panel:panelAlong,box,base:foundationBase}))genericFacade(b,h); }
  const roofDetails=addAerialRoofDetails({scene,b,height:h,base:foundationBase,box});if(roofDetails.services||roofDetails.panels)aerialBuildingStats.buildings++;aerialBuildingStats.services+=roofDetails.services;aerialBuildingStats.panels+=roofDetails.panels;
+ buildingIdentity.add(scene,b,h,foundationBase);
  foundationBase=null;
 }
 // The main roadway stays open: paired basalt piers frame SIDEWALKS, never an invented road-spanning arch.
@@ -137,10 +141,13 @@ function addEntranceDetails(){
  // Entrance fixtures retained; the separate Roadview pass adds the observed canopy, median and roadside office.
  for(const side of[-1,1]){
   environment.polygon([[gateX+side*gateBridge-3,gateZ-4.5],[gateX+side*gateBridge+3,gateZ-4.5],[gateX+side*gateBridge+3,gateZ+2.5],[gateX+side*gateBridge-3,gateZ+2.5]],surfaces.paving,.055);
-  for(let z=gateZ+26;z<-150;z+=47){
-   const x=gateX+side*gateInner;foundationBase=terrain.heightAt(x,z);
+ }
+ for(const {x,z,side,drainX} of avenueFixtures(data)){
+   foundationBase=terrain.heightAt(x,z);
    box(x,4.1,z,.12,8.2,.12,'#646c6d');box(x-side*.9,8.14,z,1.9,.12,.12,'#646c6d');box(x-side*1.7,8.08,z,.65,.14,.35,'#d8dcda');obstacles.push([x,z,.4]);foundationBase=null;
-  }
+   // Flush grate by the kerb; spacing is reconstructed, no new walking obstacle.
+   box(drainX,.091,z,.36,.015,1.12,'#3b4441');
+   for(let d=-.46;d<=.46;d+=.13)box(drainX,.103,z+d,.33,.012,.035,'#87938e');
  }
  for(const side of[-1,1]){
   const plaque=document.createElement('canvas');plaque.width=128;plaque.height=512;const g=plaque.getContext('2d');g.fillStyle='#4e6557';g.fillRect(0,0,128,512);g.fillStyle='#e8e9d8';g.font='500 64px Pretendard,sans-serif';g.textAlign='center';[...'제주대학교'].forEach((letter,i)=>g.fillText(letter,64,90+i*85));
@@ -159,7 +166,7 @@ function addEntranceDetails(){
 
 }
 const mobileBatching=mobile?batchStaticMeshes(scene):null;
-return {museumForecourt,studentGarden,setOverview:value=>{vegetation.overviewCanopies.visible=value;},sports,mobileBatching,aerialBuildingStats,bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),periphery:periphery.stats,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),aerialLandscape,treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,updateTransport:focusDetails.update,conveyorAt:focusDetails.conveyorAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
+return {buildingIdentity:buildingIdentity.signs,museumForecourt,studentGarden,setOverview:value=>{vegetation.overviewCanopies.visible=value;},sports,mobileBatching,aerialBuildingStats,bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),periphery:periphery.stats,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),aerialLandscape,treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,updateTransport:focusDetails.update,conveyorAt:focusDetails.conveyorAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
 }
 
 export async function makeAvatar(scene){return loadSumgyeolAvatar(scene);}

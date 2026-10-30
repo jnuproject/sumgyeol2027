@@ -82,7 +82,7 @@
     "5493075"
   ],
   "renderedBuildingCount": 59,
-  "renderScope": "All source campus buildings and terrain restored at user request; three existing walking zones retained",
+  "renderScope": "All 65 buildings visible; walking restricted to the three original zones and connecting roads",
   "backgroundScope": "Full campus buildings visible; not a claim of measured facade geometry",
   "contextBuildingIds": [
     "471697017",
@@ -93,5 +93,6 @@
   "latestAppearanceSources": "surroundings-sources.json",
   "roadCorrection": "road-correction.json",
   "buildingSources": "building-sources.json",
-  "release": "campus-mobile-r31"
+  "release": "campus-realism-r51",
+  "boundaryDisplay": "Nearby ground line, with the same permitted area highlighted on the map"
 }

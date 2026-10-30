@@ -1,0 +1,56 @@
+{
+  "version": "realism-r51",
+  "checked": "2026-10-30",
+  "osm": {
+    "url": "https://api.openstreetmap.org/api/0.6/map?bbox=126.553,33.447,126.572,33.463",
+    "license": "ODbL 1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "downloadSha256": "94f36075da91205a816adab452218c3c3ac99032488559fd8d072d957833faf4",
+    "comparison": {
+      "node": {
+        "existing": 4342,
+        "fetched": 4342,
+        "added": 0,
+        "removed": 0,
+        "changedVersions": 0
+      },
+      "way": {
+        "existing": 321,
+        "fetched": 321,
+        "added": 0,
+        "removed": 0,
+        "changedVersions": 0
+      },
+      "relation": {
+        "existing": 13,
+        "fetched": 13,
+        "added": 0,
+        "removed": 0,
+        "changedVersions": 0
+      }
+    },
+    "decision": "No feature/version changes; retain source and previous user-confirmed alignment corrections."
+  },
+  "referenceImages": "User-supplied north and centre aerial screenshots, 2026-10-26; original imagery is not redistributed",
+  "campusReference": "https://ibsi.jejunu.ac.kr/files/ibsi/content/202601/292b4b5cf9814befa0498b78b3153db9.pdf",
+  "changes": [
+    "Restore three original walk zones without hiding background buildings",
+    "Relocate all 18 conversations into the playable route",
+    "Seven photo-traced crossing stations, interrupted lane paint and curb openings",
+    "Twelve building name plates using mapped and previously corrected identities",
+    "Avenue lamp continuity and flush roadside grates, with junction clearance"
+  ],
+  "estimates": [
+    "Crossing widths and warning pad treatment",
+    "Sign mounting, typeface and size",
+    "Lamp spacing and drainage positions; representative street detailing, not mapped OSM nodes",
+    "Existing coarse source elevation remains; no newly measured campus heights"
+  ],
+  "unchanged": [
+    "User-confirmed straight four-lane main avenue and wide sidewalks",
+    "Original green lawns with perimeter trees",
+    "Student hall reference model, booth and library escalator policy preview",
+    "Multiplayer presence/count without chat",
+    "Browser safe-area settings"
+  ]
+}

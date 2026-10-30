@@ -1,21 +1,22 @@
-import {createMultiplayerScene} from './multiplayer-scene.js?v=screen-r50';
-import {createCampusHud} from './campus-hud.js?v=screen-r50';
-import {createCampusLife} from './campus-life.js?v=screen-r50';
-import {createStoryGame} from './story-game.js?v=screen-r50';
-import {applyStudentHallReference} from './student-hall-garden.js?v=screen-r50';
-import {applySatelliteLayout} from './satellite-layout.js?v=screen-r50';
-import {simulationDelta,isTouchLayout,renderProfile,shouldClearPointerExit} from './mobile-performance.js?v=screen-r50';
-import {createTouchInput} from './touch-input.js?v=screen-r50';
-import {prepareCampusRoads} from './road-clearance.js?v=screen-r50';
-import {createCampusReflections} from './reflection-probes.js?v=screen-r50';
+import {createMultiplayerScene} from './multiplayer-scene.js?v=realism-r51';
+import {createCampusHud} from './campus-hud.js?v=realism-r51';
+import {createCampusLife} from './campus-life.js?v=realism-r51';
+import {createStoryGame} from './story-game.js?v=realism-r51';
+import {applyStudentHallReference} from './student-hall-garden.js?v=realism-r51';
+import {applySatelliteLayout} from './satellite-layout.js?v=realism-r51';
+import {simulationDelta,isTouchLayout,renderProfile,shouldClearPointerExit} from './mobile-performance.js?v=realism-r51';
+import {createTouchInput} from './touch-input.js?v=realism-r51';
+import {prepareCampusRoads} from './road-clearance.js?v=realism-r51';
+import {createCampusReflections} from './reflection-probes.js?v=realism-r51';
 import * as THREE from './three.module.js';
-import { createCampus, makeAvatar } from './world.js?v=screen-r50';
-import {isWalkingRoad} from './road-profile.js?v=screen-r50';
-import { places } from './places.js?v=screen-r50';
-import {FOCUS_SCOPE,resolveFocusStops,focusZoneLabel} from './focus-route.js?v=screen-r50';
+import { createCampus, makeAvatar } from './world.js?v=realism-r51';
+import {isWalkingRoad} from './road-profile.js?v=realism-r51';
+import { places } from './places.js?v=realism-r51';
+import {FOCUS_SCOPE,resolveFocusStops,focusZoneLabel} from './focus-route.js?v=realism-r51';
 import { walkable } from './navigation.js';
-import {createCampusWalkArea,safeFocusPosition} from './walk-area.js?v=screen-r50';
-import { advanceVertical, terrainCameraDistance, walkSpeed, advancePlanarMotion } from './movement.js?v=screen-r50';
+import {createFocusWalkArea,safeFocusPosition} from './walk-area.js?v=realism-r51';
+import {addWalkBoundary} from './walk-boundary.js?v=realism-r51';
+import { advanceVertical, terrainCameraDistance, walkSpeed, advancePlanarMotion } from './movement.js?v=realism-r51';
 
 const $=id=>document.getElementById(id);
 const dialogOpen=()=>$('dialog').open||document.body.dataset.conversation==='true';
@@ -61,7 +62,8 @@ async function initialize(){
   const {player,body,legs,arms}=avatar;player.visible=false;if(mobileClient)player.traverse(o=>{if(o.isMesh)o.castShadow=false;});
   const groundAt=(x,z)=>(campus.walkHeightAt??campus.heightAt)(x,z);
   const terrainAt=(x,z)=>campus.heightAt(x,z);
-  const walkArea=createCampusWalkArea(campus.bounds);
+  const walkArea=createFocusWalkArea(data);
+  const walkBoundary=addWalkBoundary(scene,walkArea,groundAt);
   function safeWalkStart(point){return safeFocusPosition(point,walkArea,(x,z)=>walkable(x,z,campus.walkCollisionPolygons??data.buildings)&&!campus.obstacles.some(p=>Math.hypot(x-p[0],z-p[1])<p[2]+.4));}
 
   let grounded=true,totalWalked=0,jumpCount=0,maxJumpClearance=0,blockedMoves=0;
@@ -124,7 +126,7 @@ gl_FragColor=vec4(c,1.);
     $('welcome').hidden=mode!=='welcome';$('explorer').hidden=mode!=='explore';$('walking').hidden=mode!=='walk';
     for(const id of ['mapPanel','dock','sceneCaption'])$(id).hidden=mode==='welcome';
     $('touch').hidden=mode!=='walk';$('walkKeys').hidden=mode!=='walk';player.visible=mode==='walk';
-    $('mapLegend').textContent=mode==='walk'?'내 위치 · 파란 점은 숨결':'살펴보는 장소';
+    $('mapLegend').textContent=mode==='walk'?'밝은 영역: 산책 범위 · 파란 점: 숨결':'살펴보는 장소';
     $('walkToggle').setAttribute('aria-pressed',String(mode==='walk'));
     $('dock').classList.remove('mobile-open');$('mobilePlaces').setAttribute('aria-expanded','false');body.visible=!firstPerson;avatar.shadow.visible=!firstPerson;hud.close({restore:false});resize();
   }
@@ -252,7 +254,14 @@ gl_FragColor=vec4(c,1.);
   for(const b of mapData.buildings)mapPolygon(base,b.points,FOCUS_SCOPE.buildingIds.includes(b.id)?'#008dcc':'#b4bfb1');
   base.strokeStyle='#008dcc';base.lineWidth=3;base.globalAlpha=.7;
   for(const road of data.roads.filter(r=>FOCUS_SCOPE.roadIds.includes(r.id))){base.beginPath();road.points.forEach((p,i)=>{const q=mapPoint(...p);i?base.lineTo(...q):base.moveTo(...q);});base.stroke();}base.globalAlpha=1;
-  base.fillStyle='#e8eeec';
+  // Dim out-of-route map ground using exactly the same area as movement.
+  base.fillStyle='#384d4d55';
+  for(let y=0;y<440;y+=2)for(let x=0;x<440;x+=2){
+    const wx=mapBounds.minX+(x-(440-mapWidth)/2)/scale,wz=mapBounds.minZ+(y-(440-mapHeight)/2)/scale;
+    if(!walkArea.containsRaw(wx,wz))base.fillRect(x,y,2,2);
+  }
+  base.strokeStyle='#48a9bd';base.lineWidth=1;base.beginPath();
+  for(const edge of walkBoundary.edges){base.moveTo(...mapPoint(...edge[0]));base.lineTo(...mapPoint(...edge[1]));}base.stroke();
 
 
   function drawMap(){
@@ -266,6 +275,7 @@ gl_FragColor=vec4(c,1.);
   }
   function navigable(x,z){return walkArea.contains(x,z)&&walkable(x,z,campus.walkCollisionPolygons??data.buildings)&&!campus.obstacles.some(p=>Math.hypot(x-p[0],z-p[1])<p[2]+.4);}
   function updatePlayer(dt){
+    walkBoundary.update(player.position.x,player.position.z,mode==='walk'&&!photoActive);
     if(mode!=='walk')return;const active=!dialogOpen()&&!photoActive;
     let fx=active?Number(!!(keys.KeyD||keys.ArrowRight))-Number(!!(keys.KeyA||keys.ArrowLeft))+touchX:0;
     let fz=active?Number(!!(keys.KeyW||keys.ArrowUp))-Number(!!(keys.KeyS||keys.ArrowDown))+touchY:0;
@@ -362,7 +372,7 @@ gl_FragColor=vec4(c,1.);
     visitMarkers.forEach((marker,i)=>{marker.visible=false;marker.children[0].material.color.set(visited.has(places[i].id)?'#66e1ff':'#00bfff');});
     reflections.update(mode==='walk'?player.position.x:currentFocus.x,mode==='walk'?player.position.z:currentFocus.z,{night,quality,dt});
     updatePins();renderer.render(scene,camera);frame++;
-    if(frame%30===0){$('world').dataset.verification=JSON.stringify({version:'campus-screen-r50',hud:hud.metadata(),multiplayer:multiplayer.metadata(),campusLife:campusLife.metadata(),stories:stories.metadata(),museumForecourt:campus.museumForecourt,studentGarden:campus.studentGarden,cacheRevision:'screen-r50',meadowAppearance:'original-green-terrain-with-perimeter-trees-r34',satelliteLayout:data.satelliteLayout,sports:campus.sports,focusAreas:places.map(p=>p.id),selectedPlace:places[selected].id,areaCount:data.areas.length,parkingCount:data.areas.filter(a=>a.tags.amenity==='parking').length,mode,overview,perspective:firstPerson?'first':'third',position:player.position.toArray(),ground:groundAt(player.position.x,player.position.z),grounded,verticalVelocity,walked:totalWalked,jumps:jumpCount,maxJumpClearance,blockedMoves,camera:camera.position.toArray(),buildingCount:data.buildings.length,renderedBuildingIds:campus.renderedBuildingIds,renderedBuildingCount:campus.renderedBuildingIds.length,roadCount:data.roads.length,vehicleRoadCount:data.roads.filter(r=>!isWalkingRoad(r)).length,entrance:campus.observedEntrance,aerialBuildings:campus.aerialBuildingStats,aerialLandscape:campus.aerialLandscape,performance:{mobile:mobileClient,pixelRatio:renderer.getPixelRatio(),staticShadows:graphics.staticShadows,shadowSize:graphics.shadowSize,shadowRefreshes,triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,batching:campus.mobileBatching},vegetationCounts:campus.vegetationStats.counts,roadClearance:campus.environmentStats.roadClearance,roadAlignment:data.renderRoadCorrections,avatar:avatar.metadata,touch:{layout:touchLayout(),movementHeld:joystickPointer!==null,runHeld:runTouch,cameraPointers:pointers.size},movement:{phoneWalk:9,phoneRun:20,speed:Math.hypot(velocityX,velocityZ)},walkArea:{restricted:false,boundaryVisible:false,inside:walkArea.contains(player.position.x,player.position.z)},surveyDetails:campus.observedDetails,periphery:campus.periphery,reflections:reflections.stats,focusDetails:campus.focusDetails,grading:campus.terrain?.metadata?.localObservedGrading,openData:data.openDataIntegration?.source??null,terrain:campus.terrain?.metadata?.source??'AWS Terrain Tiles',webgl:renderer.capabilities.isWebGL2?'WebGL2':'WebGL'});$('world').dataset.renderedFrames=String(frame);$('world').dataset.fps=(1000/frameDuration).toFixed(1);$('world').dataset.treeCount=String(campus.treeCount);$('world').dataset.drawCalls=String(renderer.info.render.calls);$('world').dataset.playerPosition=[player.position.x.toFixed(2),player.position.y.toFixed(2),player.position.z.toFixed(2)].join(',');}
+    if(frame%30===0){$('world').dataset.verification=JSON.stringify({version:'campus-realism-r51',hud:hud.metadata(),multiplayer:multiplayer.metadata(),campusLife:campusLife.metadata(),stories:stories.metadata(),museumForecourt:campus.museumForecourt,studentGarden:campus.studentGarden,cacheRevision:'realism-r51',meadowAppearance:'original-green-terrain-with-perimeter-trees-r34',satelliteLayout:data.satelliteLayout,sports:campus.sports,focusAreas:places.map(p=>p.id),selectedPlace:places[selected].id,areaCount:data.areas.length,parkingCount:data.areas.filter(a=>a.tags.amenity==='parking').length,mode,overview,perspective:firstPerson?'first':'third',position:player.position.toArray(),ground:groundAt(player.position.x,player.position.z),grounded,verticalVelocity,walked:totalWalked,jumps:jumpCount,maxJumpClearance,blockedMoves,camera:camera.position.toArray(),buildingCount:data.buildings.length,renderedBuildingIds:campus.renderedBuildingIds,renderedBuildingCount:campus.renderedBuildingIds.length,roadCount:data.roads.length,vehicleRoadCount:data.roads.filter(r=>!isWalkingRoad(r)).length,entrance:campus.observedEntrance,aerialBuildings:campus.aerialBuildingStats,aerialLandscape:campus.aerialLandscape,performance:{mobile:mobileClient,pixelRatio:renderer.getPixelRatio(),staticShadows:graphics.staticShadows,shadowSize:graphics.shadowSize,shadowRefreshes,triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,batching:campus.mobileBatching},vegetationCounts:campus.vegetationStats.counts,roadClearance:campus.environmentStats.roadClearance,roadAlignment:data.renderRoadCorrections,avatar:avatar.metadata,touch:{layout:touchLayout(),movementHeld:joystickPointer!==null,runHeld:runTouch,cameraPointers:pointers.size},movement:{phoneWalk:9,phoneRun:20,speed:Math.hypot(velocityX,velocityZ)},walkArea:{restricted:walkArea.restricted,boundaryVisible:mode==='walk'&&!photoActive,inside:walkArea.contains(player.position.x,player.position.z)},buildingIdentity:campus.buildingIdentity,surveyDetails:campus.observedDetails,periphery:campus.periphery,reflections:reflections.stats,focusDetails:campus.focusDetails,grading:campus.terrain?.metadata?.localObservedGrading,openData:data.openDataIntegration?.source??null,terrain:campus.terrain?.metadata?.source??'AWS Terrain Tiles',webgl:renderer.capabilities.isWebGL2?'WebGL2':'WebGL'});$('world').dataset.renderedFrames=String(frame);$('world').dataset.fps=(1000/frameDuration).toFixed(1);$('world').dataset.treeCount=String(campus.treeCount);$('world').dataset.drawCalls=String(renderer.info.render.calls);$('world').dataset.playerPosition=[player.position.x.toFixed(2),player.position.y.toFixed(2),player.position.z.toFixed(2)].join(',');}
   }
   if(new URLSearchParams(location.search).get('inspect')==='1'){$('world').addEventListener('pointerdown',e=>{if(!e.altKey)return;const rect=$('world').getBoundingClientRect(),picker=new THREE.Raycaster();picker.setFromCamera(new THREE.Vector2((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1),camera);const hit=picker.intersectObjects(scene.children,true)[0];$('world').dataset.surfaceHit=JSON.stringify(hit?{name:hit.object.name,material:hit.object.material.name,color:hit.object.material.color?.getHexString(),position:hit.point.toArray()}:null);});}
   const reflections=createCampusReflections({renderer,scene,lightweight:mobileClient,heightAt:groundAt,anchors:[{name:'gate',position:campus.entrySpawn??data.spawn},{name:'economics',position:[-44,87.6]},{name:'library',position:[-104,224]},{name:'student-hall',position:[-87.8,-21]}],hidden:[player,...visitMarkers]});

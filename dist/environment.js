@@ -1,12 +1,13 @@
-import {AERIAL_MEADOW_AREA_IDS} from './aerial-landscape.js?v=screen-r50';
-import {createRoadClearance} from './road-clearance.js?v=screen-r50';
-import {cropSceneGeometry} from './scene-scope.js?v=screen-r50';
+import {AERIAL_MEADOW_AREA_IDS} from './aerial-landscape.js?v=realism-r51';
+import {campusCrossings,inCrossingApproach,splitCrossingMarking} from './campus-streets.js?v=realism-r51';
+import {createRoadClearance} from './road-clearance.js?v=realism-r51';
+import {cropSceneGeometry} from './scene-scope.js?v=realism-r51';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=screen-r50';
+import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=realism-r51';
 export {roadWidth};
 
 function geometryFrom(raw){
@@ -49,6 +50,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
  function colored(base,color){const key=base.uuid+color;if(!materialCache.has(key)){const material=base.clone();material.color.set(color);material.onBeforeCompile=base.onBeforeCompile;material.customProgramCacheKey=base.customProgramCacheKey;materialCache.set(key,material);}return materialCache.get(key);}
  const areaMaterials={reedWater:new THREE.MeshStandardMaterial({color:'#435b50',roughness:.78}),wood:colored(surfaces.grass,'#6e8d57'),grass:colored(surfaces.grass,'#a8bc80'),park:colored(surfaces.grass,'#8da876'),pitch:colored(surfaces.grass,'#88a171'),tennis:new THREE.MeshStandardMaterial({color:'#5e8590',roughness:1}),parking:colored(surfaces.asphalt,'#c9cdca'),water:new THREE.MeshStandardMaterial({color:'#789fa9',roughness:.35,metalness:.12})};
  for(const [name,material] of Object.entries(areaMaterials)){material.name="area-"+name;material.polygonOffset=false;}
+ const crossings=campusCrossings(data);
  const paintYellow=new THREE.MeshStandardMaterial({color:'#cfb45d',roughness:.9});
  const paintWhite=new THREE.MeshStandardMaterial({color:'#e4e4d8',roughness:.9});
  const roadShoulder=new THREE.MeshStandardMaterial({color:'#777b74',roughness:1});
@@ -64,7 +66,10 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
   const triangles=THREE.ShapeUtils.triangulateShape(ring.map(p=>new THREE.Vector2(...p)),[]);
   for(const tri of triangles)convex(tri.map(i=>ring[i]),material,offset,kind);
  }
- function segment(a,b,width,material,offset){append(terrain.drapeRoadSegment(a,b,width,offset),material,'road');}
+ function segment(a,b,width,material,offset){
+  const pieces=material===paintWhite||material===paintYellow?splitCrossingMarking(a,b,crossings):[[a,b]];
+  for(const [p,q] of pieces)append(terrain.drapeRoadSegment(p,q,width,offset),material,'road');
+ }
  function circle(p,radius,material,offset){const points=[];for(let i=0;i<16;i++){const angle=i*Math.PI/8;points.push([p[0]+Math.cos(angle)*radius,p[1]+Math.sin(angle)*radius]);}convex(points,material,offset);}
  for(const a of data.areas){
   const tags=a.tags;
@@ -140,7 +145,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
     const cuts=[0,1];for(const z of[data.spawn[1],data.spawn[1]+69]){const t=(z-a[1])/dz;if(t>0&&t<1)cuts.push(t);}cuts.sort((a,b)=>a-b);for(let j=1;j<cuts.length;j++){const lo=cuts[j-1],hi=cuts[j],zz=a[1]+dz*(lo+hi)/2;if(zz>=data.spawn[1]&&zz<=data.spawn[1]+69)continue;if(zz>-230)segment(...parallel(0,0,lo,hi),.12,paintYellow,.094);else for(const side of[-1,1])segment(...parallel(side*.17,side*.17,lo,hi),.12,paintYellow,.094);}
     for(const side of[-1,1]){
      band(side*(wa/2-.22),side*(wb/2-.22),.12,.12,paintWhite,.094);
-     for(let start=0;start<len;start+=1.5){const end=Math.min(len,start+1.5),t=(start+end)/2/len,w=wa+(wb-wa)*t,x=a[0]+dx*t+nx*side*(w/2+.16),z=a[1]+dz*t+nz*side*(w/2+.16);if(!atJunction(x,z,r.id)){const [p,q]=parallel(side*(wa/2+.16),side*(wb/2+.16),start/len,end/len),l=Math.hypot(q[0]-p[0],q[1]-p[1]),ox=(q[1]-p[1])/l*.125,oz=-(q[0]-p[0])/l*.125,ring=[[p[0]-ox,p[1]-oz],[q[0]-ox,q[1]-oz],[q[0]+ox,q[1]+oz],[p[0]+ox,p[1]+oz]];if(ring.some(p=>onVehicleRoad(...p)))continue;polygon(ring,kerb,.18,'road');kerbBlocks.push([p,q]);}}
+     for(let start=0;start<len;start+=1.5){const end=Math.min(len,start+1.5),t=(start+end)/2/len,w=wa+(wb-wa)*t,x=a[0]+dx*t+nx*side*(w/2+.16),z=a[1]+dz*t+nz*side*(w/2+.16);if(!atJunction(x,z,r.id)&&!inCrossingApproach(x,z,crossings)){const [p,q]=parallel(side*(wa/2+.16),side*(wb/2+.16),start/len,end/len),l=Math.hypot(q[0]-p[0],q[1]-p[1]),ox=(q[1]-p[1])/l*.125,oz=-(q[0]-p[0])/l*.125,ring=[[p[0]-ox,p[1]-oz],[q[0]-ox,q[1]-oz],[q[0]+ox,q[1]+oz],[p[0]+ox,p[1]+oz]];if(ring.some(p=>onVehicleRoad(...p)))continue;polygon(ring,kerb,.18,'road');kerbBlocks.push([p,q]);}}
     }
     // One dashed divider per direction: two uphill + two downhill lanes.
     if(r.id==='286085067'||Math.min(wa,wb)>=14)for(let d=Math.floor((arc-5.5)/9)*9+4;d<arc+len+1.5;d+=9){const start=Math.max(0,(d-1.5-arc)/len),end=Math.min(1,(d+1.5-arc)/len);if(end<=start)continue;for(const side of[-1,1])segment(...parallel(side*wa/4,side*wb/4,start,end),.15,paintWhite,.095);}

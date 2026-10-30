@@ -1,13 +1,13 @@
-import {insideStudentGarden} from './student-hall-garden.js?v=together-r49';
-import {SATELLITE_LAWNS} from './satellite-layout.js?v=together-r49';
-import {spatialInstanceBatches} from './spatial-instances.js?v=together-r49';
-import {AERIAL_LAWN_EDGE_TREES,AERIAL_GROVES,AERIAL_PATHS,AERIAL_SPECIMEN_TREES,MANAGED_AREA_IDS,insideAerialOpenLawn} from './aerial-landscape.js?v=together-r49';
-import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=together-r49';
-import {insideFocusClearance} from './focus-details.js?v=together-r49';
+import {insideStudentGarden} from './student-hall-garden.js?v=screen-r50';
+import {SATELLITE_LAWNS} from './satellite-layout.js?v=screen-r50';
+import {spatialInstanceBatches} from './spatial-instances.js?v=screen-r50';
+import {AERIAL_LAWN_EDGE_TREES,AERIAL_GROVES,AERIAL_PATHS,AERIAL_SPECIMEN_TREES,MANAGED_AREA_IDS,insideAerialOpenLawn} from './aerial-landscape.js?v=screen-r50';
+import {OBSERVED_GROUND_PATCHES} from './spatial-layout.js?v=screen-r50';
+import {insideFocusClearance} from './focus-details.js?v=screen-r50';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {insideEntranceOffice} from './entrance-observed.js?v=together-r49';
-import {roadWidth,roadWidthAt,roadSidewalkWidthAt} from './road-profile.js?v=together-r49';
+import {insideEntranceOffice} from './entrance-observed.js?v=screen-r50';
+import {roadWidth,roadWidthAt,roadSidewalkWidthAt} from './road-profile.js?v=screen-r50';
 
 // OSM supplies the woodland/park extents. Individual trees, canopy sizes and
 // the photo-informed entrance avenue remain a deterministic visual reconstruction.

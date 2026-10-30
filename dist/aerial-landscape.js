@@ -1,6 +1,6 @@
-import {MUSEUM_WALKS,MUSEUM_TREES} from './museum-forecourt.js?v=together-r49';
-import {STUDENT_GARDEN_PATHS,STUDENT_GARDEN_TREES} from './student-hall-garden.js?v=together-r49';
-import {SATELLITE_LAWNS} from './satellite-layout.js?v=together-r49';
+import {MUSEUM_WALKS,MUSEUM_TREES} from './museum-forecourt.js?v=screen-r50';
+import {STUDENT_GARDEN_PATHS,STUDENT_GARDEN_TREES} from './student-hall-garden.js?v=screen-r50';
+import {SATELLITE_LAWNS} from './satellite-layout.js?v=screen-r50';
 // Independent reconstruction after viewing Kakao Skyview's selected latest
 // mosaic on 2026-10-26 KST. Displayed image date is not certified per pixel.
 // Boundaries/crowns are visual estimates tied to existing OSM landmarks.

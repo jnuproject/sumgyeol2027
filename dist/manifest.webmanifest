@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "숨결 · 캠퍼스 산책",
+  "short_name": "숨결 산책",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#a8c2d0",
+  "theme_color": "#a8c2d0",
+  "icons": [
+    {
+      "src": "assets/campus-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

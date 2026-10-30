@@ -1,6 +1,6 @@
 {
-  "version": "campus-together-r49",
-  "cacheRevision": "together-r49",
+  "version": "campus-screen-r50",
+  "cacheRevision": "screen-r50",
   "files": [
     {
       "path": ".nojekyll",
@@ -14,13 +14,13 @@
     },
     {
       "path": "aerial-buildings.js",
-      "bytes": 2312,
-      "sha256": "2be468f3dc67b9e3a45df656c9475112cc14e05a34ec0ebe6f9b20acf850374a"
+      "bytes": 2310,
+      "sha256": "63e16d3c5727652283e22e241e40fb85512fef39745cf88e3daa5d1a5e20791b"
     },
     {
       "path": "aerial-landscape.js",
-      "bytes": 4795,
-      "sha256": "5aba10b5f6d1b575a6eb34df126753a8eaf3a39a5bc5e2ba1e0cc7b747a972c9"
+      "bytes": 4789,
+      "sha256": "adf02e27d5d0f5e3659978d13278c40bdf25f705976e229cef70d0ea0e8a65aa"
     },
     {
       "path": "assets/PRETENDARD-LICENSE.txt",
@@ -36,6 +36,11 @@
       "path": "assets/README.md",
       "bytes": 589,
       "sha256": "3794b3d8b8248c83290b0daaeba6ff44aa73bb9cf6f608d18b405c8051f843e7"
+    },
+    {
+      "path": "assets/campus-app-icon.svg",
+      "bytes": 101371,
+      "sha256": "19c4f0b2348cb91fce2b52f5a4f54cd5379fe5bcdcf9a12fef8a4313976bdbb1"
     },
     {
       "path": "assets/campus-outline.svg",
@@ -169,8 +174,8 @@
     },
     {
       "path": "avatar.js",
-      "bytes": 7136,
-      "sha256": "7f39d95f4fd314cffeba0f6e4cdaa8dca4992c7d00b375411495397072f7d100"
+      "bytes": 7134,
+      "sha256": "fc6966bfc65753464e286d982842e3bbc231b8f2e843e170bf88c94fff994755"
     },
     {
       "path": "building-sources.json",
@@ -189,8 +194,8 @@
     },
     {
       "path": "campus-escalator.js",
-      "bytes": 10013,
-      "sha256": "25bf24bd61f92223db100f3fd0574e542a112f2585e4b5aa79d17dd6c0c6c1d2"
+      "bytes": 10009,
+      "sha256": "8b7aa2e264cb0a20861a01896aa034587f28493f8bb2f816e13d30af84c2a8ab"
     },
     {
       "path": "campus-hud.js",
@@ -199,13 +204,13 @@
     },
     {
       "path": "campus-life.js",
-      "bytes": 15610,
-      "sha256": "8daf2184323a1781bd05e9879cd9431f69b81d27bcfa01bf5f730cbe4b026c6f"
+      "bytes": 15606,
+      "sha256": "4ddb8b9411974b48bfa18a393b69bdd373952d938189b8a5b75056b7a4d47d0b"
     },
     {
       "path": "campus-observed-details.js",
-      "bytes": 7061,
-      "sha256": "ca55155236b2d5ad73f20e126fd55c93d302affc8892cb28a6674df27168f4a5"
+      "bytes": 7059,
+      "sha256": "48964a1f432f5e404ec28d7e2b9947e08d3011426fe0b0de083835b91268597f"
     },
     {
       "path": "campus-survey.json",
@@ -229,13 +234,13 @@
     },
     {
       "path": "entrance-observed.js",
-      "bytes": 9016,
-      "sha256": "1726fb556ac4e666e9e5c95769f35760678b0404001eee8c9228b708af249d9a"
+      "bytes": 9014,
+      "sha256": "2e25a2628e3f255ff33c7f69a0716436d3e6b0c6b8fa058d5a71972495f5a19c"
     },
     {
       "path": "environment.js",
-      "bytes": 15891,
-      "sha256": "8a7dd07ecdccf428ead12e3e199b650fe07710e681b2017521b7de4bca5f01d1"
+      "bytes": 15883,
+      "sha256": "7892fe6b5491740bb41c4c74310430248fa151871cf5aaa1b564b58ee0e93c8a"
     },
     {
       "path": "focus-architecture.js",
@@ -249,13 +254,13 @@
     },
     {
       "path": "focus-details.js",
-      "bytes": 21081,
-      "sha256": "10cfd767c9b933d49d460eed6c989ad183bd663da304cc0d88c77ea88b8950c3"
+      "bytes": 21077,
+      "sha256": "2d0b5d81245ca8848f9277f91c3eb07e46b83900bb97fb47472d4df90313b9a4"
     },
     {
       "path": "focus-route.js",
-      "bytes": 2055,
-      "sha256": "f18e0a320d0628475854cdb60001c836218a8f4e2710cdce6cafd7028047cfbf"
+      "bytes": 2053,
+      "sha256": "1416bde952208aff7d43866c240758bd1cba80e2f11d7c18f5fedbe0d9aa556a"
     },
     {
       "path": "focus-scope.json",
@@ -264,8 +269,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 58444,
-      "sha256": "6d7b2af5ca733f7ab7f7d0a18f9289eaab4d6257de52e0038dc7c20b96116403"
+      "bytes": 58408,
+      "sha256": "e7837d586a5b036c3c4088307632842a8c75bfe2d515adbe9d365eb9b397070a"
     },
     {
       "path": "identity-sources.json",
@@ -274,13 +279,18 @@
     },
     {
       "path": "index.html",
-      "bytes": 12376,
-      "sha256": "1028950413ba55551fb8225e022792a25eb1168e203f31b02f9089fc7911495d"
+      "bytes": 12689,
+      "sha256": "f472c2fd06e02f8ce738ea57bbfb4cd10151b4f1d2168b9a873f821c25fa3795"
     },
     {
       "path": "landscape-sources.json",
       "bytes": 2920,
       "sha256": "8b63434886f7df61c5d3639dc7e63f1056f86ce917422946e1a083203a301606"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "bytes": 391,
+      "sha256": "1ed030d4dc26bbe3bbe34621c9b0e99eda3c043b562bcec096539fbfe7caa0f1"
     },
     {
       "path": "materials.js",
@@ -299,8 +309,8 @@
     },
     {
       "path": "mobile-play.css",
-      "bytes": 6020,
-      "sha256": "28dcdda5d4d13501b532a803dcf910693c5583003cef7bedaad9521c6e4de2bc"
+      "bytes": 6385,
+      "sha256": "fca2485f8e8bf99af4061a9bb5f949af4c4c9a96e643ce4160665e051c2c84b5"
     },
     {
       "path": "model-preview.html",
@@ -334,8 +344,8 @@
     },
     {
       "path": "museum-forecourt.js",
-      "bytes": 5651,
-      "sha256": "b08d4671ab0bd5d4c05663d42230548d858cc11b39afca3e1b1f6d1417c771ff"
+      "bytes": 5649,
+      "sha256": "53ab37fee4636533e7bd64f3224e2e2e1bf5c554e6173fea8da4824c0a82cbf9"
     },
     {
       "path": "navigation.js",
@@ -364,8 +374,8 @@
     },
     {
       "path": "periphery.js",
-      "bytes": 4545,
-      "sha256": "d7e5d186c99d8e5f32fe15bf9d2f009c4e0f50700b97cb8d9dd4fd162d04f12d"
+      "bytes": 4541,
+      "sha256": "fd408bec68c4acb9d20ebfcd86551ce56cafb5d17d76aebb4b044084edf5c24b"
     },
     {
       "path": "places.js",
@@ -374,8 +384,8 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 11438,
-      "sha256": "1d344ff32a036435585613c529dabbeb973bce11d5149eee8410b4c9bd14d9bc"
+      "bytes": 11434,
+      "sha256": "783a3da572593c9368328ab6ea5e9c2348959bb1a203ffae4936e22ccfdc281e"
     },
     {
       "path": "policy-encounters.js",
@@ -479,8 +489,8 @@
     },
     {
       "path": "story-game.js",
-      "bytes": 13497,
-      "sha256": "4e572de0cc30ae67c4117faff020cff662c102a65538c9774bfcd3f857a17a51"
+      "bytes": 13491,
+      "sha256": "2668fa4e49063bac075a465f638fdf29335ffb278bda1881bf917f67f622612b"
     },
     {
       "path": "student-hall-garden.js",
@@ -519,8 +529,8 @@
     },
     {
       "path": "terrain.js",
-      "bytes": 10250,
-      "sha256": "c9dce5b798d4de84a79f85778d6f37e5deacd7a5c36f8e20298113c012ec42c9"
+      "bytes": 10248,
+      "sha256": "64f0478ff545209ec8e114786ab5921c48dd8428fb96e97bf2ce6a5e6dab3a70"
     },
     {
       "path": "three.module.js",
@@ -534,8 +544,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 17643,
-      "sha256": "06b0493fc03f89e2e3720adef66112cc50127a8a13973741978ffd8c86b89096"
+      "bytes": 17627,
+      "sha256": "fda1d7a78a5a4a437d956d4e1f025aee4b5b3fa01de2cdbed725f97a5c0bb8f9"
     },
     {
       "path": "vendor/FBXLoader.js",
@@ -579,18 +589,18 @@
     },
     {
       "path": "walk-area.js",
-      "bytes": 4245,
-      "sha256": "367b83b7d85785fadd5fe81e364df88891516793c65edba1ad3c2b3b943c0ca1"
+      "bytes": 4243,
+      "sha256": "0815ad51bb2e6cb0fbc775401eec27db425a96db2b5a3c82ad1c3453133560a8"
     },
     {
       "path": "walk.html",
-      "bytes": 12376,
-      "sha256": "1028950413ba55551fb8225e022792a25eb1168e203f31b02f9089fc7911495d"
+      "bytes": 12689,
+      "sha256": "f472c2fd06e02f8ce738ea57bbfb4cd10151b4f1d2168b9a873f821c25fa3795"
     },
     {
       "path": "world.js",
-      "bytes": 17796,
-      "sha256": "7e3ceb4059183fbfcf8d0822f92dccf5fc6e278a8cc3f9c48fb684cd90f4eb3d"
+      "bytes": 17760,
+      "sha256": "67a069e1551dd53c5d7d9b64a41602b5ab89897112d2bd74a76a319bc25b632c"
     }
   ]
 }

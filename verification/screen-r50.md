@@ -1,0 +1,1 @@
+100개 기존 검사 통과. 산책 제한 복구 시도는 사용자 정정에 따라 배포 전에 취소했으며 구역·NPC 좌표·게임 로직은 r49와 동일하다(캐시 태그 제외). viewport-fit=cover, apple-mobile-web-app-capable, black-translucent 상태바, standalone manifest를 적용. 캔버스는 고정 전체 웹뷰; 컨트롤에만 안전 여백 적용. 고정 theme-color 제거. 일반 브라우저 자체 도구막대 투명도나 물리적 iOS 결과를 검증했다고 주장하지 않는다.

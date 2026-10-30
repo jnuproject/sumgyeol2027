@@ -44,3 +44,8 @@ body[data-touch=true] .photo-tools{bottom:calc(20px + env(safe-area-inset-bottom
 body[data-hud-panel=map] .story-talk,body[data-hud-panel=places] .story-talk,body[data-hud-panel=more] .story-talk{visibility:hidden}
 
 #onlineCount{position:fixed;left:max(18px,env(safe-area-inset-left));top:calc(78px + env(safe-area-inset-top));z-index:12;padding:7px 12px;border-radius:20px;background:#f4fcfff0;color:#176c82;font:600 12px sans-serif;pointer-events:none;box-shadow:0 2px 12px #134d6115}#onlineCount[data-state=connected]::before{content:'●';color:#32ad7b;margin-right:6px}body[data-photo=true] #onlineCount,body[data-conversation=true] #onlineCount,body[data-mode=welcome] #onlineCount{display:none}
+
+/* Paint the scene to the web-view edges. Insets protect controls, not the background. */
+html,body{padding:0!important;background:transparent;overscroll-behavior:none}
+#world{position:fixed;inset:0;margin:0;max-width:none;max-height:none}
+@media(display-mode:standalone){html,body{width:100%;height:100%;min-height:100dvh}.scene-vignette{position:fixed;inset:0}}

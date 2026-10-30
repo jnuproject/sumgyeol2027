@@ -1,5 +1,5 @@
 {
-  "revision": "friends-r53",
+  "revision": "player-r54",
   "collection": [
     "바람방울",
     "귤요정",
@@ -8,8 +8,8 @@
     "새싹콩"
   ],
   "model": "Original procedural Three.js geometry for all five species. No human model is loaded by the runtime. Historical Kenney files and licenses remain archived in the repository.",
-  "selection": "mascot.html; also available from More → 캐릭터 고르기. Selection is stored locally and reflected in the game URL.",
-  "scope": "Default player, policy guides, ordinary walking friends, seated friends, volunteers and remote players all use this collection.",
+  "selection": "No player selection. URL character values and former local preferences are ignored. Old mascot.html links redirect directly into the game.",
+  "scope": "All local and remote players are wind droplets. Citrus, stone guardian, cloud and sprout are NPC-only, including walking, seated, policy and volunteer roles.",
   "animation": [
     "idle",
     "walk",
@@ -22,22 +22,13 @@
   ],
   "brand": "Existing original Sumgyeol symbol on backpacks; native proportions preserved. Separate brand rights are not relicensed as CC0.",
   "performance": "Shared geometry/materials per species. Distant standing companions use one merged coloured mesh; nearby friends retain animated face and limbs. Seated characters use a dedicated pose and .74 visual scale with their underside aligned to the actual seat height.",
-  "multiplayer": "A validated integer species index (0–4) is added to existing protocol-1 presence metadata. Movement messages and the no-chat whitelist remain unchanged. Old clients remain compatible; legacy appearances default to wind.",
+  "multiplayer": "Players always broadcast the wind species index and render remote players as wind, including old clients carrying another appearance. Movement, connection counts and no-chat validation are unchanged.",
   "verification": {
     "testsPassed": 114,
-    "liveTwoClientPresence": "passed in isolated ephemeral room: citrus and sprout received each other correctly; both counted 2",
-    "viewports": [
-      [
-        1280,
-        720
-      ],
-      [
-        390,
-        844
-      ]
-    ],
-    "mobileBoothObservedDrawCalls": 213,
-    "mobileBoothObservedTriangles": 1161339,
+    "playerInvariant": "wind even when legacy kind or character query is supplied",
+    "npcSpecies": 4,
+    "humanCharacters": 0,
+    "legacyRemoteAppearance": "rendered as wind",
     "physicalPhoneTested": false
   }
 }

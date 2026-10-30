@@ -19,7 +19,6 @@ export function createCampusHud({mode,hasPlaceCard,clearInput}){
  document.addEventListener('keydown',event=>{if(event.code==='Escape'&&current){const trigger=$(buttons[current]);close();clearInput();trigger.focus({preventScroll:true});}});
  document.addEventListener('pointerdown',event=>{if(current&&!event.target.closest('#mapPanel,#dock,#hudPanel,#hudMap,#hudPlaces,#hudMore'))close();});
  for(const [id,target]of Object.entries({hudHelp:'help',hudSettings:'settings',hudTime:'time',hudPhoto:'photo',hudPerspective:'perspective',hudAbout:'about'}))$(id).onclick=()=>{close();$(target).click();};
- $('hudCharacter').onclick=()=>{close();location.href='./mascot.html';};
  $('hudHome').onclick=()=>{close();$('home').click();};
  return {close,toggle,metadata:()=>({panel:current,openPanels:Object.values(panels).filter(id=>!$(id).hidden)})};
 }

@@ -1,13 +1,13 @@
-import {AERIAL_MEADOW_AREA_IDS} from './aerial-landscape.js?v=friends-r53';
-import {campusCrossings,inCrossingApproach,splitCrossingMarking} from './campus-streets.js?v=friends-r53';
-import {createRoadClearance} from './road-clearance.js?v=friends-r53';
-import {cropSceneGeometry} from './scene-scope.js?v=friends-r53';
+import {AERIAL_MEADOW_AREA_IDS} from './aerial-landscape.js?v=player-r54';
+import {campusCrossings,inCrossingApproach,splitCrossingMarking} from './campus-streets.js?v=player-r54';
+import {createRoadClearance} from './road-clearance.js?v=player-r54';
+import {cropSceneGeometry} from './scene-scope.js?v=player-r54';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 
 // OSM centre lines and area outlines are retained. Widths, kerbs and markings
 // remain visual estimates; the elevation source is a coarse terrain product.
-import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=friends-r53';
+import {roadWidth,roadWidthAt,roadRenderPoints,roadSidewalkWidthAt,isMainAvenueRoad,isWalkingRoad as isWalking} from './road-profile.js?v=player-r54';
 export {roadWidth};
 
 function geometryFrom(raw){

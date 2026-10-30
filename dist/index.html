@@ -6,10 +6,10 @@
   <title>숨결 · 캠퍼스 산책</title>
   <link rel="icon" type="image/png" href="assets/sumgyeol_symbol_blue.png">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="sumgyeol.css?v=friends-r53">
-  <link rel="stylesheet" href="story-game.css?v=friends-r53">
-  <link rel="stylesheet" href="quiet-hud.css?v=friends-r53">
-  <link rel="stylesheet" href="mobile-play.css?v=friends-r53">
+  <link rel="stylesheet" href="sumgyeol.css?v=player-r54">
+  <link rel="stylesheet" href="story-game.css?v=player-r54">
+  <link rel="stylesheet" href="quiet-hud.css?v=player-r54">
+  <link rel="stylesheet" href="mobile-play.css?v=player-r54">
 </head>
 <body data-mode="loading" data-ready="false">
   <canvas id="world" aria-label="제주대학교 아라캠퍼스 3D 지도" tabindex="0"></canvas>
@@ -54,7 +54,7 @@
   </main>
 
   <section id="hudPanel" class="hud-panel" aria-label="산책 도구" hidden>
-    <button id="hudRecord">나눈 이야기</button><button id="hudHelp">조작 안내</button><button id="hudCharacter">캐릭터 고르기</button><button id="hudSettings">화면 설정</button><button id="hudTime">시간대 바꾸기</button><button id="hudPhoto">사진 찍기</button><button id="hudPerspective">시점 바꾸기</button><button id="hudHome">산책 메뉴</button><button id="hudAbout">지도·제작 안내</button>
+    <button id="hudRecord">나눈 이야기</button><button id="hudHelp">조작 안내</button><button id="hudSettings">화면 설정</button><button id="hudTime">시간대 바꾸기</button><button id="hudPhoto">사진 찍기</button><button id="hudPerspective">시점 바꾸기</button><button id="hudHome">산책 메뉴</button><button id="hudAbout">지도·제작 안내</button>
   </section>
   <div id="hotspots" aria-label="캠퍼스의 주요 장소"></div>
   <section id="explorer" class="explorer" aria-label="캠퍼스 장소 둘러보기" hidden>
@@ -91,6 +91,6 @@
   <div id="toast" role="status" aria-live="polite"></div>
   <dialog id="dialog" aria-labelledby="dialogTitle"><button id="closeDialog" class="dialog-close" aria-label="닫기">×</button><div class="eyebrow">숨결 · 캠퍼스 산책</div><h2 id="dialogTitle"></h2><div id="dialogBody"></div></dialog>
   <section id="error" class="error-panel" hidden role="alert"><span class="eyebrow">잠시만요</span><h2>캠퍼스를 불러오지 못했어요.</h2><p id="errorMessage">WebGL을 지원하는 최신 브라우저에서 다시 열어주세요.</p><button id="retry" class="primary">다시 시도하기 ↗</button></section>
-  <script type="module" src="game.js?v=friends-r53"></script>
+  <script type="module" src="game.js?v=player-r54"></script>
 </body>
 </html>

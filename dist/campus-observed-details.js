@@ -1,7 +1,7 @@
-import {addCampusCrossings} from './campus-streets.js?v=friends-r53';
+import {addCampusCrossings} from './campus-streets.js?v=player-r54';
 import * as THREE from './three.module.js';
 import {insidePolygon,segmentDistance} from './navigation.js';
-import {roadWidth,roadWidthAt} from './road-profile.js?v=friends-r53';
+import {roadWidth,roadWidthAt} from './road-profile.js?v=player-r54';
 
 // Original geometry based on the named Roadview observations in campus-survey.json.
 // Positions and dimensions are approximations anchored to existing OSM footprints.

@@ -4,12 +4,12 @@ import * as THREE from '../dist/three.module.js';
 import {createMascotPopulation} from '../dist/mascot-population.js';
 import {createWindMascotFactory,MASCOT_KINDS} from '../dist/wind-mascot.js';
 
-test('all population roles use five distinct nonhuman species, including legacy student options',()=>{
+test('player is always wind while all NPC roles use the other four species',()=>{
  const scene=new THREE.Scene(),population=createMascotPopulation(scene,{kind:'citrus'}),species=new Set();
- assert.equal(population.metadata.species,'citrus');
+ assert.equal(population.metadata.species,'wind');
  for(let i=0;i<20;i++){const a=population.createCompanion(scene,{student:true,variant:i,seated:i%3===0});species.add(a.metadata.species);assert.equal(a.metadata.humanoid,false);a.group.traverse(o=>assert.ok(!o.isSkinnedMesh));}
- assert.equal(species.size,5);assert.equal(population.populationMetadata().humanCharacters,0);
- assert.equal(population.createCompanion(scene,{speciesIndex:2}).metadata.species,'stone');
+ assert.equal(species.size,4);assert.ok(!species.has('wind'));assert.equal(population.populationMetadata().humanCharacters,0);
+ assert.equal(population.createCompanion(scene,{remotePlayer:true,speciesIndex:2,kind:'stone'}).metadata.species,'wind');
  assert.equal(createMascotPopulation(new THREE.Scene(),{kind:'human'}).metadata.species,'wind');
 });
 test('each species sits on the actual bench seat with feet ahead of it, above the floor',()=>{

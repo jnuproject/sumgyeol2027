@@ -1,25 +1,25 @@
-import {addMuseumPhotoFacade,addMuseumForecourt} from './museum-forecourt.js?v=realism-r51';
-import {createBuildingIdentity} from './campus-identity.js?v=realism-r51';
-import {avenueFixtures} from './campus-streets.js?v=realism-r51';
-import {addStudentHallGarden} from './student-hall-garden.js?v=realism-r51';
-import {batchStaticMeshes} from './static-mesh-batches.js?v=realism-r51';
-import {addAerialLandscape} from './aerial-landscape.js?v=realism-r51';
-import {loadSumgyeolAvatar} from './avatar.js?v=realism-r51';
-import {addAerialRoofDetails,addAerialGroundDetails} from './aerial-buildings.js?v=realism-r51';
-import {addObservedPeriphery} from './periphery.js?v=realism-r51';
-import {createSceneScope} from './scene-scope.js?v=realism-r51';
-import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=realism-r51';
-import {addFocusDetails} from './focus-details.js?v=realism-r51';
-import {addCampusObservedDetails} from './campus-observed-details.js?v=realism-r51';
-import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=realism-r51';
-import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=realism-r51';
-import {addSportsGrounds} from './sports-ground.js?v=realism-r51';
+import {addMuseumPhotoFacade,addMuseumForecourt} from './museum-forecourt.js?v=mascot-r52';
+import {createBuildingIdentity} from './campus-identity.js?v=mascot-r52';
+import {avenueFixtures} from './campus-streets.js?v=mascot-r52';
+import {addStudentHallGarden} from './student-hall-garden.js?v=mascot-r52';
+import {batchStaticMeshes} from './static-mesh-batches.js?v=mascot-r52';
+import {addAerialLandscape} from './aerial-landscape.js?v=mascot-r52';
+import {loadSumgyeolAvatar} from './avatar.js?v=mascot-r52';
+import {addAerialRoofDetails,addAerialGroundDetails} from './aerial-buildings.js?v=mascot-r52';
+import {addObservedPeriphery} from './periphery.js?v=mascot-r52';
+import {createSceneScope} from './scene-scope.js?v=mascot-r52';
+import {FOCUS_BUILDING_PROFILES,createFocusWallMaterials,addFocusFacade} from './focus-architecture.js?v=mascot-r52';
+import {addFocusDetails} from './focus-details.js?v=mascot-r52';
+import {addCampusObservedDetails} from './campus-observed-details.js?v=mascot-r52';
+import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=mascot-r52';
+import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=mascot-r52';
+import {addSportsGrounds} from './sports-ground.js?v=mascot-r52';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=realism-r51';
-import { addVegetation } from './vegetation.js?v=realism-r51';
-import { loadCampusTerrain } from './terrain.js?v=realism-r51';
-import { addCampusEnvironment } from './environment.js?v=realism-r51';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=mascot-r52';
+import { addVegetation } from './vegetation.js?v=mascot-r52';
+import { loadCampusTerrain } from './terrain.js?v=mascot-r52';
+import { addCampusEnvironment } from './environment.js?v=mascot-r52';
 
 export async function createCampus(scene,data,{mobile=false}={}) {
 const [surfaces,terrain]=await Promise.all([loadCampusMaterials({mobile}),loadCampusTerrain(data)]);const glass=glassMaterial();
@@ -169,7 +169,7 @@ const mobileBatching=mobile?batchStaticMeshes(scene):null;
 return {buildingIdentity:buildingIdentity.signs,museumForecourt,studentGarden,setOverview:value=>{vegetation.overviewCanopies.visible=value;},sports,mobileBatching,aerialBuildingStats,bounds,visibleData,renderedBuildingIds:visibleData.buildings.map(b=>b.id),periphery:periphery.stats,entrySpawn:observedEntrance.entrySpawn,observedEntrance,observedDetails:observedDetails.stats,focusDetails:focusDetails.stats,focusRoutes:focusDetails.routes,walkCollisionPolygons:collisions,collisionMeshes,cameraCollisionMeshes:collisionMeshes.filter(o=>!o.userData.campusTerrain),aerialLandscape,treeCount:vegetation.treeCount,obstacles,heightAt:terrain.heightAt,walkHeightAt:focusDetails.heightAt,updateTransport:focusDetails.update,conveyorAt:focusDetails.conveyorAt,groundHeightAt:terrain.heightAt,terrain,environmentStats:environment.stats,buildingBases,vegetationStats:vegetation};
 }
 
-export async function makeAvatar(scene){return loadSumgyeolAvatar(scene);}
+export async function makeAvatar(scene,options){return loadSumgyeolAvatar(scene,options);}
 
 export function makeProceduralAvatar(scene){
  const player=new THREE.Group(),body=new THREE.Group();player.add(body);scene.add(player);player.scale.setScalar(.74);

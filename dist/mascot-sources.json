@@ -1,0 +1,18 @@
+{
+  "revision": "mascot-r52",
+  "name": "바람방울",
+  "model": "Original procedural Three.js geometry created for this project, informed by the wind-droplet concept shown in this conversation. No downloaded character model is used for this mascot.",
+  "preview": "mascot.html",
+  "gameSelection": "index.html?character=wind&view=booth",
+  "scope": "Explicit preview only: player, policy guides, booth volunteers and locally rendered remote avatars. Ordinary students and seated students keep the existing Kenney rig. The normal URL retains human characters.",
+  "motion": ["idle breathing", "walk", "run", "jump pose", "nearby greeting", "blink", "dialogue mouth"],
+  "brand": "Existing user-provided assets/sumgyeol_symbol_blue.png on the backpack, kept in its original aspect ratio. Brand rights remain separate from third-party asset licenses.",
+  "implementation": "Static coloured parts merged into one mesh; geometry and materials shared across mascot instances. Animation never translates the collision root. Booth mascot stands on a 0.32m platform so the counter does not hide its face.",
+  "verification": {
+    "testsPassed": 109,
+    "viewports": [[1280,720],[390,844]],
+    "mobileBoothDrawCallsObserved": 216,
+    "mobileJumpClearanceObservedMeters": 1.225,
+    "physicalPhoneTested": false
+  }
+}

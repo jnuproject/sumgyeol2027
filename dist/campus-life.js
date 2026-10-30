@@ -1,7 +1,7 @@
-import {batchStaticMeshes} from './static-mesh-batches.js?v=realism-r51';
+import {batchStaticMeshes} from './static-mesh-batches.js?v=mascot-r52';
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
-import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=realism-r51';
+import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=mascot-r52';
 
 // Small fictional everyday scenes, not claims that these fixtures were surveyed.
 // Keep furniture off vehicle lanes, preserve through routes and existing trees.
@@ -95,7 +95,7 @@ export function createCampusLife({scene,data,avatar,groundAt,canStand,obstacles,
    box(g,0,2.67,0,3.2,.16,2.3,'#00a9dd');box(g,0,2.48,1.14,3.2,.3,.065,'#f4fcff');panel(g,2.75,.55,2.48,1.18,'shelter');
    box(g,0,.51,.22,2.5,1.02,.62,'#ddf4fc');box(g,0,1.05,.22,2.7,.08,.79,'#e6e4d8');panel(g,2.28,.73,.53,.545,'shelter');
    for(let i=0;i<3;i++)box(g,-.8+i*.65,1.12,.27,.38,.04,.28,['#e5e9d4','#c4e7f3','#e9d9d0'][i]);
-   const staff=[p[0]-.8*Math.sin(yaw),p[1]-.8*Math.cos(yaw)];if(canStand(...staff)&&!carriageway(...staff)){const entry=student(staff,yaw,{team:true});if(key)boothStaff.set(key,{entry,position:staff,front:[p[0]+2.05*Math.sin(yaw),p[1]+2.05*Math.cos(yaw)],yaw,center:p});}
+   const staff=[p[0]-.8*Math.sin(yaw),p[1]-.8*Math.cos(yaw)];if(canStand(...staff)&&!carriageway(...staff)){const entry=student(staff,yaw,{team:true});if(avatar.metadata?.style==='sumgyeol-wind'){box(g,0,.16,-.8,.90,.32,.72,'#b6a282');entry.person.group.position.y=g.position.y+.32;}if(key)boothStaff.set(key,{entry,position:staff,front:[p[0]+2.05*Math.sin(yaw),p[1]+2.05*Math.cos(yaw)],yaw,center:p});}
   }else{
    for(const x of [-.79,.79])box(g,x,1.05,0,.055,2.1,.055,'#7a959e');box(g,0,1.35,0,1.85,1.22,.09,'#8ab3c7');panel(g,1.76,1.12,1.35,.052,kind);
   }

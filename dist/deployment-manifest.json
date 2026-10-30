@@ -1,6 +1,6 @@
 {
-  "version": "campus-realism-r51",
-  "cacheRevision": "realism-r51",
+  "version": "campus-mascot-r52",
+  "cacheRevision": "mascot-r52",
   "files": [
     {
       "path": ".nojekyll",
@@ -14,13 +14,13 @@
     },
     {
       "path": "aerial-buildings.js",
-      "bytes": 2311,
-      "sha256": "3cfa9ad44d7371fd84e7f4b62efc0d1bea9a26e08eb3269a3a54906ba22835b1"
+      "bytes": 2310,
+      "sha256": "d3052363a9957ddf4641523af3da5f0f9d95f470f082d50391d37cfaff20304a"
     },
     {
       "path": "aerial-landscape.js",
-      "bytes": 4792,
-      "sha256": "e0cea1fdb51927bc6d19de36f34392c922c091f772ecbcc9f838cd0c8846ba45"
+      "bytes": 4789,
+      "sha256": "45eee4690c95c97a9bdec0cf71368148dcaee465f1ab6a036c283b928da66b09"
     },
     {
       "path": "assets/PRETENDARD-LICENSE.txt",
@@ -174,8 +174,8 @@
     },
     {
       "path": "avatar.js",
-      "bytes": 7135,
-      "sha256": "ab2569070d2b59301d6a03e2311a6af633fef4c52af6a6474cb19dd690893244"
+      "bytes": 7931,
+      "sha256": "991683f5c8345d0c446bb6dc9e7e37ed2eb656daf3adbf217a19bd2e8089db82"
     },
     {
       "path": "building-sources.json",
@@ -194,8 +194,8 @@
     },
     {
       "path": "campus-escalator.js",
-      "bytes": 10011,
-      "sha256": "61f07f6dcdc7022e35e9a179baf5507a16492c660e73a8996648954e1368c2f0"
+      "bytes": 10009,
+      "sha256": "ed8d48271100c11446c7abbdda6a7e376dd00bfb31d29ce0de823c7ec1ed77e3"
     },
     {
       "path": "campus-hud.js",
@@ -209,13 +209,13 @@
     },
     {
       "path": "campus-life.js",
-      "bytes": 15608,
-      "sha256": "53d60aae0d6fc089c0ebd6aa009265c1b09e9d43758cfd71c938638a13eb328c"
+      "bytes": 15738,
+      "sha256": "6fa85bf531721b2d31c82909d9803716e186419b3d0426d57ceb8b5279b80ad8"
     },
     {
       "path": "campus-observed-details.js",
-      "bytes": 6509,
-      "sha256": "bbca3d29cc1628eeb2c048b8f663a3a6a6644217db3f2fd720dd3fd2014bd068"
+      "bytes": 6507,
+      "sha256": "5ddd6a7835719f497f2ec1b389681eacd94a5ef68d19a99555a9c74c93defeca"
     },
     {
       "path": "campus-realism-sources.json",
@@ -224,8 +224,8 @@
     },
     {
       "path": "campus-streets.js",
-      "bytes": 4128,
-      "sha256": "9a131ead8471b1bf3412e71c6f9eaa2a36432cb5eb804a87af52f71a303edc8b"
+      "bytes": 4126,
+      "sha256": "93ad9ee964068e62686f0c82d4610d7a0cd592bc9ced42adcca91cc137d0c215"
     },
     {
       "path": "campus-survey.json",
@@ -249,13 +249,13 @@
     },
     {
       "path": "entrance-observed.js",
-      "bytes": 9015,
-      "sha256": "c9e9cb82969e4a648438ad77c9ec7f9747d76e16830a126b554c9ff1a3d02bc0"
+      "bytes": 9014,
+      "sha256": "48a5ec4c630b4b07b9a906dfd6cd091f27a4f54c2f8ecef40dc9e226d19661c3"
     },
     {
       "path": "environment.js",
-      "bytes": 16207,
-      "sha256": "6cbb692f82eb42b52fc64b5a11837ff49e32d7e7af953afb755571b33a53f493"
+      "bytes": 16202,
+      "sha256": "7cf25ff97c5f5323ac5f6e918687127f1cb5678f5c9518fe4702c898dbff6381"
     },
     {
       "path": "focus-architecture.js",
@@ -269,13 +269,13 @@
     },
     {
       "path": "focus-details.js",
-      "bytes": 21079,
-      "sha256": "49a53a5474ea9d3a56034b12edb7057a439f9841ab1b92455c815271ebc08fe6"
+      "bytes": 21077,
+      "sha256": "bacbb25d97ec5907f5730237d4f40dbab50209a4ad34b4adfa5647e473717b6c"
     },
     {
       "path": "focus-route.js",
-      "bytes": 2054,
-      "sha256": "bf5bb6c927d0ca6193c5913ced995fa7f3665975fea068261df7a3a80361a3ea"
+      "bytes": 2053,
+      "sha256": "28a4cb199f9f4fdcc0d2a54d6bbdae91dafcf762f0656f0eb358a92e920a99a3"
     },
     {
       "path": "focus-scope.json",
@@ -284,8 +284,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 59213,
-      "sha256": "313e557ca20d6a89efd706ec0e5a6a1e24c20586575b1470e68672b0e5410ec4"
+      "bytes": 59280,
+      "sha256": "5e6285331435b020716d3c935d013b0b6711175a2d68b23f1885b02e8dbdbbb4"
     },
     {
       "path": "identity-sources.json",
@@ -294,8 +294,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 12777,
-      "sha256": "b9e3f077e1c48eaace05904c61e6f2ce5a34730ed4e2ba874ac7ccb49e36159d"
+      "bytes": 12772,
+      "sha256": "fd3a8060f800cec68959e4c74812ccd13fde90a08dc5e5f4c473f8a79b5fa11f"
     },
     {
       "path": "landscape-sources.json",
@@ -306,6 +306,21 @@
       "path": "manifest.webmanifest",
       "bytes": 391,
       "sha256": "1ed030d4dc26bbe3bbe34621c9b0e99eda3c043b562bcec096539fbfe7caa0f1"
+    },
+    {
+      "path": "mascot-preview.js",
+      "bytes": 3767,
+      "sha256": "5befedfce782e664bfdc69141a82a8797620e6942ffa41179f56a15327db81cc"
+    },
+    {
+      "path": "mascot-sources.json",
+      "bytes": 1314,
+      "sha256": "0a6d4f497ca11a14a960972ad31426af4de41ab6c89e16f6154078ca82981515"
+    },
+    {
+      "path": "mascot.html",
+      "bytes": 3453,
+      "sha256": "ec7b54185f34afbcbebbc6a335ffd735e967bc48f97c61c4a11732bb5516cc49"
     },
     {
       "path": "materials.js",
@@ -359,8 +374,8 @@
     },
     {
       "path": "museum-forecourt.js",
-      "bytes": 5650,
-      "sha256": "decb0f2174ea4290410e797aef369db92df3888f67d86b6b87e366653042728c"
+      "bytes": 5649,
+      "sha256": "97e941e5b5b465d25ccdcd2eaf73f5f7ab251c70addb136f7fe2b7b67375d2d4"
     },
     {
       "path": "navigation.js",
@@ -389,8 +404,8 @@
     },
     {
       "path": "periphery.js",
-      "bytes": 4543,
-      "sha256": "757dd1631927fe1a3fa37b38d94c23af8bb78e27b84027463083b8e44916e6e0"
+      "bytes": 4541,
+      "sha256": "238c3818256e03ead6522ed7c7e1fd956a3b030f0ef5113f603bb46b049af76b"
     },
     {
       "path": "places.js",
@@ -399,8 +414,8 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 11436,
-      "sha256": "a0809c2ca011486e50cdc69618e29e84fd3833077aac3a667ec2176a7e99a157"
+      "bytes": 11434,
+      "sha256": "b45e051edb6fc2dff1b75a3191fb0904c9f31d35b679f2d01fb3c983a88afcff"
     },
     {
       "path": "policy-encounters.js",
@@ -504,8 +519,8 @@
     },
     {
       "path": "story-game.js",
-      "bytes": 13494,
-      "sha256": "699b5d60b3beb771619be64e162d9ce6fba76ea600d13d2a04aa2ffed52df8d0"
+      "bytes": 13690,
+      "sha256": "eb0a313fc32c93dcc41a2e9ceebcb67122198702645e22cc37a2ba0722a6de5c"
     },
     {
       "path": "student-hall-garden.js",
@@ -544,8 +559,8 @@
     },
     {
       "path": "terrain.js",
-      "bytes": 10249,
-      "sha256": "2e52e2c16ac70b2908902bba5ac50cd72dc141bd5d5c50b37440feee7244269f"
+      "bytes": 10248,
+      "sha256": "cd49c4a8dac77627747e16ab000d3015e644a44c4d0bfebd1b9df14a6b3e3251"
     },
     {
       "path": "three.module.js",
@@ -559,8 +574,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 17635,
-      "sha256": "3b13fe201e0c0692b52c0e803757ff4495a011eb5241d40bd330217e98b0c5e7"
+      "bytes": 17627,
+      "sha256": "37754a7935459309cd0575a6ef97beddc675174b5b5a6abc7c33ed5817d4f630"
     },
     {
       "path": "vendor/FBXLoader.js",
@@ -604,8 +619,8 @@
     },
     {
       "path": "walk-area.js",
-      "bytes": 4260,
-      "sha256": "a7f4fe392c27390a40a42468ac3b756b23a4d4db73c5ce557b56d584cdd7000f"
+      "bytes": 4259,
+      "sha256": "5a478e238f3a8f6264707f2cfb038fa9a9ffe936d9d87c51b06d83704ef5df8d"
     },
     {
       "path": "walk-boundary.js",
@@ -614,13 +629,18 @@
     },
     {
       "path": "walk.html",
-      "bytes": 12777,
-      "sha256": "b9e3f077e1c48eaace05904c61e6f2ce5a34730ed4e2ba874ac7ccb49e36159d"
+      "bytes": 12772,
+      "sha256": "fd3a8060f800cec68959e4c74812ccd13fde90a08dc5e5f4c473f8a79b5fa11f"
+    },
+    {
+      "path": "wind-mascot.js",
+      "bytes": 7742,
+      "sha256": "0cbb4319c2cff28c844d23d1256433c473fa7b35c3d7a775d196d0541ab541ea"
     },
     {
       "path": "world.js",
-      "bytes": 18257,
-      "sha256": "d8078247ddbf26fe5acaeca2db928cdb163d7092b9268d2560cc9277d80c8554"
+      "bytes": 18253,
+      "sha256": "39e9f1ecad959cf84b9ea5a4f5f928df0d6fbfd31822ad9ee68e54bc6ac64c95"
     }
   ]
 }

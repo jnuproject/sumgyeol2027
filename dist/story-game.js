@@ -1,8 +1,8 @@
-import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=realism-r51';
+import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=mascot-r52';
 import {segmentDistance} from './navigation.js';
-import {conversationShot} from './conversation-camera.js?v=realism-r51';
+import {conversationShot} from './conversation-camera.js?v=mascot-r52';
 import * as THREE from './three.module.js';
-import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=realism-r51';
+import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=mascot-r52';
 
 export function resolveEncounterPosition(wish,{data,safePosition,occupied=[]}){
  for(const r of [0,1.8,3.6,5.4,7.2,9,12])for(let i=0;i<(r?12:1);i++){
@@ -87,7 +87,9 @@ export function createStoryGame({scene,data,avatar,player,camera,groundAt,safePo
   if(session&&dialogue.open&&typing<line.length){const before=Math.floor(typing);typing=Math.min(line.length,typing+dt*36);if(before!==Math.floor(typing)||typing===line.length){$('npcLine').textContent=line.slice(0,Math.floor(typing));controls();}}
   for(const a of actors){
    const distance=Math.hypot(player.position.x-a.position[0],player.position.z-a.position[1]);
-   a.group.visible=mode!=='welcome'&&(a===speakingActor||Math.hypot(camera.position.x-a.position[0],camera.position.z-a.position[1])<(mobile?135:220));if(a.group.visible&&distance<100)a.companion.update(Math.min(dt,.12));a.label.visible=distance<13&&active&&!dialogue.open&&!$('dialog').open;a.ring.visible=!a.booth&&distance<16&&active;a.ring.material.color.set(records[a.q.id].completed?'#48ad87':a.q.color);
+   const speaking=dialogue.open&&speakingActor?.q.id===a.q.id;
+   a.companion.setTalking?.(speaking&&typing<line.length);a.companion.setGreeting?.(distance<8&&!dialogue.open);
+   a.group.visible=mode!=='welcome'&&(speaking||Math.hypot(camera.position.x-a.position[0],camera.position.z-a.position[1])<(mobile?135:220));if(a.group.visible&&distance<100)a.companion.update(Math.min(dt,.12),{reducedMotion:reducedMotion()});a.label.visible=distance<13&&active&&!dialogue.open&&!$('dialog').open;a.ring.visible=!a.booth&&distance<16&&active;a.ring.material.color.set(records[a.q.id].completed?'#48ad87':a.q.color);
    const interaction=a.interactionPosition??a.position,interactionDistance=Math.hypot(player.position.x-interaction[0],player.position.z-interaction[1]);
    let reachable=active&&interactionDistance<(a.booth?2.8:4.8)&&Math.abs(player.position.y-a.group.position.y)<2.2;
    if(reachable)for(let k=1;k<5;k++){const t=k/5;if(!canStand(player.position.x*(1-t)+interaction[0]*t,player.position.z*(1-t)+interaction[1]*t))reachable=false;}

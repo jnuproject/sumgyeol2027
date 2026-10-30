@@ -1,7 +1,7 @@
-import {batchStaticMeshes} from './static-mesh-batches.js?v=realism-r51';
+import {batchStaticMeshes} from './static-mesh-batches.js?v=mascot-r52';
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
-import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=realism-r51';
+import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=mascot-r52';
 
 // A game preview of the user's installation policy, not an existing facility.
 export function escalatorLayout(data){

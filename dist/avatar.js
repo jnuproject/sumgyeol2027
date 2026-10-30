@@ -1,10 +1,11 @@
-import {createSeatedPose} from './seated-pose.js?v=realism-r51';
+import {createSeatedPose} from './seated-pose.js?v=mascot-r52';
 import * as THREE from './three.module.js';
 import {FBXLoader} from './vendor/FBXLoader.js';
+import {createWindMascotFactory} from './wind-mascot.js?v=mascot-r52';
 
 // Kenney Animated Characters Protagonists, CC0. The source rig and motion are
 // retained. Clothing is an edited CC0 SVG, with an independent breath motif.
-export async function loadSumgyeolAvatar(scene){
+export async function loadSumgyeolAvatar(scene,{style='human'}={}){
  const base='./assets/characters/sumgyeol/',loader=new FBXLoader();
  const [model,idle,run,jump,skinImage,brandImage]=await Promise.all([
   loader.loadAsync(base+'character.fbx'),loader.loadAsync(base+'idle.fbx'),
@@ -74,6 +75,15 @@ export async function loadSumgyeolAvatar(scene){
   function setWalking(value){if(seated||walking===value)return;walking=value;const from=value?idleAction:walkAction,to=value?walkAction:idleAction;from.fadeOut(.25);to.reset().fadeIn(.25).play();}
   function facePosition(){group.updateMatrixWorld(true);if(head){head.getWorldPosition(headPoint);offset.set(0,.12,.045).applyAxisAngle(new THREE.Vector3(0,1,0),root.rotation.y);headPoint.add(offset);}else headPoint.copy(group.position).add(new THREE.Vector3(0,1.63,0));return headPoint.toArray();}
   return {group,body:root,update,setWalking,facePosition,setSeat:options=>seatPose?.setSurface(options),seatDiagnostics:()=>seatPose?.diagnostics()};
+ }
+ if(style==='wind'){
+  scene.remove(player);
+  const symbolTexture=new THREE.Texture(brandImage);symbolTexture.colorSpace=THREE.SRGBColorSpace;symbolTexture.needsUpdate=true;
+  const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+  const wind=createWindMascotFactory({symbolTexture,motionPreference:()=>motionPreference.matches}),mascot=wind.create(scene);
+  // Ordinary students retain their seated rigs. Policy guides and visitors use
+  // the mascot only in this explicitly selected preview, without network changes.
+  return {...mascot,createCompanion:(target,options={})=>options.student||options.seated?createCompanion(target,options):wind.create(target),symbolImage:brandImage};
  }
  return {player,body,legs:[],arms:[],shadow,update,metadata,createCompanion,symbolImage:brandImage};
 }

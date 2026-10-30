@@ -1,8 +1,8 @@
-import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=mascot-r52';
+import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=friends-r53';
 import {segmentDistance} from './navigation.js';
-import {conversationShot} from './conversation-camera.js?v=mascot-r52';
+import {conversationShot} from './conversation-camera.js?v=friends-r53';
 import * as THREE from './three.module.js';
-import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=mascot-r52';
+import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=friends-r53';
 
 export function resolveEncounterPosition(wish,{data,safePosition,occupied=[]}){
  for(const r of [0,1.8,3.6,5.4,7.2,9,12])for(let i=0;i<(r?12:1);i++){
@@ -88,7 +88,7 @@ export function createStoryGame({scene,data,avatar,player,camera,groundAt,safePo
   for(const a of actors){
    const distance=Math.hypot(player.position.x-a.position[0],player.position.z-a.position[1]);
    const speaking=dialogue.open&&speakingActor?.q.id===a.q.id;
-   a.companion.setTalking?.(speaking&&typing<line.length);a.companion.setGreeting?.(distance<8&&!dialogue.open);
+   a.companion.setDetail?.(speaking||distance<25);a.companion.setTalking?.(speaking&&typing<line.length);a.companion.setGreeting?.(distance<8&&!dialogue.open);
    a.group.visible=mode!=='welcome'&&(speaking||Math.hypot(camera.position.x-a.position[0],camera.position.z-a.position[1])<(mobile?135:220));if(a.group.visible&&distance<100)a.companion.update(Math.min(dt,.12),{reducedMotion:reducedMotion()});a.label.visible=distance<13&&active&&!dialogue.open&&!$('dialog').open;a.ring.visible=!a.booth&&distance<16&&active;a.ring.material.color.set(records[a.q.id].completed?'#48ad87':a.q.color);
    const interaction=a.interactionPosition??a.position,interactionDistance=Math.hypot(player.position.x-interaction[0],player.position.z-interaction[1]);
    let reachable=active&&interactionDistance<(a.booth?2.8:4.8)&&Math.abs(player.position.y-a.group.position.y)<2.2;

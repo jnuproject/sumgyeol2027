@@ -11,6 +11,7 @@ test('remote people are pooled, interpolated, labelled, culled, and removed on d
  peers.get('one').x=5;system.update(.05,{mode:'walk'});assert(scene.children[0].position.x>3&&scene.children[0].position.x<5);
  peers.clear();system.update(.1,{mode:'walk'});assert.equal(scene.children[0].visible,false);assert.equal(system.metadata().rendered,0);
  peers.set('two',{id:'two',x:4,y:1,z:1,yaw:0,speed:0,active:true,receivedAt:performance.now()});system.update(.1,{mode:'walk'});assert.equal(created,1);
+ peers.get('two').species=2;system.update(.1,{mode:'walk'});assert.equal(created,2);assert.deepEqual(system.metadata().appearances,[2]);peers.get('two').species=0;system.update(.1,{mode:'walk'});assert.equal(created,2);assert.deepEqual(system.metadata().appearances,[0]);
  peers.get('two').x=500;system.update(.1,{mode:'walk'});assert.equal(system.metadata().rendered,0);system.dispose();assert.equal(scene.children.length,0);
  }finally{Object.assign(globalThis,previous);}
 });

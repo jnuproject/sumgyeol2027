@@ -1,4 +1,4 @@
-import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=mascot-r52';
+import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=friends-r53';
 // Three user-selected areas. Source geometry stays unchanged.
 // Walking starts/camera framing are presentation choices, not measured entrances.
 export const FOCUS_SCOPE={

@@ -1,5 +1,5 @@
-import {satellitePoint} from './satellite-layout.js?v=mascot-r52';
-import {roadWidthAt} from './road-profile.js?v=mascot-r52';
+import {satellitePoint} from './satellite-layout.js?v=friends-r53';
+import {roadWidthAt} from './road-profile.js?v=friends-r53';
 import {segmentDistance,walkable} from './navigation.js';
 
 // Crossing stations traced in the user's north/centre aerial screenshots.

@@ -7,7 +7,7 @@ test('wind mascot is finite lightweight geometry at human-compatible world scale
  const factory=createWindMascotFactory(),a=factory.create(new THREE.Scene());a.update(0,{reducedMotion:true});
  const bounds=new THREE.Box3().setFromObject(a.body),size=bounds.getSize(new THREE.Vector3());
  assert.ok(size.y>1.7&&size.y<1.85);assert.ok(bounds.min.y>=0);assert.ok(size.x<1.25);
- let meshes=0,triangles=0;a.body.traverse(o=>{if(o.isMesh){meshes++;triangles+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3;for(const n of o.geometry.attributes.position.array)assert.ok(Number.isFinite(n));}});
+ let meshes=0,triangles=0;a.body.traverse(o=>{if(o.isMesh&&o.visible){meshes++;triangles+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3;for(const n of o.geometry.attributes.position.array)assert.ok(Number.isFinite(n));}});
  assert.ok(meshes<=9);assert.ok(triangles<12000);
  const face=a.facePosition();assert.ok(face[1]>1&&face[1]<1.3);assert.ok(face[2]>.3);
 });

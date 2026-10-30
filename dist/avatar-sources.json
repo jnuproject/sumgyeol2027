@@ -88,5 +88,11 @@
     "sha256": "554c7d78c9ecb3f1f161235c9d69220f20f561d776e6ef945f5832d4097d9708",
     "application": "Original blue artwork on white cloth badges at chest and back. Back UV orientation compensated by180-degree canvas rotation.",
     "licenseSeparation": "Kenney CC0 covers the underlying model/animation/base skin; the existing Sumgyeol brand artwork has separate rights and is not relicensed as Kenney CC0."
+  },
+  "activeRuntime": {
+    "revision": "friends-r53",
+    "source": "mascot-sources.json",
+    "humanModelLoaded": false,
+    "note": "Kenney entries below are preserved historical asset provenance, not the active character loader."
   }
 }

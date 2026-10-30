@@ -1,5 +1,5 @@
 {
-  "revision": "player-r54",
+  "revision": "npc-r55",
   "collection": [
     "바람방울",
     "귤요정",
@@ -9,7 +9,7 @@
   ],
   "model": "Original procedural Three.js geometry for all five species. No human model is loaded by the runtime. Historical Kenney files and licenses remain archived in the repository.",
   "selection": "No player selection. URL character values and former local preferences are ignored. Old mascot.html links redirect directly into the game.",
-  "scope": "All local and remote players are wind droplets. Citrus, stone guardian, cloud and sprout are NPC-only, including walking, seated, policy and volunteer roles.",
+  "scope": "All local and remote players are wind droplets. NPCs mix all five species, including wind, across walking, seated, policy and volunteer roles.",
   "animation": [
     "idle",
     "walk",
@@ -24,11 +24,11 @@
   "performance": "Shared geometry/materials per species. Distant standing companions use one merged coloured mesh; nearby friends retain animated face and limbs. Seated characters use a dedicated pose and .74 visual scale with their underside aligned to the actual seat height.",
   "multiplayer": "Players always broadcast the wind species index and render remote players as wind, including old clients carrying another appearance. Movement, connection counts and no-chat validation are unchanged.",
   "verification": {
-    "testsPassed": 114,
     "playerInvariant": "wind even when legacy kind or character query is supplied",
-    "npcSpecies": 4,
+    "npcSpecies": 5,
     "humanCharacters": 0,
     "legacyRemoteAppearance": "rendered as wind",
-    "physicalPhoneTested": false
+    "physicalPhoneTested": false,
+    "targetedTestsPassed": 5
   }
 }

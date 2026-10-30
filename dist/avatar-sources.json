@@ -90,7 +90,7 @@
     "licenseSeparation": "Kenney CC0 covers the underlying model/animation/base skin; the existing Sumgyeol brand artwork has separate rights and is not relicensed as Kenney CC0."
   },
   "activeRuntime": {
-    "revision": "player-r54",
+    "revision": "npc-r55",
     "source": "mascot-sources.json",
     "humanModelLoaded": false,
     "note": "Kenney entries below are preserved historical asset provenance, not the active character loader."

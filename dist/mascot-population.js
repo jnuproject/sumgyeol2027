@@ -2,7 +2,7 @@ import {createWindMascotFactory,MASCOT_KINDS} from './wind-mascot.js?v=player-r5
 
 // One species registry for the player, policy guides, seated friends and peers.
 export function createMascotPopulation(scene,{symbolTexture=null,symbolImage=null,motionPreference=()=>false}={}){
- const npcKinds=MASCOT_KINDS.filter(s=>s.id!=='wind');
+ const npcKinds=MASCOT_KINDS;
  const factories=new Map();let serial=0;const counts=Object.fromEntries(MASCOT_KINDS.map(s=>[s.id,0]));
  function make(target,{kind:requested,variant,seated=false,remotePlayer=false,player=false}={}){
   const index=Math.abs(Math.trunc(Number.isFinite(variant)?variant:serial++))%npcKinds.length;

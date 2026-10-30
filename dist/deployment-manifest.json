@@ -1,6 +1,6 @@
 {
-  "version": "campus-player-r54",
-  "cacheRevision": "player-r54",
+  "version": "campus-npc-r55",
+  "cacheRevision": "npc-r55",
   "files": [
     {
       "path": ".nojekyll",
@@ -169,13 +169,13 @@
     },
     {
       "path": "avatar-sources.json",
-      "bytes": 3956,
-      "sha256": "a4e723b5e30134c044bc8e160cb84a784fd1db39aae633ddb96a1a893dea6c51"
+      "bytes": 3953,
+      "sha256": "48abccaca8269f987cfb806892ade9bdb59a605c8156c1810a5a59365c9aaaed"
     },
     {
       "path": "avatar.js",
-      "bytes": 581,
-      "sha256": "bd05a58d8bd993893428ac243696dc8328042094166cfbf349e51a4ebd944312"
+      "bytes": 578,
+      "sha256": "c538ae253b045f5c84e1ebdcfe4ec0e995e07fc46137eaeaab003a3f71ee9ee0"
     },
     {
       "path": "building-sources.json",
@@ -284,8 +284,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 59244,
-      "sha256": "4b94e8359f02ad55f4ab26712223690a9b4ed7833dd2ecc3b8640a58a944ff74"
+      "bytes": 59249,
+      "sha256": "e371980d386e4bbee489186c88de046d74adc1ed3a4ae767d644e48ce11e1d88"
     },
     {
       "path": "identity-sources.json",
@@ -294,8 +294,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 12772,
-      "sha256": "790498128117dcaad5dfcf76176b4f103335ed370febeddb066aabb28d89bb5b"
+      "bytes": 12769,
+      "sha256": "7004b25b449c76de4835001b05e2e84401762adc0e90edaa4b64d80fb93b1b29"
     },
     {
       "path": "landscape-sources.json",
@@ -309,18 +309,18 @@
     },
     {
       "path": "mascot-population.js",
-      "bytes": 1178,
-      "sha256": "ae4636e47fc13af527e7a48e90c98ea86ceace5d9b277a780dc71f686fda5031"
+      "bytes": 1153,
+      "sha256": "9c00b8762b5785d3699db224699dc9dbefd7e2d6d80e8c7350ce679ee9f6fc27"
     },
     {
       "path": "mascot-sources.json",
-      "bytes": 1717,
-      "sha256": "448d1aa7ab8d5a5ff559f6e3279e38f9c7487502c0bc2b61e7d99495978eccfd"
+      "bytes": 1705,
+      "sha256": "4deb8bb822bee445a25132403e9a9aa3ec6b354e7653f43ec2e4229779be7daa"
     },
     {
       "path": "mascot.html",
-      "bytes": 338,
-      "sha256": "049f5e2e980c28ada29d6d689b5d7a1eca1b50ff58950628eafee636eb29f173"
+      "bytes": 332,
+      "sha256": "0313fe718bd8107b1b369375f387dfe6cadbf42b9cddb51cefe8f9849de319e2"
     },
     {
       "path": "materials.js",
@@ -629,8 +629,8 @@
     },
     {
       "path": "walk.html",
-      "bytes": 12772,
-      "sha256": "790498128117dcaad5dfcf76176b4f103335ed370febeddb066aabb28d89bb5b"
+      "bytes": 12769,
+      "sha256": "7004b25b449c76de4835001b05e2e84401762adc0e90edaa4b64d80fb93b1b29"
     },
     {
       "path": "wind-mascot.js",
@@ -639,8 +639,8 @@
     },
     {
       "path": "world.js",
-      "bytes": 18237,
-      "sha256": "a812a4ea8c230be8220c93bff8d0459a0612fc8da0fd40407328daeaac211a19"
+      "bytes": 18234,
+      "sha256": "3a84281b561e787e917274bb24913605133923a230b329ccad9aa9c216665127"
     }
   ]
 }

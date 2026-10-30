@@ -1,6 +1,6 @@
 {
-  "version": "campus-encounters-r48",
-  "cacheRevision": "encounters-r48",
+  "version": "campus-together-r49",
+  "cacheRevision": "together-r49",
   "files": [
     {
       "path": ".nojekyll",
@@ -14,13 +14,13 @@
     },
     {
       "path": "aerial-buildings.js",
-      "bytes": 2314,
-      "sha256": "0418a357d003116dccfc878b22738cf5cdc0e42bcf5ccc6cfe6e7cc3ba457493"
+      "bytes": 2312,
+      "sha256": "2be468f3dc67b9e3a45df656c9475112cc14e05a34ec0ebe6f9b20acf850374a"
     },
     {
       "path": "aerial-landscape.js",
-      "bytes": 4801,
-      "sha256": "19cdf28cf24911569d67ed40fffc232513eb494c0b6305e3fe9c3689744e4518"
+      "bytes": 4795,
+      "sha256": "5aba10b5f6d1b575a6eb34df126753a8eaf3a39a5bc5e2ba1e0cc7b747a972c9"
     },
     {
       "path": "assets/PRETENDARD-LICENSE.txt",
@@ -169,8 +169,8 @@
     },
     {
       "path": "avatar.js",
-      "bytes": 7138,
-      "sha256": "409037bf026c029bc474b48f66ec36af3a6b2c381defccdd8560900b19b90e60"
+      "bytes": 7136,
+      "sha256": "7f39d95f4fd314cffeba0f6e4cdaa8dca4992c7d00b375411495397072f7d100"
     },
     {
       "path": "building-sources.json",
@@ -189,8 +189,8 @@
     },
     {
       "path": "campus-escalator.js",
-      "bytes": 10017,
-      "sha256": "346610746a511652f39f87a8e2c100501a3d8114e19511776872313538e43cb1"
+      "bytes": 10013,
+      "sha256": "25bf24bd61f92223db100f3fd0574e542a112f2585e4b5aa79d17dd6c0c6c1d2"
     },
     {
       "path": "campus-hud.js",
@@ -199,13 +199,13 @@
     },
     {
       "path": "campus-life.js",
-      "bytes": 15614,
-      "sha256": "4d62043db272a4aaa15bd4ea030e5dadc9947a8b09a0bf61241787b52d030356"
+      "bytes": 15610,
+      "sha256": "8daf2184323a1781bd05e9879cd9431f69b81d27bcfa01bf5f730cbe4b026c6f"
     },
     {
       "path": "campus-observed-details.js",
-      "bytes": 7063,
-      "sha256": "1570a071812d383f904cb9f38991ad73c0623eac239ccc8fe18d71709fd961c9"
+      "bytes": 7061,
+      "sha256": "ca55155236b2d5ad73f20e126fd55c93d302affc8892cb28a6674df27168f4a5"
     },
     {
       "path": "campus-survey.json",
@@ -229,13 +229,13 @@
     },
     {
       "path": "entrance-observed.js",
-      "bytes": 9018,
-      "sha256": "e447a9ee038ec31aa4d60e9253fa338bbfb2e8e36a5e1d331c5e8344c8825914"
+      "bytes": 9016,
+      "sha256": "1726fb556ac4e666e9e5c95769f35760678b0404001eee8c9228b708af249d9a"
     },
     {
       "path": "environment.js",
-      "bytes": 15899,
-      "sha256": "cea450c25c038da9c52a8f85304d7a0226e69b0a6b963995c30a2f21310bac2c"
+      "bytes": 15891,
+      "sha256": "8a7dd07ecdccf428ead12e3e199b650fe07710e681b2017521b7de4bca5f01d1"
     },
     {
       "path": "focus-architecture.js",
@@ -249,13 +249,13 @@
     },
     {
       "path": "focus-details.js",
-      "bytes": 21085,
-      "sha256": "431afd1590e9f680afe877c2f6e8274bca9cf1b362e75489bf8d2b70fb290140"
+      "bytes": 21081,
+      "sha256": "10cfd767c9b933d49d460eed6c989ad183bd663da304cc0d88c77ea88b8950c3"
     },
     {
       "path": "focus-route.js",
-      "bytes": 2057,
-      "sha256": "193314a5d129bdb30d8d3da5f7047f36d75cdf864e13f21e07631b26210b1deb"
+      "bytes": 2055,
+      "sha256": "f18e0a320d0628475854cdb60001c836218a8f4e2710cdce6cafd7028047cfbf"
     },
     {
       "path": "focus-scope.json",
@@ -264,8 +264,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 58232,
-      "sha256": "a838a2c2c7fec1825ea6d639338343c0349c67b344323676e089a05976da659f"
+      "bytes": 58444,
+      "sha256": "6d7b2af5ca733f7ab7f7d0a18f9289eaab4d6257de52e0038dc7c20b96116403"
     },
     {
       "path": "identity-sources.json",
@@ -274,8 +274,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 12386,
-      "sha256": "e0ce2424ae7e0f01ea485c8f0aeb99c4f967249e7fc7b3f73e57341bfdceb2d5"
+      "bytes": 12376,
+      "sha256": "1028950413ba55551fb8225e022792a25eb1168e203f31b02f9089fc7911495d"
     },
     {
       "path": "landscape-sources.json",
@@ -299,8 +299,8 @@
     },
     {
       "path": "mobile-play.css",
-      "bytes": 5533,
-      "sha256": "daf5110230c43f9b9487eb2e9287f38f5037d4088b1440c35c0fe974c65be9bb"
+      "bytes": 6020,
+      "sha256": "28dcdda5d4d13501b532a803dcf910693c5583003cef7bedaad9521c6e4de2bc"
     },
     {
       "path": "model-preview.html",
@@ -318,9 +318,24 @@
       "sha256": "3763cbe61e9f94e4f4c3cf9f9ddc8b2dccc5d140ae562fb6b3770e080737ea5d"
     },
     {
+      "path": "multiplayer-config.js",
+      "bytes": 262,
+      "sha256": "02dd8a2d6d727ce00918601fcbf7ce74c52fda25fa95d969319ce1e0bd43cd87"
+    },
+    {
+      "path": "multiplayer-scene.js",
+      "bytes": 3309,
+      "sha256": "1096238370f7c665278af57999bdbc08f5992c53cac259d9779d91ee75e582be"
+    },
+    {
+      "path": "multiplayer.js",
+      "bytes": 3275,
+      "sha256": "08e63fb174748281db20fa9e54693dddac888ab7399c02750ccc521dd5e98e12"
+    },
+    {
       "path": "museum-forecourt.js",
-      "bytes": 5653,
-      "sha256": "fc714d15b6d8d437c21c8a8a276b9218bf8f8166ecc223367c0f32d82759293f"
+      "bytes": 5651,
+      "sha256": "b08d4671ab0bd5d4c05663d42230548d858cc11b39afca3e1b1f6d1417c771ff"
     },
     {
       "path": "navigation.js",
@@ -349,8 +364,8 @@
     },
     {
       "path": "periphery.js",
-      "bytes": 4549,
-      "sha256": "fe687cd75fc76cfda1d470ba8519efe40e24acfd43e5b63512c943a8e79cf2dd"
+      "bytes": 4545,
+      "sha256": "d7e5d186c99d8e5f32fe15bf9d2f009c4e0f50700b97cb8d9dd4fd162d04f12d"
     },
     {
       "path": "places.js",
@@ -359,8 +374,8 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 11442,
-      "sha256": "e0295503c89250f0eb057aae6033599ee03828bef57bde760263883efc2e1998"
+      "bytes": 11438,
+      "sha256": "1d344ff32a036435585613c529dabbeb973bce11d5149eee8410b4c9bd14d9bc"
     },
     {
       "path": "policy-encounters.js",
@@ -464,8 +479,8 @@
     },
     {
       "path": "story-game.js",
-      "bytes": 13503,
-      "sha256": "7a7d0d222182756966043e706cbd7607c8a03252b7ff1d47ae2191814d305883"
+      "bytes": 13497,
+      "sha256": "4e572de0cc30ae67c4117faff020cff662c102a65538c9774bfcd3f857a17a51"
     },
     {
       "path": "student-hall-garden.js",
@@ -504,8 +519,8 @@
     },
     {
       "path": "terrain.js",
-      "bytes": 10252,
-      "sha256": "b152be3c17e96a6edf38f9e28779a3695932464e6448f42981377474c4f00a2b"
+      "bytes": 10250,
+      "sha256": "c9dce5b798d4de84a79f85778d6f37e5deacd7a5c36f8e20298113c012ec42c9"
     },
     {
       "path": "three.module.js",
@@ -519,8 +534,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 17659,
-      "sha256": "4afe77bdc36fb4eaa276f0fa403610da45e43aa4eb7f368b2d54a7df7c2bee6a"
+      "bytes": 17643,
+      "sha256": "06b0493fc03f89e2e3720adef66112cc50127a8a13973741978ffd8c86b89096"
     },
     {
       "path": "vendor/FBXLoader.js",
@@ -543,24 +558,39 @@
       "sha256": "209a4412eb48ce609edb4391992a792ffcc3983d30ee7e2b0b89a8c470f3cd8a"
     },
     {
+      "path": "vendor/realtime-LICENSE",
+      "bytes": 1065,
+      "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+    },
+    {
+      "path": "vendor/realtime-tslib-LICENSE",
+      "bytes": 644,
+      "sha256": "0e8d2550baea17eb3072c4f919b36fbf9852bb49dba948549872e713863c0834"
+    },
+    {
+      "path": "vendor/realtime.js",
+      "bytes": 35228,
+      "sha256": "e195d837888034942364370abee5b5096af8212a1ae201c0c2675f584c5339b3"
+    },
+    {
       "path": "visual-references.json",
       "bytes": 4099,
       "sha256": "4ea9f68c7a07f29f16427ecc77bf633ba322fe9b3ad338f542055040a9a56872"
     },
     {
       "path": "walk-area.js",
-      "bytes": 4247,
-      "sha256": "aed81f568da9bfe1aa473783a26928698be26d9a15e76b9d80fb80ec48e3b20c"
+      "bytes": 4245,
+      "sha256": "367b83b7d85785fadd5fe81e364df88891516793c65edba1ad3c2b3b943c0ca1"
     },
     {
       "path": "walk.html",
-      "bytes": 12386,
-      "sha256": "e0ce2424ae7e0f01ea485c8f0aeb99c4f967249e7fc7b3f73e57341bfdceb2d5"
+      "bytes": 12376,
+      "sha256": "1028950413ba55551fb8225e022792a25eb1168e203f31b02f9089fc7911495d"
     },
     {
       "path": "world.js",
-      "bytes": 17832,
-      "sha256": "b99e02c9d3cc7b0bbb240e91e28d4b0cd96ea9e9952e415504b19df110612f6f"
+      "bytes": 17796,
+      "sha256": "7e3ceb4059183fbfcf8d0822f92dccf5fc6e278a8cc3f9c48fb684cd90f4eb3d"
     }
   ]
 }

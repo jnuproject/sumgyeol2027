@@ -1,5 +1,5 @@
-import {EXTRA_POLICY_DIALOGUES} from './policy-encounters.js?v=encounters-r48';
-import {CAMPUS_DIALOGUES} from './campus-dialogues.js?v=encounters-r48';
+import {EXTRA_POLICY_DIALOGUES} from './policy-encounters.js?v=together-r49';
+import {CAMPUS_DIALOGUES} from './campus-dialogues.js?v=together-r49';
 export {CAMPUS_DIALOGUES};
 // Narrative adaptations of the user's three populated planning-document tabs and the user's escalator policy image.
 // These conversations describe proposals, not confirmed operating services.

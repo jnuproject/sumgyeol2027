@@ -1,4 +1,4 @@
-import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=encounters-r48';
+import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=together-r49';
 import {segmentDistance} from './navigation.js';
 
 // Free exploration uses the complete displayed map. The focus corridors below

@@ -1,4 +1,4 @@
-import {createSeatedPose} from './seated-pose.js?v=encounters-r48';
+import {createSeatedPose} from './seated-pose.js?v=together-r49';
 import * as THREE from './three.module.js';
 import {FBXLoader} from './vendor/FBXLoader.js';
 

@@ -1,8 +1,8 @@
-import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=encounters-r48';
+import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=together-r49';
 import {segmentDistance} from './navigation.js';
-import {conversationShot} from './conversation-camera.js?v=encounters-r48';
+import {conversationShot} from './conversation-camera.js?v=together-r49';
 import * as THREE from './three.module.js';
-import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=encounters-r48';
+import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=together-r49';
 
 export function resolveEncounterPosition(wish,{data,safePosition,occupied=[]}){
  for(const r of [0,1.8,3.6,5.4,7.2,9,12])for(let i=0;i<(r?12:1);i++){

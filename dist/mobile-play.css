@@ -42,3 +42,5 @@ body[data-touch=true] #npcPolicy{font-size:12px}body[data-touch=true] .npc-top{a
 body[data-touch=true] .photo-tools{bottom:calc(20px + env(safe-area-inset-bottom));max-width:calc(100% - 24px);padding:8px;gap:8px}body[data-touch=true] .photo-tools>span{display:none}body[data-touch=true] .photo-tools button{min-height:48px;padding:12px 20px;font-size:14px}
 
 body[data-hud-panel=map] .story-talk,body[data-hud-panel=places] .story-talk,body[data-hud-panel=more] .story-talk{visibility:hidden}
+
+#onlineCount{position:fixed;left:max(18px,env(safe-area-inset-left));top:calc(78px + env(safe-area-inset-top));z-index:12;padding:7px 12px;border-radius:20px;background:#f4fcfff0;color:#176c82;font:600 12px sans-serif;pointer-events:none;box-shadow:0 2px 12px #134d6115}#onlineCount[data-state=connected]::before{content:'●';color:#32ad7b;margin-right:6px}body[data-photo=true] #onlineCount,body[data-conversation=true] #onlineCount,body[data-mode=welcome] #onlineCount{display:none}

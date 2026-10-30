@@ -1,0 +1,16 @@
+{
+  "name": "jeju-realtime-build",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/realtime-js": "2.91.0",
+    "esbuild": "0.25.12"
+  }
+}

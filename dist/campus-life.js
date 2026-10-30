@@ -1,7 +1,7 @@
-import {batchStaticMeshes} from './static-mesh-batches.js?v=encounters-r48';
+import {batchStaticMeshes} from './static-mesh-batches.js?v=together-r49';
 import * as THREE from './three.module.js';
 import {segmentDistance} from './navigation.js';
-import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=encounters-r48';
+import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=together-r49';
 
 // Small fictional everyday scenes, not claims that these fixtures were surveyed.
 // Keep furniture off vehicle lanes, preserve through routes and existing trees.

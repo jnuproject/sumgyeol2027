@@ -7,11 +7,12 @@ test('remote people are pooled, interpolated, labelled, culled, and removed on d
  const avatar={body:new THREE.Group(),createCompanion(scene){created++;const group=new THREE.Group(),body=new THREE.Group();group.add(body);scene.add(group);return {group,body,update(){},setWalking(v){this.walking=v;}};}};
  const net={peers,update(){},disconnect(){},reconnect(){},dispose(){},metadata:()=>({connected:true,count:2})};
  try{const system=createMultiplayerScene({scene,avatar,player,camera,mobile:true,networkFactory:({onStatus})=>{onStatus({state:'connected',count:2});return net;}});
- peers.set('one',{id:'one',x:3,y:2,z:1,yaw:0,speed:2,active:true,receivedAt:performance.now()});system.update(.1,{mode:'walk'});assert.equal(created,1);assert.equal(system.metadata().rendered,1);assert.equal(scene.children[0].position.x,3);assert.equal(elements[0].textContent,'접속 2명');
- peers.get('one').x=5;system.update(.05,{mode:'walk'});assert(scene.children[0].position.x>3&&scene.children[0].position.x<5);
- peers.clear();system.update(.1,{mode:'walk'});assert.equal(scene.children[0].visible,false);assert.equal(system.metadata().rendered,0);
+ peers.set('one',{id:'one',x:3,y:2,z:1,yaw:0,speed:2,active:true,receivedAt:performance.now()});system.update(.1,{mode:'walk'});assert.equal(created,1);assert.equal(system.metadata().rendered,1);assert.equal(scene.children.find(o=>!o.isInstancedMesh).position.x,3);assert.equal(elements[0].textContent,'접속 2명');
+ peers.get('one').x=5;system.update(.05,{mode:'walk'});assert(scene.children.find(o=>!o.isInstancedMesh).position.x>3&&scene.children.find(o=>!o.isInstancedMesh).position.x<5);
+ peers.clear();system.update(.1,{mode:'walk'});assert.equal(scene.children.find(o=>!o.isInstancedMesh).visible,false);assert.equal(system.metadata().rendered,0);
  peers.set('two',{id:'two',x:4,y:1,z:1,yaw:0,speed:0,active:true,receivedAt:performance.now()});system.update(.1,{mode:'walk'});assert.equal(created,1);
  peers.get('two').species=2;system.update(.1,{mode:'walk'});assert.equal(created,1);assert.deepEqual(system.metadata().appearances,[0]);peers.get('two').species=0;system.update(.1,{mode:'walk'});assert.equal(created,1);assert.deepEqual(system.metadata().appearances,[0]);
- peers.get('two').x=500;system.update(.1,{mode:'walk'});assert.equal(system.metadata().rendered,0);system.dispose();assert.equal(scene.children.length,0);
+ peers.get('two').x=500;system.update(.1,{mode:'walk'});assert.equal(system.metadata().rendered,0);
+ peers.clear();for(let i=0;i<80;i++)peers.set('crowd-'+i,{id:'crowd-'+i,x:3+(i%10)*2,y:1,z:3+Math.floor(i/10)*2,yaw:0,speed:0,active:true,receivedAt:performance.now()});system.update(.1,{mode:'walk'});assert.equal(system.metadata().rendered,80);assert.equal(system.metadata().detailed,16);assert.equal(system.metadata().compact.rendered,64);assert.ok(system.metadata().compact.trianglesPerPlayer<1500);system.dispose();assert.equal(scene.children.length,0);
  }finally{Object.assign(globalThis,previous);}
 });

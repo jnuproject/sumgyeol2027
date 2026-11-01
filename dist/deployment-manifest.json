@@ -364,8 +364,8 @@
     },
     {
       "path": "multiplayer-scene.js",
-      "bytes": 4086,
-      "sha256": "09d8c7b903d92d60df8b4fbe1907b51edc526185a186d13dccbbf5d99ca6705b"
+      "bytes": 4514,
+      "sha256": "673d844f46c71f24637d2f4759f3b680c8f7f2c670f27cba191e7c9b18b223cd"
     },
     {
       "path": "multiplayer.js",
@@ -384,8 +384,8 @@
     },
     {
       "path": "nearby-multiplayer.js",
-      "bytes": 4675,
-      "sha256": "9cf9f160d7e518b7b944fa34a1cf56f5b8dfff10dfdf6c758d24e1eaf705739b"
+      "bytes": 4651,
+      "sha256": "45b2dd14df1aafd75b6b0f48c337c92623160810210a67f6308a7b2054c904bd"
     },
     {
       "path": "observed-campus.js",
@@ -456,6 +456,11 @@
       "path": "reflection-probes.js",
       "bytes": 3876,
       "sha256": "acf6a2a3aef0b142d60c19f563f67f9279e408817ba2e45d390f37de5949f0a4"
+    },
+    {
+      "path": "remote-crowd.js",
+      "bytes": 2740,
+      "sha256": "e48bc887ad7dd0150d5e121bdd273907336e5f0eedcb7cc4411e4adcc70c0ff5"
     },
     {
       "path": "remote-motion.js",

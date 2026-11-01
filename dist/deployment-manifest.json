@@ -1,6 +1,6 @@
 {
-  "version": "campus-dialogue-r57",
-  "cacheRevision": "dialogue-r57",
+  "version": "campus-crowd-r58",
+  "cacheRevision": "crowd-r58",
   "files": [
     {
       "path": ".nojekyll",
@@ -209,8 +209,8 @@
     },
     {
       "path": "campus-life.js",
-      "bytes": 15788,
-      "sha256": "4ac1857a19785233f4290769b64b4125bf2b365664925b02a8f3528284954b3b"
+      "bytes": 17328,
+      "sha256": "654c4c8a98b8f013a2e368a2f6cd5e35c0959e2d174ae1ea6de1831ad15f489f"
     },
     {
       "path": "campus-observed-details.js",
@@ -284,8 +284,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 59761,
-      "sha256": "52899507b9836b79e5d9a97fbe29780f351d2bae8223e254295d8d09d0f2e19e"
+      "bytes": 59754,
+      "sha256": "f58e003a8c7bcc9545002a85003e39acd9d874ab99ccd316c0bc7f8d6cedb211"
     },
     {
       "path": "identity-sources.json",
@@ -294,8 +294,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 12774,
-      "sha256": "d83f7760ed9a05d61ff012689b243e6d41d12aece51967fd6302b27a45ae418a"
+      "bytes": 12771,
+      "sha256": "58e3166d6c7673389bc372e217f44114c3ea2a05675cb4f9dd2eeb66b73a9f39"
     },
     {
       "path": "landscape-sources.json",
@@ -329,8 +329,8 @@
     },
     {
       "path": "mobile-performance-sources.json",
-      "bytes": 2859,
-      "sha256": "53bfabf86ab3fea0b912f5cf50c97703a6e03d7b529a733078fc8d76502464ae"
+      "bytes": 3388,
+      "sha256": "c003272b26700c89faa9057a27dba33ae0e239af900ff79c328a93f0858b0820"
     },
     {
       "path": "mobile-performance.js",
@@ -644,8 +644,8 @@
     },
     {
       "path": "walk.html",
-      "bytes": 12774,
-      "sha256": "d83f7760ed9a05d61ff012689b243e6d41d12aece51967fd6302b27a45ae418a"
+      "bytes": 12771,
+      "sha256": "58e3166d6c7673389bc372e217f44114c3ea2a05675cb4f9dd2eeb66b73a9f39"
     },
     {
       "path": "wind-mascot.js",

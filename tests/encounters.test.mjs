@@ -28,7 +28,7 @@ test('living scenes keep furniture and walking students out of carriageways and 
  const canStand=(x,z)=>area.contains(x,z)&&walkable(x,z,data.buildings)&&obstacles.every(p=>Math.hypot(x-p[0],z-p[1])>p[2]+.4);
  const avatar={createCompanion(scene){const group=new THREE.Group(),body=new THREE.Group();group.add(body);scene.add(group);return {group,body,update(){},setWalking(){}};}};
  const scene=new THREE.Scene(),life=createCampusLife({scene,data,avatar,groundAt:()=>0,canStand,obstacles,cameraCollisionMeshes:[],anchors:[[-72.55,-476.403],[-47,87.6],[-96.9,-18]]});
- const result=life.metadata();assert.ok(result.students>=70,'population extends beyond the three original encounters');assert.ok(result.seated>=10);assert.ok(result.walkers>=25);assert.ok(result.brandedElements>=20);assert.ok(result.fixtures.some(f=>f.kind==='sumgyeol-shelter'));assert.ok(result.fixtures.some(f=>f.kind==='sumgyeol-message'));
+ const result=life.metadata();assert.ok(result.students<=31&&result.students>=20,'background population stays small but keeps the campus inhabited');assert.ok(result.seated>=6&&result.seated<=8);assert.ok(result.walkers>=8&&result.walkers<=14);assert.ok(result.brandedElements>=20);assert.ok(result.fixtures.some(f=>f.kind==='sumgyeol-shelter'));assert.ok(result.fixtures.some(f=>f.kind==='sumgyeol-message'));
  assert.ok(result.passersBy.some(p=>p.path[0][1]<-350)&&result.passersBy.some(p=>p.path[1][1]>100),'pedestrians occupy the connecting avenue, not just NPC corners');
  assert.ok(result.fixtures.filter(f=>f.position[0]>-68&&f.position[0]<-25&&f.position[1]>86&&f.position[1]<88.65).length>=2,'economics furniture stays on paving in front of the observed hedge');
  for(const f of result.fixtures){assert.ok(walkable(...f.position,data.buildings));assert.ok(!data.roads.some(r=>!isWalkingRoad(r)&&r.points.some((p,i)=>i&&segmentDistance(...f.position,r.points[i-1],p)<roadWidthAt(r,...f.position)/2)));}
@@ -40,4 +40,17 @@ test('living scenes keep furniture and walking students out of carriageways and 
  }
  assert.ok(walking.some((o,i)=>o.position.distanceTo(initial[i])>1),'at least one passer-by really moves');
  assert.ok(life.metadata().visibleStudents<=life.metadata().visibleLimit,'the enlarged population respects the render budget');
+});
+
+test('phone crowd sleeps out of range and amortizes route checks without dropping conversations',()=>{
+ const data=prepareCampusRoads(applyStudentHallReference(applySatelliteLayout(JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.meta.url)))))),area=createFocusWalkArea(data),obstacles=[],people=[];let checks=0;
+ const canStand=(x,z)=>{checks++;return area.contains(x,z)&&walkable(x,z,data.buildings)&&obstacles.every(p=>Math.hypot(x-p[0],z-p[1])>p[2]+.4);};
+ const avatar={createCompanion(){const group=new THREE.Group(),body=new THREE.Group();group.add(body);const person={group,body,updates:0,update(){this.updates++;},setWalking(){}};people.push(person);return person;}};
+ const life=createCampusLife({scene:new THREE.Scene(),data,avatar,groundAt:()=>0,canStand,obstacles,cameraCollisionMeshes:[],anchors:[[-72.55,-476.403],[-47,87.6],[-96.9,-18]],mobile:true});
+ const focus=new THREE.Vector3(-97,0,-150),player=new THREE.Vector3(-250,0,-250);checks=0;
+ for(let i=0;i<120;i++)life.update(1/60,{mode:'walk',focus,player});
+ assert(life.metadata().visibleStudents<=8);assert(people.filter(p=>p.updates>0).length<=8);assert(people.some(p=>p.updates>90),'nearby animations remain smooth');assert(checks<450,'full route/obstacle checks are amortized rather than done at60Hz');
+ const before=people.reduce((n,p)=>n+p.updates,0);for(let i=0;i<120;i++)life.update(1/60,{mode:'welcome',focus,player});assert.equal(people.reduce((n,p)=>n+p.updates,0),before);
+ for(let i=0;i<60;i++)life.update(1/60,{mode:'walk',focus:new THREE.Vector3(2000,0,2000),player});assert.equal(life.metadata().visibleStudents,0);
+ const sleeping=people.reduce((n,p)=>n+p.updates,0);for(let i=0;i<60;i++)life.update(1/60,{mode:'walk',focus:new THREE.Vector3(2000,0,2000),player});assert.equal(people.reduce((n,p)=>n+p.updates,0),sleeping);
 });

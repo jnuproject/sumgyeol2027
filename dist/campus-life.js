@@ -8,7 +8,9 @@ import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=player-r54';
 export function createCampusLife({scene,data,avatar,groundAt,canStand,obstacles,cameraCollisionMeshes,anchors,mobile=false}){
  const root=new THREE.Group();root.name='Campus everyday life';scene.add(root);const decor=new THREE.Group(),crowd=new THREE.Group();root.add(decor,crowd);
  const materials=new Map(),mat=c=>{if(!materials.has(c))materials.set(c,new THREE.MeshStandardMaterial({color:c,roughness:.9}));return materials.get(c);};
- const students=[],fixtures=[],reservations=[],boothStaff=new Map();let variant=0,animationFrame=0;const visibleLimit=mobile?22:42;
+ const students=[],fixtures=[],reservations=[],boothStaff=new Map(),walkingRoutes=[];
+ const populationLimits={walkers:14,seated:8,standing:6},visibleLimit=mobile?8:14;
+ let variant=0,standingCount=0,seatedCount=0,rankElapsed=.25,simulationElapsed=0,ranked=[];
  const protectedPoints=[...anchors,[anchors[0][0],anchors[0][1]-7],[-44,87.6],[anchors[2][0],-21],[-104,224],[-110.8,114]];
  const carriageway=(x,z,margin=.6)=>data.roads.some(r=>!isWalkingRoad(r)&&r.points.some((b,i)=>i&&segmentDistance(x,z,r.points[i-1],b)<roadWidthAt(r,x,z)/2+margin));
  const available=(x,z)=>!(Math.abs(x+107.7)<1.6&&z>104&&z<215)&&!(x>-68&&x<3&&z>88.65&&z<92.5)&&canStand(x,z)&&!carriageway(x,z)&&protectedPoints.every(p=>Math.hypot(x-p[0],z-p[1])>1.5)&&reservations.every(o=>Math.hypot(x-o[0],z-o[1])>o[2]+.7);
@@ -33,7 +35,7 @@ export function createCampusLife({scene,data,avatar,groundAt,canStand,obstacles,
   for(let i=0;i<4;i++)box(group,0,.295,-.25+i*.17,2.25,.09,.14,'#9e8060');
   for(const y of [.63,.85])box(group,0,y,-.29,2.25,.15,.075,'#a58a6b');
   const cs=Math.cos(yaw),sn=Math.sin(yaw);
-  for(const u of people===2?[-.55,.55]:[-.45]){const seated=student([p[0]+u*cs+.1*sn,p[1]-u*sn+.1*cs],yaw,{seated:true});seated.person.group.position.y=group.position.y;seated.person.setSeat?.({seatY:group.position.y+.34,floorY:group.position.y});}
+  for(const u of people===2?[-.55,.55]:[-.45]){if(seatedCount>=populationLimits.seated)break;const seated=student([p[0]+u*cs+.1*sn,p[1]-u*sn+.1*cs],yaw,{seated:true});seatedCount++;seated.person.group.position.y=group.position.y;seated.person.setSeat?.({seatY:group.position.y+.34,floorY:group.position.y});}
   // A backpack left on the spare seat, plus a book and a drink.
   if(people===1){box(group,.57,.51,.05,.34,.38,.20,'#667d8a');box(group,.57,.72,.05,.18,.07,.10,'#405864');}
   box(group,-.1,.37,.05,.27,.025,.19,'#ede4ca');box(group,-.1,.387,.05,.24,.009,.17,'#5593a1');
@@ -54,12 +56,13 @@ export function createCampusLife({scene,data,avatar,groundAt,canStand,obstacles,
   }
   const o=[p[0],p[1],.82];obstacles.push(o);reservations.push(o);g.updateMatrixWorld(true);g.traverse(o=>{if(o.isMesh)cameraCollisionMeshes.push(o);});fixtures.push({kind:'table',position:p,yaw});
  }
- function chat(wish,yaw){const p=fit(wish,1.1,1.1);if(p){student(p,yaw);reservations.push([p[0],p[1],.35]);}}
- function walker(path,phase=0){
-  if(path.length<2)return;
-  for(let i=1;i<path.length;i++){const a=path[i-1],b=path[i],length=Math.hypot(b[0]-a[0],b[1]-a[1]);for(let d=0;d<=length;d+=.45){const t=length?d/length:0,x=a[0]+(b[0]-a[0])*t,z=a[1]+(b[1]-a[1])*t;if(!available(x,z)||anchors.some(p=>Math.hypot(x-p[0],z-p[1])<1.15))return;}}
-  const a=path[0],b=path[1],p=[a[0]+(b[0]-a[0])*phase,a[1]+(b[1]-a[1])*phase],entry=student(p,Math.atan2(b[0]-a[0],b[1]-a[1]));entry.path=path;entry.segment=0;entry.t=phase;entry.direction=variant%2?1:-1;entry.speed=.84+(variant%5)*.08;entry.pause=0;entry.person.group.name='Student walking on pedestrian route';
+ function chat(wish,yaw){if(standingCount>=populationLimits.standing)return;const p=fit(wish,1.1,1.1);if(p){student(p,yaw);standingCount++;reservations.push([p[0],p[1],.35]);}}
+ function clearRoute(path){
+  if(path.length<2)return false;
+  for(let i=1;i<path.length;i++){const a=path[i-1],b=path[i],length=Math.hypot(b[0]-a[0],b[1]-a[1]);for(let d=0;d<=length;d+=.45){const t=length?d/length:0,x=a[0]+(b[0]-a[0])*t,z=a[1]+(b[1]-a[1])*t;if(!available(x,z)||anchors.some(p=>Math.hypot(x-p[0],z-p[1])<1.15))return false;}}
+  return true;
  }
+ function walker(path,phase=0){if(clearRoute(path))walkingRoutes.push({path,phase});}
  const gate=anchors[0];
  bench([gate[0]+6.5,gate[1]+14],-.35,2);table([gate[0]+5,gate[1]+8],Math.PI);chat([gate[0]+7,gate[1]+6],-1.0);walker([[gate[0]+.8,gate[1]+10],[gate[0]+.8,gate[1]+28]],.3);
  bench([-53,88.1],Math.PI,1);table([-39,88.0],Math.PI);chat([-40.8,87.6],Math.PI/2);chat([-36.5,87.6],-Math.PI/2);walker([[-68,87],[-56,87]],.45);
@@ -113,32 +116,49 @@ export function createCampusLife({scene,data,avatar,groundAt,canStand,obstacles,
  // Split at crossroads/trees rather than sending people through obstacles.
  for(const x of [-95.1,-98.3,-71.7,-74.4]){
   let start=null,last=null;
-  const finish=()=>{if(start!==null&&last-start>=8){const n=Math.min(3,Math.max(1,Math.floor((last-start)/18)));for(let k=0;k<n;k++)walker([[x,start],[x,last]],(k+.5)/n);}start=last=null;};
+  const finish=()=>{if(start!==null&&last-start>=8)walker([[x,start],[x,last]],.5);start=last=null;};
   for(let z=-465;z<=215;z+=1.2){if(available(x,z)){if(start===null)start=z;last=z;}else finish();}finish();
  }
+ // Spread the smaller walking population across the whole route instead of
+ // filling the entrance first. No unused character models are constructed.
+ for(let i=walkingRoutes.length-1;i>=0;i--)if(!clearRoute(walkingRoutes[i].path))walkingRoutes.splice(i,1);
+ walkingRoutes.sort((a,b)=>(a.path[0][1]+a.path[1][1])-(b.path[0][1]+b.path[1][1]));
+ const walkingCount=Math.min(populationLimits.walkers,walkingRoutes.length);
+ for(let i=0;i<walkingCount;i++){
+  const {path,phase}=walkingRoutes[Math.round(i*(walkingRoutes.length-1)/Math.max(1,walkingCount-1))],a=path[0],b=path[1],p=[a[0]+(b[0]-a[0])*phase,a[1]+(b[1]-a[1])*phase];
+  const entry=student(p,Math.atan2(b[0]-a[0],b[1]-a[1]));entry.path=path;entry.t=phase;entry.direction=variant%2?1:-1;entry.speed=.84+(variant%5)*.08;entry.pause=0;entry.animationElapsed=0;entry.person.group.name='Student walking on pedestrian route';
+ }
+ // Start hidden: distant NPCs must never get a frame of animation/rendering
+ // before the first proximity selection.
+ for(const s of students){s.person.group.visible=false;s.animationElapsed=0;}
  const batching=batchStaticMeshes(decor);
  function update(dt,{mode,focus,player}){
-  root.visible=mode!=='welcome';animationFrame++;
-  const ranked=students.map(s=>({s,d:Math.hypot(s.person.group.position.x-focus.x,s.person.group.position.z-focus.z)})).sort((a,b)=>a.d-b.d);
+  root.visible=mode!=='welcome';if(!root.visible)return;
+  rankElapsed+=dt;simulationElapsed+=dt;
+  if(rankElapsed>=.25){rankElapsed=0;ranked=students.map(s=>({s,d:Math.hypot(s.person.group.position.x-focus.x,s.person.group.position.z-focus.z)})).sort((a,b)=>a.d-b.d);for(const [rank,{s,d}]of ranked.entries())s.person.group.visible=rank<visibleLimit&&d<(mobile?65:90);}
+  // Collision/route work runs at 10Hz on phones, 15Hz on desktop. Animation
+  // still runs smoothly for the nearest four/six characters.
+  const step=simulationElapsed>=(mobile?.1:1/15)?Math.min(simulationElapsed,.2):0;if(step)simulationElapsed=0;
+  const movingStudents=ranked.filter(({s})=>s.person.group.visible&&s.path).map(({s})=>s);
   for(const [rank,{s,d}]of ranked.entries()){
-   const g=s.person.group;g.visible=rank<visibleLimit&&d<135;if(!g.visible)continue;s.person.setDetail?.(rank<(mobile?6:12)||d<12||s.seated);
-   if(s.path){
-    const a=s.path[0],b=s.path[1],length=Math.hypot(b[0]-a[0],b[1]-a[1]),speed=s.speed??.9;s.pause=Math.max(0,s.pause-dt);
-    const t=Math.max(0,Math.min(1,s.t+s.direction*speed*dt/length)),x=a[0]+(b[0]-a[0])*t,z=a[1]+(b[1]-a[1])*t;
-    const approaching=students.some(other=>other!==s&&other.path&&other.person.group.visible&&Math.hypot(x-other.person.group.position.x,z-other.person.group.position.z)<1.65);
+   const g=s.person.group;if(!g.visible)continue;s.person.setDetail?.(rank<(mobile?4:6)||d<8||s.seated);
+   if(s.path&&step){
+    const a=s.path[0],b=s.path[1],length=Math.hypot(b[0]-a[0],b[1]-a[1]),speed=s.speed??.9;s.pause=Math.max(0,s.pause-step);
+    const t=Math.max(0,Math.min(1,s.t+s.direction*speed*step/length)),x=a[0]+(b[0]-a[0])*t,z=a[1]+(b[1]-a[1])*t;
+    const approaching=movingStudents.some(other=>other!==s&&Math.hypot(x-other.person.group.position.x,z-other.person.group.position.z)<1.65);
     const nx=(b[1]-a[1])/length,nz=-(b[0]-a[0])/length,targetAvoid=approaching ? .4*s.direction : 0;
-    s.avoid=(s.avoid??0)+(targetAvoid-(s.avoid??0))*Math.min(1,dt*7);
+    s.avoid=(s.avoid??0)+(targetAvoid-(s.avoid??0))*Math.min(1,step*7);
     let px=x+nx*s.avoid,pz=z+nz*s.avoid;if(!available(px,pz)){px=x;pz=z;s.avoid=0;}
     let stopped=s.pause>0||Math.hypot(px-player.x,pz-player.z)<1.2;
-    if(!stopped&&students.some(other=>other!==s&&other.path&&other.person.group.visible&&Math.hypot(px-other.person.group.position.x,pz-other.person.group.position.z)<.55)){s.direction*=-1;s.pause=.45;stopped=true;}
+    if(!stopped&&movingStudents.some(other=>other!==s&&Math.hypot(px-other.person.group.position.x,pz-other.person.group.position.z)<.55)){s.direction*=-1;s.pause=.45;stopped=true;}
     if(!stopped){s.t=t;g.position.set(px,groundAt(px,pz),pz);s.person.body.rotation.y=Math.atan2((b[0]-a[0])*s.direction,(b[1]-a[1])*s.direction);if(t===0||t===1){s.direction*=-1;s.pause=1.8;}}
 
     s.person.setWalking(!stopped);
    }
-   const smoothCount=mobile?6:12;if(rank<smoothCount||animationFrame%3===0)s.person.update(rank<smoothCount?dt:dt*3);
+   s.animationElapsed+=dt;if(rank<(mobile?4:6)||s.animationElapsed>=.1){s.person.update(s.animationElapsed);s.animationElapsed=0;}
   }
  }
 
  function takeBoothAttendant(key){const staff=boothStaff.get(key);if(!staff)return null;boothStaff.delete(key);const i=students.indexOf(staff.entry);if(i>=0)students.splice(i,1);scene.add(staff.entry.person.group);return {...staff,person:staff.entry.person};}
- return {update,takeBoothAttendant,metadata:()=>({students:students.length,volunteers:students.filter(s=>s.team).length,seated:students.filter(s=>s.seated).length,seatChecks:students.filter(s=>s.seated).map(s=>s.person.seatDiagnostics?.()).filter(Boolean),walkers:students.filter(s=>s.path).length,fixtures,brandedElements:fixtures.filter(f=>f.kind.startsWith('sumgyeol-')).length,visibleStudents:students.filter(s=>s.person.group.visible).length,visibleLimit,batching,passersBy:students.filter(s=>s.path).map(s=>({path:s.path,position:s.person.group.position.toArray()}))})};
+ return {update,takeBoothAttendant,metadata:()=>({students:students.length,populationLimits,simulationHz:mobile?10:15,rankingHz:4,volunteers:students.filter(s=>s.team).length,seated:students.filter(s=>s.seated).length,seatChecks:students.filter(s=>s.seated).map(s=>s.person.seatDiagnostics?.()).filter(Boolean),walkers:students.filter(s=>s.path).length,fixtures,brandedElements:fixtures.filter(f=>f.kind.startsWith('sumgyeol-')).length,visibleStudents:students.filter(s=>s.person.group.visible).length,visibleLimit,batching,passersBy:students.filter(s=>s.path).map(s=>({path:s.path,position:s.person.group.position.toArray()}))})};
 }

@@ -1,10 +1,12 @@
 import * as THREE from './three.module.js';
-import {createMultiplayer} from './multiplayer.js?v=player-r54';
-export function createMultiplayerScene({scene,avatar,player,camera,mobile,networkFactory=createMultiplayer}){
- const badge=document.createElement('div');badge.id='onlineCount';badge.setAttribute('role','status');badge.title='현재 연결된 게임 화면 수 · 나 포함';document.body.append(badge);
- const net=networkFactory({appearance:avatar.metadata?.speciesIndex??0,onStatus:({state,count})=>{badge.dataset.state=state;badge.textContent=state==='connected'?`접속 ${count}명`:state==='connecting'?'접속 중…':'연결 재시도 중';}}),pool=[],assigned=new Map();
+import {remoteTarget} from './remote-motion.js?v=capacity-r56';
+import {createMultiplayer} from './multiplayer.js?v=capacity-r56';
+export function createMultiplayerScene({scene,avatar,player,camera,mobile,canStand=()=>true,heightAt=()=>-Infinity,networkFactory=createMultiplayer}){
+ const badge=document.createElement('div');badge.id='onlineCount';badge.setAttribute('role','status');badge.title='최근 20초 내 함께 산책 중인 화면 수 · 나 포함. 혼잡할 때는 혼자 산책할 수 있어요.';document.body.append(badge);
+ const net=networkFactory({appearance:avatar.metadata?.speciesIndex??0,onStatus:({state,count})=>{badge.dataset.state=state;badge.textContent=state==='connected'?`접속 ${count}명`:state==='crowded'?`접속 ${count}명 · 혼잡`:state==='connecting'?'접속 중…':'혼자 산책 중';}}),pool=[],assigned=new Map();
  function make(species){const companion=avatar.createCompanion(scene,{remotePlayer:true}),canvas=document.createElement('canvas');canvas.width=256;canvas.height=64;const ctx=canvas.getContext('2d');ctx.fillStyle='#e7fcff';ctx.beginPath();ctx.roundRect(0,0,256,64,30);ctx.fill();ctx.fillStyle='#067a9b';ctx.font='bold 28px sans-serif';ctx.textAlign='center';ctx.fillText('● 함께 산책 중',128,43);const texture=new THREE.CanvasTexture(canvas),label=new THREE.Sprite(new THREE.SpriteMaterial({map:texture,depthTest:true}));label.scale.set(1.7,.425,1);label.position.y=2.4;companion.group.add(label);companion.group.traverse(o=>{if(o.isMesh)o.castShadow=false;});return {companion,label,id:null,species};}
  const hide=()=>{net.disconnect();for(const a of pool)a.companion.group.visible=false;},show=()=>net.reconnect();
+ const visibility=()=>document.hidden?hide():show();document.addEventListener?.('visibilitychange',visibility);
  addEventListener('pagehide',hide);addEventListener('pageshow',show);addEventListener('offline',hide);addEventListener('online',show);
  let last=null;
  function update(dt,{mode,grounded}){
@@ -13,8 +15,8 @@ export function createMultiplayerScene({scene,avatar,player,camera,mobile,networ
   const visible=[...net.peers.values()].filter(a=>a.active&&performance.now()-a.receivedAt<5000).map(a=>({...a,distance:Math.hypot(a.x-camera.position.x,a.z-camera.position.z)})).filter(a=>a.distance<(mobile?110:180)).sort((a,b)=>a.distance-b.distance).slice(0,mobile?16:28),ids=new Set(visible.map(a=>a.id));
   for(const [id,a]of assigned)if(!ids.has(id)){a.id=null;a.companion.group.visible=false;assigned.delete(id);}
   for(const p of visible){const species=0;let a=assigned.get(p.id);if(a&&a.species!==species){a.id=null;a.companion.group.visible=false;assigned.delete(p.id);a=null;}if(!a){a=pool.find(a=>!a.id&&a.species===species);if(!a){a=make(species);pool.push(a);}a.id=p.id;assigned.set(p.id,a);a.companion.group.position.set(p.x,p.y,p.z);a.companion.body.rotation.y=p.yaw;}
-   const c=a.companion,g=c.group;g.visible=mode!=='welcome';const blend=1-Math.exp(-dt*12);if(Math.hypot(g.position.x-p.x,g.position.z-p.z)>15)g.position.set(p.x,p.y,p.z);else g.position.lerp(new THREE.Vector3(p.x,p.y,p.z),blend);c.body.rotation.y+=Math.atan2(Math.sin(p.yaw-c.body.rotation.y),Math.cos(p.yaw-c.body.rotation.y))*blend;c.setDetail?.(p.distance<25);c.setWalking(p.speed>.4&&performance.now()-p.receivedAt<600);c.update(dt);a.label.visible=p.distance<25;
+   const c=a.companion,g=c.group,target=remoteTarget(p,performance.now(),{canStand,heightAt});g.visible=mode!=='welcome';const blend=1-Math.exp(-dt*18);if(Math.hypot(g.position.x-target.x,g.position.z-target.z)>15)g.position.set(target.x,target.y,target.z);else g.position.lerp(new THREE.Vector3(target.x,target.y,target.z),blend);c.body.rotation.y+=Math.atan2(Math.sin(p.yaw-c.body.rotation.y),Math.cos(p.yaw-c.body.rotation.y))*blend;c.setDetail?.(p.distance<25);c.setWalking(target.walking);c.update(dt);a.label.visible=p.distance<25;
   }
  }
- return {update,metadata:()=>({...net.metadata(),rendered:assigned.size,appearances:[...assigned.values()].map(a=>a.species)}),dispose(){net.dispose();for(const a of pool){a.companion.group.removeFromParent();a.label.material.map.dispose();a.label.material.dispose();}badge.remove();removeEventListener('pagehide',hide);removeEventListener('pageshow',show);removeEventListener('offline',hide);removeEventListener('online',show);}};
+ return {update,metadata:()=>({...net.metadata(),rendered:assigned.size,appearances:[...assigned.values()].map(a=>a.species)}),dispose(){net.dispose();for(const a of pool){a.companion.group.removeFromParent();a.label.material.map.dispose();a.label.material.dispose();}badge.remove();document.removeEventListener?.('visibilitychange',visibility);removeEventListener('pagehide',hide);removeEventListener('pageshow',show);removeEventListener('offline',hide);removeEventListener('online',show);}};
 }

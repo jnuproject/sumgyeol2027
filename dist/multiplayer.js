@@ -1,10 +1,12 @@
+import {createNearbyMultiplayer} from './nearby-multiplayer.js?v=capacity-r56';
 import {RealtimeClient} from './vendor/realtime.js';
-import {multiplayerConfig} from './multiplayer-config.js';
+import {multiplayerConfig} from './multiplayer-config.js?v=capacity-r56';
 export function validPose(p){
  if(!p||Object.keys(p).sort().join(',')!=='active,id,seq,speed,x,y,yaw,z')return false;
  return typeof p.id==='string'&&/^[a-f0-9-]{36}$/.test(p.id)&&Number.isSafeInteger(p.seq)&&p.seq>=0&&typeof p.active==='boolean'&&['x','y','z','yaw','speed'].every(k=>Number.isFinite(p[k]))&&Math.abs(p.x)<3000&&Math.abs(p.z)<3000&&Math.abs(p.y)<1000&&Math.abs(p.yaw)<100&&p.speed>=0&&p.speed<=30;
 }
 export function createMultiplayer({config=multiplayerConfig,Client=RealtimeClient,id=crypto.randomUUID(),now=()=>performance.now(),onStatus=()=>{},appearance=0}={}){
+ if(config.transport==='nearby')return createNearbyMultiplayer({config,id,now,onStatus,appearance});
  const client=new Client(config.url,{params:{apikey:config.key},timeout:10000,heartbeatIntervalMs:20000}),peers=new Map(),appearances=new Map();
  const species=Number.isInteger(appearance)&&appearance>=0&&appearance<5?appearance:0;
  let channel=null,members=new Set(),connected=false,disposed=false,latest=null,seq=0,lastSent=-Infinity,lastSignature='',requestAt=-Infinity;

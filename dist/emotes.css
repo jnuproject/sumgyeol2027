@@ -1,0 +1,11 @@
+#emoteControls{position:fixed;z-index:22;right:24px;bottom:190px;pointer-events:auto}
+#emoteControls[hidden],#emoteMenu[hidden]{display:none!important}
+#emoteToggle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:56px;height:56px;border-radius:50%;border:1px solid #fff;background:#fffffff0;color:#087c9f;box-shadow:0 3px 18px #163d4920;touch-action:manipulation}
+#emoteToggle>span{font-size:28px;line-height:1}#emoteToggle small{font-size:10px}
+#emoteMenu{position:absolute;right:0;bottom:68px;display:grid;grid-template-columns:repeat(4,60px);gap:5px;padding:9px;background:#fffffff5;border:1px solid #fff;border-radius:23px;box-shadow:0 7px 30px #163d4930}
+#emoteMenu button{min-height:68px;border-radius:15px;background:#eef8fb;color:#205266;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;touch-action:manipulation}
+#emoteMenu button>span{font-size:28px;line-height:1.1}#emoteMenu small{font-size:11px}#emoteMenu button:disabled{opacity:.4}#emoteMenu button:not(:disabled):active{background:#d0f0fa;transform:scale(.96)}
+#emoteControls button:focus-visible{outline:3px solid #168ab1;outline-offset:3px}
+body[data-photo=true] #emoteControls,body[data-conversation=true] #emoteControls{display:none}
+@media(max-width:760px),(pointer:coarse){#emoteControls{right:max(18px,env(safe-area-inset-right));bottom:calc(max(18px,env(safe-area-inset-bottom)) + 240px)}}
+@media(max-height:500px){#emoteControls{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 118px);right:18px}#emoteMenu{bottom:0;right:67px}}

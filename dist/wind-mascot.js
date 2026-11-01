@@ -1,3 +1,4 @@
+import {validEmote,EMOTE_MS} from './emotes.js?v=emote-r59';
 import * as THREE from './three.module.js';
 
 // Original Sumgyeol wind-droplet, built as real geometry. +Z is the face.
@@ -106,6 +107,7 @@ export function createWindMascotFactory({symbolTexture=null,motionPreference=()=
   const feet=[-1,1].map(side=>{const m=mesh(footGeometry);m.position.set(side*.20,.145,.05);return m;});
   if(badgeMaterial){const badge=new THREE.Mesh(badgeGeometry,badgeMaterial);badge.position.set(0,.54,-.654);badge.rotation.y=Math.PI;motion.add(badge);}
   const shadow=new THREE.Mesh(shadowGeometry,shadowMaterial);shadow.rotation.x=-Math.PI/2;shadow.position.y=.025;player.add(shadow);
+  let emote=0,emoteAge=0;
   let time=phase,gait=phase,walking=false,talking=false,greeting=false,seat=null,detail=true;
   // The LOD retains vertex colours and silhouette; build it once per species.
   let lodGeometry=seated?null:lodGeometries.get('standing');
@@ -125,8 +127,16 @@ export function createWindMascotFactory({symbolTexture=null,motionPreference=()=
    const wave=!seated&&!reducedMotion&&!air&&!moving&&greeting&&time%4<2.3;
    hands.forEach((hand,i)=>{const s=i?1:-1;hand.rotation.set(air?-1.0:stride*s*.45,0,s*(air?1.2:.22));});
    if(wave)hands[1].rotation.z=2.35+Math.sin(time*10)*.22;
-   const blink=!reducedMotion&&time%4.4>4.23;eyes.scale.y=blink?.08:1;
-   mouth.scale.y=talking&&!reducedMotion?1.2+Math.sin(time*15)*.45:1;
+   if(emote&&emoteAge<EMOTE_MS&&!seated&&!moving&&!air){
+    metadata.animation=['idle','wave','heart','dance','laugh'][emote];
+    const t=emoteAge/1000,fade=Math.min(1,t*8,(3-t)*5);
+    if(emote===1)hands[1].rotation.z=(reducedMotion?2.2:2.2+Math.sin(t*13)*.35)*fade;
+    if(emote===2)hands.forEach((h,i)=>h.rotation.set(-1.15*fade,0,(i?1:-1)*1.65*fade));
+    if(emote===3){hands.forEach((h,i)=>h.rotation.z=(i?1:-1)*(1.9+(reducedMotion?0:Math.sin(t*10)*.3))*fade);if(!reducedMotion){motion.position.y+=Math.abs(Math.sin(t*9))*.18*fade;motion.rotation.z=Math.sin(t*7)*.10*fade;}}
+    if(emote===4){hands.forEach((h,i)=>h.rotation.set(-.9*fade,0,(i?1:-1)*.65*fade));eyes.scale.y=.35;mouth.scale.y=1.8;if(!reducedMotion){motion.position.y+=Math.abs(Math.sin(t*17))*.045*fade;motion.rotation.x=.08*fade;}}
+   }
+   const blink=!reducedMotion&&time%4.4>4.23;eyes.scale.y=emote===4&&!moving&&!air?.35:blink?.08:1;
+   mouth.scale.y=emote===4&&!moving&&!air?1.8:talking&&!reducedMotion?1.2+Math.sin(time*15)*.45:1;
    if(seated&&seat){
     const seatScale=.74;motion.scale.setScalar(seatScale);motion.rotation.set(0,0,0);
     // Flat underside rests on the seat; little feet hang beyond its front edge.
@@ -138,7 +148,7 @@ export function createWindMascotFactory({symbolTexture=null,motionPreference=()=
   }
   function facePosition(){player.updateMatrixWorld(true);return face.getWorldPosition(new THREE.Vector3()).toArray();}
   update(0);
-  return {player,group:player,body,legs:[],arms:[],shadow,update,metadata,facePosition,setWalking:value=>{walking=!seated&&Boolean(value);},setTalking:value=>{talking=Boolean(value);},setGreeting:value=>{greeting=Boolean(value);},setDetail:value=>{detail=seated||Boolean(value);shadow.visible=detail;detailedParts.forEach(p=>{p.visible=detail;});if(low)low.visible=!detail;},setSeat:options=>{seat={...options};update(0);},seatDiagnostics:()=>{if(!seat)return null;player.updateMatrixWorld(true);return {species:kind,seatY:seat.seatY,hipY:motion.localToWorld(new THREE.Vector3(0,.17,0)).y,floorY:seat.floorY,feet:feet.map(f=>f.getWorldPosition(new THREE.Vector3()).toArray())};}};
+  return {player,group:player,body,legs:[],arms:[],shadow,update,metadata,facePosition,setEmote:(id,age=0)=>{emote=validEmote(id)?id:0;emoteAge=Math.max(0,age);},setWalking:value=>{walking=!seated&&Boolean(value);},setTalking:value=>{talking=Boolean(value);},setGreeting:value=>{greeting=Boolean(value);},setDetail:value=>{detail=seated||Boolean(value);shadow.visible=detail;detailedParts.forEach(p=>{p.visible=detail;});if(low)low.visible=!detail;},setSeat:options=>{seat={...options};update(0);},seatDiagnostics:()=>{if(!seat)return null;player.updateMatrixWorld(true);return {species:kind,seatY:seat.seatY,hipY:motion.localToWorld(new THREE.Vector3(0,.17,0)).y,floorY:seat.floorY,feet:feet.map(f=>f.getWorldPosition(new THREE.Vector3()).toArray())};}};
  }
  return {create,resources};
 }

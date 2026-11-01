@@ -9,10 +9,10 @@ function setup(handler=()=>snap()){
  let t=0;const calls=[],status=[];const n=createNearbyMultiplayer({id,token:id,config:{url:'https://example.invalid/realtime/v1',key:'public',scope:'public'},now:()=>t,onStatus:s=>status.push(s),fetchFn:async(url,options)=>{calls.push({url,...options});return {ok:true,json:async()=>handler(calls.length,JSON.parse(options.body))};}});
  return {n,calls,status,advance:ms=>{t+=ms;},async tick(ms=0,p=pose){t+=ms;n.update(p);await flush();}};
 }
-test('one batched request per interval, bounded position-only body, peers sampled without text',async()=>{
+test('one batched request per interval, bounded fixed-reaction body, peers sampled without text',async()=>{
  const f=setup(()=>snap([peer()]));await f.tick();assert.equal(f.n.metadata().connected,true);assert.equal(f.n.peers.size,1);assert.equal(f.calls.length,1);
  for(let i=0;i<19;i++)await f.tick(10);assert.equal(f.calls.length,1);await f.tick(10);assert.equal(f.calls.length,2);
- const p=JSON.parse(f.calls[0].body).p;assert.deepEqual(Object.keys(p).sort(),['active','id','scope','seq','speed','token','x','y','yaw','z']);assert.equal(f.n.metadata().count,2);f.n.dispose();
+ const p=JSON.parse(f.calls[0].body).p;assert.deepEqual(Object.keys(p).sort(),['active','emote','emoteSeq','id','scope','seq','speed','token','x','y','yaw','z']);assert.equal(f.n.metadata().count,2);f.n.dispose();
 });
 test('moving samples infer bounded velocity; stale order cannot replace a newer pose; departures clear peers',async()=>{
  let data=snap([peer()]);const f=setup(()=>data);await f.tick();data=snap([peer(2,2.8,1200)]);await f.tick(200);assert.ok(Math.abs(f.n.peers.get(other).velocity.x-4)<.001);
@@ -34,4 +34,8 @@ test('only one HTTP operation is in flight; late responses cannot revive a disco
 
 test('a shared campus snapshot accepts all 99 nearby participants without a room or display-count cutoff',async()=>{
  const people=Array.from({length:99},(_,i)=>({...peer(),id:(i+100).toString(16).padStart(8,'0')+'-0000-4000-8000-000000000000'}));const f=setup(()=>({...snap(people),count:100}));await f.tick();assert.equal(f.n.peers.size,99);assert.equal(f.n.metadata().room,'campus');assert.equal(f.n.metadata().sharedCampus,true);f.n.dispose();
+});
+test('fixed reactions piggyback on position polls and reject chat-like or malformed reaction state',async()=>{
+ const f=setup(()=>snap([{...peer(),emote:1,emoteSeq:1,emoteAge:250}]));await f.tick(0,{...pose,emote:2,emoteSeq:3});assert.equal(f.n.peers.get(other).emote,1);assert.equal(JSON.parse(f.calls[0].body).p.emote,2);assert.ok(f.calls[0].url.endsWith('campus_walk_sync_emotes'));f.n.dispose();
+ for(const emote of ['hello',-1,5,1.5]){const bad=setup(()=>snap([{...peer(),emote,emoteSeq:1,emoteAge:0}]));await bad.tick();assert.equal(bad.n.metadata().connected,false);bad.n.dispose();}
 });

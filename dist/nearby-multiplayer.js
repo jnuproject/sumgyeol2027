@@ -1,14 +1,16 @@
+import {validEmote,EMOTE_MS} from './emotes.js?v=emote-r59';
 import {multiplayerConfig} from './multiplayer-config.js?v=capacity-r56';
 export function validPose(p){
  if(!p||Object.keys(p).sort().join(',')!=='active,id,seq,speed,x,y,yaw,z')return false;
  return typeof p.id==='string'&&/^[a-f0-9-]{36}$/.test(p.id)&&Number.isSafeInteger(p.seq)&&p.seq>=0&&typeof p.active==='boolean'&&['x','y','z','yaw','speed'].every(k=>Number.isFinite(p[k]))&&Math.abs(p.x)<3000&&Math.abs(p.z)<3000&&Math.abs(p.y)<1000&&Math.abs(p.yaw)<100&&p.speed>=0&&p.speed<=30;
 }
-function snapshotValid(s){return s&&Number.isInteger(s.count)&&s.count>=0&&s.count<=200&&typeof s.crowded==='boolean'&&(s.room===null||typeof s.room==='string'&&s.room==='campus')&&Array.isArray(s.peers)&&s.peers.length<=199&&s.peers.every(p=>{const {sampledAt,...pose}=p;return validPose(pose)&&Number.isFinite(sampledAt)&&sampledAt>0&&sampledAt<1e14;});}
+function snapshotValid(s){return s&&Number.isInteger(s.count)&&s.count>=0&&s.count<=200&&typeof s.crowded==='boolean'&&(s.room===null||typeof s.room==='string'&&s.room==='campus')&&Array.isArray(s.peers)&&s.peers.length<=199&&s.peers.every(p=>{const {sampledAt,emote,emoteAge,emoteSeq,...pose}=p;return (emote===undefined||(validEmote(emote)&&Number.isFinite(emoteAge)&&emoteAge>=0&&emoteAge<=EMOTE_MS&&Number.isSafeInteger(emoteSeq)&&emoteSeq>=0))&&validPose(pose)&&Number.isFinite(sampledAt)&&sampledAt>0&&sampledAt<1e14;});}
 export function createNearbyMultiplayer({config=multiplayerConfig,id=crypto.randomUUID(),token=crypto.randomUUID(),fetchFn=fetch,now=()=>performance.now(),onStatus=()=>{}}={}){
- const peers=new Map(),endpoint=config.url.replace(/\/realtime\/v1\/?$/,'')+'/rest/v1/rpc/campus_walk_sync';
+ const peers=new Map(),endpoint=config.url.replace(/\/realtime\/v1\/?$/,'')+'/rest/v1/rpc/campus_walk_sync_emotes';
+ let reaction={emote:0,emoteSeq:0};
  let disposed=false,paused=false,pending=false,connected=false,count=null,room=null,latest=null,seq=0,nextAt=0,generation=0,failures=0,controller=null,lastStatus='',rttMs=0,crowded=false,requests=0;
  function report(state){connected=state==='connected';const signature=state+':'+count+':'+room;if(signature!==lastStatus){lastStatus=signature;onStatus({state,count,room});}}
- function body(active){return {p:{...latest,id,token,scope:config.scope??'public',seq:++seq,active}};}
+ function body(active){return {p:{...latest,...reaction,id,token,scope:config.scope??'public',seq:++seq,active}};}
  const headers={'Content-Type':'application/json',apikey:config.key};
  function start(){
   if(pending||disposed||paused||!latest?.active||now()<nextAt)return;
@@ -30,5 +32,5 @@ export function createNearbyMultiplayer({config=multiplayerConfig,id=crypto.rand
   if(latest){const data=body(false);try{Promise.resolve(fetchFn(endpoint,{method:'POST',headers,body:JSON.stringify(data),keepalive:true})).catch(()=>{});}catch{}}
  }
  report('connecting');
- return {id,peers,update(p){if(disposed)return;const candidate={id,seq:0,x:+p.x.toFixed(2),y:+p.y.toFixed(2),z:+p.z.toFixed(2),yaw:+p.yaw.toFixed(3),speed:Math.min(30,Math.max(0,p.speed)),active:!!p.active};if(!validPose(candidate))return;const wasActive=latest?.active;const {id:unused,seq:ignored,...pose}=candidate;latest=pose;if(wasActive&&!pose.active)disconnect();if(pose.active&&!wasActive){paused=false;nextAt=0;}if(pose.active&&!paused)start();},disconnect,reconnect(){if(disposed)return;paused=false;nextAt=0;start();},dispose(){if(disposed)return;disconnect();disposed=true;},metadata:()=>({transport:'nearby-snapshot',connected,count,room,peers:peers.size,crowded,rttMs:Math.round(rttMs),requests,sharedCampus:true,admissionLimit:200})};
+ return {id,peers,update(p){if(disposed)return;if(validEmote(p.emote)&&Number.isSafeInteger(p.emoteSeq)&&p.emoteSeq>=0)reaction={emote:p.emote,emoteSeq:p.emoteSeq};const candidate={id,seq:0,x:+p.x.toFixed(2),y:+p.y.toFixed(2),z:+p.z.toFixed(2),yaw:+p.yaw.toFixed(3),speed:Math.min(30,Math.max(0,p.speed)),active:!!p.active};if(!validPose(candidate))return;const wasActive=latest?.active;const {id:unused,seq:ignored,...pose}=candidate;latest=pose;if(wasActive&&!pose.active)disconnect();if(pose.active&&!wasActive){paused=false;nextAt=0;}if(pose.active&&!paused)start();},disconnect,reconnect(){if(disposed)return;paused=false;nextAt=0;start();},dispose(){if(disposed)return;disconnect();disposed=true;},metadata:()=>({transport:'nearby-snapshot',connected,count,room,peers:peers.size,crowded,rttMs:Math.round(rttMs),requests,sharedCampus:true,admissionLimit:200})};
 }

@@ -1,4 +1,4 @@
-import {createWindMascotFactory,MASCOT_KINDS} from './wind-mascot.js?v=player-r54';
+import {createWindMascotFactory,MASCOT_KINDS} from './wind-mascot.js?v=emote-r59';
 
 // One species registry for the player, policy guides, seated friends and peers.
 export function createMascotPopulation(scene,{symbolTexture=null,symbolImage=null,motionPreference=()=>false}={}){

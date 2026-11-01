@@ -1,4 +1,4 @@
-import {createNearbyMultiplayer} from './nearby-multiplayer.js?v=capacity-r56';
+import {createNearbyMultiplayer} from './nearby-multiplayer.js?v=emote-r59';
 import {RealtimeClient} from './vendor/realtime.js';
 import {multiplayerConfig} from './multiplayer-config.js?v=capacity-r56';
 export function validPose(p){

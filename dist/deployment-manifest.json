@@ -1,6 +1,6 @@
 {
-  "version": "campus-emote-r59",
-  "cacheRevision": "emote-r59",
+  "version": "campus-paused-r60",
+  "cacheRevision": "paused-r60",
   "files": [
     {
       "path": ".nojekyll",
@@ -304,8 +304,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 60373,
-      "sha256": "6985b71b3af70deea452a63a07c3a1685729e1eb8565f0bdfef4cd686e839f40"
+      "bytes": 60452,
+      "sha256": "a6f955a6c0b0151fccbdee35c31c57cb4d0aff9e8dc3916231f674ecb57feab1"
     },
     {
       "path": "identity-sources.json",
@@ -314,8 +314,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 12827,
-      "sha256": "dc804a58c7b5c564db91b18a92fe76c70c0053fb8cb337b60dd63f4adbbabc38"
+      "bytes": 1169,
+      "sha256": "d468c672b497051ef9d7ad9a13423258e1190628fc4320290e9b12d959621d52"
     },
     {
       "path": "landscape-sources.json",
@@ -664,8 +664,8 @@
     },
     {
       "path": "walk.html",
-      "bytes": 12827,
-      "sha256": "dc804a58c7b5c564db91b18a92fe76c70c0053fb8cb337b60dd63f4adbbabc38"
+      "bytes": 1169,
+      "sha256": "d468c672b497051ef9d7ad9a13423258e1190628fc4320290e9b12d959621d52"
     },
     {
       "path": "wind-mascot.js",

@@ -1,5 +1,5 @@
 {
-  "version": "campus-encounters-r48",
+  "version": "campus-capacity-r56",
   "issues": [
     {
       "cause": "r29 capped each frame at40ms, dropping movement time below25fps",
@@ -51,9 +51,9 @@
       "runControl": "tap toggle; stops on menu/dialog/blur"
     },
     "simulation": "analytic horizontal damping/integration; elapsed time retained at 5/10/15/30/60 fps, capped at 250ms on long stalls; 0.3m collision substeps",
-    "phoneRender": "four colour textures instead of twelve texture maps; five-sided trunk segments instead of eight; identical trees/branches/leaves/colliders; six nearest ambient animations smooth, remaining visible students amortized; quality checks every 2s",
-    "freeExploration": "full displayed campus bounds; focus boundary not drawn or enforced",
-    "validation": "390x844 and 844x390 browser viewports; physical phone hardware not available",
+    "phoneRender": "1.75x default pixel cap (previously1x),2.25x high; balanced adapts only after sustained slow frames, floor1.25x or native DPR, recovers after sustained headroom; static1024/2048 shadows;8x surface anisotropy; persisted quality choice",
+    "freeExploration": "restricted focus walking corridor remains enforced",
+    "validation": "125 automated checks pass;390x844 browser viewport; physical phone hardware not available",
     "policyEncounters": "12 unique policy NPCs plus six everyday campus conversations; optional shared photo and map directions; far characters culled on mobile"
   }
 }

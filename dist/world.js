@@ -16,7 +16,7 @@ import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-
 import {addSportsGrounds} from './sports-ground.js?v=player-r54';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
-import { loadCampusMaterials, glassMaterial } from './materials.js?v=player-r54';
+import { loadCampusMaterials, glassMaterial } from './materials.js?v=capacity-r56';
 import { addVegetation } from './vegetation.js?v=player-r54';
 import { loadCampusTerrain } from './terrain.js?v=player-r54';
 import { addCampusEnvironment } from './environment.js?v=player-r54';

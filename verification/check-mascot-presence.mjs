@@ -1,4 +1,4 @@
-// Optional live check in an isolated, ephemeral room. No database writes.
+// Optional live check in an isolated test scope. Creates and releases two temporary game sessions.
 import assert from 'node:assert/strict';
 import {createMultiplayer} from '../dist/multiplayer.js';
 import {multiplayerConfig} from '../dist/multiplayer-config.js';

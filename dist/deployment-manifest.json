@@ -1,5 +1,5 @@
 {
-  "version": "campus-capacity-r56-draft",
+  "version": "campus-capacity-r56",
   "cacheRevision": "capacity-r56",
   "files": [
     {
@@ -284,8 +284,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 59298,
-      "sha256": "f488bbbf5dbbdf14014b2f4a88f48396352ec29001f3a96b43643380425009b9"
+      "bytes": 59759,
+      "sha256": "54bfdd068cd0090cf226bc27e494d239ec1c20278116db840b820a3efce24f46"
     },
     {
       "path": "identity-sources.json",
@@ -324,18 +324,18 @@
     },
     {
       "path": "materials.js",
-      "bytes": 5384,
-      "sha256": "80590bd8197da0c027afdadbb91a4839a508f9d2ad08b1f28c3587e2678608d3"
+      "bytes": 5375,
+      "sha256": "98ce577d79ef92ec6cedf7f5f71e285fb6e9bda03d836e1282b40b018cf69075"
     },
     {
       "path": "mobile-performance-sources.json",
-      "bytes": 2871,
-      "sha256": "7c684fbad5c324dde8dfb51c37cf5161a05b0b1c42b9cfc378b52995ddcee152"
+      "bytes": 2859,
+      "sha256": "53bfabf86ab3fea0b912f5cf50c97703a6e03d7b529a733078fc8d76502464ae"
     },
     {
       "path": "mobile-performance.js",
-      "bytes": 1290,
-      "sha256": "01ed430e878d36d873f133f410d0d4961dd8a649b070cb3ddfb180437c97a1ed"
+      "bytes": 1974,
+      "sha256": "dbd760f1dcd381622b04965d9c89ec5a06ed8c2d79b0294c245d82c48417a862"
     },
     {
       "path": "mobile-play.css",
@@ -654,8 +654,8 @@
     },
     {
       "path": "world.js",
-      "bytes": 18234,
-      "sha256": "3a84281b561e787e917274bb24913605133923a230b329ccad9aa9c216665127"
+      "bytes": 18236,
+      "sha256": "223a473a547d4eafcacbadade9a7b839e6ba841d5474230c6ae2c48ad14be5a5"
     }
   ]
 }

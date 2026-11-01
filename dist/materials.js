@@ -16,7 +16,7 @@ export async function loadCampusMaterials({mobile=false}={}){
  await Promise.all(['clean_asphalt','grass_ground','dark_brick_wall','concrete_pavement'].map(async name=>{
   const [map,normalMap=null,roughnessMap=null]=await Promise.all((mobile?['diff']:['diff','nor_gl','rough']).map(kind=>localTexture(`./assets/materials/${name}_${kind}_1k.jpg`)));
   map.colorSpace=THREE.SRGBColorSpace;
-  for(const t of [map,normalMap,roughnessMap].filter(Boolean)){t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=mobile?4:8;}
+  for(const t of [map,normalMap,roughnessMap].filter(Boolean)){t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=8;}
   sets[name]={map,normalMap,roughnessMap};
  }));
  function surface(name,color,metres=3,normal=.35){

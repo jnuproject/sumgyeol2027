@@ -1,6 +1,6 @@
 {
-  "version": "campus-capacity-r56",
-  "cacheRevision": "capacity-r56",
+  "version": "campus-dialogue-r57",
+  "cacheRevision": "dialogue-r57",
   "files": [
     {
       "path": ".nojekyll",
@@ -189,8 +189,8 @@
     },
     {
       "path": "campus-dialogues.js",
-      "bytes": 6919,
-      "sha256": "ae9f1e6395e0fa947e6c6b2095b4fdba05aa956185f603567f3d9d3389beb318"
+      "bytes": 7168,
+      "sha256": "fffda414ccc7767513e5156b6bc188cc2eb0cb55f52493e1c7265b3c12dc72c4"
     },
     {
       "path": "campus-escalator.js",
@@ -284,8 +284,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 59759,
-      "sha256": "54bfdd068cd0090cf226bc27e494d239ec1c20278116db840b820a3efce24f46"
+      "bytes": 59761,
+      "sha256": "52899507b9836b79e5d9a97fbe29780f351d2bae8223e254295d8d09d0f2e19e"
     },
     {
       "path": "identity-sources.json",
@@ -295,7 +295,7 @@
     {
       "path": "index.html",
       "bytes": 12774,
-      "sha256": "df65a6fb351853713430a92fd0491da4397d266520b6290e13c55fb473b858da"
+      "sha256": "d83f7760ed9a05d61ff012689b243e6d41d12aece51967fd6302b27a45ae418a"
     },
     {
       "path": "landscape-sources.json",
@@ -419,13 +419,13 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 11434,
-      "sha256": "79825e4d8793b41d0036dcda8a9d8dd49c9125223db3c4a64428671d2a07dcb6"
+      "bytes": 10012,
+      "sha256": "cb4b4a6d91d57e62fe94eab5bd2cc4ea17dd44b9bfc30f51e70c7c3e52e3f694"
     },
     {
       "path": "policy-encounters.js",
-      "bytes": 13865,
-      "sha256": "2e272ff58698956c89a9bc86ed2c5abc15ae5596a165ba076d1469db217e5e7e"
+      "bytes": 16115,
+      "sha256": "12d187793bdf412d03f7987334c2040f7f2acce486baa6716c921e8b04cd36ef"
     },
     {
       "path": "policy-sources.json",
@@ -534,8 +534,8 @@
     },
     {
       "path": "story-game.js",
-      "bytes": 13737,
-      "sha256": "7c8d004e63b6452d00b3f814b10a3a57880f5f86b02572363a60759f5d692cb8"
+      "bytes": 13725,
+      "sha256": "dc2f5fbcfa55151f1ad9e9acadd2df655449fa8d5d12575bdbee68f4e24b3c9f"
     },
     {
       "path": "student-hall-garden.js",
@@ -645,7 +645,7 @@
     {
       "path": "walk.html",
       "bytes": 12774,
-      "sha256": "df65a6fb351853713430a92fd0491da4397d266520b6290e13c55fb473b858da"
+      "sha256": "d83f7760ed9a05d61ff012689b243e6d41d12aece51967fd6302b27a45ae418a"
     },
     {
       "path": "wind-mascot.js",

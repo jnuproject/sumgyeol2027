@@ -2,7 +2,7 @@ import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=player-r54';
 import {segmentDistance} from './navigation.js';
 import {conversationShot} from './conversation-camera.js?v=player-r54';
 import * as THREE from './three.module.js';
-import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=player-r54';
+import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=dialogue-r57';
 
 export function resolveEncounterPosition(wish,{data,safePosition,occupied=[]}){
  for(const r of [0,1.8,3.6,5.4,7.2,9,12])for(let i=0;i<(r?12:1);i++){
@@ -19,7 +19,7 @@ export function createStoryGame({scene,data,avatar,player,camera,groundAt,safePo
  const tracker=$('hudRecord');tracker.setAttribute('aria-label','숨결과 나눈 이야기');
  const prompt=document.createElement('button');prompt.id='storyTalk';prompt.className='story-talk';prompt.hidden=true;document.body.append(prompt);
  const dialogue=document.createElement('dialog');dialogue.id='storyDialogue';dialogue.className='npc-dialogue';dialogue.setAttribute('aria-labelledby','npcName');
- dialogue.innerHTML=`<div class="npc-conversation"><div class="npc-top"><div class="npc-identity"><img src="assets/sumgyeol_symbol_blue.png" alt="" class="npc-symbol"><div><h2 id="npcName"></h2><small id="npcPolicy"></small></div></div><button id="npcLeave" aria-label="대화 나가기">나중에 이야기하자 ×</button></div><p class="npc-player-reply" id="npcReply" hidden></p><div class="npc-line" id="npcLine" aria-hidden="true"></div><span class="npc-accessible-line" id="npcAccessible" role="status" aria-live="polite"></span><div id="npcChoices" class="npc-choices"></div><div class="npc-bottom"><span id="npcKeys">E / Space · 다음</span><button id="npcNext">계속 듣기 <span>▾</span></button></div></div>`;document.body.append(dialogue);
+ dialogue.innerHTML=`<div class="npc-conversation"><div class="npc-top"><div class="npc-identity"><img src="assets/sumgyeol_symbol_blue.png" alt="" class="npc-symbol"><div><h2 id="npcName"></h2><small id="npcPolicy"></small></div></div><button id="npcLeave" aria-label="대화 나가기">나중에 이야기하자 ×</button></div><p class="npc-player-reply" id="npcReply" hidden></p><div class="npc-line" id="npcLine" aria-hidden="true"></div><span class="npc-accessible-line" id="npcAccessible" role="status" aria-live="polite"></span><div id="npcChoices" class="npc-choices"></div><div class="npc-bottom"><span id="npcKeys">E / Space · 다음</span><button id="npcNext">다음 <span>▾</span></button></div></div>`;document.body.append(dialogue);
  const encounters=[...POLICY_DIALOGUES.map((q,i)=>({q,anchor:q.anchor??anchors[i],key:q.id})),...CAMPUS_DIALOGUES.map(q=>({q,anchor:q.anchor,key:q.id}))];
  for(const [i,encounter]of encounters.entries()){
   const q=encounter.name?{...encounter.q,name:encounter.name}:encounter.q,position=i<3?safePosition(encounter.anchor):resolveEncounterPosition(encounter.anchor,{data,safePosition,occupied:actors.map(a=>a.position)});if(!position)throw Error('No pedestrian NPC position: '+q.id);
@@ -40,7 +40,7 @@ export function createStoryGame({scene,data,avatar,player,camera,groundAt,safePo
   const node=conversationNode(session),ready=typing>=line.length,last=session.index===node.lines.length-1;
   $('npcChoices').hidden=!ready||!last||!node.choices;
   $('npcNext').hidden=ready&&last&&!!node.choices;
-  $('npcNext').innerHTML=!ready?'한 번에 읽기 <span>▾</span>':last&&node.end?(node.action?.kind==='photo'?'같이 사진 찍기':node.action?.kind==='map'?'지도에서 보기':'또 보자')+' <span>→</span>':'계속 듣기 <span>▾</span>';
+  $('npcNext').innerHTML=!ready?'한 번에 읽기 <span>▾</span>':last&&node.end?(node.action?.kind==='photo'?'같이 사진 찍기':node.action?.kind==='map'?'지도에서 보기':'또 보자')+' <span>→</span>':'다음 <span>▾</span>';
   $('npcKeys').textContent=ready&&last&&node.choices?'선택해서 답하기':document.body.dataset.touch==='true'?'버튼을 눌러 이어가기':'E / Space · 다음';
   if(ready&&last&&node.choices&&document.activeElement===$('npcNext'))$('npcChoices').querySelector('button')?.focus({preventScroll:true});
  }

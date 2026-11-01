@@ -1,6 +1,6 @@
 {
-  "version": "campus-festival-r61-paused",
-  "cacheRevision": "festival-r61",
+  "version": "campus-roster-r62-paused",
+  "cacheRevision": "roster-r62",
   "files": [
     {
       "path": ".nojekyll",
@@ -189,8 +189,8 @@
     },
     {
       "path": "campus-dialogues.js",
-      "bytes": 7168,
-      "sha256": "fffda414ccc7767513e5156b6bc188cc2eb0cb55f52493e1c7265b3c12dc72c4"
+      "bytes": 9250,
+      "sha256": "96457b6c79d6f2176993c7e8c388b760491259485258509d9f350b875ecf3055"
     },
     {
       "path": "campus-escalator.js",
@@ -314,8 +314,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 61634,
-      "sha256": "79c09c27e0fc4ec5030c05740d878b2ce5008d5e2cacfb366f170bb5dbabce0b"
+      "bytes": 62377,
+      "sha256": "cc037dfe54b0be5988e0f52ff34803be050621b4b2c9a1f035011cef44801294"
     },
     {
       "path": "identity-sources.json",
@@ -449,18 +449,23 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 10038,
-      "sha256": "403ec948c8ec3843d0ff445fa6357e87852879d3ed90d8e2ff69503420bfb143"
+      "bytes": 8055,
+      "sha256": "eb537424d929a70528f30471696c4df58452cc20f06707e94f880fb68ed1eab2"
     },
     {
       "path": "policy-encounters.js",
-      "bytes": 16115,
-      "sha256": "12d187793bdf412d03f7987334c2040f7f2acce486baa6716c921e8b04cd36ef"
+      "bytes": 25201,
+      "sha256": "c71f2823cdc02f94b59a7b2354feec5ea21e75c42f230102435f0924229c1f33"
     },
     {
       "path": "policy-sources.json",
       "bytes": 7300,
       "sha256": "1992f385e442b420d5d4d3402211bfd502d3cf557c0d432f6c56651bab8fcba5"
+    },
+    {
+      "path": "policy-spaces.js",
+      "bytes": 6577,
+      "sha256": "eaf049b79a6b1e62d02c87bb72dc8066d2a3453564fb3240d819c21f2f8f1a93"
     },
     {
       "path": "presentation-notes.json",
@@ -564,8 +569,8 @@
     },
     {
       "path": "story-game.js",
-      "bytes": 13725,
-      "sha256": "3eeb41e5df924c36c676e2ab69b426911675489b02de67821d0474748545bcfb"
+      "bytes": 13723,
+      "sha256": "a57653cebc6fd2fef7578c98ac7643e3c2de5055fa53a5403b5099a5b0336dc3"
     },
     {
       "path": "student-hall-garden.js",

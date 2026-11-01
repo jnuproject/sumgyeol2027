@@ -12,9 +12,9 @@ import {generateVegetationLayout} from '../dist/vegetation.js';
 import {walkable,segmentDistance} from '../dist/navigation.js';
 import {isWalkingRoad,roadWidthAt} from '../dist/road-profile.js';
 const data=prepareCampusRoads(applyStudentHallReference(applySatelliteLayout(JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.meta.url))))));
-test('all eighteen distinct encounters can stand outside buildings, trunks and vehicle roads inside the restored walking route',()=>{
+test('all twenty distinct encounters can stand outside buildings, trunks and vehicle roads inside the restored walking route',()=>{
  const area=createFocusWalkArea(data),trees=generateVegetationLayout(data),stops=resolveFocusStops(data),occupied=[];
  const stand=(x,z)=>area.contains(x,z)&&walkable(x,z,data.buildings)&&trees.every(t=>Math.hypot(x-t.x,z-t.z)>.8),safe=p=>safeFocusPosition(p,area,stand),base=[[stops[0].walkPosition[0],stops[0].walkPosition[1]+7],[-47,87.6],[stops[2].walkPosition[0],-18],[-111,116.8]];
  ALL_DIALOGUES.forEach((q,i)=>{const wish=q.anchor??base[i],p=i<3?safe(wish):resolveEncounterPosition(wish,{data,safePosition:safe,occupied});assert.ok(p,q.id+' needs a reachable encounter position');assert(stand(...p));if(i>=3)for(const r of data.roads.filter(r=>!isWalkingRoad(r)))for(let j=1;j<r.points.length;j++)assert(segmentDistance(...p,r.points[j-1],r.points[j])>roadWidthAt(r,...p)/2+.44);occupied.push(p);});
- assert.equal(occupied.length,18);
+ assert.equal(occupied.length,20);
 });

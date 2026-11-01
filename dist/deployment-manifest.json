@@ -1,6 +1,6 @@
 {
-  "version": "campus-paused-r60",
-  "cacheRevision": "paused-r60",
+  "version": "campus-festival-r61-paused",
+  "cacheRevision": "festival-r61",
   "files": [
     {
       "path": ".nojekyll",
@@ -198,6 +198,11 @@
       "sha256": "6ac5a2a52b72ac6246464c281a8fe618bec8511f5b45536e67c79ced4db74c54"
     },
     {
+      "path": "campus-festival.js",
+      "bytes": 13088,
+      "sha256": "b2d89db0a5c3015b609162c3f5144e21a883d6426e33ff8fa8fe7aca15c323ca"
+    },
+    {
       "path": "campus-hud.js",
       "bytes": 2033,
       "sha256": "6c65b33cbd2af1d5f00561044637c2c2ea80b27966ce49fd15141da9c7189e18"
@@ -278,6 +283,11 @@
       "sha256": "dab6546cd4cb5d683808ceea1d9b9e0affda5c6985671e3abdf47be4f7a616b8"
     },
     {
+      "path": "festival-layout.js",
+      "bytes": 1198,
+      "sha256": "abede272fb16d480e5f2916c6bd7b4d2245ca5375940c0af246319809f5fed86"
+    },
+    {
       "path": "focus-architecture.js",
       "bytes": 6649,
       "sha256": "0c9daea60f6362f4a564fecff12b585f04464dca0f8b9fe586a086688424de88"
@@ -304,8 +314,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 60452,
-      "sha256": "a6f955a6c0b0151fccbdee35c31c57cb4d0aff9e8dc3916231f674ecb57feab1"
+      "bytes": 61634,
+      "sha256": "79c09c27e0fc4ec5030c05740d878b2ce5008d5e2cacfb366f170bb5dbabce0b"
     },
     {
       "path": "identity-sources.json",
@@ -439,8 +449,8 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 10012,
-      "sha256": "cb4b4a6d91d57e62fe94eab5bd2cc4ea17dd44b9bfc30f51e70c7c3e52e3f694"
+      "bytes": 10038,
+      "sha256": "403ec948c8ec3843d0ff445fa6357e87852879d3ed90d8e2ff69503420bfb143"
     },
     {
       "path": "policy-encounters.js",
@@ -539,8 +549,8 @@
     },
     {
       "path": "sports-ground.js",
-      "bytes": 3544,
-      "sha256": "ca7fdac6bb6e309b5ee672f15a5bc84786095b52ddfa5c3cc27e245300a699eb"
+      "bytes": 3384,
+      "sha256": "3fe0792e02835416eb621980a30cfe489eb1c7404a2583601f66fd460ac63e62"
     },
     {
       "path": "static-mesh-batches.js",
@@ -555,7 +565,7 @@
     {
       "path": "story-game.js",
       "bytes": 13725,
-      "sha256": "dc2f5fbcfa55151f1ad9e9acadd2df655449fa8d5d12575bdbee68f4e24b3c9f"
+      "sha256": "3eeb41e5df924c36c676e2ab69b426911675489b02de67821d0474748545bcfb"
     },
     {
       "path": "student-hall-garden.js",
@@ -609,8 +619,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 17627,
-      "sha256": "8e5a21c1675dfe0b9dae3541539c9bb422d1ce8d915e250453d68330a8f6d166"
+      "bytes": 17838,
+      "sha256": "37ea95ecd293455406f21f7c92ddf15bae60059ed24f42fb2d4768aa374b5955"
     },
     {
       "path": "vendor/FBXLoader.js",
@@ -654,8 +664,8 @@
     },
     {
       "path": "walk-area.js",
-      "bytes": 4259,
-      "sha256": "353e57ecfc35064977a3bcf968ee48625237ca9a44ea3b3343ef6f8e32f46e42"
+      "bytes": 4504,
+      "sha256": "9e1daa50eaa0768da7b56e49b37994c014c80974e938b655601c940bb2499ea0"
     },
     {
       "path": "walk-boundary.js",
@@ -674,8 +684,8 @@
     },
     {
       "path": "world.js",
-      "bytes": 18238,
-      "sha256": "690662ba6cd978ff9d89bd4344b3dda2b48c3343692a1f04e77446d5f9b0cf38"
+      "bytes": 18242,
+      "sha256": "4ed847b3dffe373da6ef1f028e910204bd8f1737d0d37e56db7e3a5ddc37cc70"
     }
   ]
 }

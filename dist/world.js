@@ -13,11 +13,11 @@ import {addFocusDetails} from './focus-details.js?v=player-r54';
 import {addCampusObservedDetails} from './campus-observed-details.js?v=player-r54';
 import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=player-r54';
 import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=player-r54';
-import {addSportsGrounds} from './sports-ground.js?v=player-r54';
+import {addSportsGrounds} from './sports-ground.js?v=festival-r61';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 import { loadCampusMaterials, glassMaterial } from './materials.js?v=capacity-r56';
-import { addVegetation } from './vegetation.js?v=player-r54';
+import { addVegetation } from './vegetation.js?v=festival-r61';
 import { loadCampusTerrain } from './terrain.js?v=player-r54';
 import { addCampusEnvironment } from './environment.js?v=player-r54';
 

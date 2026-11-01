@@ -12,11 +12,11 @@ test('all chosen starts, library landing and staircase remain inside the walking
   for(let i=1;i<r.points.length;i++){const a=r.points[i-1],b=r.points[i],steps=Math.ceil(Math.hypot(a[0]-b[0],a[1]-b[1])*2);for(let s=0;s<=steps;s++)assert.ok(area.contains(a[0]+(b[0]-a[0])*s/steps,a[1]+(b[1]-a[1])*s/steps),id);}
  }
 });
-test('sports field, museum, digital library, dorms and engineering blocks are excluded',()=>{
+test('museum, digital library, dorms and engineering blocks remain excluded',()=>{
  for(const id of['471697017','953564621','953546804','741724817','964181122']){
   const b=data.buildings.find(b=>b.id===id);assert.equal(area.containsRaw(...b.center),false,id);
  }
- for(const p of[[-235,-45],[-400,250],[300,-200],[-79,-510],[-79,400]])assert.equal(area.contains(...p),false,JSON.stringify(p));
+ for(const p of[[-400,250],[300,-200],[-79,-510],[-79,400]])assert.equal(area.contains(...p),false,JSON.stringify(p));
  assert.equal(area.contains(NaN,0),false);assert.equal(area.contains(0,Infinity),false);
 });
 test('narrow corridors and junctions form one traversable component, without crossing buildings',()=>{

@@ -1,6 +1,6 @@
 {
-  "version": "campus-ground-r44",
-  "cacheRevision": "ground-r44",
+  "version": "campus-festival-r61-paused",
+  "cacheRevision": "festival-r61",
   "files": [
     {
       "path": ".nojekyll",
@@ -15,12 +15,12 @@
     {
       "path": "aerial-buildings.js",
       "bytes": 2310,
-      "sha256": "1dec48b0d315fc9692824fac3a36721acf76072a515862b4cb427c824efb53b3"
+      "sha256": "1673e97f338bea3c11664742b13d25e02d788ced5a89421b877a24557c9e38f4"
     },
     {
       "path": "aerial-landscape.js",
       "bytes": 4789,
-      "sha256": "e7669f4d734f58f8d8c4b4f79d33a97cf0167cdf3b138f073974b617c86ea25f"
+      "sha256": "1fde3f30b89b1a926489347ef8529e4032f52294f7d15014a2b8c1bd4df2fb7a"
     },
     {
       "path": "assets/PRETENDARD-LICENSE.txt",
@@ -36,6 +36,11 @@
       "path": "assets/README.md",
       "bytes": 589,
       "sha256": "3794b3d8b8248c83290b0daaeba6ff44aa73bb9cf6f608d18b405c8051f843e7"
+    },
+    {
+      "path": "assets/campus-app-icon.svg",
+      "bytes": 101371,
+      "sha256": "19c4f0b2348cb91fce2b52f5a4f54cd5379fe5bcdcf9a12fef8a4313976bdbb1"
     },
     {
       "path": "assets/campus-outline.svg",
@@ -164,13 +169,13 @@
     },
     {
       "path": "avatar-sources.json",
-      "bytes": 3721,
-      "sha256": "17078745a5dc08dcc1ab4e817426ada3a39b4a9c9f05654ad9fcb41b44550f8a"
+      "bytes": 3953,
+      "sha256": "48abccaca8269f987cfb806892ade9bdb59a605c8156c1810a5a59365c9aaaed"
     },
     {
       "path": "avatar.js",
-      "bytes": 7134,
-      "sha256": "c972a28235a4241cbcafa81e9c7245197597c95f8baeb3604a0de277085f2923"
+      "bytes": 580,
+      "sha256": "b1779a32b24eb069781eeeeb52be2ab21506107ee3f5f564f0c42878ef686694"
     },
     {
       "path": "building-sources.json",
@@ -183,9 +188,19 @@
       "sha256": "61ec960ae0764542c6766e14ef5e6ad78edee0517c6c86b9070d4487d4abf77d"
     },
     {
+      "path": "campus-dialogues.js",
+      "bytes": 7168,
+      "sha256": "fffda414ccc7767513e5156b6bc188cc2eb0cb55f52493e1c7265b3c12dc72c4"
+    },
+    {
       "path": "campus-escalator.js",
       "bytes": 10009,
-      "sha256": "d1afd4533ee8827fec130b040582c476d12695e7ebd31e87ff68381dcbd2ed5c"
+      "sha256": "6ac5a2a52b72ac6246464c281a8fe618bec8511f5b45536e67c79ced4db74c54"
+    },
+    {
+      "path": "campus-festival.js",
+      "bytes": 13088,
+      "sha256": "b2d89db0a5c3015b609162c3f5144e21a883d6426e33ff8fa8fe7aca15c323ca"
     },
     {
       "path": "campus-hud.js",
@@ -193,14 +208,29 @@
       "sha256": "6c65b33cbd2af1d5f00561044637c2c2ea80b27966ce49fd15141da9c7189e18"
     },
     {
+      "path": "campus-identity.js",
+      "bytes": 2455,
+      "sha256": "dff7f68e93aef385ffcd75f6aef7b1998ae523969b1e53bd06799ab1bf6cf070"
+    },
+    {
       "path": "campus-life.js",
-      "bytes": 15558,
-      "sha256": "5f7e37d51bb0823e603d4dbf3d7d16fd68e5f1c920472cd213df083cfd1d6abb"
+      "bytes": 17328,
+      "sha256": "654c4c8a98b8f013a2e368a2f6cd5e35c0959e2d174ae1ea6de1831ad15f489f"
     },
     {
       "path": "campus-observed-details.js",
-      "bytes": 7059,
-      "sha256": "65a10fff5b0dbdef32eed194a6f07b423eb7c57d5c6fc1beb0834eed7aae2181"
+      "bytes": 6507,
+      "sha256": "8760accae315de117e61e47f1097dda0c485f9611fc9616b7baf0908e6592b54"
+    },
+    {
+      "path": "campus-realism-sources.json",
+      "bytes": 2148,
+      "sha256": "b0f483810294aa2dbb8ce55662d9bd0267e4bd5cd4ca3577427f67a1948c3581"
+    },
+    {
+      "path": "campus-streets.js",
+      "bytes": 4126,
+      "sha256": "0414319d00506a4daa8eaa70a1890e1f209ce232189a7f4fda24520ea78d1978"
     },
     {
       "path": "campus-survey.json",
@@ -223,14 +253,39 @@
       "sha256": "75b47e6f33f1f1dd9a471871c1a0a562e57d0da52d78cd16588f309609dc9fde"
     },
     {
+      "path": "emote-effects.js",
+      "bytes": 1943,
+      "sha256": "f2ebffcc556ad72c39f8fa375d7654346ef046503b799e11ccba75fc9f4de469"
+    },
+    {
+      "path": "emote-ui.js",
+      "bytes": 1961,
+      "sha256": "3468678068a2be544c23193e622350e850f71430f23221641c1f1204bb9cd557"
+    },
+    {
+      "path": "emotes.css",
+      "bytes": 1586,
+      "sha256": "089fa53bf3d65f6409e1d0b678b6941293c434e4c86748e8f4c8cec7dc04b297"
+    },
+    {
+      "path": "emotes.js",
+      "bytes": 1078,
+      "sha256": "fb2cd6cb7bc1f4ec63c9beffd9c41b3c6a25b7eac91f570d3c14ec7648b9ffce"
+    },
+    {
       "path": "entrance-observed.js",
       "bytes": 9014,
-      "sha256": "a6262af7dbd9f6d6d9a08cd54deb6164226a73675989d2ac32340b0226165739"
+      "sha256": "887f4b4bb4d0ac2341126e9abd81cfe2e7c4f968d7205a8f741aca22d9347c4e"
     },
     {
       "path": "environment.js",
-      "bytes": 15883,
-      "sha256": "6b4ba808a34a0abeede317b0a13ded3015f084aa1c4d807c6cebd2ad06ad617b"
+      "bytes": 16202,
+      "sha256": "dab6546cd4cb5d683808ceea1d9b9e0affda5c6985671e3abdf47be4f7a616b8"
+    },
+    {
+      "path": "festival-layout.js",
+      "bytes": 1198,
+      "sha256": "abede272fb16d480e5f2916c6bd7b4d2245ca5375940c0af246319809f5fed86"
     },
     {
       "path": "focus-architecture.js",
@@ -245,22 +300,22 @@
     {
       "path": "focus-details.js",
       "bytes": 21077,
-      "sha256": "416b9a526e00fafd43898036d5a2839b029285ac8277fa250b2506e04f011804"
+      "sha256": "b00560834c6c857bba833ffb969b6375d507a65e1f4f72e7e417d1061d8832c9"
     },
     {
       "path": "focus-route.js",
       "bytes": 2053,
-      "sha256": "63a7136bffaf724a679d1f6a0412ba263ae1c16fcd77a05865fd48fda9c9909f"
+      "sha256": "b1e76e64cf93adb7348961aa4b97aa068aabfbf4e4763c95e0902a4849ac2700"
     },
     {
       "path": "focus-scope.json",
-      "bytes": 2422,
-      "sha256": "889713dc416aedaac14962c6be34e2e9211713ce48890a5da4a540f35126d5f5"
+      "bytes": 2509,
+      "sha256": "4f1a4e775d40dc64e23b5a7de7c596e710de496f8651c91f172c31f8aaf828b1"
     },
     {
       "path": "game.js",
-      "bytes": 57229,
-      "sha256": "dbd355ac87e38507b319d488e9064303d7493dcc9918c1f421f3cba7165505c9"
+      "bytes": 61634,
+      "sha256": "79c09c27e0fc4ec5030c05740d878b2ce5008d5e2cacfb366f170bb5dbabce0b"
     },
     {
       "path": "identity-sources.json",
@@ -269,8 +324,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 12211,
-      "sha256": "c3fe508c421ce5bbfdbc21ee265a6cd0679cc3ec43991142a246e42d55f32ad8"
+      "bytes": 1169,
+      "sha256": "d468c672b497051ef9d7ad9a13423258e1190628fc4320290e9b12d959621d52"
     },
     {
       "path": "landscape-sources.json",
@@ -278,19 +333,44 @@
       "sha256": "8b63434886f7df61c5d3639dc7e63f1056f86ce917422946e1a083203a301606"
     },
     {
+      "path": "manifest.webmanifest",
+      "bytes": 391,
+      "sha256": "1ed030d4dc26bbe3bbe34621c9b0e99eda3c043b562bcec096539fbfe7caa0f1"
+    },
+    {
+      "path": "mascot-population.js",
+      "bytes": 1152,
+      "sha256": "843c5b76453c45b9def3d4512d75b693578f4ce390cc2e46db1c377ce7ea8e98"
+    },
+    {
+      "path": "mascot-sources.json",
+      "bytes": 1705,
+      "sha256": "4deb8bb822bee445a25132403e9a9aa3ec6b354e7653f43ec2e4229779be7daa"
+    },
+    {
+      "path": "mascot.html",
+      "bytes": 332,
+      "sha256": "0313fe718bd8107b1b369375f387dfe6cadbf42b9cddb51cefe8f9849de319e2"
+    },
+    {
       "path": "materials.js",
-      "bytes": 5302,
-      "sha256": "d77490e2d1deacb9021517b722c2b4979ff8049f8a9b4422cafe77de3075b32e"
+      "bytes": 5375,
+      "sha256": "98ce577d79ef92ec6cedf7f5f71e285fb6e9bda03d836e1282b40b018cf69075"
     },
     {
       "path": "mobile-performance-sources.json",
-      "bytes": 1883,
-      "sha256": "ae75a982793934bccbcc44ca4e1a1e833c884ead5e7fcdcfb93053f9b3a16465"
+      "bytes": 3388,
+      "sha256": "c003272b26700c89faa9057a27dba33ae0e239af900ff79c328a93f0858b0820"
     },
     {
       "path": "mobile-performance.js",
-      "bytes": 1217,
-      "sha256": "d95dd4aa5a7c34ddbb90c1c057f6fd447c4c26a01c982ed20a872d778f2f6d06"
+      "bytes": 1974,
+      "sha256": "dbd760f1dcd381622b04965d9c89ec5a06ed8c2d79b0294c245d82c48417a862"
+    },
+    {
+      "path": "mobile-play.css",
+      "bytes": 6537,
+      "sha256": "3231d6171e2f1fa644bc99a9794d6015ef9a1f28f349ac45efbde60916e28c13"
     },
     {
       "path": "model-preview.html",
@@ -304,18 +384,38 @@
     },
     {
       "path": "movement.js",
-      "bytes": 1193,
-      "sha256": "2fea2e70928e3b0bade66eb76902d62cc6a0136fcc32d05e5ccc6505b748c883"
+      "bytes": 1759,
+      "sha256": "3763cbe61e9f94e4f4c3cf9f9ddc8b2dccc5d140ae562fb6b3770e080737ea5d"
+    },
+    {
+      "path": "multiplayer-config.js",
+      "bytes": 313,
+      "sha256": "0125aa431a00fccc6706077b20eaae77b19eb06d63c735f3e6da2ddb779608ad"
+    },
+    {
+      "path": "multiplayer-scene.js",
+      "bytes": 5377,
+      "sha256": "1d1a8fae782d00f00ea7798ef700183a182040ed28f0b599e25ba2942b5cf974"
+    },
+    {
+      "path": "multiplayer.js",
+      "bytes": 3938,
+      "sha256": "dd10d6d84fa9acc61e96e2530d807ace295281279eb58a137bf14a3b03709c48"
     },
     {
       "path": "museum-forecourt.js",
       "bytes": 5649,
-      "sha256": "f130d06e7a5d016d35d20a10b7e1113c74ee16650fea83d3b0209df60fbfccaa"
+      "sha256": "ab9f098b91283f93dcfa5cbef82b37cc24f63e7e4a29fb128634203d6bc0a5f6"
     },
     {
       "path": "navigation.js",
       "bytes": 1107,
       "sha256": "55839dd85fd6dcf75d35b8b557faccc899d170ebe555c36755580ff5b7e8d4fc"
+    },
+    {
+      "path": "nearby-multiplayer.js",
+      "bytes": 5055,
+      "sha256": "f718e699cd1b1221ba4ae71eaf76bcab78e98ad715de34873fc0c8846312d62f"
     },
     {
       "path": "observed-campus.js",
@@ -340,7 +440,7 @@
     {
       "path": "periphery.js",
       "bytes": 4541,
-      "sha256": "cccfa08bd38d171ca7a2659a8a7101734424cfe9538d9ea1ad37c607c7c34588"
+      "sha256": "cc7b2f5d7fdb3374ef9c64946c2d95629177dab0484bf3d675ae07db6045d86d"
     },
     {
       "path": "places.js",
@@ -349,13 +449,18 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 11043,
-      "sha256": "94e9e95de5e5490a9a29e2e6be30c548585355b06d9eb6aef289846f853b63b2"
+      "bytes": 10038,
+      "sha256": "403ec948c8ec3843d0ff445fa6357e87852879d3ed90d8e2ff69503420bfb143"
+    },
+    {
+      "path": "policy-encounters.js",
+      "bytes": 16115,
+      "sha256": "12d187793bdf412d03f7987334c2040f7f2acce486baa6716c921e8b04cd36ef"
     },
     {
       "path": "policy-sources.json",
-      "bytes": 2710,
-      "sha256": "28552e7c7425ad9bf77361e2220587539ef9c3760aef63e3c329e604d40e0a7e"
+      "bytes": 7300,
+      "sha256": "1992f385e442b420d5d4d3402211bfd502d3cf557c0d432f6c56651bab8fcba5"
     },
     {
       "path": "presentation-notes.json",
@@ -381,6 +486,16 @@
       "path": "reflection-probes.js",
       "bytes": 3876,
       "sha256": "acf6a2a3aef0b142d60c19f563f67f9279e408817ba2e45d390f37de5949f0a4"
+    },
+    {
+      "path": "remote-crowd.js",
+      "bytes": 2740,
+      "sha256": "e48bc887ad7dd0150d5e121bdd273907336e5f0eedcb7cc4411e4adcc70c0ff5"
+    },
+    {
+      "path": "remote-motion.js",
+      "bytes": 609,
+      "sha256": "fab96c96630d794a4df0dbd0f0cc101c9941560a1f3f51eabc0af684cae3adfa"
     },
     {
       "path": "road-clearance.js",
@@ -434,8 +549,8 @@
     },
     {
       "path": "sports-ground.js",
-      "bytes": 3544,
-      "sha256": "ca7fdac6bb6e309b5ee672f15a5bc84786095b52ddfa5c3cc27e245300a699eb"
+      "bytes": 3384,
+      "sha256": "3fe0792e02835416eb621980a30cfe489eb1c7404a2583601f66fd460ac63e62"
     },
     {
       "path": "static-mesh-batches.js",
@@ -449,8 +564,8 @@
     },
     {
       "path": "story-game.js",
-      "bytes": 11175,
-      "sha256": "ab583df1412a231e7bbebe00a3f5467b47d177ef7df488b2faf6b7a856ac0b56"
+      "bytes": 13725,
+      "sha256": "3eeb41e5df924c36c676e2ab69b426911675489b02de67821d0474748545bcfb"
     },
     {
       "path": "student-hall-garden.js",
@@ -490,7 +605,7 @@
     {
       "path": "terrain.js",
       "bytes": 10248,
-      "sha256": "6bccd776acb7910c9a68caa3464d7f6314cdfe12d8f6e9440f18eb9116199703"
+      "sha256": "2fd15e5a471289da93ad64bfc57a17c9a8f2235b98f96b961f5176fb676e0004"
     },
     {
       "path": "three.module.js",
@@ -499,13 +614,13 @@
     },
     {
       "path": "touch-input.js",
-      "bytes": 1027,
-      "sha256": "b85955c42949c50d97ea79b29c303ab98c1fe685cc79789ce06ea86c56b12646"
+      "bytes": 1195,
+      "sha256": "f16e0e9e9b299bd4a82dc44e3ed1d5fd12b64cbe1307603bdef5ca01b115b1b1"
     },
     {
       "path": "vegetation.js",
-      "bytes": 17588,
-      "sha256": "d416ab1a4ec53886e874299dfa556e30e46df757f21fa4a7db391a1c73fda1bf"
+      "bytes": 17838,
+      "sha256": "37ea95ecd293455406f21f7c92ddf15bae60059ed24f42fb2d4768aa374b5955"
     },
     {
       "path": "vendor/FBXLoader.js",
@@ -528,24 +643,49 @@
       "sha256": "209a4412eb48ce609edb4391992a792ffcc3983d30ee7e2b0b89a8c470f3cd8a"
     },
     {
+      "path": "vendor/realtime-LICENSE",
+      "bytes": 1065,
+      "sha256": "334dd6820e2eaeab2064e7c59001b810566728a28a41a7c1dbf69bbee17d0936"
+    },
+    {
+      "path": "vendor/realtime-tslib-LICENSE",
+      "bytes": 644,
+      "sha256": "0e8d2550baea17eb3072c4f919b36fbf9852bb49dba948549872e713863c0834"
+    },
+    {
+      "path": "vendor/realtime.js",
+      "bytes": 35228,
+      "sha256": "e195d837888034942364370abee5b5096af8212a1ae201c0c2675f584c5339b3"
+    },
+    {
       "path": "visual-references.json",
       "bytes": 4099,
       "sha256": "4ea9f68c7a07f29f16427ecc77bf633ba322fe9b3ad338f542055040a9a56872"
     },
     {
       "path": "walk-area.js",
-      "bytes": 3777,
-      "sha256": "06bd978667b2d8fc1222791c998113fcc5faa355411435c8773873fadccf49e0"
+      "bytes": 4504,
+      "sha256": "9e1daa50eaa0768da7b56e49b37994c014c80974e938b655601c940bb2499ea0"
+    },
+    {
+      "path": "walk-boundary.js",
+      "bytes": 1186,
+      "sha256": "cd55463e0207f3e85f45fc1a570ba56ae72ac48054c0231c95cee78ebef9c308"
     },
     {
       "path": "walk.html",
-      "bytes": 12211,
-      "sha256": "c3fe508c421ce5bbfdbc21ee265a6cd0679cc3ec43991142a246e42d55f32ad8"
+      "bytes": 1169,
+      "sha256": "d468c672b497051ef9d7ad9a13423258e1190628fc4320290e9b12d959621d52"
+    },
+    {
+      "path": "wind-mascot.js",
+      "bytes": 14708,
+      "sha256": "8d67449a26f877d435e4a2000725563b8810c00569b802cfca6567ae41e781f8"
     },
     {
       "path": "world.js",
-      "bytes": 17743,
-      "sha256": "07b5952afa70543b87b739542d6b587533837f7645b79301e0fe20de22f0b904"
+      "bytes": 18242,
+      "sha256": "4ed847b3dffe373da6ef1f028e910204bd8f1737d0d37e56db7e3a5ddc37cc70"
     }
   ]
 }

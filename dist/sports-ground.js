@@ -6,13 +6,14 @@ export function addSportsGrounds(scene,data,terrain,environment){
  const field=data.areas.find(a=>a.id==='286070859');if(!field)return;
  const pts=field.points,cx=(Math.min(...pts.map(p=>p[0]))+Math.max(...pts.map(p=>p[0])))/2,cz=(Math.min(...pts.map(p=>p[1]))+Math.max(...pts.map(p=>p[1])))/2;
  const angle=.009,co=Math.cos(angle),si=Math.sin(angle),at=(x,z)=>[cx+co*x+si*z,cz-si*x+co*z];
- const track=new THREE.MeshStandardMaterial({color:'#a56457',roughness:.96,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2});
- const grass=new THREE.MeshStandardMaterial({color:'#638466',roughness:1,polygonOffset:true,polygonOffsetFactor:-3,polygonOffsetUnits:-3});
- const paint=new THREE.MeshStandardMaterial({color:'#e0e3d5',roughness:.9,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4});
+ // Surfaces have explicit height offsets; depth bias would hide festival mats above the field.
+ const track=new THREE.MeshStandardMaterial({color:'#a56457',roughness:.96});
+ const grass=new THREE.MeshStandardMaterial({color:'#638466',roughness:1});
+ const paint=new THREE.MeshStandardMaterial({color:'#e0e3d5',roughness:.9});
  function oval(radius,straight=84.4){const p=[];for(let i=0;i<=48;i++){const a=i*Math.PI/48;p.push(at(Math.cos(a)*radius,straight/2+Math.sin(a)*radius));}for(let i=0;i<=48;i++){const a=Math.PI+i*Math.PI/48;p.push(at(Math.cos(a)*radius,-straight/2+Math.sin(a)*radius));}return p;}
  function line(points,width=.12,offset=.078){for(let i=1;i<points.length;i++)environment.segment(points[i-1],points[i],width,paint,offset);}
  function closed(points,width=.12,offset=.078){line([...points,points[0]],width,offset);}
- const apron=new THREE.MeshStandardMaterial({color:'#a3aaa0',roughness:1,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+ const apron=new THREE.MeshStandardMaterial({color:'#a3aaa0',roughness:1});
  environment.polygon(oval(50),apron,.035);
  environment.polygon(oval(46.26),track,.044);
  environment.polygon(oval(36.5),grass,.058);

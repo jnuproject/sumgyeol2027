@@ -10,7 +10,7 @@ const data=JSON.parse(fs.readFileSync(new URL('../dist/campus-data.json',import.
 
 test('free exploration crosses the former tour boundary while still rejecting walls and invalid map coordinates',()=>{
  const focus=createFocusWalkArea(data),campus=createCampusWalkArea(bounds);
- for(const p of [[-235,-45],[-79,400],[300,-200]]){assert.equal(focus.contains(...p),false);assert.equal(campus.contains(...p),true);}
+ for(const p of [[-400,-45],[-79,400],[300,-200]]){assert.equal(focus.contains(...p),false);assert.equal(campus.contains(...p),true);}
  assert.equal(campus.restricted,false);assert.deepEqual(campus.outline(),[]);
  assert.equal(campus.contains(NaN,0),false);assert.equal(campus.contains(0,Infinity),false);assert.equal(campus.contains(-550,0),false);
  const b=data.buildings.find(b=>b.id==='953564621');assert.equal(campus.contains(...b.center),true);assert.equal(walkable(...b.center,data.buildings),false,'building collision still blocks an otherwise open area');

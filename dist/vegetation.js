@@ -1,3 +1,4 @@
+import {festivalLayout} from './festival-layout.js?v=festival-r61';
 import {insideStudentGarden} from './student-hall-garden.js?v=player-r54';
 import {SATELLITE_LAWNS} from './satellite-layout.js?v=player-r54';
 import {spatialInstanceBatches} from './spatial-instances.js?v=player-r54';
@@ -28,7 +29,9 @@ export function generateVegetationLayout(data){
  const buildings=data.buildings.map(b=>({points:b.points,minX:Math.min(...b.points.map(p=>p[0])),maxX:Math.max(...b.points.map(p=>p[0])),minZ:Math.min(...b.points.map(p=>p[1])),maxZ:Math.max(...b.points.map(p=>p[1]))}));
  const pitch=data.areas.find(a=>a.id==='286070859');
  const sportsCenter=pitch?[(Math.min(...pitch.points.map(p=>p[0]))+Math.max(...pitch.points.map(p=>p[0])))/2,(Math.min(...pitch.points.map(p=>p[1]))+Math.max(...pitch.points.map(p=>p[1])))/2]:null;
+ const festival=festivalLayout(data);
  const blocked=(x,z,h,type,areaId)=>{
+  if(festival?.connector.some((p,i)=>i&&segmentDistance(x,z,festival.connector[i-1],p)<4.5))return true;
   if(data.studentHallReference&&insideStudentGarden(x,z)&&areaId!=='student-hall-reference')return true;
   const observedEdge=areaId==='lawn-edge-observed'&&SATELLITE_LAWNS.slice(0,3).some(a=>edgeDistance(x,z,a.points)<6.5);
   if(AERIAL_PATHS.some(p=>p.points.some((q,i)=>i&&segmentDistance(x,z,p.points[i-1],q)<p.width/2+2)))return true;

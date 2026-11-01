@@ -12,7 +12,7 @@ export const POLICY_DIALOGUES=[
   walk:{"lines":["4·3 주간에 걷기나 러닝 프로그램도 함께 열려고 해. 순위를 겨루기보다는 장소의 의미를 알아가는 데 초점을 두고."],"next":"bye"},
   bye:{"lines":["아직 준비 중이라 길의 안전이나 접근성도 살펴야 해. 관심 가져줘서 고마워. 산책 잘 다녀와."],"end":true}
  }},
- {"id":"festival","category":"문화/대동제","name":"숨결 · 문화/대동제","place":"경상대 앞 보행로","color":"#4897ad","topic":"시험 끝나면 뭐 하지?","policy":"숨플페","summary":"낮에는 체험 부스와 휴식 공간, 밤에는 참여형 시상식·토크·공연으로 한 해를 함께 마무리하는 연말제 구상.","source":"https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit?tab=t.7a683j9zwd6d",nodes:{
+ {"id":"festival","anchor":[-198,-86],"category":"문화/대동제","name":"숨결 · 문화/대동제","place":"대운동장 축제장 입구","color":"#4897ad","topic":"시험 끝나면 뭐 하지?","policy":"숨플페","summary":"낮에는 체험 부스와 휴식 공간, 밤에는 참여형 시상식·토크·공연으로 한 해를 함께 마무리하는 연말제 구상.","source":"https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit?tab=t.7a683j9zwd6d",nodes:{
   hello:{"lines":["시험 끝나면 뭐 할 거야? 나는 친구들이랑 놀고 싶은데.","막상 끝나면 다들 바로 집에 가더라."],"choices":[{"text":"일단 푹 자고 싶어.","next":"rest"},{"text":"학교에서 다 같이 놀면 좋겠는데.","next":"friends"}]},
   rest:{"lines":["그럼 편한 의자에 앉아서 영상 보고, 간식 먹으면서 쉬는 건 어때? 잠깐 들렀다 가도 되고."],"next":"plan"},
   friends:{"lines":["게임 부스나 포토존도 있으면 좋겠다. 친구들이랑 부스를 직접 열어봐도 재밌을 것 같고."],"next":"plan"},

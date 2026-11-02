@@ -9,6 +9,10 @@ function setup(){const scene=new THREE.Scene(),collisionPolygons=[],obstacles=[]
 test('festival uses the original sports field and retains a clear gym-to-field connection',()=>{
  const trees=generateVegetationLayout(data);const l=festivalLayout(data),area=createFocusWalkArea(data),{collisionPolygons,obstacles}=setup();assert.ok(area.contains(...l.center));
  for(let i=1;i<l.connector.length;i++){const a=l.connector[i-1],b=l.connector[i],length=Math.hypot(a[0]-b[0],a[1]-b[1]);for(let t=0;t<=length;t+=.4){const p=[a[0]+(b[0]-a[0])*t/length,a[1]+(b[1]-a[1])*t/length];assert.ok(trees.every(t=>Math.hypot(t.x-p[0],t.z-p[1])>4.4));assert.ok(area.contains(...p));assert.ok(walkable(...p,[...data.buildings,...collisionPolygons]),JSON.stringify(p));assert.ok(obstacles.every(o=>Math.hypot(o[0]-p[0],o[1]-p[1])>o[2]+.4));}}
+ const zone=l.studentZone;assert.ok(l.audience.every(p=>p.x>zone.minX&&p.x<zone.maxX&&p.z>zone.minZ&&p.z<zone.maxZ));
+ assert.ok(!walkable(zone.maxX,l.center[1]+15,collisionPolygons));assert.ok(walkable(zone.maxX,l.center[1],collisionPolygons));
+ const [sx,sz]=l.stage;assert.ok(!walkable(sx+22,sz+9,collisionPolygons));assert.ok(!walkable(sx+14,sz,collisionPolygons));
+ for(let x=sx+28;x<zone.maxX+4;x+=.5){assert.ok(walkable(x,sz,collisionPolygons));assert.ok(obstacles.every(o=>Math.hypot(x-o[0],sz-o[1])>o[2]+.4));}
  for(const b of l.booths)assert.ok(!walkable(b.x,b.z,collisionPolygons));assert.ok(walkable(...l.spawn,collisionPolygons));
  assert.equal(area.contains(300,-200),false);assert.equal(area.contains(-400,250),false);
 });

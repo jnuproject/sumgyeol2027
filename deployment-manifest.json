@@ -1,6 +1,6 @@
 {
-  "version": "campus-roster-r62-paused",
-  "cacheRevision": "roster-r62",
+  "version": "campus-night-r63-paused",
+  "cacheRevision": "night-r63",
   "files": [
     {
       "path": ".nojekyll",
@@ -199,8 +199,8 @@
     },
     {
       "path": "campus-festival.js",
-      "bytes": 13088,
-      "sha256": "b2d89db0a5c3015b609162c3f5144e21a883d6426e33ff8fa8fe7aca15c323ca"
+      "bytes": 17503,
+      "sha256": "7812592bd49b84d77f38132f5aaf3ed158f316612350056450a35a3a35b25686"
     },
     {
       "path": "campus-hud.js",
@@ -283,9 +283,14 @@
       "sha256": "dab6546cd4cb5d683808ceea1d9b9e0affda5c6985671e3abdf47be4f7a616b8"
     },
     {
+      "path": "festival-atmosphere.js",
+      "bytes": 1066,
+      "sha256": "e14be01acaf75d6adfbefc77c68b743cda03b342323b79a92162dce29458128b"
+    },
+    {
       "path": "festival-layout.js",
-      "bytes": 1198,
-      "sha256": "abede272fb16d480e5f2916c6bd7b4d2245ca5375940c0af246319809f5fed86"
+      "bytes": 1276,
+      "sha256": "b365f205f0d6f74113b88fd6547c11cdccea5d5a9a9cf8fe9bfb2bd75b9fe96d"
     },
     {
       "path": "focus-architecture.js",
@@ -314,8 +319,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 62377,
-      "sha256": "cc037dfe54b0be5988e0f52ff34803be050621b4b2c9a1f035011cef44801294"
+      "bytes": 64493,
+      "sha256": "e134e9bb32c43b2efc3da53465c78622f69f93f0f413f06ab4376ee2c6532eeb"
     },
     {
       "path": "identity-sources.json",

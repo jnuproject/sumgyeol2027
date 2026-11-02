@@ -12,7 +12,8 @@ export function festivalLayout(data){
   connector:[[-97,-89],[-169,-89],[cx+49,cz-44],[cx+32,cz-44]],
   walkBox:{minX:cx-64,maxX:cx+57,minZ:cz-99,maxZ:cz+97},
   booths:Array.from({length:8},(_,i)=>({x:cx+46,z:cz-29+i*9.5,label:['숨결 안내소','귤빛 간식','동아리 마켓','오늘의 사진','함께 놀아요','시원한 쉼표','축제 기념품','초록 실천'][i]})),
-  audience:Array.from({length:12},(_,i)=>({x:cx-23+(i%3)*10,z:cz+[-23,-13,13,23][Math.floor(i/3)]})),
+  audience:Array.from({length:12},(_,i)=>({x:cx-11+(i%3)*10,z:cz+[-23,-13,13,23][Math.floor(i/3)]})),
+  studentZone:{minX:cx-16,maxX:cx+23,minZ:cz-32,maxZ:cz+32,aisleHalfWidth:5},
   photo:[cx+28,cz+54],
   inferred:true,source:'https://appstagejeju.com/portfolio/?vid=21'};
 }

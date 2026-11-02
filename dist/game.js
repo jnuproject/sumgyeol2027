@@ -1,25 +1,26 @@
+import {createCampusWayfinding} from './campus-wayfinding.js?v=connection-r65';
 import {createFestivalAtmosphere} from './festival-atmosphere.js?v=night-r63';
 import {createPolicySpaces} from './policy-spaces.js?v=roster-r62';
-import {createCampusFestival} from './campus-festival.js?v=stadium-r64';
+import {createCampusFestival} from './campus-festival.js?v=connection-r65';
 import {createEmoteState} from './emotes.js?v=emote-r59';
 import {createEmoteUI} from './emote-ui.js?v=emote-r59';
 import {createMultiplayerScene} from './multiplayer-scene.js?v=emote-r59';
 import {createCampusHud} from './campus-hud.js?v=player-r54';
 import {createCampusLife} from './campus-life.js?v=crowd-r58';
 import {createStoryGame} from './story-game.js?v=roster-r62';
-import {applyStudentHallReference} from './student-hall-garden.js?v=player-r54';
+import {applyStudentHallReference} from './student-hall-garden.js?v=connection-r65';
 import {applySatelliteLayout} from './satellite-layout.js?v=player-r54';
 import {simulationDelta,isTouchLayout,renderProfile,adaptiveMobileResolution,shouldClearPointerExit} from './mobile-performance.js?v=capacity-r56';
 import {createTouchInput} from './touch-input.js?v=player-r54';
 import {prepareCampusRoads} from './road-clearance.js?v=player-r54';
 import {createCampusReflections} from './reflection-probes.js?v=player-r54';
 import * as THREE from './three.module.js';
-import { createCampus, makeAvatar } from './world.js?v=stadium-r64';
+import { createCampus, makeAvatar } from './world.js?v=connection-r65';
 import {isWalkingRoad} from './road-profile.js?v=player-r54';
 import { places } from './places.js?v=player-r54';
 import {FOCUS_SCOPE,resolveFocusStops,focusZoneLabel} from './focus-route.js?v=player-r54';
 import { walkable } from './navigation.js';
-import {createFocusWalkArea,safeFocusPosition} from './walk-area.js?v=festival-r61';
+import {createFocusWalkArea,safeFocusPosition} from './walk-area.js?v=connection-r65';
 import {addWalkBoundary} from './walk-boundary.js?v=player-r54';
 import { advanceVertical, terrainCameraDistance, walkSpeed, advancePlanarMotion } from './movement.js?v=player-r54';
 
@@ -49,6 +50,7 @@ async function initialize(){
   const response=await fetch('./campus-data.json?v=odbl-20261024-r15',{cache:'no-store'});
   if(!response.ok)throw Error('Map data could not be loaded');
   const data=prepareCampusRoads(applyStudentHallReference(applySatelliteLayout(await response.json())));
+  const connectionReview=new URLSearchParams(location.search).get('view')==='connection-overview';
   const stadiumReview=new URLSearchParams(location.search).get('view')?.startsWith('stadium-');
   const museumReview=new URLSearchParams(location.search).get('view')==='museum';
   const studentFrontReview=new URLSearchParams(location.search).get('view')==='student-front';
@@ -68,7 +70,7 @@ async function initialize(){
   const fill=new THREE.DirectionalLight('#c8e9ff',.40);fill.position.set(100,80,-50);scene.add(fill);
   const campus=await createCampus(scene,data,{mobile:mobileClient}),avatar=await makeAvatar(scene);$('loadingStatus').textContent='빛과 그림자를 준비하고 있어요.';
   const {player,body,legs,arms}=avatar;player.visible=false;if(mobileClient)player.traverse(o=>{if(o.isMesh)o.castShadow=false;});
-  const festival=createCampusFestival({scene,data,terrain:campus.terrain,avatar,collisionPolygons:campus.walkCollisionPolygons,obstacles:campus.obstacles,cameraCollisionMeshes:campus.cameraCollisionMeshes,mobile:mobileClient});
+  const festival=createCampusFestival({scene,data,terrain:campus.terrain,avatar,pathMaterial:campus.pathMaterial,collisionPolygons:campus.walkCollisionPolygons,obstacles:campus.obstacles,cameraCollisionMeshes:campus.cameraCollisionMeshes,mobile:mobileClient});
   const festivalAtmosphere=createFestivalAtmosphere(festival.layout);let atmosphere=festivalAtmosphere.sample();
   const groundAt=(x,z)=>(campus.walkHeightAt??campus.heightAt)(x,z);
   const terrainAt=(x,z)=>campus.heightAt(x,z);
@@ -203,6 +205,7 @@ gl_FragColor=vec4(c,1.);
   const campusLife=createCampusLife({scene,data,avatar,groundAt,canStand:navigable,obstacles:campus.obstacles,cameraCollisionMeshes:campus.cameraCollisionMeshes,mobile:mobileClient,anchors:stories.metadata().anchors.map(a=>a.npc)});
   const boothAttendant=campusLife.takeBoothAttendant('student-hall');if(boothAttendant)stories.assignBoothActor('outreach',boothAttendant);
   const policySpaces=createPolicySpaces({scene,data,anchors:stories.metadata().anchors,canStand:navigable,heightAt:groundAt,obstacles:campus.obstacles,cameraCollisionMeshes:campus.cameraCollisionMeshes});
+  const wayfinding=createCampusWayfinding({scene,data,heightAt:groundAt,avatar,obstacles:campus.obstacles,cameraCollisionMeshes:campus.cameraCollisionMeshes,anchors:stories.metadata().anchors.map(a=>a.npc)});
   const hud=createCampusHud({mode:()=>mode,hasPlaceCard:()=>mode==='explore'&&!overview,clearInput});
   $('hudRecord').onclick=()=>{hud.close();stories.journal();};
   const visitKey='JejuCampusWalk.focus.visited.v1';
@@ -340,7 +343,7 @@ gl_FragColor=vec4(c,1.);
       desiredCamera.set(desiredFocus.x+Math.sin(angle)*introDistance,desiredFocus.y+introDistance*.59,desiredFocus.z-Math.cos(angle)*introDistance);
     }else if(mode==='explore'){
       const responsiveDistance=distance*Math.min(2.5,Math.max(1,1.25/camera.aspect));
-      const p=stadiumReview?festival.layout.center:overview?(studentReview?[-124,-29]:lawnReview?[-28,-170]:[-70,-170]):museumReview&&selected===0?[-26,-418]:studentFrontReview&&selected===2?[-117.4,-13.7]:locations[selected];desiredFocus.set(p[0],terrainAt(...p)+(overview?0:museumReview&&selected===0?3.5:studentFrontReview&&selected===2?3.5:selected===1?5:1.5),p[1]);
+      const p=connectionReview?[-163,-43]:stadiumReview?festival.layout.center:overview?(studentReview?[-124,-29]:lawnReview?[-28,-170]:[-70,-170]):museumReview&&selected===0?[-26,-418]:studentFrontReview&&selected===2?[-117.4,-13.7]:locations[selected];desiredFocus.set(p[0],terrainAt(...p)+(overview?0:museumReview&&selected===0?3.5:studentFrontReview&&selected===2?3.5:selected===1?5:1.5),p[1]);
       desiredCamera.copy(desiredFocus).add(new THREE.Vector3(Math.sin(yaw)*Math.cos(pitch)*responsiveDistance,Math.sin(pitch)*responsiveDistance,-Math.cos(yaw)*Math.cos(pitch)*responsiveDistance));
     }else{
       if(firstPerson){desiredCamera.copy(player.position);desiredCamera.y+=1.65;desiredFocus.copy(desiredCamera).add(new THREE.Vector3(-Math.sin(walkYaw)*10,-Math.sin(walkPitch-.16)*10,-Math.cos(walkYaw)*10));return;}
@@ -394,7 +397,7 @@ gl_FragColor=vec4(c,1.);
     visitMarkers.forEach((marker,i)=>{marker.visible=false;marker.children[0].material.color.set(visited.has(places[i].id)?'#66e1ff':'#00bfff');});
     reflections.update(mode==='walk'?player.position.x:currentFocus.x,mode==='walk'?player.position.z:currentFocus.z,{night:atmosphere.nightMix>.5,quality,dt});
     updatePins();renderer.render(scene,camera);frame++;
-    if(frame%30===0){$('world').dataset.verification=JSON.stringify({version:'campus-stadium-r64',hud:hud.metadata(),emote:emotes.sample(),multiplayer:multiplayer.metadata(),campusLife:campusLife.metadata(),stories:stories.metadata(),museumForecourt:campus.museumForecourt,studentGarden:campus.studentGarden,cacheRevision:'stadium-r64',meadowAppearance:'original-green-terrain-with-perimeter-trees-r34',satelliteLayout:data.satelliteLayout,sports:campus.sports,festival:festival.metadata(),festivalAtmosphere:{...atmosphere,manualNight:night},policySpaces:policySpaces.metadata(),focusAreas:places.map(p=>p.id),selectedPlace:places[selected].id,areaCount:data.areas.length,parkingCount:data.areas.filter(a=>a.tags.amenity==='parking').length,mode,overview,perspective:firstPerson?'first':'third',position:player.position.toArray(),ground:groundAt(player.position.x,player.position.z),grounded,verticalVelocity,walked:totalWalked,jumps:jumpCount,maxJumpClearance,blockedMoves,camera:camera.position.toArray(),buildingCount:data.buildings.length,renderedBuildingIds:campus.renderedBuildingIds,renderedBuildingCount:campus.renderedBuildingIds.length,roadCount:data.roads.length,vehicleRoadCount:data.roads.filter(r=>!isWalkingRoad(r)).length,entrance:campus.observedEntrance,aerialBuildings:campus.aerialBuildingStats,aerialLandscape:campus.aerialLandscape,performance:{mobile:mobileClient,quality,drawingBuffer:[renderer.domElement.width,renderer.domElement.height],pixelRatio:renderer.getPixelRatio(),staticShadows:graphics.staticShadows,shadowSize:graphics.shadowSize,shadowRefreshes,triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,batching:campus.mobileBatching},vegetationCounts:campus.vegetationStats.counts,roadClearance:campus.environmentStats.roadClearance,roadAlignment:data.renderRoadCorrections,avatar:avatar.metadata,characters:avatar.populationMetadata?.(),touch:{layout:touchLayout(),movementHeld:joystickPointer!==null,runHeld:runTouch,cameraPointers:pointers.size},movement:{phoneWalk:9,phoneRun:20,speed:Math.hypot(velocityX,velocityZ)},walkArea:{restricted:walkArea.restricted,boundaryVisible:mode==='walk'&&!photoActive,inside:walkArea.contains(player.position.x,player.position.z)},buildingIdentity:campus.buildingIdentity,surveyDetails:campus.observedDetails,periphery:campus.periphery,reflections:reflections.stats,focusDetails:campus.focusDetails,grading:campus.terrain?.metadata?.localObservedGrading,openData:data.openDataIntegration?.source??null,terrain:campus.terrain?.metadata?.source??'AWS Terrain Tiles',webgl:renderer.capabilities.isWebGL2?'WebGL2':'WebGL'});$('world').dataset.renderedFrames=String(frame);$('world').dataset.fps=(1000/frameDuration).toFixed(1);$('world').dataset.treeCount=String(campus.treeCount);$('world').dataset.drawCalls=String(renderer.info.render.calls);$('world').dataset.playerPosition=[player.position.x.toFixed(2),player.position.y.toFixed(2),player.position.z.toFixed(2)].join(',');}
+    if(frame%30===0){$('world').dataset.verification=JSON.stringify({version:'campus-connection-r65',hud:hud.metadata(),emote:emotes.sample(),multiplayer:multiplayer.metadata(),campusLife:campusLife.metadata(),stories:stories.metadata(),museumForecourt:campus.museumForecourt,studentGarden:campus.studentGarden,cacheRevision:'connection-r65',meadowAppearance:'original-green-terrain-with-perimeter-trees-r34',satelliteLayout:data.satelliteLayout,sports:campus.sports,festival:festival.metadata(),festivalAtmosphere:{...atmosphere,manualNight:night},policySpaces:policySpaces.metadata(),focusAreas:places.map(p=>p.id),selectedPlace:places[selected].id,areaCount:data.areas.length,parkingCount:data.areas.filter(a=>a.tags.amenity==='parking').length,mode,overview,perspective:firstPerson?'first':'third',position:player.position.toArray(),ground:groundAt(player.position.x,player.position.z),grounded,verticalVelocity,walked:totalWalked,jumps:jumpCount,maxJumpClearance,blockedMoves,camera:camera.position.toArray(),buildingCount:data.buildings.length,renderedBuildingIds:campus.renderedBuildingIds,renderedBuildingCount:campus.renderedBuildingIds.length,roadCount:data.roads.length,vehicleRoadCount:data.roads.filter(r=>!isWalkingRoad(r)).length,entrance:campus.observedEntrance,aerialBuildings:campus.aerialBuildingStats,aerialLandscape:campus.aerialLandscape,performance:{mobile:mobileClient,quality,drawingBuffer:[renderer.domElement.width,renderer.domElement.height],pixelRatio:renderer.getPixelRatio(),staticShadows:graphics.staticShadows,shadowSize:graphics.shadowSize,shadowRefreshes,triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,batching:campus.mobileBatching},vegetationCounts:campus.vegetationStats.counts,roadClearance:campus.environmentStats.roadClearance,roadAlignment:data.renderRoadCorrections,avatar:avatar.metadata,characters:avatar.populationMetadata?.(),touch:{layout:touchLayout(),movementHeld:joystickPointer!==null,runHeld:runTouch,cameraPointers:pointers.size},movement:{phoneWalk:9,phoneRun:20,speed:Math.hypot(velocityX,velocityZ)},walkArea:{restricted:walkArea.restricted,boundaryVisible:mode==='walk'&&!photoActive,inside:walkArea.contains(player.position.x,player.position.z)},buildingIdentity:campus.buildingIdentity,surveyDetails:campus.observedDetails,periphery:campus.periphery,reflections:reflections.stats,focusDetails:campus.focusDetails,wayfinding,campusWalkDetails:campus.campusWalkDetails,grading:campus.terrain?.metadata?.localObservedGrading,openData:data.openDataIntegration?.source??null,terrain:campus.terrain?.metadata?.source??'AWS Terrain Tiles',webgl:renderer.capabilities.isWebGL2?'WebGL2':'WebGL'});$('world').dataset.renderedFrames=String(frame);$('world').dataset.fps=(1000/frameDuration).toFixed(1);$('world').dataset.treeCount=String(campus.treeCount);$('world').dataset.drawCalls=String(renderer.info.render.calls);$('world').dataset.playerPosition=[player.position.x.toFixed(2),player.position.y.toFixed(2),player.position.z.toFixed(2)].join(',');}
   }
   if(new URLSearchParams(location.search).get('inspect')==='1'){$('world').addEventListener('pointerdown',e=>{if(!e.altKey)return;const rect=$('world').getBoundingClientRect(),picker=new THREE.Raycaster();picker.setFromCamera(new THREE.Vector2((e.clientX-rect.left)/rect.width*2-1,-(e.clientY-rect.top)/rect.height*2+1),camera);const hit=picker.intersectObjects(scene.children,true)[0];$('world').dataset.surfaceHit=JSON.stringify(hit?{name:hit.object.name,material:hit.object.material.name,color:hit.object.material.color?.getHexString(),position:hit.point.toArray()}:null);});}
   const reflections=createCampusReflections({renderer,scene,lightweight:mobileClient,heightAt:groundAt,anchors:[{name:'gate',position:campus.entrySpawn??data.spawn},{name:'economics',position:[-44,87.6]},{name:'library',position:[-104,224]},{name:'student-hall',position:[-87.8,-21]}],hidden:[player,...visitMarkers]});
@@ -410,6 +413,8 @@ gl_FragColor=vec4(c,1.);
   const review=new URLSearchParams(location.search).get('view');
   if(review?.startsWith('policy-')){const a=stories.metadata().anchors.find(a=>a.id===review.slice(7));if(a){const s=policySpaces.metadata().placements.find(s=>s.id===a.id),angle=s?Math.atan2(a.npc[0]-s.x,a.npc[1]-s.z):0,p=safeWalkStart([a.npc[0]+Math.sin(angle)*3,a.npc[1]+Math.cos(angle)*3]);if(p){player.position.set(p[0],groundAt(...p),p[1]);walkYaw=angle;body.rotation.y=angle+Math.PI;walkPitch=.24;walkDistance=8;snapCamera();}}}
   if(review==='festival'||review==='festival-night'){const p=safeWalkStart(festival.layout.spawn);if(p){player.position.set(p[0],groundAt(...p),p[1]);walkYaw=Math.PI/2;walkPitch=.18;walkDistance=mobileClient?8:12;body.rotation.y=-Math.PI/2;setNight(review==='festival-night');snapCamera();}}
+  if(connectionReview){setMode('explore');$('explorer').hidden=true;overview=false;yaw=-.95;pitch=.65;distance=105;snapCamera();}
+  if(review==='connection-walk'){const p=safeWalkStart([-138,-34.2]);if(p){player.position.set(p[0],groundAt(...p),p[1]);walkYaw=Math.PI/2;walkPitch=.19;walkDistance=7;body.rotation.y=-Math.PI/2;snapCamera();}}
   if(stadiumReview){setMode('explore');$('explorer').hidden=true;overview=false;yaw=review==='stadium-overview'?.9:Math.PI/2;pitch=review==='stadium-overview'?.85:.12;distance=review==='stadium-overview'?150:62;snapCamera();}
   if(review==='festival-entry'){const [ex,ez]=festival.layout.entry,p=safeWalkStart([ex+13,ez]);if(p){player.position.set(p[0],groundAt(...p),p[1]);walkYaw=Math.PI/2;walkPitch=.20;walkDistance=8;body.rotation.y=-Math.PI/2;snapCamera();}}
   if(review==='festival-booths'){const [cx,cz]=festival.layout.center;player.position.set(cx+35,groundAt(cx+35,cz-24),cz-24);walkYaw=-Math.PI/2;walkPitch=.22;walkDistance=9;body.rotation.y=Math.PI/2;snapCamera();}

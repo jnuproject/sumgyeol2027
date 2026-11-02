@@ -5,11 +5,11 @@ import {loadCampusMaterials} from '../dist/materials.js';
 
 test('phone startup loads four colour textures and keeps visible surfaces while omitting eight costly detail maps',async()=>{
  const original=THREE.TextureLoader.prototype.loadAsync,previous=globalThis.document,requests=[];
- const context=new Proxy({},{get:()=>()=>{}});
+ const context=new Proxy({},{get:(_t,key)=>key==='createLinearGradient'?()=>({addColorStop(){}}):()=>{}});
  globalThis.document={getElementById:()=>null,createElement:()=>({width:0,height:0,getContext:()=>context})};
  THREE.TextureLoader.prototype.loadAsync=async url=>{requests.push(url);return new THREE.Texture();};
  try{
-  const phone=await loadCampusMaterials({mobile:true});assert.equal(requests.length,4);assert(requests.every(s=>s.endsWith('_diff_1k.jpg')));
+  const phone=await loadCampusMaterials({mobile:true});assert.equal(requests.length,4);assert.ok(phone.water.envMap?.isTexture);assert(requests.every(s=>s.endsWith('_diff_1k.jpg')));
   for(const name of ['grass','asphalt','stone','wall','paving','redPaving']){assert(phone[name].map?.isTexture);assert.equal(phone[name].normalMap,null);assert.equal(phone[name].roughnessMap,null);}
   requests.length=0;const desktop=await loadCampusMaterials();assert.equal(requests.length,12);assert(desktop.grass.normalMap?.isTexture);assert(desktop.grass.roughnessMap?.isTexture);
  }finally{THREE.TextureLoader.prototype.loadAsync=original;globalThis.document=previous;}

@@ -1,3 +1,4 @@
+import {nearCampusConnection} from './campus-connections.js?v=connection-r65';
 import {festivalLayout} from './festival-layout.js?v=festival-r61';
 import {insideStudentGarden} from './student-hall-garden.js?v=player-r54';
 import {SATELLITE_LAWNS} from './satellite-layout.js?v=player-r54';
@@ -31,6 +32,7 @@ export function generateVegetationLayout(data){
  const sportsCenter=pitch?[(Math.min(...pitch.points.map(p=>p[0]))+Math.max(...pitch.points.map(p=>p[0])))/2,(Math.min(...pitch.points.map(p=>p[1]))+Math.max(...pitch.points.map(p=>p[1])))/2]:null;
  const festival=festivalLayout(data);
  const blocked=(x,z,h,type,areaId)=>{
+  if(nearCampusConnection(x,z,2.1)||[-68,-44,-12].some(p=>Math.hypot(x+172,z-p)<4.4))return true;
   if(festival?.connector.some((p,i)=>i&&segmentDistance(x,z,festival.connector[i-1],p)<4.5))return true;
   if(data.studentHallReference&&insideStudentGarden(x,z)&&areaId!=='student-hall-reference')return true;
   const observedEdge=areaId==='lawn-edge-observed'&&SATELLITE_LAWNS.slice(0,3).some(a=>edgeDistance(x,z,a.points)<6.5);

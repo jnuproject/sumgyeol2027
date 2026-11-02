@@ -1,3 +1,5 @@
+import {STUDENT_GARDEN_PATHS} from './student-hall-garden.js';
+import {CAMPUS_CONNECTIONS} from './campus-connections.js?v=connection-r65';
 import {festivalLayout} from './festival-layout.js?v=festival-r61';
 import {MAIN_AVENUE_WIDTH,MAIN_AVENUE_SIDEWALK_WIDTH} from './road-profile.js?v=player-r54';
 import {segmentDistance} from './navigation.js';
@@ -33,6 +35,7 @@ export function createFocusWalkArea(data){
  road('economics-connection',7.2,connector?.points.filter(p=>p[1]<=83));
  road('471694209',5.8);
  road('471489721',5.5);
+ for(const r of [...CAMPUS_CONNECTIONS,...STUDENT_GARDEN_PATHS])road(r.id,r.width/2+.8,r.points);
  const festival=festivalLayout(data);if(festival){const b=festival.walkBox;box('festival-ground',b.minX,b.maxX,b.minZ,b.maxZ);road('festival-connection',4,festival.connector);}
  const containsRaw=(x,z)=>Number.isFinite(x)&&Number.isFinite(z)&&regions.some(r=>r.type==='box'
   ?x>=r.minX&&x<=r.maxX&&z>=r.minZ&&z<=r.maxZ

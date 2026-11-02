@@ -3,7 +3,7 @@ import {festivalLayout} from './festival-layout.js?v=night-r63';
 import {batchStaticMeshes} from './static-mesh-batches.js?v=player-r54';
 import {createWindMascotFactory,MASCOT_KINDS} from './wind-mascot.js?v=emote-r59';
 
-export function createCampusFestival({scene,data,terrain,avatar,collisionPolygons,obstacles,cameraCollisionMeshes,mobile=false}){
+export function createCampusFestival({scene,data,terrain,avatar,collisionPolygons,obstacles,cameraCollisionMeshes,pathMaterial=null,mobile=false}){
  const layout=festivalLayout(data);if(!layout)return {update(){},metadata:()=>({enabled:false})};
  const root=new THREE.Group();root.name='Ara Daedongje — photo-informed festival';scene.add(root);
  const decor=new THREE.Group(),nightDecor=new THREE.Group();root.add(decor,nightDecor);const materials=new Map(),textures=[],screenPrograms=[],glowMaterials=[];
@@ -25,8 +25,9 @@ export function createCampusFestival({scene,data,terrain,avatar,collisionPolygon
  }
  function sign(text,sub,x,y,z,w,h,yaw=0,color='#0b9ac1',dark=false){const o=new THREE.Mesh(new THREE.PlaneGeometry(w,h),panel(text,sub,w,h,color,dark));o.position.set(x,y,z);o.rotation.y=yaw;decor.add(o);return o;}
  function floorRect(x,z,w,d,color){const o=box(x,ground(x,z)+.09,z,w,.06,d,color);o.castShadow=false;return o;}
+ const walkway=pathMaterial?pathMaterial.clone():mat('#b8bcb0');if(pathMaterial){walkway.color.set('#b7b8a9');walkway.onBeforeCompile=pathMaterial.onBeforeCompile;walkway.customProgramCacheKey=pathMaterial.customProgramCacheKey;}
  for(let i=1;i<layout.connector.length;i++){
-  const a=layout.connector[i-1],b=layout.connector[i];const raw=terrain.drapeRoadSegment?.(a,b,4.8,.16);if(raw){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(raw.positions,3));if(raw.normals)g.setAttribute('normal',new THREE.Float32BufferAttribute(raw.normals,3));if(raw.indices)g.setIndex(new THREE.Uint32BufferAttribute(raw.indices,1));if(!raw.normals)g.computeVertexNormals();const m=new THREE.Mesh(g,mat('#b8bcb0'));m.receiveShadow=true;decor.add(m);}
+  const a=layout.connector[i-1],b=layout.connector[i];const raw=terrain.drapeRoadSegment?.(a,b,4.8,.16);if(raw){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(raw.positions,3));if(raw.normals)g.setAttribute('normal',new THREE.Float32BufferAttribute(raw.normals,3));if(raw.indices)g.setIndex(new THREE.Uint32BufferAttribute(raw.indices,1));if(!raw.normals)g.computeVertexNormals();const uv=[];for(let j=0;j<raw.positions.length;j+=3)uv.push(raw.positions[j],raw.positions[j+2]);g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));const m=new THREE.Mesh(g,walkway);m.receiveShadow=true;decor.add(m);}
  }
  const washes=new Map();
  function wash(x,z,r,color){

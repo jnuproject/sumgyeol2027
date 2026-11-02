@@ -46,12 +46,19 @@ export function addStudentHallGarden({scene,data,terrain,environment,surfaces,bo
  const c=STUDENT_POND.slice(0,-1).reduce((v,p)=>[v[0]+p[0]/(STUDENT_POND.length-1),v[1]+p[1]/(STUDENT_POND.length-1)],[0,0]);
  const outer=STUDENT_POND.map(p=>{const dx=p[0]-c[0],dz=p[1]-c[1],l=Math.hypot(dx,dz);return [p[0]+dx/l*.65,p[1]+dz/l*.65];});
  for(let i=1;i<outer.length;i++)environment.polygon([outer[i-1],outer[i],STUDENT_POND[i],STUDENT_POND[i-1]],stone,.042);
- const tuft=new THREE.InstancedMesh(new THREE.ConeGeometry(.22,.75,5),reed,(outer.length-1)*3),o=new THREE.Object3D();let ti=0;
+ // Fine reed clusters and low shoreline stones replace the repeated cone shapes.
+ const count=(outer.length-1)*12,stalk=new THREE.InstancedMesh(new THREE.CylinderGeometry(.014,.022,.7,5),reed,count),leafMat=mat('#718262');leafMat.side=THREE.DoubleSide;
+ const bladeGeo=new THREE.BufferGeometry();bladeGeo.setAttribute('position',new THREE.Float32BufferAttribute([-.035,0,0,0,.6,.11,.035,0,0,0,.28,-.04],3));bladeGeo.setIndex([0,1,2,0,2,3]);bladeGeo.computeVertexNormals();const blades=new THREE.InstancedMesh(bladeGeo,leafMat,count);
+ const rocks=new THREE.InstancedMesh(new THREE.IcosahedronGeometry(.28,1),stone,(outer.length-1)*3),o=new THREE.Object3D();let ti=0,ri=0;
  for(let i=1;i<outer.length;i++)for(let j=0;j<3;j++){
   const t=(j+.5)/3,p=[outer[i-1][0]*(1-t)+outer[i][0]*t,outer[i-1][1]*(1-t)+outer[i][1]*t];
-  o.position.set(p[0],terrain.heightAt(...p)+.31,p[1]);o.scale.set(.8+(i%3)*.2,.7+(i%4)*.12,.8);o.rotation.set(0,i*1.7+j,0);o.updateMatrix();tuft.setMatrixAt(ti++,o.matrix);
+  o.position.set(p[0],terrain.heightAt(...p)+.06,p[1]);o.rotation.set(i*.3,i+j,.2);o.scale.set(1.1+(i%3)*.2,.55,.8);o.updateMatrix();rocks.setMatrixAt(ri++,o.matrix);
+  for(let k=0;k<4;k++){const a=i*2.7+j+k*1.8,x=p[0]+Math.cos(a)*.25,z=p[1]+Math.sin(a)*.25,h=.65+((i+j+k)%5)*.13,y=terrain.heightAt(x,z);
+   o.position.set(x,y+.35*h,z);o.rotation.set(.09*Math.sin(a),a,.1*Math.cos(a));o.scale.set(1,h,1);o.updateMatrix();stalk.setMatrixAt(ti,o.matrix);
+   o.position.set(x,y+.11,z);o.scale.set(1.4,h,1.4);o.updateMatrix();blades.setMatrixAt(ti++,o.matrix);
+  }
  }
- tuft.name='Student hall pond reed margin';tuft.receiveShadow=true;scene.add(tuft);
+ for(const [mesh,name]of[[stalk,'Pond reed stems'],[blades,'Pond narrow leaves'],[rocks,'Low basalt shoreline']]){mesh.name=name;mesh.receiveShadow=true;scene.add(mesh);}
  // Rounded planted island at the street-side edge of the photographed court.
  const island=ring([[450,496],[486,496],[510,509],[511,536],[489,551],[463,546],[447,529]]).map(([x,z])=>[x-7.2,z]);
  for(let i=1;i<island.length;i++)environment.segment(island[i-1],island[i],.24,curb,.17);

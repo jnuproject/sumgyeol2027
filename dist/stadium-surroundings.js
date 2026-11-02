@@ -60,12 +60,12 @@ export function addStadiumSurroundings({scene,data,terrain,collisionPolygons=[],
  }
  // Low clipped hedge on the upper east bank. Break it at the gym approach;
  // the existing green slope and road remain visible between the facilities.
- for(let dz=-31;dz<=33;dz+=2.6){const x=cx+57.8,z=cz+dz,y=terrain.heightAt(x,z);box(x,y+.43,z,1.05,.86,2.35,'#3f6240');}
+ const hedgeGeometry=new THREE.IcosahedronGeometry(1,1);for(let dz=-31;dz<=33;dz+=1.3){const x=cx+57.8,z=cz+dz,y=terrain.heightAt(x,z),hedge=new THREE.Mesh(hedgeGeometry,material(Math.round(dz*10)%3?'#3f6240':'#4c7147'));hedge.position.set(x,y+.38,z);hedge.scale.set(.58,.46,.82);hedge.receiveShadow=true;root.add(hedge);}
  for(const dz of[-20,24]){const x=cx+54,z=cz+dz,y=foundation(x,z,1.25,3.4,.10);for(const ox of[-.42,.42])for(const oz of[-1.25,1.25])box(x+ox,y+.22,z+oz,.09,.44,.09,'#4d5f59');for(let j=0;j<4;j++)box(x-.48+j*.3,y+.47,z,.25,.12,3.2,'#958469');collisionPolygons.push(footprint(x,z,1.5,3.6));}
  // Railing follows the existing sloped entrance instead of adding stairs over
  // the roadway. The 4.8 m walking surface remains unobstructed.
- const ra=[cx+61,cz-44.2],rb=[cx+50,cz-44.2];
- for(const side of[-1,1]){const z=ra[1]+side*2.85;for(let x=rb[0];x<ra[0];x+=1.8){const ex=Math.min(x+1.8,ra[0]),ya=terrain.heightAt(x,z),yb=terrain.heightAt(ex,z);rod([x,ya,z],[x,ya+1.0,z],.045);rod([x,ya+1,z],[ex,yb+1,z],.045);rod([x,ya+.5,z],[ex,yb+.5,z],.035);}collisionPolygons.push(footprint((ra[0]+rb[0])/2,z,11,.12));}
+ const ra=[cx+56,cz-44.2],rb=[cx+50,cz-44.2];
+ for(const side of[-1,1]){const z=ra[1]+side*2.85;for(let x=rb[0];x<ra[0];x+=1.8){const ex=Math.min(x+1.8,ra[0]),ya=terrain.heightAt(x,z),yb=terrain.heightAt(ex,z);rod([x,ya,z],[x,ya+1.0,z],.045);rod([x,ya+1,z],[ex,yb+1,z],.045);rod([x,ya+.5,z],[ex,yb+.5,z],.035);}collisionPolygons.push(footprint((ra[0]+rb[0])/2,z,ra[0]-rb[0],.12));}
  const batching=batchStaticMeshes(root,512);
  root.updateMatrixWorld(true);
  // Raycast merged geometry rather than every terrace lip and ladder rung.

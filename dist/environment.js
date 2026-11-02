@@ -48,7 +48,7 @@ gl_FragColor.rgb=mix(gl_FragColor.rgb,fogColor,pow(1.0-vColor.a,.6));
  const chunks=new Map(),walkRegions=[],kerbBlocks=[],roadClearance=createRoadClearance(data.buildings??[]);
  const materialCache=new Map();
  function colored(base,color){const key=base.uuid+color;if(!materialCache.has(key)){const material=base.clone();material.color.set(color);material.onBeforeCompile=base.onBeforeCompile;material.customProgramCacheKey=base.customProgramCacheKey;materialCache.set(key,material);}return materialCache.get(key);}
- const areaMaterials={reedWater:new THREE.MeshStandardMaterial({color:'#435b50',roughness:.78}),wood:colored(surfaces.grass,'#6e8d57'),grass:colored(surfaces.grass,'#a8bc80'),park:colored(surfaces.grass,'#8da876'),pitch:colored(surfaces.grass,'#88a171'),tennis:new THREE.MeshStandardMaterial({color:'#5e8590',roughness:1}),parking:colored(surfaces.asphalt,'#c9cdca'),water:new THREE.MeshStandardMaterial({color:'#789fa9',roughness:.35,metalness:.12})};
+ const areaMaterials={reedWater:surfaces.water??new THREE.MeshStandardMaterial({color:'#536b61',roughness:.38}),wood:colored(surfaces.grass,'#6e8d57'),grass:colored(surfaces.grass,'#a8bc80'),park:colored(surfaces.grass,'#8da876'),pitch:colored(surfaces.grass,'#88a171'),tennis:new THREE.MeshStandardMaterial({color:'#5e8590',roughness:1}),parking:colored(surfaces.asphalt,'#c9cdca'),water:new THREE.MeshStandardMaterial({color:'#789fa9',roughness:.35,metalness:.12})};
  for(const [name,material] of Object.entries(areaMaterials)){material.name="area-"+name;material.polygonOffset=false;}
  const crossings=campusCrossings(data);
  const paintYellow=new THREE.MeshStandardMaterial({color:'#cfb45d',roughness:.9});

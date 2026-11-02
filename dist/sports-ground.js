@@ -13,8 +13,9 @@ export function addSportsGrounds(scene,data,terrain,environment){
  function oval(radius,straight=84.4){const p=[];for(let i=0;i<=48;i++){const a=i*Math.PI/48;p.push(at(Math.cos(a)*radius,straight/2+Math.sin(a)*radius));}for(let i=0;i<=48;i++){const a=Math.PI+i*Math.PI/48;p.push(at(Math.cos(a)*radius,-straight/2+Math.sin(a)*radius));}return p;}
  function line(points,width=.12,offset=.078){for(let i=1;i<points.length;i++)environment.segment(points[i-1],points[i],width,paint,offset);}
  function closed(points,width=.12,offset=.078){line([...points,points[0]],width,offset);}
- const apron=new THREE.MeshStandardMaterial({color:'#a3aaa0',roughness:1});
+ const apron=new THREE.MeshStandardMaterial({color:'#555d5b',roughness:1});
  environment.polygon(oval(50),apron,.035);
+ closed(oval(49.8),.22,.065);
  environment.polygon(oval(46.26),track,.044);
  environment.polygon(oval(36.5),grass,.058);
  for(let lane=0;lane<=8;lane++)closed(oval(36.5+lane*1.22),.085,.064);

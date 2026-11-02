@@ -37,7 +37,10 @@ export function generateVegetationLayout(data){
   if(AERIAL_PATHS.some(p=>p.points.some((q,i)=>i&&segmentDistance(x,z,p.points[i-1],q)<p.width/2+2)))return true;
   if((insideAerialOpenLawn(x,z)&&!observedEdge)||insideFocusClearance(x,z,data)||OBSERVED_GROUND_PATCHES.some(a=>insidePolygon(x,z,a.points)))return true;
   if(insideEntranceOffice(x,z,data,Math.max(4,h*.4)))return true;
-  if(sportsCenter&&Math.hypot(x-sportsCenter[0],Math.max(0,Math.abs(z-sportsCenter[1])-42.2))<50.5)return true;
+  if(sportsCenter){const dx=x-sportsCenter[0],dz=z-sportsCenter[1],r=Math.hypot(dx,Math.max(0,Math.abs(dz)-42.2));
+   // Keep the photo-observed terraces and eastern flag/bench bank clear.
+   if(r<50.5||(r<59&&(Math.abs(dz)>42.2||dx<0))||(dx>50&&dx<60&&Math.abs(dz)<36))return true;
+  }
   if(Math.hypot(x-data.spawn[0],z-data.spawn[1])<9)return true;
   if(roads.some(r=>segmentDistance(x,z,r.a,r.b)<(type==='avenue'&&r.main?roadWidthAt(r.road,x,z)/2+.65:r.main?roadWidthAt(r.road,x,z)/2+3.5:r.clearance)))return true;
   if(openAreas.some(a=>insidePolygon(x,z,a.points)))return true;

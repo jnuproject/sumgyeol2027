@@ -39,11 +39,10 @@ export function createCampusFestival({scene,data,terrain,avatar,collisionPolygon
  // Stepped stand behind the performance deck, with the broad white cantilever canopy in the reference.
  for(let tier=0;tier<5;tier++)box(sx-7-tier*1.2,level+.18+tier*.29,sz,1.3,.36+tier*.58,33,'#bac3c3');
  box(sx+1,level+.7,sz,16,1.4,32,'#202c37');footprint('festival-stage',sx+1,sz,16,32);
- // T-stage: a narrow runway connects the main deck to a wide crossbar facing the student zone.
- box(sx+14,level+.7,sz,10,1.4,5,'#24313d');footprint('festival-thrust',sx+14,sz,10,5);footprint('festival-t-steps',sx+26.1,sz,2.2,4.2);
- box(sx+22,level+.7,sz,6,1.4,22,'#24313d');footprint('festival-t-crossbar',sx+22,sz,6,22);
- luminousBox(sx+25.04,deckY-.05,sz,.08,.08,22,'#73deff');
- for(const side of [-1,1])luminousBox(sx+14,deckY-.05,sz+side*2.51,10,.08,.08,'#b7adff');
+ // Wide main stage with a long central thrust into the audience. No second crossbar at the tip.
+ box(sx+17,level+.7,sz,16,1.4,6,'#24313d');footprint('festival-thrust',sx+17,sz,16,6);footprint('festival-t-steps',sx+26.1,sz,2.2,4.2);
+ luminousBox(sx+25.04,deckY-.05,sz,.08,.08,6,'#73deff');
+ for(const side of [-1,1])luminousBox(sx+17,deckY-.05,sz+side*3.01,16,.08,.08,'#b7adff');
  for(let i=0;i<6;i++)box(sx+25.2+i*.35,level+(.7-i*.105),sz,.37,1.4-i*.21,4.2,'#76828b');
  for(const u of [-17,-8.5,0,8.5,17]){
   pole(local(u,level,-9),local(u,level+9,-7),.22,'#dce5e6');
@@ -155,5 +154,5 @@ export function createCampusFestival({scene,data,terrain,avatar,collisionPolygon
   }
   for(let i=0;i<performers.length;i++){performers[i].setEmote(3,((elapsed+i*.4)%2.5+.15)*1000);performers[i].update(dt,{reducedMotion});}
   beams.forEach((b,i)=>{b.visible=nightStrength>.01;b.material.opacity=.12*nightStrength;b.rotation.z=1.0+(reducedMotion?0:Math.sin(elapsed*.45+i)*.14);b.rotation.x=reducedMotion?0:Math.sin(elapsed*.32+i)*.30;});
- },metadata:()=>({enabled:true,center:layout.center,entry:layout.entry,stage:layout.stage,stageShape:'T-runway-crossbar',studentZone:layout.studentZone,booths:layout.booths.length,screenCount:screenMeshes.length,performers:performers.length,staticAudience:audiences.reduce((n,m)=>n+m.count,0),liveLights:0,nightStrength,screenUpdates,animatedFrames:animated,batching,photoInformed:true,layoutMeasured:false})};
+ },metadata:()=>({enabled:true,center:layout.center,entry:layout.entry,stage:layout.stage,stageShape:'main-stage-with-central-thrust',studentZone:layout.studentZone,booths:layout.booths.length,screenCount:screenMeshes.length,performers:performers.length,staticAudience:audiences.reduce((n,m)=>n+m.count,0),liveLights:0,nightStrength,screenUpdates,animatedFrames:animated,batching,photoInformed:true,layoutMeasured:false})};
 }

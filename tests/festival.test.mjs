@@ -1,3 +1,4 @@
+import {addStadiumSurroundings} from '../dist/stadium-surroundings.js';
 import {generateVegetationLayout} from '../dist/vegetation.js';
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import * as THREE from '../dist/three.module.js';
 import {festivalLayout} from '../dist/festival-layout.js';import {createCampusFestival} from '../dist/campus-festival.js';import {createFocusWalkArea} from '../dist/walk-area.js';
@@ -11,7 +12,7 @@ test('festival uses the original sports field and retains a clear gym-to-field c
  for(let i=1;i<l.connector.length;i++){const a=l.connector[i-1],b=l.connector[i],length=Math.hypot(a[0]-b[0],a[1]-b[1]);for(let t=0;t<=length;t+=.4){const p=[a[0]+(b[0]-a[0])*t/length,a[1]+(b[1]-a[1])*t/length];assert.ok(trees.every(t=>Math.hypot(t.x-p[0],t.z-p[1])>4.4));assert.ok(area.contains(...p));assert.ok(walkable(...p,[...data.buildings,...collisionPolygons]),JSON.stringify(p));assert.ok(obstacles.every(o=>Math.hypot(o[0]-p[0],o[1]-p[1])>o[2]+.4));}}
  const zone=l.studentZone;assert.ok(l.audience.every(p=>p.x>zone.minX&&p.x<zone.maxX&&p.z>zone.minZ&&p.z<zone.maxZ));
  assert.ok(!walkable(zone.maxX,l.center[1]+15,collisionPolygons));assert.ok(walkable(zone.maxX,l.center[1],collisionPolygons));
- const [sx,sz]=l.stage;assert.ok(!walkable(sx+22,sz+9,collisionPolygons));assert.ok(!walkable(sx+14,sz,collisionPolygons));
+ const [sx,sz]=l.stage;assert.ok(walkable(sx+22,sz+9,collisionPolygons),'thrust has no wide crossbar at its tip');assert.ok(!walkable(sx+22,sz,collisionPolygons));assert.ok(!walkable(sx+14,sz,collisionPolygons));
  for(let x=sx+28;x<zone.maxX+4;x+=.5){assert.ok(walkable(x,sz,collisionPolygons));assert.ok(obstacles.every(o=>Math.hypot(x-o[0],sz-o[1])>o[2]+.4));}
  for(const b of l.booths)assert.ok(!walkable(b.x,b.z,collisionPolygons));assert.ok(walkable(...l.spawn,collisionPolygons));
  assert.equal(area.contains(300,-200),false);assert.equal(area.contains(-400,250),false);
@@ -25,4 +26,13 @@ test('maintenance entrypoints and public bootstrap stay closed while the preview
  for(const name of ['index.html','walk.html']){const s=fs.readFileSync(new URL('../dist/'+name,import.meta.url),'utf8');assert.match(s,/data-service="paused"/);assert.doesNotMatch(s,/<script/);}
  assert.match(fs.readFileSync(new URL('../dist/game.js',import.meta.url),'utf8'),/location.replace/);
  assert.match(fs.readFileSync(new URL('../verification/festival-preview.py',import.meta.url),'utf8'),/127\.0\.0\.1/);
+});
+
+test('Roadview stadium terraces stay above terrain and the full entrance remains walkable',()=>{
+ const scene=new THREE.Scene(),collisionPolygons=[],obstacles=[],m=addStadiumSurroundings({scene,data,terrain,collisionPolygons,obstacles}),l=festivalLayout(data);
+ assert.ok(m.minimumTreadClearance>=.17);assert.equal(m.flagpoles,3);assert.equal(m.liveLights,0);assert.ok(m.batching.renderBatches<35);
+ for(const base of m.fixtureBases)assert.ok(base.bottom<terrain.heightAt(base.x,base.z)&&base.top>terrain.heightAt(base.x,base.z));
+ for(let i=1;i<l.connector.length;i++){const a=l.connector[i-1],b=l.connector[i],len=Math.hypot(b[0]-a[0],b[1]-a[1]);for(let s=0;s<=len;s+=.35)for(const offset of[-1.9,0,1.9]){const x=a[0]+(b[0]-a[0])*s/len-(b[1]-a[1])/len*offset,z=a[1]+(b[1]-a[1])*s/len+(b[0]-a[0])/len*offset;assert.ok(walkable(x,z,collisionPolygons),'Entrance narrowed at '+[x,z]);assert.ok(obstacles.every(o=>Math.hypot(o[0]-x,o[1]-z)>o[2]+.4));}}
+ for(const p of m.standFootprints){const x=p.reduce((n,p)=>n+p[0],0)/4,z=p.reduce((n,p)=>n+p[1],0)/4;assert.equal(walkable(x,z,collisionPolygons),false);}
+ let draws=0,triangles=0;scene.traverse(o=>{if(o.isMesh){draws++;triangles+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3;for(const v of o.geometry.attributes.position.array)assert.ok(Number.isFinite(v));}});assert.ok(draws<45,'stadium draws '+draws);assert.ok(triangles<100000,'stadium triangles '+triangles);
 });

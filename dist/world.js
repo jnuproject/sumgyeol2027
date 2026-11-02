@@ -13,11 +13,12 @@ import {addFocusDetails} from './focus-details.js?v=player-r54';
 import {addCampusObservedDetails} from './campus-observed-details.js?v=player-r54';
 import {addObservedEntrance,entranceLayout,entranceRoadX} from './entrance-observed.js?v=player-r54';
 import {BUILDING_PROFILES,addObservedFacade,observedMassParts} from './observed-campus.js?v=player-r54';
-import {addSportsGrounds} from './sports-ground.js?v=festival-r61';
+import {addStadiumSurroundings} from './stadium-surroundings.js?v=stadium-r64';
+import {addSportsGrounds} from './sports-ground.js?v=stadium-r64';
 import * as THREE from './three.module.js';
 import { insidePolygon, segmentDistance } from './navigation.js';
 import { loadCampusMaterials, glassMaterial } from './materials.js?v=capacity-r56';
-import { addVegetation } from './vegetation.js?v=festival-r61';
+import { addVegetation } from './vegetation.js?v=stadium-r64';
 import { loadCampusTerrain } from './terrain.js?v=player-r54';
 import { addCampusEnvironment } from './environment.js?v=player-r54';
 
@@ -99,6 +100,7 @@ const bounds={minX:Math.max(terrain.worldBounds.minX+.5,Math.min(...extentPoints
 
 const observedEntrance=addObservedEntrance({scene,data,terrain,environment,box,basalt,collisions,collisionMeshes,obstacles,surfaces});
 const sports=addSportsGrounds(scene,visibleData,terrain,environment);
+if(sports)sports.surroundings=addStadiumSurroundings({scene,data:visibleData,terrain,collisionPolygons:collisions,obstacles,cameraCollisionMeshes:collisionMeshes});
 const aerialLandscape=addAerialLandscape({scene,environment,surfaces});
 const vegetation=addVegetation(scene,data,terrain.heightAt,sceneScope.treeVisible,{mobile});obstacles.push(...vegetation.obstacles);
 addEntranceDetails();

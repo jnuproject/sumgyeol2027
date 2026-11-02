@@ -1,6 +1,6 @@
 {
-  "version": "campus-night-r63-paused",
-  "cacheRevision": "night-r63",
+  "version": "campus-stadium-r64-paused",
+  "cacheRevision": "stadium-r64",
   "files": [
     {
       "path": ".nojekyll",
@@ -199,8 +199,8 @@
     },
     {
       "path": "campus-festival.js",
-      "bytes": 17503,
-      "sha256": "7812592bd49b84d77f38132f5aaf3ed158f316612350056450a35a3a35b25686"
+      "bytes": 17425,
+      "sha256": "3b5c6b38177b0ac229f07b2174a4406e399aa292ed9705e35f5319bb2add0e31"
     },
     {
       "path": "campus-hud.js",
@@ -319,8 +319,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 64493,
-      "sha256": "e134e9bb32c43b2efc3da53465c78622f69f93f0f413f06ab4376ee2c6532eeb"
+      "bytes": 64857,
+      "sha256": "aafcfab9d4b812b53436654d51b8e5a4ae57b0ee0b58038c8cf131c885bbad5b"
     },
     {
       "path": "identity-sources.json",
@@ -559,8 +559,13 @@
     },
     {
       "path": "sports-ground.js",
-      "bytes": 3384,
-      "sha256": "3fe0792e02835416eb621980a30cfe489eb1c7404a2583601f66fd460ac63e62"
+      "bytes": 3414,
+      "sha256": "df12023404be6d2de3ae462083e262142da728e68a4c1fb026b797acae5286c8"
+    },
+    {
+      "path": "stadium-surroundings.js",
+      "bytes": 7123,
+      "sha256": "d5d455149d91dbf210cb8329c21469bad282b948a922d45133c8ea577597a12b"
     },
     {
       "path": "static-mesh-batches.js",
@@ -629,8 +634,8 @@
     },
     {
       "path": "vegetation.js",
-      "bytes": 17838,
-      "sha256": "37ea95ecd293455406f21f7c92ddf15bae60059ed24f42fb2d4768aa374b5955"
+      "bytes": 18013,
+      "sha256": "a1d117dc56e4d186b3dbdd0333edb235d47fc8998edcc36001c160e8703f7e5f"
     },
     {
       "path": "vendor/FBXLoader.js",
@@ -694,8 +699,8 @@
     },
     {
       "path": "world.js",
-      "bytes": 18242,
-      "sha256": "4ed847b3dffe373da6ef1f028e910204bd8f1737d0d37e56db7e3a5ddc37cc70"
+      "bytes": 18485,
+      "sha256": "eee9011925a13add2f06060015cf628a2646afd403b29493f69f2bafcf112c6a"
     }
   ]
 }

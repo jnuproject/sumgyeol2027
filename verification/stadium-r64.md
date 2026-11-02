@@ -1,0 +1,15 @@
+# Roadview stadium and central thrust — r64
+
+References: owner-supplied IMG_0497.PNG through IMG_0501.PNG, Kakao Roadview dated March 2026. Geometry is photo-informed with estimated dimensions/fixture locations, not a measured reconstruction. No screenshot pixels, ads or UI were incorporated. Existing OSM pitch, terrain datum and green east-side bank are retained.
+
+Changes: seven-row concrete terraces follow both curved ends and western sidelines; west central main stand and northeast entrance stay open. Pale outer parapets, contrasting step nosings and restrained colored inner fascia follow the references. The outer track apron is dark asphalt with a pale curb. The east bank gains a stepped three-pole flag base, two timber benches, a low clipped hedge, and two laddered floodlight masts. Existing sloped gym approach has handrails outside its walking width. Trees are cleared from terrace and facility footprints, preserving the outer woodland.
+
+The festival stage now has a broad main platform and a 16 x 6 m central thrust extending into the audience: the mistaken front crossbar from r63 is removed. Its footprint, step collision and light strips match. Student zone, open central corridor, eight booths, 24 seated spectators, 14 policy NPCs and the automatic festival-night transition remain.
+
+Terrace foundations sample underlying terrain and sit at least 0.18 m above it at their checked edges; bank foundations extend below their low side. Stands, flag base and benches block walking; the entire tested 3.8 m entrance corridor stays clear. These terraces are scenery rather than a new climbable seating route. No new dynamic lights, actors or unrestricted campus zones were introduced. Stadium fixture geometry merges from 1,670 meshes to 28 batches before camera raycasting; mobile then uses the existing global batching.
+
+Validation: full suite 138/138 passed. New checks cover finite/bounded geometry, grounded bases, tread exposure, entrance corridor width and stand collision. Policy exhibit test now includes the stadium structures and still places all eight exhibits with clear NPC approaches. Browser entry walk: x=-175.066 to -190.175 at z=-88.7725 activated festival night; walking back to x=-173.093 deactivated it, manualNight=false. No browser console errors. Desktop responsive 390 x 844 check: 150 scene draws, about 1.42M triangles, all eight policy exhibits. This is not a real-phone FPS or multiplayer load test.
+
+Preview uses loopback-only verification/festival-preview.py on port 18161. Views: stadium-overview and stadium-photo for daylight comparison; festival-entry for walking into night; festival-overview for the event. Revision stadium-r64. Screenshots stadium-r64-overview.png, stadium-r64-east.png, stadium-r64-night.png and stadium-r64-mobile.png.
+
+Public service remains paused: script-free index.html/walk.html and redirecting game bootstrap unchanged; no backend permissions changed. Reopen only when requested, following paused-r60.md with the current files.

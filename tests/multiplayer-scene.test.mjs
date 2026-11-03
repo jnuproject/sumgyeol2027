@@ -1,8 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';import * as THREE from '../dist/three.module.js';import {createMultiplayerScene} from '../dist/multiplayer-scene.js';
 test('remote people are pooled, interpolated, labelled, culled, and removed on departure',()=>{
- const previous={document:globalThis.document,addEventListener:globalThis.addEventListener,removeEventListener:globalThis.removeEventListener};
+ const previous={window:globalThis.window,document:globalThis.document,addEventListener:globalThis.addEventListener,removeEventListener:globalThis.removeEventListener};
  const context={beginPath(){},roundRect(){},moveTo(){},lineTo(){},fill(){},fillText(){}};const elements=[];
- globalThis.document={hidden:false,body:{append(e){elements.push(e);}},createElement(tag){return {dataset:{},setAttribute(){},remove(){},getContext:()=>context};}};globalThis.addEventListener=()=>{};globalThis.removeEventListener=()=>{};
+ globalThis.window=new EventTarget();globalThis.document={addEventListener(){},removeEventListener(){},hasFocus:()=>true,hidden:false,body:{append(e){elements.push(e);}},createElement(tag){return {dataset:{},setAttribute(){},remove(){},getContext:()=>context};}};globalThis.addEventListener=()=>{};globalThis.removeEventListener=()=>{};
  const scene=new THREE.Scene(),player={position:new THREE.Vector3()},camera={position:new THREE.Vector3()},peers=new Map();let created=0;
  const avatar={body:new THREE.Group(),createCompanion(scene){created++;const group=new THREE.Group(),body=new THREE.Group();group.add(body);scene.add(group);return {group,body,update(){},setWalking(v){this.walking=v;}};}};
  const net={peers,update(){},disconnect(){},reconnect(){},dispose(){},metadata:()=>({connected:true,count:2})};

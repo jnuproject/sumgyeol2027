@@ -1,6 +1,6 @@
 {
-  "version": "next-backend-r66-paused",
-  "cacheRevision": "next-r66",
+  "version": "presence-r67-paused",
+  "cacheRevision": "presence-r67",
   "files": [
     {
       "path": ".nojekyll",
@@ -334,8 +334,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 65718,
-      "sha256": "080ffb355a04d33d5fa9c1909af1d41c8036ed957b1092bc9cc95b0d33125a32"
+      "bytes": 65722,
+      "sha256": "3002db22bb775ba261490f97bbeeb02ba0db7b49cba7b1d15221dce6af95f8aa"
     },
     {
       "path": "identity-sources.json",
@@ -414,8 +414,8 @@
     },
     {
       "path": "multiplayer-scene.js",
-      "bytes": 5376,
-      "sha256": "a758aea7d4863a2da735fbb71c52f4bf1a08785168f8eb3625a38f1d65a838fa"
+      "bytes": 5089,
+      "sha256": "8d9174ab93758f65fb4fc2e58d599b0a0f2ad5f3385e88bf949b01cebe118630"
     },
     {
       "path": "multiplayer.js",
@@ -486,6 +486,11 @@
       "path": "policy-spaces.js",
       "bytes": 6577,
       "sha256": "eaf049b79a6b1e62d02c87bb72dc8066d2a3453564fb3240d819c21f2f8f1a93"
+    },
+    {
+      "path": "presence-lifecycle.js",
+      "bytes": 1793,
+      "sha256": "b3ff0f9c619fc403f192efae2a09da795d7bfa90f9d3f9458bf2bd0488167ee0"
     },
     {
       "path": "presentation-notes.json",

@@ -26,7 +26,6 @@
     "https://sketchfab.com/developers/viewer/functions",
     "https://sketchfab.com/blogs/community/5-feature-easter-eggs-on-sketchfab/"
   ],
-  "backup": "/Users/goyehun/Documents/JejuCampusGame/backups/before-scan-viewer-20261024-000847",
   "preservedFileHashes": {
     "dist/campus-data.json": "dcb1d0adac92d6838a79b3756f0d9559f44a42b61492146929389530fdaf7279",
     "source-data/ara-campus.osm": "e7412694cb32fca24262aafed780f13186cf9fa8fef54aded86db44b318df662",

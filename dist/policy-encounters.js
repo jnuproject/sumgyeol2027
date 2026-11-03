@@ -1,4 +1,4 @@
-// Source-checked 2026-11-03. Proposed measures, not currently available services.
+// Public policy conversations. Proposed measures, not currently available services.
 export const EXTRA_POLICY_DIALOGUES=[
  {
   "id": "lounge",
@@ -13,8 +13,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#268fab",
   "topic": "공부하다 잠깐 쉴 곳",
   "summary": "제주자료실을 활용한 취식 라운지 확대와 리클라이너·파티션을 갖춘 파워냅존 조성 계획. 공간 분리, 위생관리와 시범 운영을 포함.",
-  "source": "https://docs.google.com/document/d/1S6U8Z2qC_jgUYqV4znknPQt1WBf_zaqgnIQo4EYd-AU/edit",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다.",
   "nodes": {
    "hello": {
     "lines": [
@@ -78,8 +76,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "중앙도서관 취식 공간 확대 및 파워냅존 신설"
+  }
  },
  {
   "id": "bookcamp",
@@ -94,7 +91,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#648f70",
   "topic": "밖에서 책 읽어볼까?",
   "summary": "야외음악당에서 주간 자유 독서·휴식과 야간 예약형 텐트·북토크·명상을 운영하고, 도서관 희망도서 신청을 연계하는 계획.",
-  "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
   "nodes": {
    "hello": {
     "lines": [
@@ -157,9 +153,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "제주대학교 북캠핑",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다."
+  }
  },
  {
   "id": "sports",
@@ -174,7 +168,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#268db5",
   "topic": "경기 안 뛰어도 재밌게",
   "summary": "대운동장 주변에 동아리·개인·외부 제휴 부스와 푸드트럭을 유치하고, 관람·체험 연계 스탬프 투어를 운영하는 통합체전 계획.",
-  "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
   "nodes": {
    "hello": {
     "lines": [
@@ -237,9 +230,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "통합체전 내 부스 활성화",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다."
+  }
  },
  {
   "id": "student-zone",
@@ -254,8 +245,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#268fab",
   "topic": "우리 학교 축제, 가까이서 즐기자",
   "summary": "축구 필드를 무대 앞 아라존·재학생 스탠딩존, 중앙 재학생 돗자리존, 뒤쪽 모두의 돗자리존으로 3분할하고 팔찌 인증·아라존 노쇼 현장 충원을 운영하는 계획.",
-  "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다.",
   "nodes": {
    "hello": {
     "lines": [
@@ -302,14 +291,14 @@ export const EXTRA_POLICY_DIALOGUES=[
    },
    "detailA": {
     "lines": [
-     "기획안은 총학생회 본부 부스에서 학생증을 확인하고, 요일별 색상이 다른 종이 팔찌를 배부하는 방식이야. 아라존과 가운데 재학생 돗자리존에 들어갈 때 팔찌를 확인하려고 해.",
+     "총학생회 본부 부스에서 학생증을 확인하고, 요일별 색상이 다른 종이 팔찌를 배부하는 방식이야. 아라존과 가운데 재학생 돗자리존에 들어갈 때 팔찌를 확인하려고 해.",
      "아라존에 노쇼로 빈자리가 생기면 농구필드의 현장 선착순 대기 라인에서 기다린 재학생을 빈자리만큼 추가 입장시키는 계획도 있어."
     ],
     "next": "bye"
    },
    "detailB": {
     "lines": [
-     "게임 공간은 축제 분위기를 보여주는 연출이야. 실제 구역 비율과 입장 운영은 방금 설명한 기획안을 기준으로 봐줘."
+     "게임 공간은 축제 분위기를 보여주는 연출이야. 실제 구역 비율과 입장 운영은 방금 설명한 정책 구상을 기준으로 봐줘."
     ],
     "next": "bye"
    },
@@ -319,8 +308,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "대동제 재학생 존 확대"
+  }
  },
  {
   "id": "accessibility",
@@ -335,7 +323,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#9a779d",
   "topic": "누구나 편하게 다니도록",
   "summary": "보도·점자·음성 안내 및 편의시설 정비, 앱 기반 배리어프리 지도·제보, 시각화재경보기 확대와 행사 가이드라인 의무화를 추진하는 계획.",
-  "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
   "nodes": {
    "hello": {
     "lines": [
@@ -399,9 +386,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "배리어프리 아라캠퍼스",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다."
+  }
  },
  {
   "id": "interview",
@@ -416,7 +401,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#9b8254",
   "topic": "화상 면접, 어디서 보지?",
   "summary": "AI 융복합관과 연계한 방음·장비 공간에서 AI 연습·모의면접·실제 응시·화상 회의를 지원하는 계획. 공간 배정·예산·운영 협의가 필요하며 실제 응시를 우선.",
-  "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
   "nodes": {
    "hello": {
     "lines": [
@@ -481,9 +465,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "교내 스튜디오(화상 면접・AI 면접 전용 부스) 구축",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다."
+  }
  },
  {
   "id": "scholarship",
@@ -498,7 +480,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#b08c56",
   "topic": "이 장학금, 나도 신청할 수 있나?",
   "summary": "총학생회 앱에 교내외 장학 정보를 모으고, 저장한 프로필 조건과 자동 매칭해 신청 가능 목록과 금액·지급 방식·중복 수혜·서류 비교를 제공하는 계획.",
-  "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
   "nodes": {
    "hello": {
     "lines": [
@@ -561,9 +542,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "내장학찾기",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다."
+  }
  },
  {
   "id": "fitness",
@@ -578,8 +557,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#268fab",
   "topic": "운동기구도 살펴봐야지",
   "summary": "이용 학우의 설문·투표를 바탕으로 노후 기구를 1:1 교체해 총 대수를 유지하고, 방학 중 교체·안전 점검을 추진하는 계획.",
-  "source": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw/edit",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다.",
   "nodes": {
    "hello": {
     "lines": [
@@ -641,8 +618,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "헬스장 운동기구 교체"
+  }
  },
  {
   "id": "public-tumbler",
@@ -656,9 +632,7 @@ export const EXTRA_POLICY_DIALOGUES=[
   ],
   "color": "#268fab",
   "topic": "오늘은 텀블러를 깜빡했네",
-  "summary": "기증 텀블러를 학생회관 2층 카페테리아 앞에 비치하고 QR 대여·당일 반납·회수 및 세척·소독 순환을 운영하는 계획. 기획안의 개인컵 300원 할인 안내를 포함.",
-  "source": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw/edit",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다.",
+  "summary": "기증 텀블러를 학생회관 2층 카페테리아 앞에 비치하고 QR 대여·당일 반납·회수 및 세척·소독 순환을 운영하는 계획. 개인컵 300원 할인 안내를 포함.",
   "nodes": {
    "hello": {
     "lines": [
@@ -705,7 +679,7 @@ export const EXTRA_POLICY_DIALOGUES=[
    "detailA": {
     "lines": [
      "비치된 소독기에서 텀블러를 꺼내고 QR 대여 장부를 작성하는 방식이야. 카페테리아에서 주문할 때는 개인컵 사용을 선택하도록 안내하려고 해.",
-     "기획안에는 개인컵 사용 시 300원 할인 혜택을 이용하는 내용이 있어. 여기 게임에서 대여하거나 할인받는 기능은 아니야."
+     "개인컵 사용 시 300원 할인 혜택을 이용하도록 안내하려고 해. 여기 게임에서 대여하거나 할인받는 기능은 아니야."
     ],
     "next": "bye"
    },
@@ -722,8 +696,7 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "공공 텀블러 사업"
+  }
  },
  {
   "id": "council",
@@ -734,7 +707,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "topic": "건의한 뒤에는 어떻게 될까?",
   "policy": "JNU 상생협의체",
   "summary": "학우들의 요구를 모아 학교 본부와 정기적으로 논의하고, 이행 상황과 진행 과정을 점검해 공유하는 소통 구조 구상.",
-  "source": "https://docs.google.com/document/d/1RNuE4E4FGFz-o-oba5O2mbU9xEljBUsJaJsBGs9wzh0/edit",
   "nodes": {
    "hello": {
     "lines": [
@@ -794,7 +766,7 @@ export const EXTRA_POLICY_DIALOGUES=[
    },
    "bye": {
     "lines": [
-     "아직 기획안이지만, 건의하고 나서 어떻게 됐는지 몰라 답답한 일은 줄이고 싶어. 얘기해줘서 고마워."
+     "아직 추진 구상이지만, 건의하고 나서 어떻게 됐는지 몰라 답답한 일은 줄이고 싶어. 얘기해줘서 고마워."
     ],
     "end": true
    }
@@ -802,9 +774,7 @@ export const EXTRA_POLICY_DIALOGUES=[
   "anchor": [
    -47,
    87.6
-  ],
-  "sourceSection": "JNU상생협의회",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다."
+  ]
  },
  {
   "id": "meal-price",
@@ -819,8 +789,6 @@ export const EXTRA_POLICY_DIALOGUES=[
   "color": "#268fab",
   "topic": "점심값도 매일 쌓이니까",
   "summary": "원가·단가 조사와 생협 협의, 조합원 혜택 확대·외부 재원 및 지역 농산물 연계, 사전 의견수렴과 가격·품질 모니터링으로 실질 식비 부담을 줄이는 정책. 일률적 확정 인하액은 아님.",
-  "source": "https://docs.google.com/document/d/1RNuE4E4FGFz-o-oba5O2mbU9xEljBUsJaJsBGs9wzh0/edit",
-  "sourceNote": "2026-11-03 제공 기획안 본문 대조. 정책명·카테고리는 사용자의 최종 메타버스 목록을 우선하며, 설명은 해당 원문 정책의 추진안이다.",
   "nodes": {
    "hello": {
     "lines": [
@@ -883,7 +851,6 @@ export const EXTRA_POLICY_DIALOGUES=[
     ],
     "end": true
    }
-  },
-  "sourceSection": "학식 단가 낮추기(학내식당 식대 부담 완화)"
+  }
  }
 ];

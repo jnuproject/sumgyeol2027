@@ -38,7 +38,7 @@ Finder에서 **`실행.command`를 더블클릭**하세요. 이 Mac에 설치된
 터미널에서도 실행할 수 있습니다.
 
 ```sh
-cd /Users/goyehun/Documents/JejuCampusGame
+cd [local project path omitted]
 python3 run.py
 ```
 

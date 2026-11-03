@@ -7,7 +7,7 @@ Do not invent or change policy commitments for gameplay or narrative convenience
   categories, including `숨결` for the council and meal-price policies. Older
   document headings/category labels do not override that explicit final list.
 - Read the relevant original policy section before changing a policy explanation.
-  Source document links and section headings are in `dist/policy-sources.json`.
+  Original documents must be obtained through the owner-authorized private channel. Never commit their links, IDs, headings or review notes to this public repository or dist. `dist/policy-sources.json` is a public policy catalog only.
   Read all relevant tabs; a blank opening template does not mean no plan exists.
 - Preserve eligibility, locations, operating rules, scope, conditionality and
   implementation status. Dialogue can use natural conversational Korean and

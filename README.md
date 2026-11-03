@@ -122,7 +122,7 @@ Kenney CC0 캐릭터를 숨결 하늘색 의상으로 수정하고 idle/run/jump
 - 도서관 상·하행 에스컬레이터와 차양, 옆 일반 계단. 차도 밖으로 물린 승강장
 - 횡경사까지 반영해 발판이 잔디에 묻히는 문제 수정. 실제 탑승과 보행 높이 연결
 
-정책은 사용자 기획안에 기반한 구상이며 확정된 운영 서비스나 설치 설계가 아닙니다. `dist/policy-sources.json`에 근거를 기록했습니다.
+정책은 사용자 기획안에 기반한 구상이며 확정된 운영 서비스나 설치 설계가 아닙니다. 공개 정책 목록은 `dist/policy-sources.json`에 있습니다. 내부 원문과 연결 정보는 공개하지 않습니다.
 
 [에스컬레이터 위쪽 보기](https://jnuproject.github.io/sumgyeol2027/?revision=ground-r44&view=escalator-top) · [학생회관 부스](https://jnuproject.github.io/sumgyeol2027/?revision=ground-r44&view=booth)
 
@@ -134,7 +134,7 @@ Kenney CC0 캐릭터를 숨결 하늘색 의상으로 수정하고 idle/run/jump
 
 정책 담당 NPC 12명과 일상 대화를 나누는 학우 6명, 총18명을 만날 수 있습니다. 임의의 이름 대신 숨결 · 정책 카테고리를 쓰며 각자 다른 정책을 맡습니다. 학우와 함께 사진을 찍거나 다른 숨결의 위치를 물어보는 선택이 기존 사진 모드·지도 하나로 이어집니다. 원래 대화 기록은 유지합니다.
 
-기획안 해당 탭에서 확인한 정책 출처: `dist/policy-sources.json`. 검증: `verification/mobile-r47.md`, `verification/encounters-r48.md`. 자동 검사96개와 390×844·844×390 브라우저 화면으로 확인했습니다. 실제 휴대폰 하드웨어 성능 측정은 포함하지 않습니다.
+공개 정책 목록: `dist/policy-sources.json`. 내부 자료 링크는 배포·저장소에 포함하지 않습니다. 검증: `verification/mobile-r47.md`, `verification/encounters-r48.md`. 자동 검사96개와 390×844·844×390 브라우저 화면으로 확인했습니다. 실제 휴대폰 하드웨어 성능 측정은 포함하지 않습니다.
 
 ## 함께 산책하기 (r49)
 

@@ -5,12 +5,12 @@ import {POLICY_DIALOGUES} from '../dist/policy-dialogues.js';
 const source=JSON.parse(fs.readFileSync(new URL('../dist/policy-sources.json',import.meta.url),'utf8'));
 const by=Object.fromEntries(POLICY_DIALOGUES.map(q=>[q.id,q]));
 const dialogue=id=>Object.values(by[id].nodes).flatMap(n=>n.lines).join(' ');
-test('every active policy has a matching source section, category and summary',()=>{
+test('every active policy has a matching public category and summary',()=>{
  assert.equal(source.policies.length,14);
  for(const q of POLICY_DIALOGUES){
   const match=source.policies.find(p=>p.id===q.id);assert(match);
-  for(const key of ['policy','category','summary','source','sourceSection'])assert.equal(match[key],q[key]);
-  assert.match(q.source,/^https:\/\/docs\.google\.com\/document\/d\//);assert(q.sourceSection);
+  for(const key of ['policy','category','summary'])assert.equal(match[key],q[key]);
+  for(const key of ['source','sourceSection','sourceNote'])assert.equal(key in q,false);
   assert.doesNotMatch(dialogue(q.id),/목록에.*없|전달받은 목록|아직.*목록에.*정해/);
  }
 });

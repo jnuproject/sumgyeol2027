@@ -1,3 +1,5 @@
+> Historical pause record. Reopened by explicit owner request on 2026-11-04; see [reopen-r69.md](reopen-r69.md).
+
 # Game paused at owner's request
 
 Public index.html and walk.html display a maintenance notice and load no game or networking scripts. The game bootstrap also redirects cached entry HTML to the notice when it fetches the new module. Both production position/reaction RPCs have EXECUTE revoked from PUBLIC, anon and authenticated. No unrelated Supabase services or data are changed; ephemeral sessions expire normally.

@@ -36,8 +36,7 @@ function fail(error){
   $('loadLabel').textContent='불러오기를 완료하지 못했어요';
 }
 $('retry').onclick=()=>location.reload();
-// Service temporarily paused by owner. Reopen only on request; see verification/paused-r60.md.
-location.replace(new URL('./index.html',import.meta.url));
+try { await initialize(); } catch(error){ fail(error); }
 
 async function initialize(){
   let quality='balanced';try{const saved=localStorage.getItem('sumgyeol-graphics');if(['balanced','high','low'].includes(saved))quality=saved;}catch{}

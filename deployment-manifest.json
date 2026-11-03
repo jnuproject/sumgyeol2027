@@ -1,6 +1,6 @@
 {
-  "version": "policy-fidelity-r68-paused",
-  "cacheRevision": "policy-r68",
+  "version": "reopen-r69",
+  "cacheRevision": "reopen-r69",
   "files": [
     {
       "path": ".nojekyll",
@@ -334,8 +334,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 65722,
-      "sha256": "c4f6d64b7a96e4f8edcd34bea40adc52781c54cc9128a87f7a448ccb15e239bc"
+      "bytes": 65624,
+      "sha256": "ad455d8cc7e931cdc3aa52e052898feb87dc55c9d94b6b9f661d1bf2a0aa47f4"
     },
     {
       "path": "identity-sources.json",
@@ -344,8 +344,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 1169,
-      "sha256": "d468c672b497051ef9d7ad9a13423258e1190628fc4320290e9b12d959621d52"
+      "bytes": 12828,
+      "sha256": "66345b2b60890c36f8610f9551f6f35b6a966cb410c9d84ecd82486b3413ec1d"
     },
     {
       "path": "landscape-sources.json",
@@ -409,8 +409,8 @@
     },
     {
       "path": "multiplayer-config.js",
-      "bytes": 292,
-      "sha256": "ae721c6a37e0b488539bb34aaebab869e6af1e31fca2e02b0993f7555d91fbe6"
+      "bytes": 293,
+      "sha256": "7aa5ac4e4368f7d153b3c9e6749b5e11c633d68616a18f7015e04a9410bc03d5"
     },
     {
       "path": "multiplayer-scene.js",
@@ -709,8 +709,8 @@
     },
     {
       "path": "walk.html",
-      "bytes": 1169,
-      "sha256": "d468c672b497051ef9d7ad9a13423258e1190628fc4320290e9b12d959621d52"
+      "bytes": 12828,
+      "sha256": "66345b2b60890c36f8610f9551f6f35b6a966cb410c9d84ecd82486b3413ec1d"
     },
     {
       "path": "wind-mascot.js",

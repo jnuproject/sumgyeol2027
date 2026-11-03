@@ -1,6 +1,6 @@
 {
-  "version": "presence-r67-paused",
-  "cacheRevision": "presence-r67",
+  "version": "policy-fidelity-r68-paused",
+  "cacheRevision": "policy-r68",
   "files": [
     {
       "path": ".nojekyll",
@@ -335,7 +335,7 @@
     {
       "path": "game.js",
       "bytes": 65722,
-      "sha256": "3002db22bb775ba261490f97bbeeb02ba0db7b49cba7b1d15221dce6af95f8aa"
+      "sha256": "c4f6d64b7a96e4f8edcd34bea40adc52781c54cc9128a87f7a448ccb15e239bc"
     },
     {
       "path": "identity-sources.json",
@@ -469,18 +469,18 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 8055,
-      "sha256": "eb537424d929a70528f30471696c4df58452cc20f06707e94f880fb68ed1eab2"
+      "bytes": 9378,
+      "sha256": "02b8b7c89d1d0d213a1d29bde6d14562ff01d1e3fa893dd1beca2363a46ffb9c"
     },
     {
       "path": "policy-encounters.js",
-      "bytes": 25201,
-      "sha256": "c71f2823cdc02f94b59a7b2354feec5ea21e75c42f230102435f0924229c1f33"
+      "bytes": 32310,
+      "sha256": "4d5c69cec51ea10b70ef254bf880dcf6408a76500ec049ca6061284f2c470a08"
     },
     {
       "path": "policy-sources.json",
-      "bytes": 7300,
-      "sha256": "1992f385e442b420d5d4d3402211bfd502d3cf557c0d432f6c56651bab8fcba5"
+      "bytes": 8637,
+      "sha256": "9acbea4167dc2841d2e970b3bafb13045e1dea2046c502bb2d02398cebed0c2c"
     },
     {
       "path": "policy-spaces.js",
@@ -600,7 +600,7 @@
     {
       "path": "story-game.js",
       "bytes": 13723,
-      "sha256": "a57653cebc6fd2fef7578c98ac7643e3c2de5055fa53a5403b5099a5b0336dc3"
+      "sha256": "e1365c589a8d6a826903a1dfafd50143d5bf804b957e1e9a254c34e41202e66c"
     },
     {
       "path": "student-hall-garden.js",

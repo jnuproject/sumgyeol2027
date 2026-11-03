@@ -1,0 +1,114 @@
+[
+  {
+    "id": "memory",
+    "category": "제주4.3/기억",
+    "policy": "캠퍼스 내 ‘제주4.3 평화길’ 조성",
+    "summary": "캠퍼스에 4·3 추모공간을 조성·연결하고, QR 오디오 가이드와 4·3 주간 걷기·러닝 프로그램을 연계하는 계획.",
+    "source": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw/edit",
+    "sourceSection": "캠퍼스 내 ‘제주대 4·3 평화길’ 조성 및 4.3km 러닝 챌린지 + 캠퍼스 오디오 가이드 맵"
+  },
+  {
+    "id": "festival",
+    "category": "문화/대동제",
+    "policy": "JNU 연말숨플페",
+    "summary": "옴팡밭~야외음악당의 부스·휴식 공간, 초대장·경품 추첨, 야간 참여형 시상식·토크·공연으로 한 해를 마무리하는 연말제 계획.",
+    "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
+    "sourceSection": "숨플페"
+  },
+  {
+    "id": "outreach",
+    "category": "소통",
+    "policy": "찾아가는 총학생회 부스",
+    "summary": "유동 인구가 많은 곳과 행사 현장에서 공유우산 즉석 대여·길거리 신문고 투표·팝업 이벤트를 운영하고 결과와 후속 조치를 공유하는 계획.",
+    "source": "https://docs.google.com/document/d/1S6U8Z2qC_jgUYqV4znknPQt1WBf_zaqgnIQo4EYd-AU/edit",
+    "sourceSection": "찾아가는 총학생회 부스"
+  },
+  {
+    "id": "lounge",
+    "category": "복지",
+    "policy": "중앙도서관 복합휴식 라운지 조성",
+    "summary": "제주자료실을 활용한 취식 라운지 확대와 리클라이너·파티션을 갖춘 파워냅존 조성 계획. 공간 분리, 위생관리와 시범 운영을 포함.",
+    "source": "https://docs.google.com/document/d/1S6U8Z2qC_jgUYqV4znknPQt1WBf_zaqgnIQo4EYd-AU/edit",
+    "sourceSection": "중앙도서관 취식 공간 확대 및 파워냅존 신설"
+  },
+  {
+    "id": "bookcamp",
+    "category": "문화/대동제",
+    "policy": "북캠핑 IN ARA",
+    "summary": "야외음악당에서 주간 자유 독서·휴식과 야간 예약형 텐트·북토크·명상을 운영하고, 도서관 희망도서 신청을 연계하는 계획.",
+    "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
+    "sourceSection": "제주대학교 북캠핑"
+  },
+  {
+    "id": "sports",
+    "category": "문화/대동제",
+    "policy": "통합체전 내 부스 활성화",
+    "summary": "대운동장 주변에 동아리·개인·외부 제휴 부스와 푸드트럭을 유치하고, 관람·체험 연계 스탬프 투어를 운영하는 통합체전 계획.",
+    "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
+    "sourceSection": "통합체전 내 부스 활성화"
+  },
+  {
+    "id": "student-zone",
+    "category": "문화/대동제",
+    "policy": "대동제 재학생존 확대",
+    "summary": "축구 필드를 무대 앞 아라존·재학생 스탠딩존, 중앙 재학생 돗자리존, 뒤쪽 모두의 돗자리존으로 3분할하고 팔찌 인증·아라존 노쇼 현장 충원을 운영하는 계획.",
+    "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
+    "sourceSection": "대동제 재학생 존 확대"
+  },
+  {
+    "id": "accessibility",
+    "category": "인권/평등",
+    "policy": "배리어프리 아라캠퍼스",
+    "summary": "보도·점자·음성 안내 및 편의시설 정비, 앱 기반 배리어프리 지도·제보, 시각화재경보기 확대와 행사 가이드라인 의무화를 추진하는 계획.",
+    "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
+    "sourceSection": "배리어프리 아라캠퍼스"
+  },
+  {
+    "id": "interview",
+    "category": "교육취업",
+    "policy": "교내 AI 면접 스튜디오 구축",
+    "summary": "AI 융복합관과 연계한 방음·장비 공간에서 AI 연습·모의면접·실제 응시·화상 회의를 지원하는 계획. 공간 배정·예산·운영 협의가 필요하며 실제 응시를 우선.",
+    "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
+    "sourceSection": "교내 스튜디오(화상 면접・AI 면접 전용 부스) 구축"
+  },
+  {
+    "id": "scholarship",
+    "category": "교육취업",
+    "policy": "내장학찾기",
+    "summary": "총학생회 앱에 교내외 장학 정보를 모으고, 저장한 프로필 조건과 자동 매칭해 신청 가능 목록과 금액·지급 방식·중복 수혜·서류 비교를 제공하는 계획.",
+    "source": "https://docs.google.com/document/d/1gdfJDxj2j50kj7joslDJeW3YYY_NRPychDD2pErMM_4/edit",
+    "sourceSection": "내장학찾기"
+  },
+  {
+    "id": "fitness",
+    "category": "시설/교통",
+    "policy": "피트니스센터 운동기구 교체",
+    "summary": "이용 학우의 설문·투표를 바탕으로 노후 기구를 1:1 교체해 총 대수를 유지하고, 방학 중 교체·안전 점검을 추진하는 계획.",
+    "source": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw/edit",
+    "sourceSection": "헬스장 운동기구 교체"
+  },
+  {
+    "id": "public-tumbler",
+    "category": "그린환경",
+    "policy": "공공텀블러 사업",
+    "summary": "기증 텀블러를 학생회관 2층 카페테리아 앞에 비치하고 QR 대여·당일 반납·회수 및 세척·소독 순환을 운영하는 계획. 기획안의 개인컵 300원 할인 안내를 포함.",
+    "source": "https://docs.google.com/document/d/1qlYzuaXI4mRgDaOc3JZ5vBsnUvU3q24We7K8dfq6oZw/edit",
+    "sourceSection": "공공 텀블러 사업"
+  },
+  {
+    "id": "council",
+    "category": "숨결",
+    "policy": "JNU 상생협의체",
+    "summary": "학우들의 요구를 모아 학교 본부와 정기적으로 논의하고, 이행 상황과 진행 과정을 점검해 공유하는 소통 구조 구상.",
+    "source": "https://docs.google.com/document/d/1RNuE4E4FGFz-o-oba5O2mbU9xEljBUsJaJsBGs9wzh0/edit",
+    "sourceSection": "JNU상생협의회"
+  },
+  {
+    "id": "meal-price",
+    "category": "숨결",
+    "policy": "제주대학교 학식 단가인하",
+    "summary": "원가·단가 조사와 생협 협의, 조합원 혜택 확대·외부 재원 및 지역 농산물 연계, 사전 의견수렴과 가격·품질 모니터링으로 실질 식비 부담을 줄이는 정책. 일률적 확정 인하액은 아님.",
+    "source": "https://docs.google.com/document/d/1RNuE4E4FGFz-o-oba5O2mbU9xEljBUsJaJsBGs9wzh0/edit",
+    "sourceSection": "학식 단가 낮추기(학내식당 식대 부담 완화)"
+  }
+]

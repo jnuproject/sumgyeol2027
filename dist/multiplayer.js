@@ -1,6 +1,6 @@
-import {createNearbyMultiplayer} from './nearby-multiplayer.js?v=emote-r59';
+import {createNearbyMultiplayer} from './nearby-multiplayer.js?v=next-r66';
 import {RealtimeClient} from './vendor/realtime.js';
-import {multiplayerConfig} from './multiplayer-config.js?v=capacity-r56';
+import {multiplayerConfig} from './multiplayer-config.js?v=next-r66';
 export function validPose(p){
  if(!p||Object.keys(p).sort().join(',')!=='active,id,seq,speed,x,y,yaw,z')return false;
  return typeof p.id==='string'&&/^[a-f0-9-]{36}$/.test(p.id)&&Number.isSafeInteger(p.seq)&&p.seq>=0&&typeof p.active==='boolean'&&['x','y','z','yaw','speed'].every(k=>Number.isFinite(p[k]))&&Math.abs(p.x)<3000&&Math.abs(p.z)<3000&&Math.abs(p.y)<1000&&Math.abs(p.yaw)<100&&p.speed>=0&&p.speed<=30;

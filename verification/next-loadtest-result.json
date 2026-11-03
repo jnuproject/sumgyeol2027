@@ -1,0 +1,90 @@
+{
+  "startedAt": "2026-11-03T03:59:28.289Z",
+  "project": "sqqyvdpsalclqczqsyrk",
+  "scenario": "all participants within 150m, moving with reactions",
+  "limits": {
+    "maxParticipants": 200,
+    "maxSeconds": 360,
+    "maxDecodedBytes": 104857600,
+    "phaseSeconds": 30,
+    "probeStopMs": 1374
+  },
+  "phases": [
+    {
+      "participants": 5,
+      "elapsedSeconds": 30.7,
+      "successfulRequests": 723,
+      "errors": 0,
+      "p50Ms": 39,
+      "p95Ms": 117,
+      "p99Ms": 132,
+      "probeP95Ms": 182,
+      "requestsPerSecond": 24.5,
+      "decodedMB": 0.77,
+      "minSteadyPeers": 4,
+      "maxSteadyPeers": 4,
+      "minSteadyCount": 5,
+      "stopReason": null
+    },
+    {
+      "participants": 20,
+      "elapsedSeconds": 30.4,
+      "successfulRequests": 2709,
+      "errors": 0,
+      "p50Ms": 47,
+      "p95Ms": 390,
+      "p99Ms": 467,
+      "probeP95Ms": 394,
+      "requestsPerSecond": 89.9,
+      "decodedMB": 12.95,
+      "minSteadyPeers": 19,
+      "maxSteadyPeers": 19,
+      "minSteadyCount": 20,
+      "stopReason": null
+    },
+    {
+      "participants": 50,
+      "elapsedSeconds": 30.5,
+      "successfulRequests": 6237,
+      "errors": 0,
+      "p50Ms": 158,
+      "p95Ms": 417,
+      "p99Ms": 728,
+      "probeP95Ms": 415,
+      "requestsPerSecond": 205.3,
+      "decodedMB": 76.42,
+      "minSteadyPeers": 49,
+      "maxSteadyPeers": 49,
+      "minSteadyCount": 50,
+      "stopReason": null
+    },
+    {
+      "participants": 100,
+      "elapsedSeconds": 3.6,
+      "successfulRequests": 635,
+      "errors": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "probeP95Ms": 461,
+      "requestsPerSecond": 176.3,
+      "decodedMB": 15.25,
+      "minSteadyPeers": null,
+      "maxSteadyPeers": null,
+      "minSteadyCount": null,
+      "stopReason": "transfer_budget"
+    }
+  ],
+  "realPhoneTest": false,
+  "appWorkflowsTested": false,
+  "publicScopeBlocked": true,
+  "baseline": {
+    "p50Ms": 102,
+    "p95Ms": 458
+  },
+  "cleanedParticipants": 100,
+  "stopReason": "transfer_budget",
+  "totalRequests": 10678,
+  "totalDecodedMB": 107.24,
+  "finishedAt": "2026-11-03T04:01:42.972Z"
+}

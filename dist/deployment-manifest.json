@@ -1,6 +1,6 @@
 {
-  "version": "campus-connection-r65-paused",
-  "cacheRevision": "connection-r65",
+  "version": "next-backend-r66-paused",
+  "cacheRevision": "next-r66",
   "files": [
     {
       "path": ".nojekyll",
@@ -334,8 +334,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 65719,
-      "sha256": "5110bdd329ffa8c71024da81546e4fcc30232076d88a13d20f771315b9456390"
+      "bytes": 65718,
+      "sha256": "080ffb355a04d33d5fa9c1909af1d41c8036ed957b1092bc9cc95b0d33125a32"
     },
     {
       "path": "identity-sources.json",
@@ -409,18 +409,18 @@
     },
     {
       "path": "multiplayer-config.js",
-      "bytes": 313,
-      "sha256": "0125aa431a00fccc6706077b20eaae77b19eb06d63c735f3e6da2ddb779608ad"
+      "bytes": 292,
+      "sha256": "ae721c6a37e0b488539bb34aaebab869e6af1e31fca2e02b0993f7555d91fbe6"
     },
     {
       "path": "multiplayer-scene.js",
-      "bytes": 5377,
-      "sha256": "1d1a8fae782d00f00ea7798ef700183a182040ed28f0b599e25ba2942b5cf974"
+      "bytes": 5376,
+      "sha256": "a758aea7d4863a2da735fbb71c52f4bf1a08785168f8eb3625a38f1d65a838fa"
     },
     {
       "path": "multiplayer.js",
-      "bytes": 3938,
-      "sha256": "dd10d6d84fa9acc61e96e2530d807ace295281279eb58a137bf14a3b03709c48"
+      "bytes": 3933,
+      "sha256": "538605b266f5e1b686fff0359d232d4048aa1c238a5d5c07340d43c0b23c9220"
     },
     {
       "path": "museum-forecourt.js",
@@ -434,8 +434,8 @@
     },
     {
       "path": "nearby-multiplayer.js",
-      "bytes": 5055,
-      "sha256": "f718e699cd1b1221ba4ae71eaf76bcab78e98ad715de34873fc0c8846312d62f"
+      "bytes": 5051,
+      "sha256": "0994466d1fc1ca51d50276ed940a4f3309ed4d217c4e7bd9903e8edffb273733"
     },
     {
       "path": "observed-campus.js",

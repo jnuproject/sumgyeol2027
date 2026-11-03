@@ -1,2 +1,2 @@
-// Public browser key only. Game coordinates use a short-lived, token-protected session; no accounts or position history.
-export const multiplayerConfig={url:'https://vedraqrdkwyyipztxddw.supabase.co/realtime/v1',key:'sb_publishable_-usrvptgGoJV_-PRTJRN-g_9cFhAC-c',room:'sumgyeol-campus-v1',transport:'nearby'};
+// Public browser key only. NEXT game RPCs remain paused until the owner requests reopening.
+export const multiplayerConfig={"url":"https://sqqyvdpsalclqczqsyrk.supabase.co/realtime/v1","key":"sb_publishable_YHSvz8zk38QLXdvM02cgSA_aBjd1Hxj","room":"sumgyeol-campus-v1","transport":"nearby"};

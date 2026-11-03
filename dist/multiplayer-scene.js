@@ -3,7 +3,7 @@ import {createEmoteEffects} from './emote-effects.js?v=emote-r59';
 import {createRemoteCrowd} from './remote-crowd.js?v=capacity-r56';
 import * as THREE from './three.module.js';
 import {remoteTarget} from './remote-motion.js?v=capacity-r56';
-import {createMultiplayer} from './multiplayer.js?v=emote-r59';
+import {createMultiplayer} from './multiplayer.js?v=next-r66';
 export function createMultiplayerScene({scene,avatar,player,camera,mobile,canStand=()=>true,heightAt=()=>-Infinity,networkFactory=createMultiplayer}){
  const motionPreference=globalThis.matchMedia?.('(prefers-reduced-motion: reduce)');
  const badge=document.createElement('div');badge.id='onlineCount';badge.setAttribute('role','status');badge.title='최근 20초 내 함께 산책 중인 화면 수 · 나 포함. 혼잡할 때는 혼자 산책할 수 있어요.';document.body.append(badge);

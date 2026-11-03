@@ -1,6 +1,6 @@
 {
-  "version": "public-safety-r70",
-  "cacheRevision": "public-safety-r70",
+  "version": "notation-r71",
+  "cacheRevision": "notation-r71",
   "files": [
     {
       "path": ".nojekyll",
@@ -334,8 +334,8 @@
     },
     {
       "path": "game.js",
-      "bytes": 58463,
-      "sha256": "ac3e17db3456189056bf6006982d4b20f591506d244ae77370a6dc97118f81d3"
+      "bytes": 58458,
+      "sha256": "04219235d567ea45e033fb90a998022bdc659b4c820ef8d09531d1c8cb6fac6b"
     },
     {
       "path": "identity-sources.json",
@@ -344,8 +344,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 12835,
-      "sha256": "192d58e5aef04c1d1f5468c2665996577d8c3dffeb1a3d3ed6c5c241e2d9125f"
+      "bytes": 12830,
+      "sha256": "51c44891db3118d9822ebccfbc5813d615c872d9ca35a12668f1c8fb5256e13b"
     },
     {
       "path": "landscape-sources.json",
@@ -469,8 +469,8 @@
     },
     {
       "path": "policy-dialogues.js",
-      "bytes": 8280,
-      "sha256": "221011a38a4f37af3c6ad26bcd2dd9c6535212cc4c20d16ee3931058756d75d4"
+      "bytes": 8284,
+      "sha256": "dec75c478c1187b7992749df70ebcbfbc13106b19b5056dc15e9899d28680d8f"
     },
     {
       "path": "policy-encounters.js",
@@ -479,8 +479,8 @@
     },
     {
       "path": "policy-sources.json",
-      "bytes": 4864,
-      "sha256": "82c82c997fc26f5d52f1ecc94d8a637cd5f1940a88dbdf0e64a1e76b6573d4ae"
+      "bytes": 4866,
+      "sha256": "96e268894702b862fc78438e5275081573678057bca2d1a9e194987f0832ea17"
     },
     {
       "path": "policy-spaces.js",
@@ -599,8 +599,8 @@
     },
     {
       "path": "story-game.js",
-      "bytes": 13793,
-      "sha256": "f837e6abab2fa31dbe61de125b35d109810e3dcc73c48fa1c0a22535a46f34a5"
+      "bytes": 13788,
+      "sha256": "34004d05924284cd4bf43cf4da23610939194e53b25012a8e0524e46cda73be8"
     },
     {
       "path": "student-hall-garden.js",
@@ -709,8 +709,8 @@
     },
     {
       "path": "walk.html",
-      "bytes": 12835,
-      "sha256": "192d58e5aef04c1d1f5468c2665996577d8c3dffeb1a3d3ed6c5c241e2d9125f"
+      "bytes": 12830,
+      "sha256": "51c44891db3118d9822ebccfbc5813d615c872d9ca35a12668f1c8fb5256e13b"
     },
     {
       "path": "wind-mascot.js",

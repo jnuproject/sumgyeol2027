@@ -23,7 +23,7 @@ test('photo-informed festival has bounded geometry, seated instanced spectators 
  f.update(.016,{focus:{x:500,z:500}});assert.equal(f.root.visible,false);assert.equal(f.metadata().animatedFrames,0);f.update(.016,{focus:{x:-237,z:-45},night:true,reducedMotion:true});assert.equal(f.root.visible,true);
 });
 test('reopened entrypoints initialize the game while the preview remains loopback-only',()=>{
- for(const name of ['index.html','walk.html']){const s=fs.readFileSync(new URL('../dist/'+name,import.meta.url),'utf8');assert.doesNotMatch(s,/data-service="paused"/);assert.match(s,/<script type="module" src="game.js\?v=public-safety-r70"/);}
+ for(const name of ['index.html','walk.html']){const s=fs.readFileSync(new URL('../dist/'+name,import.meta.url),'utf8');assert.doesNotMatch(s,/data-service="paused"/);assert.match(s,/<script type="module" src="game.js\?v=notation-r71"/);}
  const bootstrap=fs.readFileSync(new URL('../dist/game.js',import.meta.url),'utf8');assert.doesNotMatch(bootstrap,/location.replace/);assert.match(bootstrap,/try \{ await initialize\(\); \} catch\(error\)\{ fail\(error\); \}/);
  assert.match(fs.readFileSync(new URL('../verification/festival-preview.py',import.meta.url),'utf8'),/127\.0\.0\.1/);
 });

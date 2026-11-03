@@ -2,7 +2,7 @@ import {isWalkingRoad,roadWidthAt} from './road-profile.js?v=player-r54';
 import {segmentDistance} from './navigation.js';
 import {conversationShot} from './conversation-camera.js?v=player-r54';
 import * as THREE from './three.module.js';
-import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=public-safety-r70';
+import {POLICY_DIALOGUES,CAMPUS_DIALOGUES,createConversation,conversationNode,advanceConversation,chooseConversation,readConversations,saveConversations} from './policy-dialogues.js?v=notation-r71';
 
 export function renderConversationJournal(records){
  return `<p>정책 이야기 ${POLICY_DIALOGUES.filter(q=>records[q.id].completed).length} / ${POLICY_DIALOGUES.length} · 캠퍼스 친구 ${CAMPUS_DIALOGUES.filter(q=>records[q.id].completed).length} / ${CAMPUS_DIALOGUES.length}</p><div class="npc-journal">${POLICY_DIALOGUES.map(q=>`<article><small>${q.category} · ${q.place}</small><h3>${q.policy}</h3>${records[q.id].completed?`<p>${q.summary}</p><small>${q.policy} 구상</small>`:'<p>아직 나누지 못한 이야기예요. 캠퍼스에서 만나보세요.</p>'}</article>`).join('')}</div>`;

@@ -32,7 +32,7 @@ test('damaged or unavailable local storage does not prevent a conversation',()=>
 });
 
 test('the owner-approved roster has fourteen distinct policies and no retired topics',()=>{
- const expected={memory:['제주4.3/기억','캠퍼스 내 ‘제주4.3 평화길’ 조성'],festival:['문화/대동제','JNU 연말숨플페'],outreach:['소통','찾아가는 총학생회 부스'],lounge:['복지','중앙도서관 복합휴식 라운지 조성'],bookcamp:['문화/대동제','북캠핑 IN ARA'],sports:['문화/대동제','통합체전 내 부스 활성화'],'student-zone':['문화/대동제','대동제 재학생존 확대'],accessibility:['인권/평등','배리어프리 아라캠퍼스'],interview:['교육취업','교내 AI 면접 스튜디오 구축'],scholarship:['교육취업','내장학찾기'],fitness:['시설/교통','피트니스센터 운동기구 교체'],'public-tumbler':['그린환경','공공텀블러 사업'],council:['숨결','JNU 상생협의체'],'meal-price':['숨결','제주대학교 학식 단가인하']};
+ const expected={memory:['제주4·3/기억','캠퍼스 내 ‘제주4·3 평화길’ 조성'],festival:['문화/대동제','JNU 연말숨플페'],outreach:['소통','찾아가는 총학생회 부스'],lounge:['복지','중앙도서관 복합휴식 라운지 조성'],bookcamp:['문화/대동제','북캠핑 IN ARA'],sports:['문화/대동제','통합체전 내 부스 활성화'],'student-zone':['문화/대동제','대동제 재학생존 확대'],accessibility:['인권/평등','배리어프리 아라캠퍼스'],interview:['교육취업','교내 AI 면접 스튜디오 구축'],scholarship:['교육취업','내장학찾기'],fitness:['시설/교통','피트니스센터 운동기구 교체'],'public-tumbler':['그린환경','공공텀블러 사업'],council:['숨결','JNU 상생협의체'],'meal-price':['숨결','제주대학교 학식 단가인하']};
  assert.equal(POLICY_DIALOGUES.length,14);assert.equal(new Set(POLICY_DIALOGUES.map(q=>q.policy)).size,14);
  for(const q of POLICY_DIALOGUES){assert.deepEqual([q.category,q.policy],expected[q.id]);assert.equal(q.name,'숨결 · '+q.category);}
  for(const id of ['voice','bus','escalator','reading','tumbler'])assert.equal(ALL_DIALOGUES.some(q=>q.id===id),false);
